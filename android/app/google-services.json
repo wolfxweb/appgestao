@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "314101482707",
+    "project_id": "appgestao-41c11",
+    "storage_bucket": "appgestao-41c11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314101482707:android:21140e4ff645da975c4026",
+        "android_client_info": {
+          "package_name": "br.com.wolfx.appgestao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314101482707-dhq154o32ipnf4l79ddhhjo3t6np2ob4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVLc9Gd-FznuENfKwV-KD9xgaT50Ici44"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "314101482707-dhq154o32ipnf4l79ddhhjo3t6np2ob4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
