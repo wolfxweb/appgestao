@@ -18,18 +18,15 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
 
   @override
-  void initState()async{
+  void initState(){
     super.initState();
 
     //FirebaseFirestore.instance.collection("usuario").doc('email').set({"texto":"teste"});
 
-
-    Future futureStart =  Future.delayed(const Duration(seconds: 3));
-
     FirebaseAuth.instance
         .authStateChanges()
         .listen((User? user) {
-      if (user == true) {
+      if (user == null) {
         print('User is currently signed out!');
         Navigator.push(
           context,
@@ -42,20 +39,21 @@ class _SplashPageState extends State<SplashPage> {
         );
       }
     });
-    Future.wait([futureStart]).then((value) {
 
-    });
+
+
 
 
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amberAccent,
-      child: const Center(
-        child: CircularProgressIndicator(),
+    return  Scaffold(
+      body:  Center(
+        child: CircularProgressIndicator()
       ),
 
     );
   }
+
+
 }
