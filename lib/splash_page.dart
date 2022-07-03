@@ -1,6 +1,9 @@
 
 
+import 'package:appgestao/classes/pushpage.dart';
+import 'package:appgestao/classes/usuarioExtraCadastro.dart';
 import 'package:appgestao/pages/home.dart';
+import 'package:appgestao/pages/homeinativo.dart';
 import 'package:appgestao/usuaruio/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,15 +42,23 @@ class _SplashPageState extends State<SplashPage> {
             .get()
             .then((DocumentSnapshot documentSnapshot) {
           if (documentSnapshot.exists) {
-            print(documentSnapshot);
+            print(documentSnapshot.data());
+            Map<String, dynamic> data = documentSnapshot.data()! as Map<String, dynamic>;
             print('Document exists on the database');
+            print(data['status']);
+            if(data['status']){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Home()),
+              );
+            }else{
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeInativo()),
+              );
+            }
           }
         });
-        print(user.email);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Home()),
-        );
       }
     });
 
@@ -58,8 +69,8 @@ class _SplashPageState extends State<SplashPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body:  Center(
+    return  const Scaffold(
+      body: Center(
         child: CircularProgressIndicator()
       ),
 
