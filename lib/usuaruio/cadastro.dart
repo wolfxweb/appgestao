@@ -1,12 +1,14 @@
-
-
-
-
-
+import 'package:appgestao/classes/pushpage.dart';
+import 'package:appgestao/componete/espasamento.dart';
+import 'package:appgestao/componete/logo.dart';
+import 'package:appgestao/usuaruio/login.dart';
 import 'package:appgestao/usuaruio/recuperarsenha.dart';
-import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
+
+import 'package:form_validator/form_validator.dart';
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({Key? key}) : super(key: key);
@@ -16,97 +18,187 @@ class CadastroUsuario extends StatefulWidget {
 }
 
 class _CadastroUsuarioState extends State<CadastroUsuario> {
+  var irPagina = PushPage();
+
+  final _formKey = GlobalKey<FormState>();
+
+  final _emailController = TextEditingController();
+  final _nomeController = TextEditingController();
+  final _telefoneController = TextEditingController();
+  final _senhaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*
+/*
       appBar: AppBar(
-        title: Text("oapap"),
+        title: Text("Cadastre-se"),
       ),*/
       body: Center(
         child: Form(
+          key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const  TextField(
-                  decoration:  InputDecoration(
-                    // border: InputBorder.none,
-                    border: UnderlineInputBorder(),
-                    icon: Icon(Icons.email),
-                    hintText: 'Digite o seu email',
-                  ),
-                ),
-                const TextField(
-                  decoration:  InputDecoration(
-                    // border: InputBorder.none,
-
-                    border: UnderlineInputBorder(),
-                    icon: Icon(Icons.password),
-                    hintText: 'Digite sua senha',
-                  ),
-                ),
-                ElevatedButton (
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.amber, // background
-                    onPrimary: Colors.white, // foreground
-                  ),
-                  child: Text('Entrar',style: TextStyle(color: Colors.white)),
-                  onPressed:_buildOnPressed,
-
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        primary: Colors.amber, // background
-                      ),
-                      child: const Text('Cadastre-se '),
-                      onPressed:(){
-                        CadastroUsuario();
-                      },
+            padding: const EdgeInsets.all(26.0),
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Logo(),
+                  const Espacamento(),
+                  const Text(
+                    'Cadastre-se',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.orange,
                     ),
-                    TextButton(
-                      style: OutlinedButton.styleFrom(
-                        primary: Colors.amber, // background
-
+                  ),
+                  const Espacamento(),
+                  TextFormField(
+                    validator: ValidationBuilder().email().maxLength(50).build(),
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.orange, width: 1.0),
                       ),
-                      child: const Text('Esqueceu a senha?'),
-                      onPressed:(){
-                        RecuperarSenha();
-                      },
+                      prefixIcon: Icon(Icons.email, color: Colors.orange),
+                      hintText: 'Digite o seu email',
+                    ),
+                  ),
+                  const Espacamento(),
+                  TextFormField(
 
+                    keyboardType: TextInputType.text,
+                    controller: _nomeController,
+                    decoration: const InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.orange, width: 1.0),
+                      ),
+                      border: UnderlineInputBorder(),
+                      prefixIcon: Icon(Icons.person, color: Colors.orange),
+                      hintText: 'Digite como gostaria de ser chamado',
+                    ),
+                  ),
+                  const Espacamento(),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.number,
+                    controller: _telefoneController,
+                    decoration: const InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.orange, width: 1.0),
+                      ),
+                      border: UnderlineInputBorder(),
+                      prefixIcon: Icon(Icons.whatsapp, color: Colors.orange),
+                      hintText: 'Digite seu telefone',
                     ),
 
-                  ],
-                ),
-                FlutterSwitch(
-                  width: 75.0,
-                  activeText:'Dark',
-                  inactiveText:'Light',
-                  activeColor: Colors.black54,
-                  inactiveColor: Colors.amber,
-                  activeIcon: const Icon(Icons.dark_mode,color: Colors.black54),
-                  inactiveIcon: const Icon(Icons.light_mode, color: Colors.amber),
-                  showOnOff: true,
-                  key: Key('EasyDynamicThemeSwitch'),
-                  value: Theme.of(context).brightness == Brightness.dark,
-                  onToggle: (val) {
-                    EasyDynamicTheme.of(context).changeTheme(dark: val);
-                  },
-                ),
-              ],
+                  ),
+                  const Espacamento(),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    controller: _senhaController,
+                    decoration: const InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.orange, width: 1.0),
+                      ),
+                      border: UnderlineInputBorder(),
+                      prefixIcon: Icon(Icons.password, color: Colors.orange),
+                      //    suffixIcon: Icon(Icons.remove_red_eye,color: Colors.orange),
+                      hintText: 'Digite sua senha',
+                    ),
+                  ),
+                  const Espacamento(),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orange, // background
+                        onPrimary: Colors.white, // foreground
+                      ),
+                      onPressed: _buildOnPressed,
+                      child: const Text('Cadastrar',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                  const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          primary: Colors.orange, // background
+                        ),
+                        child: const Text('Login'),
+                        onPressed: () {
+                          irPagina.pushPage(context, const Login());
+                        },
+                      ),
+                      TextButton(
+                        style: OutlinedButton.styleFrom(
+                          primary: Colors.orange, // background
+                        ),
+                        child: const Text('Esqueceu a senha?'),
+                        onPressed: () {
+                          irPagina.pushPage(context, const RecuperarSenha());
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
-  _buildOnPressed(){
 
+  _buildOnPressed()async {
+    var data ={
+      'nome': _nomeController.text,
+      'telefone':_telefoneController.text,
+      'status':false,
+    };
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _senhaController.text,
+      );
+      if(credential.additionalUserInfo != null){
+        print(credential.user!.email);
+        FirebaseFirestore.instance.collection("usuario").doc(_emailController.text).set(data);
+      }
+
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+    print(data);
   }
 }

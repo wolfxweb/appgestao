@@ -1,6 +1,7 @@
 
 
 
+import 'package:appgestao/componete/btnCadastrese.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -16,7 +17,7 @@ class _HomeState extends State<Home> {
     return Container(
       color: Colors.blue,
       child: const Center(
-        child: Text('home'),
+        child:   BtnCadastreSe(),
       ),
     );
   }

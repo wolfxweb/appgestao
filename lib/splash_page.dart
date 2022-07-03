@@ -33,6 +33,17 @@ class _SplashPageState extends State<SplashPage> {
           MaterialPageRoute(builder: (context) => const Login()),
         );
       } else {
+        FirebaseFirestore.instance
+            .collection('usuario')
+            .doc(user.email)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.exists) {
+            print(documentSnapshot);
+            print('Document exists on the database');
+          }
+        });
+        print(user.email);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const Home()),

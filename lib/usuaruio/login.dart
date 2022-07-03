@@ -1,4 +1,10 @@
 
+import 'package:appgestao/classes/pushpage.dart';
+import 'package:appgestao/componete/btnCadastrese.dart';
+import 'package:appgestao/componete/btnDarkLight.dart';
+import 'package:appgestao/componete/espasamento.dart';
+import 'package:appgestao/componete/esquceusenha.dart';
+import 'package:appgestao/componete/logo.dart';
 import 'package:appgestao/usuaruio/cadastro.dart';
 import 'package:appgestao/usuaruio/recuperarsenha.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
@@ -10,11 +16,17 @@ import '../main.dart';
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
+
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+  void initState(){
+
+  }
+  var irPagina = PushPage();
+
 
   bool status = true;
   @override
@@ -27,80 +39,66 @@ class _LoginState extends State<Login> {
       body: Center(
         child: Form(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-             const  TextField(
-                  decoration:  InputDecoration(
-                     // border: InputBorder.none,
-                   border: UnderlineInputBorder(),
-                      icon: Icon(Icons.email),
+            padding: const EdgeInsets.all(26.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                 const Logo(),
+                TextFormField(
+                    decoration: const  InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange, width: 1.0),
+                      ),
+                      prefixIcon: Icon(Icons.email,color: Colors.orange),
                       hintText: 'Digite o seu email',
-                  ),
-                ),
-                const TextField(
-                  decoration:  InputDecoration(
-                    // border: InputBorder.none,
-
-                    border: UnderlineInputBorder(),
-                    icon: Icon(Icons.password),
-                    hintText: 'Digite sua senha',
-                  ),
-                ),
-                ElevatedButton (
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.amber, // background
-                    onPrimary: Colors.white, // foreground
-                  ),
-                  child: Text('Entrar',style: TextStyle(color: Colors.white)),
-                  onPressed:_buildOnPressed,
-
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        primary: Colors.amber, // background
-                      ),
-                      child: const Text('Cadastre-se '),
-                      onPressed:(){
-                        CadastroUsuario();
-                      },
-                    ),
-                    TextButton(
-                      style: OutlinedButton.styleFrom(
-                        primary: Colors.amber, // background
-
-                      ),
-                      child: const Text('Esqueceu a senha?'),
-                      onPressed:(){
-                        RecuperarSenha();
-                      },
 
                     ),
+                  ),
+                  const Espacamento(),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      // border: InputBorder.none,
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange, width: 1.0),
+                      ),
+                   //   border: UnderlineInputBorder(),
+                      border:  UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                      prefixIcon: Icon(Icons.password,color: Colors.orange),
 
-                  ],
-                ),
-                FlutterSwitch(
-                  width: 75.0,
-                  activeText:'Dark',
-                  inactiveText:'Light',
-                  activeColor: Colors.black54,
-                  inactiveColor: Colors.amber,
-                  activeIcon: const Icon(Icons.dark_mode,color: Colors.black54),
-                  inactiveIcon: const Icon(Icons.light_mode, color: Colors.amber),
-                  showOnOff: true,
-                  key: Key('EasyDynamicThemeSwitch'),
-                  value: Theme.of(context).brightness == Brightness.dark,
-                  onToggle: (val) {
-                    EasyDynamicTheme.of(context).changeTheme(dark: val);
-                  },
-                ),
-              ],
+                      hintText: 'Digite sua senha',
+                    ),
+                  ),
+                  const Espacamento(),
+
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton (
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orange, // background
+                        onPrimary: Colors.white, // foreground
+                      ),
+                      child: Text('Entrar',style: TextStyle(color: Colors.white)),
+                      onPressed:_buildOnPressed,
+
+                    ),
+                  ),
+                  const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      BtnCadastreSe(),
+                      EsqueceuSenha(),
+                    ],
+                  ),
+                  const Espacamento(),
+                  BtnDarkLight(),
+                ],
+              ),
             ),
           ),
         ),
