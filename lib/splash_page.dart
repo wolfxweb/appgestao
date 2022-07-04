@@ -1,5 +1,6 @@
 
 
+import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/classes/usuarioExtraCadastro.dart';
 import 'package:appgestao/pages/home.dart';
@@ -36,6 +37,11 @@ class _SplashPageState extends State<SplashPage> {
           MaterialPageRoute(builder: (context) => const Login()),
         );
       } else {
+        var users = VerificaStatusFairebase();
+        users.statusUsuario(user.email, context);
+        /*
+          var user = VerificaStatusFairebase();
+         user.statusUsuario(value.user!.email, context);
         FirebaseFirestore.instance
             .collection('usuario')
             .doc(user.email)
@@ -59,6 +65,8 @@ class _SplashPageState extends State<SplashPage> {
             }
           }
         });
+
+         */
       }
     });
 
