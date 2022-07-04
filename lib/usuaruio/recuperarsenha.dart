@@ -33,9 +33,9 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: AppBar(
+     /* appBar: AppBar(
         title: Text("Esqueceu a senha"),
-      ),
+      ),*/
       body: Center(
         child: Container(
           child: Padding(
@@ -47,6 +47,17 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Logo(),
+                  const Espacamento(),
+                  const Text(
+                    'Recuperar senha',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.orange,
+                    ),
+                  ),
+                  const Espacamento(),
+
                   TextFormField(
                     validator: ValidationBuilder().email().maxLength(50).required().build(),
                     keyboardType: TextInputType.emailAddress,
@@ -61,13 +72,16 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                     ),
                   ),
                   const Espacamento(),
-                  ElevatedButton (
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.orange, // background
-                      onPrimary: Colors.white, // foreground
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton (
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orange, // background
+                        onPrimary: Colors.white, // foreground
+                      ),
+                      child: Text('Enviar',style: TextStyle(color: Colors.white)),
+                      onPressed:_buildOnPressed,
                     ),
-                    child: Text('Enviar',style: TextStyle(color: Colors.white)),
-                    onPressed:_buildOnPressed,
                   ),
                   const Espacamento(),
                   Row(

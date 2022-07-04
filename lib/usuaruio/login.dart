@@ -34,7 +34,7 @@ class _LoginState extends State<Login> {
   var irPagina = PushPage();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   bool status = true;
   @override
   Widget build(BuildContext context) {
@@ -45,6 +45,7 @@ class _LoginState extends State<Login> {
       ),*/
       body: Center(
         child: Form(
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(26.0),
             child: SingleChildScrollView(
@@ -118,7 +119,10 @@ class _LoginState extends State<Login> {
   }
 
   _buildOnPressed()async{
-
+    final isValid = _formKey.currentState!.validate();
+    if(!isValid){
+      return;
+    }
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
