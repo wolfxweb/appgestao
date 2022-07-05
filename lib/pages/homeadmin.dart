@@ -131,8 +131,6 @@ class _HomeAdminState extends State<HomeAdmin> {
                    route.pushPage(context, const Simulador());
                  },
                ),
-
-
                ElevatedButton.icon(
                  icon: const Icon(
                    Icons.calculate,
@@ -182,7 +180,18 @@ class _HomeAdminState extends State<HomeAdmin> {
            const Espacamento(),
            const Espacamento(),
            const Center(
-             child: Text("opasdasdasd"),
+             child: Padding(
+               padding: EdgeInsets.all(16.0),
+               child: Card(
+                    child:  Padding(
+                      padding:  EdgeInsets.all(16.0),
+                      child: Text(
+                        'Primeiro dia do mês! Que não lhe falte o bom ânimo, equilíbrio e entusiasmo para superar os desafios, tomar algumas decisões ousadas e ter sucesso!  O tempo não para, e o mercado também não! Bem informado, experiente, decidido e sempre disposto a aprender, você alcançará suas metas! ',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+               ),
+             ),
            )
          ],
        ) ,

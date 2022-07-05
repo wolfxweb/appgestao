@@ -1,0 +1,1 @@
+CREATE TABLE dados_basiscos(id INTEGER PRIMARY KEY, qtd INTEGER,faturamento TEXT,gastos TEXT,custoFixo Text, custoVarivel TEXT, margen TEXT);
