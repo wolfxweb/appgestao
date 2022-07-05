@@ -39,34 +39,6 @@ class _SplashPageState extends State<SplashPage> {
       } else {
         var users = VerificaStatusFairebase();
         users.statusUsuario(user.email, context);
-        /*
-          var user = VerificaStatusFairebase();
-         user.statusUsuario(value.user!.email, context);
-        FirebaseFirestore.instance
-            .collection('usuario')
-            .doc(user.email)
-            .get()
-            .then((DocumentSnapshot documentSnapshot) {
-          if (documentSnapshot.exists) {
-            print(documentSnapshot.data());
-            Map<String, dynamic> data = documentSnapshot.data()! as Map<String, dynamic>;
-            print('Document exists on the database');
-            print(data['status']);
-            if(data['status']){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Home()),
-              );
-            }else{
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeInativo()),
-              );
-            }
-          }
-        });
-
-         */
       }
     });
 

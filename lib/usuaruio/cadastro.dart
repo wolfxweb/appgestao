@@ -1,4 +1,5 @@
 import 'package:appgestao/classes/pushpage.dart';
+import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/logo.dart';
 import 'package:appgestao/usuaruio/login.dart';
@@ -180,10 +181,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     if(!isValid){
       return;
     }
+    var alert = AlertSnackBar();
     var data ={
       'nome': _nomeController.text,
       'telefone':_telefoneController.text,
       'status':false,
+      'admin':false,
     };
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -194,12 +197,16 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
         print(credential.user!.email);
         FirebaseFirestore.instance.collection("usuario").doc(_emailController.text).set(data);
       }
-
+      alert.alertSnackBar(context,Colors.green, 'Cadastro realizado com sucesso');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
+        alert.alertSnackBar(context,Colors.red, 'A senha fornecida é muito fraca.');
+
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        alert.alertSnackBar(context,Colors.red, 'A conta já existe para esse e-mail.');
+
       }
     } catch (e) {
       print(e);

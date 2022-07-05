@@ -1,6 +1,7 @@
 
 import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
+import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/btnCadastrese.dart';
 import 'package:appgestao/componete/btnDarkLight.dart';
 import 'package:appgestao/componete/espasamento.dart';
@@ -108,7 +109,7 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                   const Espacamento(),
-                  BtnDarkLight(),
+                  const BtnDarkLight(),
                 ],
               ),
             ),
@@ -123,6 +124,7 @@ class _LoginState extends State<Login> {
     if(!isValid){
       return;
     }
+    var alert = AlertSnackBar();
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
@@ -132,12 +134,15 @@ class _LoginState extends State<Login> {
          var user = VerificaStatusFairebase();
          user.statusUsuario(value.user!.email, context);
       });
-   //   print(credential);
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        alert.alertSnackBar(context,Colors.red, 'Nenhum usuário encontrado para esse e-mail.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        print('Senha incorreta fornecida para esse usuário.');
+        alert.alertSnackBar(context,Colors.red, 'Senha incorreta fornecida para esse usuário.');
+
       }
     }
   }
