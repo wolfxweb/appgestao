@@ -1,29 +1,22 @@
 
-class dadosbasicos {
+class dadosbasicossqlite {
   int? id;
-  int? qtd;
+  String? qtd;
   String? faturamento;
   String? gastos;
-  String? custoFixo;
-  String? custoVarivel;
-  int? margen;
+  String? custo_fixo;
+  String? custo_varivel;
+  String? margen;
 
-  dadosbasicos(
-      {this.id,
-        this.qtd,
-        this.faturamento,
-        this.gastos,
-        this.custoFixo,
-        this.custoVarivel,
-        this.margen});
+  dadosbasicossqlite(this.id,this.qtd,this.faturamento,this.gastos,this.custo_fixo,this.custo_varivel,this.margen);
 
-  dadosbasicos.fromJson(Map<String, dynamic> json) {
+  dadosbasicossqlite.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     qtd = json['qtd'];
     faturamento = json['faturamento'];
     gastos = json['gastos'];
-    custoFixo = json['custo_fixo'];
-    custoVarivel = json['custo_varivel'];
+    custo_fixo = json['custo_fixo'];
+    custo_varivel = json['custo_varivel'];
     margen = json['margen'];
   }
 
@@ -33,8 +26,8 @@ class dadosbasicos {
     data['qtd'] = this.qtd;
     data['faturamento'] = this.faturamento;
     data['gastos'] = this.gastos;
-    data['custo_fixo'] = this.custoFixo;
-    data['custo_varivel'] = this.custoVarivel;
+    data['custo_fixo'] = this.custo_fixo;
+    data['custo_varivel'] = this.custo_varivel;
     data['margen'] = this.margen;
     return data;
   }

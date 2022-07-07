@@ -3,7 +3,6 @@
 
 
 import 'package:appgestao/classes/pushpage.dart';
-import 'package:appgestao/componete/btnCadastrese.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:appgestao/componete/logo.dart';
@@ -80,7 +79,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                        color: Colors.white),
                  ),
                  onPressed: () {
-                   route.pushPage(context, const DadosBasicos());
+                   route.pushPage(context,  DadosBasicos());
                  },
                ),
                ElevatedButton.icon(

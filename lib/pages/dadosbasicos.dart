@@ -16,18 +16,35 @@ import 'package:flutter/services.dart';
 import 'package:form_validator/form_validator.dart';
 
 class DadosBasicos extends StatefulWidget {
-  const DadosBasicos({Key? key}) : super(key: key);
+   DadosBasicos({Key? key}) : super(key: key);
 
   @override
+ // State<DadosBasicos> createState() => _DadosBasicosState();
   State<DadosBasicos> createState() => _DadosBasicosState();
 }
 
 class _DadosBasicosState extends State<DadosBasicos> {
 
+  var bd = DadosBasicosSqlite();
+  var id = 0;
+  void _consultar() async {
+    await bd.lista().then((data){
+      data.forEach((element) {
+        print(element);
+         id  = element['id'];
+        _quantidadeController.text  = element['qtd'];
+        _faturamentoController.text = element['faturamento'];
+        _gastoinsumosController.text = element['gastos'];
+        _custoFixoController.text = element['custo_fixo'];
+        _margenController.text = element['margen'];
+        _custoVariavelController.text = element['custo_varivel'];
+      });
+    });
+  }
   var header = HeaderAppBar();
   var alerta = AlertModal();
-
   final _formKey = GlobalKey<FormState>();
+
   final _faturamentoController = TextEditingController();
   final _quantidadeController = TextEditingController();
   final _gastoinsumosController = TextEditingController();
@@ -35,9 +52,14 @@ class _DadosBasicosState extends State<DadosBasicos> {
   final _margenController = TextEditingController();
   final _custoVariavelController = TextEditingController();
 
-  String textBtn = "Adicionar";
+ // final textBtn = "Adicionar";
+
+
+
   @override
   Widget build(BuildContext context) {
+    _consultar();
+
     ValidationBuilder.setLocale('pt-br');
     return Scaffold(
       appBar:header.getAppBar('Dados básicos'),
@@ -144,7 +166,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                           icon: const Icon(Icons.help),
                           color: Colors.orange,
                           onPressed: () {
-                            alerta.openModal(context,'Total outros custos variaveis');
+                            alerta.openModal(context,'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.');
                           },
                         ),
                         hintText: 'Total outros custos variaveis',
@@ -202,7 +224,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       child:  ElevatedButton(
                         style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20), primary: Colors.orange,),
                         onPressed: _buildBuildOnPressed,
-                        child: Text(textBtn),
+                        child: Text("Atualizar"),
                       ),
                     ),
                     const Espacamento(),
@@ -222,34 +244,23 @@ class _DadosBasicosState extends State<DadosBasicos> {
     if(!isValid){
       return;
     }
+    if(id ==0) {
+      _saveUpdate(_getDados(null), "Cadastro realizado com sucesso");
+    }else{
+      _saveUpdate(_getDados(id), "Cadastro atulizado com sucesso");
+    }
+  }
+  _getDados(idinfo){
+    return dadosbasicossqlite(idinfo,
+        _quantidadeController.text, _faturamentoController.text,
+        _gastoinsumosController.text, _custoVariavelController.text,
+        _custoFixoController.text, _margenController.text);
+  }
+  _saveUpdate(dados, msg){
     var alert = AlertSnackBar();
-
-    var bd = DadosBasicosSqlite();
-    var data ={
-      1,
-      _quantidadeController.text,
-      _faturamentoController.text,
-      _gastoinsumosController.text,
-      _custoVariavelController.text,
-      _custoFixoController.text,
-      _margenController.text
-    };
-    bd.save(data);
-  /*  final _faturamentoController = TextEditingController();
-    final _quantidadeController = TextEditingController();
-    final _gastoinsumosController = TextEditingController();
-    final _custoFixoController = TextEditingController();
-    final _margenController = TextEditingController();
-    final _custoVariavelController = TextEditingController();
-
-   */
-    print(_quantidadeController.text);
-    print(_faturamentoController.text);
-    print(_gastoinsumosController.text);
-    print(_custoVariavelController.text);
-    print(_custoFixoController.text);
-    print(_margenController.text);
-  //  print(_custoVariavelController.text);
+    bd.save(dados.toJson()).then((value) {
+      alert.alertSnackBar(context,Colors.green, msg);
+    });
   }
 }
 

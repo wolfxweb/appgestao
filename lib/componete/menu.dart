@@ -56,7 +56,7 @@ class _MenuState extends State<Menu> {
             title: const Text("Dados Básicos"),
             trailing:const Icon(Icons.arrow_forward),
             onTap: (){
-              route.pushPage(context, const DadosBasicos());
+              route.pushPage(context,  DadosBasicos());
               //  Navigator.pop(context);
             },
           ),

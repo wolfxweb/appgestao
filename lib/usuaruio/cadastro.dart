@@ -185,6 +185,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     var data ={
       'nome': _nomeController.text,
       'telefone':_telefoneController.text,
+      'email':_emailController.text,
       'status':false,
       'admin':false,
     };
