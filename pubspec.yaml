@@ -46,8 +46,9 @@ dependencies:
   form_validator: ">=0.1.1 <2.0.0"
   brasil_fields: 1.4.5
   sqflite: ^2.0.3
-
-
+  firestore_search: ^0.1.9
+  intl: ^0.17.0
+  dart_date: ^1.1.1
 
 dev_dependencies:
   flutter_test:

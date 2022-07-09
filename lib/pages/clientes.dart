@@ -16,7 +16,12 @@ class Clientes extends StatefulWidget {
 class _ClientesState extends State<Clientes> {
   final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance.collection('usuario').snapshots();
 
+
   var header = new HeaderAppBar();
+
+var textSearch ='';
+
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -37,52 +42,73 @@ class _ClientesState extends State<Clientes> {
          return  SizedBox(
            child: Column(
              children: [
-               TextField(
-                 keyboardType: TextInputType.text,
-                 decoration: const InputDecoration(
-                   focusedBorder: UnderlineInputBorder(
-                     borderSide:
-                     BorderSide(color: Colors.orange, width: 1.0),
-                   ),
-                   border: UnderlineInputBorder(),
-                   prefixIcon: Icon(Icons.password, color: Colors.transparent),
-                   suffixIcon: Icon(Icons.search_rounded,color: Colors.orange),
-                   hintText: 'Digite o nome do cliente para filtrar',
 
-                 ),
-                 onChanged: (text) {
-                   print('First text field: $text');
-
-
-                 },
-               ),
                Padding(
                  padding: const EdgeInsets.all(8.0),
                  child: Column(
-                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                      Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                      var email = data['email'];
-                      var tel = data['telefone'];
-                      return Card(
-                        elevation: 1,
-                        color: Theme.of(context).colorScheme.surfaceVariant,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ListTile(
-                              title: Text(data['nome']??""),
-                              subtitle: Text(" $email  -  $tel "),
-                              trailing: data['status']?const Icon(Icons.check,color: Colors.green):const Icon(Icons.close,color: Colors.red,),
-                              onTap: () {
-                                FirebaseFirestore.instance.collection("usuario").doc(data['email']??"").update({'status':!data['status']});
-                              }
+                   children: [
+                     TextField(
+                       keyboardType: TextInputType.text,
+                       decoration: const InputDecoration(
+                         focusedBorder: UnderlineInputBorder(
+                           borderSide:
+                           BorderSide(color: Colors.orange, width: 1.0),
+                         ),
+                         border: UnderlineInputBorder(),
+                         prefixIcon: Icon(Icons.password, color: Colors.transparent),
+                         suffixIcon: Icon(Icons.search_rounded,color: Colors.orange),
+                         hintText: 'Digite o nome do cliente para filtrar',
+
+                       ),
+                       onChanged: (text) {
+                         print('First text field: $text');
+                         setState(() {
+                           textSearch = text;
+
+                         });
+                         FirebaseFirestore.instance
+                             .collection('usuario')
+                             .where('nome',arrayContains:text)
+                             .get()
+                             .then((QuerySnapshot querySnapshot) {
+                           querySnapshot.docs.forEach((doc) {
+                             print(doc);
+                           });
+                         });
+                       },
+                     ),
+                     Column(
+                        children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+
+
+
+                          print(textSearch);
+                          print(data);
+                          var email = data['email'];
+                          var tel = data['telefone'];
+                          return Card(
+                            elevation: 1,
+                            color: Theme.of(context).colorScheme.surfaceVariant,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ListTile(
+                                  title: Text( data['nome']),
+                                  subtitle: Text(" $email  -  $tel "),
+                                  trailing: data['status']?const Icon(Icons.check,color: Colors.green):const Icon(Icons.close,color: Colors.red,),
+                                  onTap: () {
+                                    FirebaseFirestore.instance.collection("usuario").doc(data['email']??"").update({'status':!data['status']});
+                                  }
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
+                          );
+                        }).toList(),
+                      ),
+                   ],
+                 ),
                ),
              ],
            ),

@@ -2,6 +2,7 @@
 
 
 
+import 'package:appgestao/classes/msghome.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
@@ -25,6 +26,7 @@ class HomeAdmin extends StatefulWidget {
 class _HomeAdminState extends State<HomeAdmin> {
   var header = new HeaderAppBar();
   var route = PushPage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -184,14 +186,12 @@ class _HomeAdminState extends State<HomeAdmin> {
                child: Card(
                     child:  Padding(
                       padding:  EdgeInsets.all(16.0),
-                      child: Text(
-                        'Primeiro dia do mês! Que não lhe falte o bom ânimo, equilíbrio e entusiasmo para superar os desafios, tomar algumas decisões ousadas e ter sucesso!  O tempo não para, e o mercado também não! Bem informado, experiente, decidido e sempre disposto a aprender, você alcançará suas metas! ',
-                        style: TextStyle(fontSize: 20),
-                      ),
+                      child: MsgDia(),
                     ),
                ),
              ),
            )
+
          ],
        ) ,
       ),
