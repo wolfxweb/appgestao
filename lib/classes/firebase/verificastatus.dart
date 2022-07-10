@@ -22,8 +22,6 @@ class VerificaStatusFairebase {
         print(documentSnapshot.data());
         Map<String, dynamic> data =
             documentSnapshot.data()! as Map<String, dynamic>;
-        print('Document exists on the database');
-        print(data['status']);
         if (data['status']) {
           if (data['admin']) {
             route.pushPage(context, const HomeAdmin());
@@ -32,16 +30,21 @@ class VerificaStatusFairebase {
           }
         } else {
           route.pushPage(context, const HomeInativo());
-          /*
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeInativo()),
-          );
-
-           */
         }
       }
     });
+  }
+  nivelUsuario()async{
+  await  FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        FirebaseFirestore.instance
+            .collection('usuario')
+            .doc(user!.email)
+            .get();
+
+      }
+    });
+
   }
 
   logoutUsuario(context) {
@@ -56,10 +59,6 @@ class VerificaStatusFairebase {
       if (user == null) {
         print('User is currently signed out!');
         route.pushPage(context, const Login());
-        /*  Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Login()),
-        );*/
       } else {
         var users = VerificaStatusFairebase();
         users.statusUsuario(user.email, context);

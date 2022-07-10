@@ -47,11 +47,21 @@ class _MsgDiaState extends State<MsgDia> {
     int qtdDiasUteis = 0;
     for (var i = 1; i <= dia; i++) {
       final diaUtil = DateTime(ano, mes, i).getWeekday;
-      if (diaUtil == 6 || diaUtil == 7) {
-      } else {
+      if (diaUtil == 6 ) {
+        qtdDiasUteis = 30;
+        continue;
+      } else if(diaUtil == 7){
+        qtdDiasUteis = 31;
+        continue;
+      }else{
         qtdDiasUteis++;
       }
     }
+    //print(dia);
+    //print(mes);
+  //  print(ano);
+    print(qtdDiasUteis);
+
     switch (qtdDiasUteis) {
       case 1:
         msgDodia =
@@ -199,6 +209,16 @@ class _MsgDiaState extends State<MsgDia> {
       case 22:
         msgDodia =
             "Se procurarmos na Internet pelos produtos que você vende, encontraremos sua empresa?";
+        msgDodiaSub = "";
+        msgDodiaInfo = "";
+        break;
+      case 30:
+        msgDodia ="Bom fim de sabado!";
+        msgDodiaSub = "";
+        msgDodiaInfo = "";
+        break;
+      case 31:
+        msgDodia = "Bom dominigo";
         msgDodiaSub = "";
         msgDodiaInfo = "";
         break;
