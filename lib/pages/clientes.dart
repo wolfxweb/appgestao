@@ -21,7 +21,7 @@ class _ClientesState extends State<Clientes> {
 
 var textSearch ='';
 
-
+  Map<String, dynamic> datas ={};
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -64,27 +64,19 @@ var textSearch ='';
                          print('First text field: $text');
                          setState(() {
                            textSearch = text;
-
-                         });
-                         FirebaseFirestore.instance
-                             .collection('usuario')
-                             .where('nome',arrayContains:text)
-                             .get()
-                             .then((QuerySnapshot querySnapshot) {
-                           querySnapshot.docs.forEach((doc) {
-                             print(doc);
-                           });
                          });
                        },
                      ),
                      Column(
                         children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-
-
-
+                          datas = document.data()! as Map<String, dynamic>;
                           print(textSearch);
-                          print(data);
+
+                          Map<String, dynamic> data = datas;
+
+                          if(!textSearch.isEmpty){
+                            _filter(textSearch);
+                          }
                           var email = data['email'];
                           var tel = data['telefone'];
                           return Card(
@@ -117,5 +109,9 @@ var textSearch ='';
         ),
       ),
     );
+  }
+  _filter(text){
+    print(text);
+
   }
 }

@@ -57,12 +57,7 @@ class _MsgDiaState extends State<MsgDia> {
         qtdDiasUteis++;
       }
     }
-    //print(dia);
-    //print(mes);
-  //  print(ano);
-    print(qtdDiasUteis);
-
-    switch (qtdDiasUteis) {
+     switch (qtdDiasUteis) {
       case 1:
         msgDodia =
             "Primeiro dia do mês! Que não lhe falte o bom ânimo, equilíbrio e entusiasmo para superar os desafios, tomar algumas decisões ousadas e ter sucesso!";

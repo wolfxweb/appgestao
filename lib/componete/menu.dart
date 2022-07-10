@@ -28,7 +28,7 @@ class _MenuState extends State<Menu> {
   var fb = VerificaStatusFairebase();
   var route = PushPage();
 
-  var nivelAcesso = false;
+  var nivelAcesso = true;
 
 
   @override
@@ -112,6 +112,15 @@ class _MenuState extends State<Menu> {
                 //   Navigator.pop(context);
               },
             ),
+          ListTile(
+            leading: const Icon(Icons.people),
+            title: const Text("Clientes new"),
+            trailing: const Icon(Icons.arrow_forward),
+            onTap: () {
+              route.pushPage(context, const clientesSearch());
+              //   Navigator.pop(context);
+            },
+          ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text("Sair"),
