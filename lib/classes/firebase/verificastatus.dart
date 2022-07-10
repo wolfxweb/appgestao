@@ -41,7 +41,6 @@ class VerificaStatusFairebase {
             .collection('usuario')
             .doc(user!.email)
             .get();
-
       }
     });
 

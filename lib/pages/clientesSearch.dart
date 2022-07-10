@@ -22,6 +22,7 @@ class _clientesSearchState extends State<clientesSearch> {
   @override
   void initState() {
     _ususarioBloc = UsuarioBloc();
+    super.initState();
   }
 
   var header = new HeaderAppBar();

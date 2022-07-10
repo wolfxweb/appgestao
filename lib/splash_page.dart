@@ -41,11 +41,6 @@ class _SplashPageState extends State<SplashPage> {
         users.statusUsuario(user.email, context);
       }
     });
-
-
-
-
-
   }
   @override
   Widget build(BuildContext context) {

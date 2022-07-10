@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       blocs: [
         Bloc((i) => UsuarioBloc()),
       ],
-      dependencies: [],
+      dependencies: const [],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,

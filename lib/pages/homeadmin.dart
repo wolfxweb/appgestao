@@ -2,6 +2,7 @@
 
 
 
+import 'package:appgestao/blocs/usuario_bloc.dart';
 import 'package:appgestao/classes/msghome.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/espasamento.dart';
@@ -24,11 +25,18 @@ class HomeAdmin extends StatefulWidget {
 }
 
 class _HomeAdminState extends State<HomeAdmin> {
+
   var header = new HeaderAppBar();
   var route = PushPage();
-
+  late UsuarioBloc _ususarioBloc;
+  @override
+  void initState() {
+    _ususarioBloc = UsuarioBloc();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar:header.getAppBar('Home'),
       drawer: Menu(),

@@ -1,3 +1,4 @@
+import 'package:appgestao/blocs/usuario_bloc.dart';
 import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/btnDarkLight.dart';
@@ -23,6 +24,15 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+  late UsuarioBloc _ususarioBloc;
+
+  //final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance.collection('usuario').snapshots();
+
+  @override
+  void initState() {
+    _ususarioBloc = UsuarioBloc();
+    super.initState();
+  }
   var userstatus = new VerificaStatusFairebase();
 
   var fb = VerificaStatusFairebase();
@@ -31,9 +41,9 @@ class _MenuState extends State<Menu> {
   var nivelAcesso = true;
 
 
+
   @override
   Widget build(BuildContext context) {
-
 
     return Drawer(
       child: ListView(
@@ -103,23 +113,25 @@ class _MenuState extends State<Menu> {
             },
           ),
           if (nivelAcesso)
-            ListTile(
-              leading: const Icon(Icons.people),
-              title: const Text("Clientes"),
-              trailing: const Icon(Icons.arrow_forward),
-              onTap: () {
-                route.pushPage(context, const Clientes());
-                //   Navigator.pop(context);
-              },
-            ),
-          ListTile(
-            leading: const Icon(Icons.people),
-            title: const Text("Clientes new"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, const clientesSearch());
-              //   Navigator.pop(context);
-            },
+          StreamBuilder(
+            stream: _ususarioBloc.outIsAdminUsuario,
+            builder: (context, snapshot) {
+              print("btn admin");
+              print(snapshot.data.toString());
+              if(snapshot.data.toString() =='admin'){
+                return ListTile(
+                  leading: const Icon(Icons.people),
+                  title: const Text("Clientes"),
+                  trailing: const Icon(Icons.arrow_forward),
+                  onTap: () {
+                    route.pushPage(context, const clientesSearch());
+                  },
+                );
+              }else{
+                return const SizedBox(height: 0.0);
+              }
+
+            }
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),

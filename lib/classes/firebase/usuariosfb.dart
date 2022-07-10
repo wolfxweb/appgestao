@@ -8,7 +8,7 @@ class usuariosfb {
         .collection('usuario')
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+                querySnapshot.docs.forEach((doc) {
         print(doc);
       });
     });
