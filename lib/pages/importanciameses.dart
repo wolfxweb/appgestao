@@ -1,7 +1,7 @@
 import 'package:appgestao/blocs/importancia_meses_bloc.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
-import 'package:d_chart/d_chart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/material.dart';
 
@@ -354,57 +354,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: StreamBuilder(
-                  stream: null
 
-
-                    ,
-                  builder: (context, snapshot) {
-                    print(snapshot.data);
-                    return DChartLine(
-                      lineColor: (lineData, index, id) {
-                        return id == 'Line 1'
-                            ? Colors.blue
-                            : Colors.green;
-                      },
-                      pointColor: (lineData, index, id) {
-                        return id == 'Line 1'
-                            ? Colors.blue.shade900
-                            : Colors.green.shade900;
-                      },
-                      data: [
-                        {
-                          'id': 'Line 1',
-                          'data': [
-                            {'domain': 0, 'measure': 0.5},
-                            {'domain': 1, 'measure': 1},
-                            {'domain': 2, 'measure': 3},
-                            {'domain': 3, 'measure': 2.3},
-                            {'domain': 4, 'measure': 3},
-                            {'domain': 5, 'measure': 0.5},
-                            {'domain': 6, 'measure': 1},
-                            {'domain': 7, 'measure': 3},
-                            {'domain': 8, 'measure': 2.3},
-                            {'domain': 9, 'measure': 3},
-                            {'domain': 10, 'measure': 0.5},
-                            {'domain': 11, 'measure': 1},
-                            {'domain': 12, 'measure': 3},
-
-                          ],
-                        },
-
-                      ],
-                      includePoints: true,
-                      includeArea: true,
-                    );
-                  }
-                ),
-              ),
-            ),
           ],
         ),
       )),
