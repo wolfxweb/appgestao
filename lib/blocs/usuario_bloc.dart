@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 class UsuarioBloc extends BlocBase {
   final _usersController = BehaviorSubject<List>();
   final _IsAdmiController = BehaviorSubject();
+
   Map<dynamic, dynamic> _users = {};
 
   Stream<List> get outUsuarios => _usersController.stream;

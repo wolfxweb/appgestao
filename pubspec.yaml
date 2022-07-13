@@ -49,6 +49,9 @@ dependencies:
   firestore_search: ^0.1.9
   intl: ^0.17.0
   dart_date: ^1.1.1
+  flutter_spinbox: ^0.9.0
+  d_chart: ^0.0.4
+
 
 dev_dependencies:
   flutter_test:

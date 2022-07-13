@@ -1,3 +1,4 @@
+import 'package:appgestao/blocs/importancia_meses_bloc.dart';
 import 'package:appgestao/blocs/usuario_bloc.dart';
 import 'package:appgestao/classes/themes.dart';
 import 'package:appgestao/splash_page.dart';
@@ -25,7 +26,11 @@ class MyApp extends StatelessWidget {
 
     return BlocProvider(
       blocs: [
-        Bloc((i) => UsuarioBloc()),
+      //  Bloc((i) => UsuarioBloc()),
+        Bloc((i) {
+          UsuarioBloc();
+          ImportanciaMesesBLoc();
+        }),
       ],
       dependencies: const [],
       child: MaterialApp(

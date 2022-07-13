@@ -116,8 +116,8 @@ class _MenuState extends State<Menu> {
           StreamBuilder(
             stream: _ususarioBloc.outIsAdminUsuario,
             builder: (context, snapshot) {
-              print("btn admin");
-              print(snapshot.data.toString());
+            //  print("btn admin");
+          //    print(snapshot.data.toString());
               if(snapshot.data.toString() =='admin'){
                 return ListTile(
                   leading: const Icon(Icons.people),
