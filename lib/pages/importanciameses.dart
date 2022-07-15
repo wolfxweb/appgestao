@@ -1,9 +1,12 @@
 import 'package:appgestao/blocs/importancia_meses_bloc.dart';
 import 'package:appgestao/componete/espasamento.dart';
+
 import 'package:appgestao/componete/headerAppBar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
 
 import '../componete/menu.dart';
 
@@ -14,11 +17,19 @@ class InportanciaMeses extends StatefulWidget {
   State<InportanciaMeses> createState() => _InportanciaMesesState();
 }
 
+class _SalesData {
+  _SalesData(this.year, this.sales);
+
+  final String year;
+  final double sales;
+}
+
 class _InportanciaMesesState extends State<InportanciaMeses> {
   late ImportanciaMesesBLoc _importanciaMesesBLoc;
-
+  late final CrosshairBehavior _crosshairBehavior;
   void initState() {
     _importanciaMesesBLoc = ImportanciaMesesBLoc();
+    _crosshairBehavior = CrosshairBehavior(enable: false);
   }
 
   var header = new HeaderAppBar();
@@ -29,39 +40,37 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
       drawer: Menu(),
       body: SingleChildScrollView(
           child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Espacamento(),
-            StreamBuilder(
-                stream: _importanciaMesesBLoc.outResult,
-                builder: (context, snapshot) {
-                  print(snapshot.data.toString());
-                  var total = snapshot.data;
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: Text("total: $total"),
-                      ),
-                      StreamBuilder(
-                        stream: _importanciaMesesBLoc.outMedia,
-                        builder: (context, snapshot) {
-                          var media = snapshot.data;
-                          return Container(
-                            child: Text("media $media "),
-                          );
-                        }
-                      ),
-                      Container(
-                        child: Text("Adicionar"),
-                      ),
-                    ],
-                  );
-                }),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    child: const Text("Selecione a importancia dos meses")
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                  alignment: Alignment.bottomRight,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.orange, // background
+                    ),
+                    child: const Text('Atualizar'),
+                    onPressed:(){
+                      _importanciaMesesBLoc.adicionarImportanciaMeses(context);
+
+                    },
+                  ),
+
+                ),
+              ],
+            ),
             const Espacamento(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -353,6 +362,55 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                   ),
                 ),
               ],
+            ),
+            Container(
+              height: 350,
+              width: 300,
+              child: StreamBuilder<List?>(
+                  stream: _importanciaMesesBLoc.outValorMeses,
+                  builder: (context, snapshot) {
+                    List<_SalesData> data = [
+                      _SalesData('Jan', snapshot.data?[1] ?? 5.0),
+                      _SalesData('Feb', snapshot.data?[2] ?? 5.0),
+                      _SalesData('Mar', snapshot.data?[3] ?? 5.0),
+                      _SalesData('Abr', snapshot.data?[4] ?? 5.0),
+                      _SalesData('Mai', snapshot.data?[5] ?? 5.0),
+                      _SalesData('Jun', snapshot.data?[6] ?? 5.0),
+                      _SalesData('Jul', snapshot.data?[7] ?? 5.0),
+                      _SalesData('Ago', snapshot.data?[8] ?? 5.0),
+                      _SalesData('Set', snapshot.data?[9] ?? 5.0),
+                      _SalesData('Out', snapshot.data?[10] ?? 5.0),
+                      _SalesData('Nov', snapshot.data?[11] ?? 5.0),
+                      _SalesData('Dez', snapshot.data?[12] ?? 5.0),
+                    ];
+                    return Column(children: [
+                      //Initialize the chart widget
+                      SfCartesianChart(
+                          primaryXAxis: CategoryAxis(),
+                          // Chart title
+                          title: ChartTitle(
+                              text:'PARTICIPAÇÃO DOS MESES NO RESULTADO DO ANO'),
+                          // Enable legend
+                          legend: Legend(isVisible: false),
+                          // Enable tooltip
+                          tooltipBehavior: TooltipBehavior(enable: false),
+                          series: <ChartSeries<_SalesData, String>>[
+                            LineSeries<_SalesData, String>(
+                              color: Colors.orangeAccent,
+
+                                dataSource: data,
+                                xValueMapper: (_SalesData sales, _) =>
+                                    sales.year,
+                                yValueMapper: (_SalesData sales, _) =>
+                                    sales.sales,
+                                name: 'Meses',
+                                // Enable data label
+                                dataLabelSettings:
+                                    const DataLabelSettings(isVisible: false))
+                          ]),
+                    ]);
+                  }),
+
             ),
 
           ],

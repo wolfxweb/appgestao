@@ -1,14 +1,14 @@
-
-
-
+import 'package:flutter/material.dart';
+import 'package:appgestao/classes/impdosmeses.dart';
+import 'package:appgestao/classes/sqlite/importanciameses.dart';
+import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ImportanciaMesesBLoc extends BlocBase{
-
+class ImportanciaMesesBLoc extends BlocBase {
   final _resultadoController = BehaviorSubject();
   final _mediaController = BehaviorSubject();
-  final _valorMesesController =BehaviorSubject<List>();
+  final _valorMesesController = BehaviorSubject<List>();
   final _janController = BehaviorSubject();
   final _fevController = BehaviorSubject();
   final _marController = BehaviorSubject();
@@ -21,122 +21,166 @@ class ImportanciaMesesBLoc extends BlocBase{
   final _outController = BehaviorSubject();
   final _novController = BehaviorSubject();
   final _dezController = BehaviorSubject();
-
-
-
+  final _id = 1;
 
   Stream get outResult => _resultadoController.stream;
-  Stream get  outMedia => _mediaController.stream;
+  Stream get outMedia => _mediaController.stream;
   Stream<List> get outValorMeses => _valorMesesController.stream;
 
-  List _listValores =[];
+  final List _listValores = [];
 
-
-  ImportanciaMesesBLoc(){
+  ImportanciaMesesBLoc() {
     _resultadoCalculadoListner();
-
   }
-   _resultadoCalculadoListner(){
-     _janController.add(5);
-     _fevController.add(5);
-     _marController.add(5);
-     _abrController.add(5);
-     _maiController.add(5);
-     _junController.add(5);
-     _julController.add(5);
-     _agoController.add(5);
-     _setController.add(5);
-     _outController.add(5);
-     _novController.add(5);
-     _dezController.add(5);
 
+  get context => null;
+  _resultadoCalculadoListner() {
+    _janController.add(5.0);
+    _fevController.add(5.0);
+    _marController.add(5.0);
+    _abrController.add(5.0);
+    _maiController.add(5.0);
+    _junController.add(5.0);
+    _julController.add(5.0);
+    _agoController.add(5.0);
+    _setController.add(5.0);
+    _outController.add(5.0);
+    _novController.add(5.0);
+    _dezController.add(5.0);
 
-     _calc();
+    _calc();
+  }
 
-   }
-   _calc(){
-     var jan = _janController.valueOrNull??0;
-     var fev = _fevController.valueOrNull??0;
-     var mar = _marController.valueOrNull??0;
-     var abr = _abrController.valueOrNull??0;
-     var mai = _maiController.valueOrNull??0;
-     var jun = _junController.valueOrNull??0;
-     var jul = _julController.valueOrNull??0;
-     var ago = _agoController.valueOrNull??0;
-     var set = _setController.valueOrNull??0;
-     var out = _outController.valueOrNull??0;
-     var nov = _novController.valueOrNull??0;
-     var dez = _dezController.valueOrNull??0;
-     var total = jan+fev+mar+abr+mai+jun+jul+ago+set+out+nov+dez;
-     var media = total/12;
-     _mediaController.add(media);
-     _resultadoController.add(total);
-     _listaDeValores();
-   }
-   jan(value){
-     _janController.add(value);
-     _calc();
-   }
-  fev(value){
+  _calc() {
+    var jan = _janController.valueOrNull ?? 0;
+    var fev = _fevController.valueOrNull ?? 0;
+    var mar = _marController.valueOrNull ?? 0;
+    var abr = _abrController.valueOrNull ?? 0;
+    var mai = _maiController.valueOrNull ?? 0;
+    var jun = _junController.valueOrNull ?? 0;
+    var jul = _julController.valueOrNull ?? 0;
+    var ago = _agoController.valueOrNull ?? 0;
+    var set = _setController.valueOrNull ?? 0;
+    var out = _outController.valueOrNull ?? 0;
+    var nov = _novController.valueOrNull ?? 0;
+    var dez = _dezController.valueOrNull ?? 0;
+    var total =
+        jan + fev + mar + abr + mai + jun + jul + ago + set + out + nov + dez;
+    var media = total / 12;
+    _mediaController.add(media);
+    _resultadoController.add(total);
+    _listaDeValores(total);
+  }
+
+  jan(value) {
+    _janController.add(value);
+    _calc();
+  }
+
+  fev(value) {
     _fevController.add(value);
     _calc();
   }
-  mar(value){
+
+  mar(value) {
     _marController.add(value);
     _calc();
   }
-  abr(value){
+
+  abr(value) {
     _abrController.add(value);
     _calc();
   }
-  mai(value){
+
+  mai(value) {
     _maiController.add(value);
     _calc();
   }
-  jun(value){
+
+  jun(value) {
     _junController.add(value);
     _calc();
   }
-  jul(value){
+
+  jul(value) {
     _julController.add(value);
     _calc();
   }
-  ago(value){
+
+  ago(value) {
     _agoController.add(value);
     _calc();
   }
-  set(value){
+
+  set(value) {
     _setController.add(value);
     _calc();
   }
-  out(value){
+
+  out(value) {
     _outController.add(value);
     _calc();
   }
-  nov(value){
+
+  nov(value) {
     _novController.add(value);
     _calc();
   }
-  dez(value){
+
+  dez(value) {
     _dezController.add(value);
     _calc();
   }
-  _listaDeValores(){
-    _listValores.add(_janController.valueOrNull);
-    _listValores.add(_fevController.valueOrNull);
-    _listValores.add(_marController.valueOrNull);
-    _listValores.add(_abrController.valueOrNull);
-    _listValores.add(_maiController.valueOrNull);
-    _listValores.add(_junController.valueOrNull);
-    _listValores.add(_julController.valueOrNull);
-    _listValores.add(_agoController.valueOrNull);
-    _listValores.add(_setController.valueOrNull);
-    _listValores.add(_outController.valueOrNull);
-    _listValores.add(_novController.valueOrNull);
-    _listValores.add(_dezController.valueOrNull);
-    _valorMesesController.add(_listValores);
 
+  _listaDeValores(total) {
+    const per = 100;
+
+    _listValores.clear();
+
+    _listValores.add(_id);
+    _listValores.add((_janController.valueOrNull / total) * per);
+    _listValores.add((_fevController.valueOrNull / total) * per);
+    _listValores.add((_marController.valueOrNull / total) * per);
+    _listValores.add((_abrController.valueOrNull / total) * per);
+    _listValores.add((_maiController.valueOrNull / total) * per);
+    _listValores.add((_junController.valueOrNull / total) * per);
+    _listValores.add((_julController.valueOrNull / total) * per);
+    _listValores.add((_agoController.valueOrNull / total) * per);
+    _listValores.add((_setController.valueOrNull / total) * per);
+    _listValores.add((_outController.valueOrNull / total) * per);
+    _listValores.add((_novController.valueOrNull / total) * per);
+    _listValores.add((_dezController.valueOrNull / total) * per);
+    _listValores.add(total);
+    _valorMesesController.add(_listValores);
   }
+
+  adicionarImportanciaMeses(context) {
+    var dados = impdosmeses(
+      _valorMesesController.valueOrNull?[0],
+      _janController.valueOrNull,
+      _fevController.valueOrNull,
+      _marController.valueOrNull,
+      _abrController.valueOrNull,
+      _maiController.valueOrNull,
+      _junController.valueOrNull,
+      _julController.valueOrNull,
+      _agoController.valueOrNull,
+      _setController.valueOrNull,
+      _outController.valueOrNull,
+      _novController.valueOrNull,
+      _dezController.valueOrNull,
+      _valorMesesController.valueOrNull?[13],
+    );
+
+    var bd = InportanciaMeses();
+    print("importancia dos meses");
+    print(dados.toJson());
+    bd.save(dados.toJson()).then((value) {
+      var alert = AlertSnackBar();
+      alert.alertSnackBar(context, Colors.green, 'Atualizado com sucesso');
+    });
+  }
+
   @override
   void dispose() {
     _resultadoController.close();
@@ -153,5 +197,4 @@ class ImportanciaMesesBLoc extends BlocBase{
     _novController.close();
     _dezController.close();
   }
-
 }
