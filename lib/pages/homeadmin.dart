@@ -45,7 +45,18 @@ class _HomeAdminState extends State<HomeAdmin> {
          children: [
            const Espacamento(),
            const Logo(),
-
+           const Espacamento(),
+           const Center(
+             child: Padding(
+               padding: EdgeInsets.all(16.0),
+               child: Card(
+                 child:  Padding(
+                   padding:  EdgeInsets.all(16.0),
+                   child: MsgDia(),
+                 ),
+               ),
+             ),
+           ),
            const Espacamento(),
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -112,7 +123,6 @@ class _HomeAdminState extends State<HomeAdmin> {
                    route.pushPage(context, const Diagnostico());
                  },
                ),
-
              ],
            ),
            const Espacamento(),
@@ -180,26 +190,9 @@ class _HomeAdminState extends State<HomeAdmin> {
                    route.pushPage(context, const AnaliseViabilidade());
                  },
                ),
-
              ],
            ),
            const Espacamento(),
-
-
-           const Espacamento(),
-           const Espacamento(),
-           const Center(
-             child: Padding(
-               padding: EdgeInsets.all(16.0),
-               child: Card(
-                    child:  Padding(
-                      padding:  EdgeInsets.all(16.0),
-                      child: MsgDia(),
-                    ),
-               ),
-             ),
-           )
-
          ],
        ) ,
       ),

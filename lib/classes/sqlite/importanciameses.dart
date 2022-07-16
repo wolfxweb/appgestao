@@ -3,7 +3,7 @@
 import 'package:appgestao/classes/sqlite/dbhelper.dart';
 import 'package:sqflite/sqflite.dart';
 
-class InportanciaMeses{
+class InportanciasMeses{
 
   Future<Database?> get db => DatabaseHelper.getInstance().db;
   Future<int> save(dados) async {

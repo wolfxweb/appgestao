@@ -1,4 +1,5 @@
 import 'package:appgestao/blocs/importancia_meses_bloc.dart';
+import 'package:appgestao/classes/sqlite/importanciameses.dart';
 import 'package:appgestao/componete/espasamento.dart';
 
 import 'package:appgestao/componete/headerAppBar.dart';
@@ -6,7 +7,6 @@ import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 
 import '../componete/menu.dart';
 
@@ -30,11 +30,51 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
   void initState() {
     _importanciaMesesBLoc = ImportanciaMesesBLoc();
     _crosshairBehavior = CrosshairBehavior(enable: false);
+    _importanciaMesesBLoc.inicializarBloc();
   }
+
+  void _consultar() async {
+
+    var bd = InportanciasMeses();
+    await bd.lista().then((data) {
+      data.forEach((element) {
+     //   print(element);
+        _janValue = element['jan'];
+        _fevValue = element['fev'];
+        _marValue = element['mar'];
+        _abrValue = element['abr'];
+        _maiValue = element['mai'];
+        _junValue = element['jun'];
+        _julValue = element['jul'];
+        _agoValue = element['ago'];
+        _setValue = element['setb'];
+        _outValue = element['out'];
+        _novValue = element['nov'];
+        _dezValue = element['dez'];
+      });
+    });
+
+  }
+
+
+  var _janValue = 5;
+  var _fevValue = 5;
+  var _marValue = 5;
+  var _abrValue = 5;
+  var _maiValue = 5;
+  var _junValue = 5;
+  var _julValue = 5;
+  var _agoValue = 5;
+  var _setValue = 5;
+  var _outValue = 5;
+  var _novValue = 5;
+  var _dezValue = 5;
 
   var header = new HeaderAppBar();
   @override
   Widget build(BuildContext context) {
+    _consultar();
+
     return Scaffold(
       appBar: header.getAppBar('Importância dos meses'),
       drawer: Menu(),
@@ -45,29 +85,25 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Espacamento(),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                    child: const Text("Selecione a importancia dos meses")
-                ),
+                    child: const Text("Selecione a importancia dos meses")),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   alignment: Alignment.bottomRight,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       primary: Colors.orange, // background
                     ),
                     child: const Text('Atualizar'),
-                    onPressed:(){
+                    onPressed: () {
                       _importanciaMesesBLoc.adicionarImportanciaMeses(context);
-
                     },
                   ),
-
                 ),
               ],
             ),
@@ -77,47 +113,78 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // ..price = double.parse(priceController.text)
+                // ..quantity = int.parse(quantityController.text);
                 Container(
                   width: 150,
                   padding: EdgeInsets.all(6),
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Janeiro'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      //_importanciaMesesBLoc.setJaneiroController.(value);
-                      //   print(value);
-                      _importanciaMesesBLoc.jan(value);
-                    },
-                  ),
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.janOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_janValue.toString()),
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.orange, width: 1.0),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.orange, width: 1.0),
+                            ),
+                            labelText: "Janeiro",
+                            labelStyle: TextStyle(color: Colors.black54),
+                          ),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.jan(value);
+                          },
+                        );
+                      }),
                 ),
                 Container(
                   width: 150,
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Fevereiro'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.fev(value);
-                    },
+                  child: StreamBuilder(
+                    stream: _importanciaMesesBLoc.fevOutValor,
+                    builder: (context, snapshot) {
+                      return SpinBox(
+                        min: 1,
+                        max: 10,
+                        value: double.parse(_fevValue.toString()),
+                        decoration: const InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.orange, width: 1.0),
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.orange, width: 1.0),
+                          ),
+                          labelStyle: TextStyle(color: Colors.black54),
+                          labelText: "Fevereiro",
+                        ),
+                        incrementIcon: const Icon(
+                          Icons.add,
+                          color: Colors.green,
+                        ),
+                        decrementIcon: const Icon(
+                          Icons.remove,
+                          color: Colors.red,
+                        ),
+                        onChanged: (value) {
+                          _importanciaMesesBLoc.fev(value);
+                        },
+                      );
+                    }
                   ),
                 ),
               ],
@@ -130,92 +197,72 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 Container(
                   width: 150,
                   padding: EdgeInsets.all(6),
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Março'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.mar(value);
-                    },
-                  ),
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.marOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_marValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Março'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.mar(value);
+                          },
+                        );
+                      }),
                 ),
                 Container(
                   width: 150,
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Abril'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.abr(value);
-                      // print(value);
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 150,
-                  padding: EdgeInsets.all(6),
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Maio'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.mai(value);
-                    },
-                  ),
-                ),
-                Container(
-                  width: 150,
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Junho'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.jun(value);
-                    },
-                  ),
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.abrOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_abrValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Abril'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.abr(value);
+                            // print(value);
+                          },
+                        );
+                      }),
                 ),
               ],
             ),
@@ -227,91 +274,71 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 Container(
                   width: 150,
                   padding: EdgeInsets.all(6),
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Julho'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.jul(value);
-                    },
-                  ),
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.maiOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_maiValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Maio'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.mai(value);
+                          },
+                        );
+                      }),
                 ),
                 Container(
                   width: 150,
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Agosto'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.ago(value);
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 150,
-                  padding: EdgeInsets.all(6),
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Setembro'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.set(value);
-                    },
-                  ),
-                ),
-                Container(
-                  width: 150,
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Outubro'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.out(value);
-                    },
-                  ),
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.junOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_junValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Junho'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.jun(value);
+                          },
+                        );
+                      }),
                 ),
               ],
             ),
@@ -323,43 +350,223 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 Container(
                   width: 150,
                   padding: EdgeInsets.all(6),
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Novembro'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.nov(value);
-                    },
-                  ),
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.julOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_julValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Julho'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.jul(value);
+                          },
+                        );
+                      }),
                 ),
                 Container(
                   width: 150,
-                  child: SpinBox(
-                    min: 1,
-                    max: 10,
-                    value: 5,
-                    decoration: const InputDecoration(labelText: 'Dezembro'),
-                    incrementIcon: const Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
-                    decrementIcon: const Icon(
-                      Icons.remove,
-                      color: Colors.red,
-                    ),
-                    onChanged: (value) {
-                      _importanciaMesesBLoc.dez(value);
-                    },
-                  ),
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.agoOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_agoValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Agosto'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.ago(value);
+                          },
+                        );
+                      }),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(6),
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.setOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_setValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Setembro'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.set(value);
+                          },
+                        );
+                      }),
+                ),
+                Container(
+                  width: 150,
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.outOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_outValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Outubro'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.out(value);
+                          },
+                        );
+                      }),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(6),
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.novOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_novValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Novembro'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.nov(value);
+                          },
+                        );
+                      }),
+                ),
+                Container(
+                  width: 150,
+                  child: StreamBuilder(
+                      stream: _importanciaMesesBLoc.dezOutValor,
+                      builder: (context, snapshot) {
+                        return SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_dezValue.toString()),
+                          decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange, width: 1.0),
+                              ),
+                              labelStyle: TextStyle(color: Colors.black54),
+                              labelText: 'Dezembro'),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
+                          ),
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.dez(value);
+                          },
+                        );
+                      }),
                 ),
               ],
             ),
@@ -389,15 +596,15 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           primaryXAxis: CategoryAxis(),
                           // Chart title
                           title: ChartTitle(
-                              text:'PARTICIPAÇÃO DOS MESES NO RESULTADO DO ANO'),
+                              text:
+                                  'PARTICIPAÇÃO DOS MESES NO RESULTADO DO ANO'),
                           // Enable legend
                           legend: Legend(isVisible: false),
                           // Enable tooltip
                           tooltipBehavior: TooltipBehavior(enable: false),
                           series: <ChartSeries<_SalesData, String>>[
                             LineSeries<_SalesData, String>(
-                              color: Colors.orangeAccent,
-
+                                color: Colors.orangeAccent,
                                 dataSource: data,
                                 xValueMapper: (_SalesData sales, _) =>
                                     sales.year,
@@ -410,9 +617,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           ]),
                     ]);
                   }),
-
             ),
-
           ],
         ),
       )),

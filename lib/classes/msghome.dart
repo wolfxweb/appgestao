@@ -44,13 +44,17 @@ class _MsgDiaState extends State<MsgDia> {
     final dia = DateTime.now().day;
     final mes = DateTime.now().month;
     final ano = DateTime.now().year;
+    final diaMes = DateTime.now().format("dd/MM");
     int qtdDiasUteis = 0;
     int fimSemana = 0;
+    const feriados =["01/01","15/04","17/04","21/04","01/5","08/05","07/06","12/06","16/06","25/07","14/08","07/09","12/10","02/11","15/11","05/12"];
+
 
     for (var i = 1; i <= dia; i++) {
       final diaUtil = DateTime(ano, mes, i).getWeekday;
       if (diaUtil == 6 ) {
         fimSemana = 1;
+
         continue;
       } else if(diaUtil == 7){
         fimSemana = 2;
@@ -60,18 +64,49 @@ class _MsgDiaState extends State<MsgDia> {
       }
     }
 
-    switch(fimSemana){
-      case 1:
-        msgDodia ="Bom fim de sabado!";
-        msgDodiaSub = "";
-        msgDodiaInfo = "";
-        break;
-      case 2:
-        msgDodia = "Bom dominigo";
-        msgDodiaSub = "";
-        msgDodiaInfo = "";
-        break;
+
+    if(feriados.contains(diaMes)){
+      if(fimSemana == 1 || fimSemana == 2 ){
+        switch(fimSemana){
+          case 1:
+            qtdDiasUteis = qtdDiasUteis-1;
+            break;
+          case 2:
+            qtdDiasUteis = qtdDiasUteis-2;
+            break;
+          case 3:
+            qtdDiasUteis = qtdDiasUteis-1;
+            break;
+        }
+      }
     }
+    if(fimSemana == 1 || fimSemana == 2 ){
+      switch(fimSemana){
+        case 1:
+          qtdDiasUteis = qtdDiasUteis-1;
+          /*
+          msgDodia ="Bom fim de sabado!";
+          msgDodiaSub = "";
+          msgDodiaInfo = "";
+
+           */
+          break;
+        case 2:
+          qtdDiasUteis = qtdDiasUteis-2;
+          /*
+          msgDodia = "Bom dominigo";
+          msgDodiaSub = "";
+          msgDodiaInfo = "";
+
+           */
+          break;
+      }
+
+
+    }
+
+
+
      switch (qtdDiasUteis) {
       case 1:
         msgDodia ="Primeiro dia do mês! Que não lhe falte o bom ânimo, equilíbrio e entusiasmo para superar os desafios, tomar algumas decisões ousadas e ter sucesso!";
@@ -184,8 +219,9 @@ class _MsgDiaState extends State<MsgDia> {
         msgDodiaSub = "";
         msgDodiaInfo = "";
         break;
-
     }
-
   }
+
+
 }
+

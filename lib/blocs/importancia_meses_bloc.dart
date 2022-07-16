@@ -26,6 +26,18 @@ class ImportanciaMesesBLoc extends BlocBase {
   Stream get outResult => _resultadoController.stream;
   Stream get outMedia => _mediaController.stream;
   Stream<List> get outValorMeses => _valorMesesController.stream;
+  Stream get  janOutValor => _janController.stream;
+  Stream get  fevOutValor => _fevController.stream;
+  Stream get  marOutValor => _marController.stream;
+  Stream get  abrOutValor => _abrController.stream;
+  Stream get  maiOutValor => _maiController.stream;
+  Stream get  junOutValor => _junController.stream;
+  Stream get  julOutValor => _julController.stream;
+  Stream get  agoOutValor => _agoController.stream;
+  Stream get  setOutValor => _setController.stream;
+  Stream get  outOutValor => _outController.stream;
+  Stream get  novOutValor => _novController.stream;
+  Stream get  dezOutValor => _dezController.stream;
 
   final List _listValores = [];
 
@@ -33,6 +45,34 @@ class ImportanciaMesesBLoc extends BlocBase {
     _resultadoCalculadoListner();
   }
 
+  inicializarBloc(){
+    _consultarMeses();
+
+  }
+_consultarMeses() async {
+
+    var bd = InportanciasMeses();
+    await bd.lista().then((data) {
+      data.forEach((element) {
+       // print("inportancia meses bloc");
+      //  print(element);
+        _janController.add(element['jan']*1.0);
+        _fevController.add(element['fev']*1.0);
+        _marController.add(element['mar']*1.0);
+        _abrController.add(element['abr']*1.0);
+        _maiController.add(element['mai']*1.0);
+        _junController.add(element['jun']*1.0);
+        _julController.add(element['jul']*1.0);
+        _agoController.add(element['ago']*1.0);
+        _setController.add(element['setb']*1.0);
+        _outController.add(element['out']*1.0);
+        _novController.add(element['nov']*1.0);
+        _dezController.add(element['dez']*1.0);
+      });
+      _calc();
+    });
+
+  }
   get context => null;
   _resultadoCalculadoListner() {
     _janController.add(5.0);
@@ -157,22 +197,22 @@ class ImportanciaMesesBLoc extends BlocBase {
   adicionarImportanciaMeses(context) {
     var dados = impdosmeses(
       _valorMesesController.valueOrNull?[0],
-      _janController.valueOrNull,
-      _fevController.valueOrNull,
-      _marController.valueOrNull,
-      _abrController.valueOrNull,
-      _maiController.valueOrNull,
-      _junController.valueOrNull,
-      _julController.valueOrNull,
-      _agoController.valueOrNull,
-      _setController.valueOrNull,
-      _outController.valueOrNull,
-      _novController.valueOrNull,
-      _dezController.valueOrNull,
+      _janController.valueOrNull*1.0,
+      _fevController.valueOrNull*1.0,
+      _marController.valueOrNull*1.0,
+      _abrController.valueOrNull*1.0,
+      _maiController.valueOrNull*1.0,
+      _junController.valueOrNull*1.0,
+      _julController.valueOrNull*1.0,
+      _agoController.valueOrNull*1.0,
+      _setController.valueOrNull*1.0,
+      _outController.valueOrNull*1.0,
+      _novController.valueOrNull*1.0,
+      _dezController.valueOrNull*1.0,
       _valorMesesController.valueOrNull?[13],
     );
 
-    var bd = InportanciaMeses();
+    var bd = InportanciasMeses();
     print("importancia dos meses");
     print(dados.toJson());
     bd.save(dados.toJson()).then((value) {

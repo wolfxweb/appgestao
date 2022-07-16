@@ -21,11 +21,16 @@ class DadosBasicos extends StatefulWidget {
 }
 
 class _DadosBasicosState extends State<DadosBasicos> {
-  var  mesRef = "Janeiro";
+
+  var mesRef;
+  var mesSave;
 
   var bd = DadosBasicosSqlite();
   var id = 0;
-
+  @override
+  initState(){
+    _consultar();
+  }
   void _consultar() async {
     await bd.lista().then((data) {
       data.forEach((element) {
@@ -38,8 +43,9 @@ class _DadosBasicosState extends State<DadosBasicos> {
         _margenController.text = element['margen'];
         _custoVariavelController.text = element['custo_varivel'];
         _custoInsumosController.text = element['gastos_insumos'];
-         mesRef  = element['mes'].toString();
-        //mesController  =  element['mes']!.toString() as DropdownEditingController<String>?;
+         mesRef  = element['mes'];
+
+
 
       });
     });
@@ -60,11 +66,15 @@ class _DadosBasicosState extends State<DadosBasicos> {
   DropdownEditingController<String>? mesController = DropdownEditingController();
 
 
+
   // final textBtn = "Adicionar";
 
   @override
   Widget build(BuildContext context) {
     _consultar();
+    print('mesRef');
+    print(mesRef);
+    mesController =  DropdownEditingController(value: mesRef);
 
     ValidationBuilder.setLocale('pt-br');
     return Scaffold(
@@ -98,9 +108,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                   ),
                   const Espacamento(),
                   TextDropdownFormField(
-
-                   // controller: mesController ,
-                    options: [
+                   controller: mesController,
+                    options: const  [
                       "Janeiro",
                       "Fevereiro",
                       "Março",
@@ -133,13 +142,12 @@ class _DadosBasicosState extends State<DadosBasicos> {
                           color: Colors.transparent,
                           onPressed: null),
                     ),
-
                     onChanged: (dynamic str) {
-
-                     // mesRef = str;
-
-
-                      //_mesReferenciaController = str;
+                      print(str);
+                    //  setState(() { mesRef = str; });
+                    //  mesController = str;
+                      mesSave =str;
+                     // mesController = str;
                     },
                     // dropdownHeight: 120,
                   ),
@@ -398,13 +406,14 @@ class _DadosBasicosState extends State<DadosBasicos> {
     if (!isValid) {
        return;
     }
-    final mesReferencia =  _validaMes(mesRef);
-    print(mesReferencia);
-    print(_custoInsumosController.text);
+   // final mesReferencia =  _validaMes(mesRef);
+    print(mesSave);
+    print(mesRef);
+    print(mesController.toString());
     if (id == 0) {
-      _saveUpdate(_getDados(null,mesRef), "Cadastro realizado com sucesso");
+      _saveUpdate(_getDados(null,mesSave), "Cadastro realizado com sucesso");
     } else {
-       _saveUpdate(_getDados(id,mesRef), "Cadastro atulizado com sucesso");
+       _saveUpdate(_getDados(id,mesSave), "Cadastro atulizado com sucesso");
     }
   }
   _validaMes(mesRef){
@@ -450,7 +459,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
     }
 
   }
-  _getDados(idinfo,mes) {
+  _getDados(idinfo,mesRef) {
     return dadosbasicossqlite(
         idinfo,
         _quantidadeController.text,
@@ -459,7 +468,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
         _custoVariavelController.text,
         _custoFixoController.text,
         _margenController.text,
-         mes,
+         mesRef,
         _custoInsumosController.text
     );
   }
