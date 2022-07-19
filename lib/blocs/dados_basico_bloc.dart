@@ -20,7 +20,6 @@ class DadosBasicosBloc extends BlocBase {
   _getMes() async {
     await bd.lista().then((data) {
       data.forEach((element) {
-        print(element);
         _mesController.add(element['mes']);
       });
     });
@@ -31,8 +30,8 @@ class DadosBasicosBloc extends BlocBase {
 
   _nomeUsuarioLogado() async {
     await FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      print(user!.email);
-      var email = user.email;
+     // print(user!.email);
+      var email = user!.email;
       if (user == null) {
         print('logado');
       } else {
@@ -42,22 +41,19 @@ class DadosBasicosBloc extends BlocBase {
             .get()
             .then((DocumentSnapshot documentSnapshot) {
           if (documentSnapshot.exists) {
-            print(documentSnapshot.data());
+          //  print(documentSnapshot.data());
             Map<String, dynamic> data =
                 documentSnapshot.data()! as Map<String, dynamic>;
-            print(data['nome']);
-
             final hora = DateTime.now().hour;
-            print(hora);
-            if (hora < 13) {
+            if (hora.toInt() < 13 && hora.toInt()>6) {
               // bom dia
               var userMsg = " Bom dia ${data['nome']}";
               _nomeController.add(userMsg);
-            } else if (hora > 13) {
+            } else if (hora.toInt() > 13 &&  hora.toInt() < 20) {
               // boa tarde
-              var userMsg = " Boa tarde ${data['nome']}";
+              var userMsg = " Boa tardes ${data['nome']}";
               _nomeController.add(userMsg);
-            } else if (hora > 19) {
+            } else if (hora.toInt() > 19 ) {
               //boa noite
               var userMsg = " Boa Noite ${data['nome']}";
               _nomeController.add(userMsg);

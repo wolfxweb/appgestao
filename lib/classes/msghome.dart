@@ -33,8 +33,9 @@ class _MsgDiaState extends State<MsgDia> {
           child: StreamBuilder(
             stream: mesBloc.nomeOutUsuario,
             builder: (context, snapshot) {
+              print("msg home");
               print(snapshot.data);
-              print(snapshot.hasData);
+
               if(snapshot.hasData){
                 userMsg = snapshot.data.toString();
               }
