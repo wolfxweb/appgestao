@@ -56,18 +56,18 @@ _consultarMeses() async {
       data.forEach((element) {
        // print("inportancia meses bloc");
       //  print(element);
-        _janController.add(element['jan']*1.0);
-        _fevController.add(element['fev']*1.0);
-        _marController.add(element['mar']*1.0);
-        _abrController.add(element['abr']*1.0);
-        _maiController.add(element['mai']*1.0);
-        _junController.add(element['jun']*1.0);
-        _julController.add(element['jul']*1.0);
-        _agoController.add(element['ago']*1.0);
-        _setController.add(element['setb']*1.0);
-        _outController.add(element['out']*1.0);
-        _novController.add(element['nov']*1.0);
-        _dezController.add(element['dez']*1.0);
+        _janController.add(element['jan']);
+        _fevController.add(element['fev']);
+        _marController.add(element['mar']);
+        _abrController.add(element['abr']);
+        _maiController.add(element['mai']);
+        _junController.add(element['jun']);
+        _julController.add(element['jul']);
+        _agoController.add(element['ago']);
+        _setController.add(element['setb']);
+        _outController.add(element['out']);
+        _novController.add(element['nov']);
+        _dezController.add(element['dez']);
       });
       _calc();
     });
@@ -75,6 +75,7 @@ _consultarMeses() async {
   }
   get context => null;
   _resultadoCalculadoListner() {
+
     _janController.add(5.0);
     _fevController.add(5.0);
     _marController.add(5.0);
@@ -87,7 +88,7 @@ _consultarMeses() async {
     _outController.add(5.0);
     _novController.add(5.0);
     _dezController.add(5.0);
-
+    _consultarMeses();
     _calc();
   }
 
@@ -104,8 +105,7 @@ _consultarMeses() async {
     var out = _outController.valueOrNull ?? 0;
     var nov = _novController.valueOrNull ?? 0;
     var dez = _dezController.valueOrNull ?? 0;
-    var total =
-        jan + fev + mar + abr + mai + jun + jul + ago + set + out + nov + dez;
+    var total = jan + fev + mar + abr + mai + jun + jul + ago + set + out + nov + dez;
     var media = total / 12;
     _mediaController.add(media);
     _resultadoController.add(total);
@@ -213,11 +213,11 @@ _consultarMeses() async {
     );
 
     var bd = InportanciasMeses();
-    print("importancia dos meses");
-    print(dados.toJson());
+  //  print("importancia dos meses");
+ //   print(dados.toJson());
     bd.save(dados.toJson()).then((value) {
       var alert = AlertSnackBar();
-      alert.alertSnackBar(context, Colors.green, 'Atualizado com sucesso');
+      alert.alertSnackBar(context, Colors.green, 'Importâcia dos meses atualizada com sucesso');
     });
   }
 

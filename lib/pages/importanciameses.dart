@@ -126,6 +126,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_janValue.toString()),
                           decoration: const InputDecoration(
+                            contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                             focusedBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(color: Colors.orange, width: 1.0),
@@ -161,6 +162,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                         max: 10,
                         value: double.parse(_fevValue.toString()),
                         decoration: const InputDecoration(
+                          contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
                                 BorderSide(color: Colors.orange, width: 1.0),
@@ -205,6 +207,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_marValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),
@@ -239,6 +242,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_abrValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),
@@ -282,6 +286,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_maiValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),
@@ -316,6 +321,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_junValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),
@@ -358,6 +364,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_julValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),
@@ -392,6 +399,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_agoValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),
@@ -434,6 +442,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_setValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),
@@ -468,6 +477,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_outValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),
@@ -510,6 +520,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_novValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),
@@ -544,6 +555,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           max: 10,
                           value: double.parse(_dezValue.toString()),
                           decoration: const InputDecoration(
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.orange, width: 1.0),

@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:appgestao/blocs/dados_basico_bloc.dart';
 import 'package:appgestao/classes/dadosbasicossqlite.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:appgestao/componete/alertamodal.dart';
@@ -21,21 +22,18 @@ class DadosBasicos extends StatefulWidget {
 }
 
 class _DadosBasicosState extends State<DadosBasicos> {
-
   var mesRef;
   var mesSave;
+  DropdownEditingController<String>? mesController;
+  var mesBloc = DadosBasicosBloc();
 
   var bd = DadosBasicosSqlite();
   var id = 0;
   @override
-  initState(){
-    _consultar();
-  }
   void _consultar() async {
     await bd.lista().then((data) {
       data.forEach((element) {
-        print(element);
-        id = element['id'];
+             id = element['id'];
         _quantidadeController.text = element['qtd'];
         _faturamentoController.text = element['faturamento'];
         _gastoinsumosController.text = element['gastos'];
@@ -43,11 +41,22 @@ class _DadosBasicosState extends State<DadosBasicos> {
         _margenController.text = element['margen'];
         _custoVariavelController.text = element['custo_varivel'];
         _custoInsumosController.text = element['gastos_insumos'];
-         mesRef  = element['mes'];
-
+         mesSelect.value = element['mes'];
 
 
       });
+    });
+  }
+
+  initState() {
+    _consultar();
+     //itemSelecionado = 'Janeiro';
+  }
+
+  st(element) {
+    setState(() {
+      //mesRef = element['mes'];
+      mesController = DropdownEditingController(value: element);
     });
   }
 
@@ -62,20 +71,28 @@ class _DadosBasicosState extends State<DadosBasicos> {
   final _margenController = TextEditingController();
   final _custoVariavelController = TextEditingController();
   final _custoInsumosController = TextEditingController();
-  //final mesReferenciaController = TextDropdownFormField( options: ["Janeiro","Fevereiro","Março", "Abril", "Maio", "Juho","Julho", "Agosto", "Setembro","Outubro", "Novembro", "Dezembro" ]);
-  DropdownEditingController<String>? mesController = DropdownEditingController();
 
+  final mesSelecionaController = TextEditingController();
 
-
-  // final textBtn = "Adicionar";
-
+  var mesSelect = ValueNotifier('');
   @override
   Widget build(BuildContext context) {
-    _consultar();
-    print('mesRef');
-    print(mesRef);
-    mesController =  DropdownEditingController(value: mesRef);
 
+
+    final dropOpcoes = [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro'
+    ];
     ValidationBuilder.setLocale('pt-br');
     return Scaffold(
       appBar: header.getAppBar('Dados básicos'),
@@ -107,51 +124,100 @@ class _DadosBasicosState extends State<DadosBasicos> {
                     textAlign: TextAlign.center,
                   ),
                   const Espacamento(),
-                  TextDropdownFormField(
-                   controller: mesController,
-                    options: const  [
-                      "Janeiro",
-                      "Fevereiro",
-                      "Março",
-                      "Abril",
-                      "Maio",
-                      "Juho",
-                      "Julho",
-                      "Agosto",
-                      "Setembro",
-                      "Outubro",
-                      "Novembro",
-                      "Dezembro"
-                    ],
 
-                    decoration: const InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      focusColor: Colors.orangeAccent,
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.orangeAccent,
-                      ),
-                      labelText: "Selecione o mês referência",
-                      labelStyle: TextStyle(color: Colors.black54),
-                      prefixIcon: IconButton(
-                          icon: const Icon(null),
-                          color: Colors.transparent,
-                          onPressed: null),
-                    ),
-                    onChanged: (dynamic str) {
-                      print(str);
-                    //  setState(() { mesRef = str; });
-                    //  mesController = str;
-                      mesSave =str;
-                     // mesController = str;
-                    },
-                    // dropdownHeight: 120,
-                  ),
+                  const Espacamento(),
+                  ValueListenableBuilder(
+                      valueListenable: mesSelect,
+                      builder:  (BuildContext context , String value, _){
+                        return SizedBox(
+                          child: DropdownButtonFormField<String>(
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: Colors.orange, width: 1.0),
+                                ),
+                                focusColor: Colors.orangeAccent,
+                                border: OutlineInputBorder(),
 
+                                labelText: "Selecione o mês referência",
+                                labelStyle: TextStyle(color: Colors.black54),
+                                prefixIcon: IconButton(
+                                    icon: const Icon(null),
+                                    color: Colors.transparent,
+                                    onPressed: null),
+                              ),
+                            isExpanded: true,
+                            hint: const Text("Selecione o mês referência"),
+                              value: (value.isEmpty)?null:value,
+                              items: dropOpcoes.map((e){
+                                 return DropdownMenuItem(child: Text(e) , value: e,);
+                              }).toList(),
+                              onChanged: (onChanged){
+                                mesSelect.value =  onChanged.toString();
+                              }),
+                        );
+                      }
+                      ),
+
+/*
+                  const Espacamento(),
+                  StreamBuilder<dynamic>(
+                      stream: mesBloc.mesOutUsuario,
+                      builder: (context, snapshot) {
+
+                        if (snapshot.hasData) {
+                          mesController =  DropdownEditingController(value: mesRef);
+                        }
+                        return TextDropdownFormField(
+                          controller: mesController,
+                          options: const [
+                            "Janeiro",
+                            "Fevereiro",
+                            "Março",
+                            "Abril",
+                            "Maio",
+                            "Juho",
+                            "Julho",
+                            "Agosto",
+                            "Setembro",
+                            "Outubro",
+                            "Novembro",
+                            "Dezembro"
+                          ],
+
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.orange, width: 1.0),
+                            ),
+                            focusColor: Colors.orangeAccent,
+                            border: OutlineInputBorder(),
+                            suffixIcon: Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.orangeAccent,
+                            ),
+                            labelText: "Selecione o mês referência",
+                            labelStyle: TextStyle(color: Colors.black54),
+                            prefixIcon: IconButton(
+                                icon: const Icon(null),
+                                color: Colors.transparent,
+                                onPressed: null),
+                          ),
+                          onChanged: (dynamic str) {
+                            print(str);
+                            //  setState(() { mesRef = str; });
+                            //  mesController = str;
+                            mesSave = str;
+                            // mesController = str;
+                          },
+                          // dropdownHeight: 120,
+                        );
+                      }),
+*/
                   const Espacamento(),
                   TextFormField(
                     validator:
@@ -159,6 +225,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                     keyboardType: TextInputType.number,
                     controller: _quantidadeController,
                     decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
                         icon: const Icon(Icons.help),
                         color: Colors.transparent,
@@ -191,6 +259,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                       /*  focusedBorder: const UnderlineInputBorder(
                         borderSide:
                             BorderSide(color: Colors.orange, width: 1.0),
@@ -218,7 +288,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                   ),
                   const Espacamento(),
                   TextFormField(
-                    validator:  ValidationBuilder().maxLength(50).required().build(),
+                    validator:
+                        ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
                     controller: _custoInsumosController,
                     inputFormatters: [
@@ -226,6 +297,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
                         icon: const Icon(Icons.help),
                         color: Colors.orange,
@@ -258,6 +331,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
                         icon: const Icon(Icons.help),
                         color: Colors.orange,
@@ -291,6 +366,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
                         icon: const Icon(Icons.help),
                         color: Colors.orange,
@@ -323,6 +400,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
                         icon: const Icon(Icons.help),
                         color: Colors.orange,
@@ -355,7 +434,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       //  CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.zero,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
                         icon: const Icon(Icons.help),
                         color: Colors.orange,
@@ -391,6 +471,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                   ),
                   const Espacamento(),
                   const Espacamento(),
+                  const Espacamento(),
                 ],
               )),
             ),
@@ -401,65 +482,24 @@ class _DadosBasicosState extends State<DadosBasicos> {
   }
 
   _buildBuildOnPressed() async {
-
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
-       return;
+      return;
     }
-   // final mesReferencia =  _validaMes(mesRef);
-    print(mesSave);
-    print(mesRef);
-    print(mesController.toString());
+    // final mesReferencia =  _validaMes(mesRef);
+    // print(mesSave);
+    // print(mesRef);
+    // print(mesController.toString());
     if (id == 0) {
-      _saveUpdate(_getDados(null,mesSave), "Cadastro realizado com sucesso");
+      _saveUpdate(_getDados(null, mesSave),
+          "Dados básicos cadastrado realizado com sucesso");
     } else {
-       _saveUpdate(_getDados(id,mesSave), "Cadastro atulizado com sucesso");
+      _saveUpdate(
+          _getDados(id, mesSave), "Dados básicos atulizado com sucesso");
     }
   }
-  _validaMes(mesRef){
 
-    switch (mesRef){
-      case "Janeiro":
-            return "jan";
-        break;
-      case "Fevereiro":
-        return "fev";
-        break;
-      case "Março":
-        return "mar";
-        break;
-      case "Abril":
-        return "abr";
-        break;
-      case "Maio":
-        return "mai";
-        break;
-      case "Junho":
-        return "jun";
-        break;
-      case "Julho":
-        return "jul";
-        break;
-      case "Agosto":
-        return "ago";
-        break;
-      case "Stembro":
-        return "set";
-        break;
-      case "Outubro":
-        return "out";
-        break;
-      case "Novembro":
-        return "nov";
-        break;
-      case "Dezembro":
-        return "dez";
-        break;
-
-    }
-
-  }
-  _getDados(idinfo,mesRef) {
+  _getDados(idinfo, mesRef) {
     return dadosbasicossqlite(
         idinfo,
         _quantidadeController.text,
@@ -468,9 +508,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
         _custoVariavelController.text,
         _custoFixoController.text,
         _margenController.text,
-         mesRef,
-        _custoInsumosController.text
-    );
+         mesSelect.value,
+        _custoInsumosController.text);
   }
 
   _saveUpdate(dados, msg) {

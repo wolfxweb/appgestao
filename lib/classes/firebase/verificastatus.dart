@@ -56,7 +56,7 @@ class VerificaStatusFairebase {
   isLogadoFB(context) {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
-        print('User is currently signed out!');
+        print('logout');
         route.pushPage(context, const Login());
       } else {
         var users = VerificaStatusFairebase();

@@ -1,3 +1,8 @@
+
+import 'package:appgestao/blocs/dados_basico_bloc.dart';
+import 'package:appgestao/componete/espasamento.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_date/dart_date.dart';
 
@@ -9,38 +14,70 @@ class MsgDia extends StatefulWidget {
 }
 
 class _MsgDiaState extends State<MsgDia> {
+
   String msgDodia = '';
   String msgDodiaSub = '';
   String msgDodiaInfo = '';
-  final stilo = const TextStyle(fontSize: 16);
+  String userMsg = '';
+  final stilo = const TextStyle(fontSize: 16) ;
   @override
   Widget build(BuildContext context) {
+    var mesBloc = DadosBasicosBloc();
     _diasemana();
+
+
      return Column(
       children: [
-        Text(
-          msgDodia,
-          style: stilo,
-          textAlign: TextAlign.justify,
-          softWrap: true,
+        Container(
+          alignment: Alignment.bottomLeft,
+          child: StreamBuilder(
+            stream: mesBloc.nomeOutUsuario,
+            builder: (context, snapshot) {
+              print(snapshot.data);
+              print(snapshot.hasData);
+              if(snapshot.hasData){
+                userMsg = snapshot.data.toString();
+              }
+              return Text(
+                userMsg,
+                style: const TextStyle(fontSize: 18),
+                textAlign: TextAlign.start,
+              //  softWrap: true,
+              );
+            }
+          ),
         ),
-        Text(
-          msgDodiaSub,
-          style: stilo,
-          textAlign: TextAlign.justify,
-          softWrap: true,
+        const Espacamento(),
+        Column(
+          children: [
+            Text(
+              msgDodia,
+              style: stilo,
+              textAlign: TextAlign.justify,
+              softWrap: true,
+            ),
+            Text(
+              msgDodiaSub,
+              style: stilo,
+              textAlign: TextAlign.justify,
+              softWrap: true,
+            ),
+            Text(
+              msgDodiaInfo,
+              style: stilo,
+              textAlign: TextAlign.justify,
+              softWrap: true,
+            ),
+          ],
         ),
-        Text(
-          msgDodiaInfo,
-          style: stilo,
-          textAlign: TextAlign.justify,
-          softWrap: true,
-        ),
+
       ],
     );
   }
 
+
   _diasemana() async {
+
     final dia = DateTime.now().day;
     final mes = DateTime.now().month;
     final ano = DateTime.now().year;
@@ -101,12 +138,7 @@ class _MsgDiaState extends State<MsgDia> {
            */
           break;
       }
-
-
     }
-
-
-
      switch (qtdDiasUteis) {
       case 1:
         msgDodia ="Primeiro dia do mês! Que não lhe falte o bom ânimo, equilíbrio e entusiasmo para superar os desafios, tomar algumas decisões ousadas e ter sucesso!";
