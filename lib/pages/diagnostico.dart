@@ -16,6 +16,7 @@ class _DiagnosticoState extends State<Diagnostico> {
   var header = new HeaderAppBar();
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar:header.getAppBar('Diagnóstico'),
       drawer: Menu(),
