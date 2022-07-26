@@ -38,7 +38,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
         _faturamentoController.text = element['faturamento'];
         _gastoinsumosController.text = element['gastos'];
         _custoFixoController.text = element['custo_fixo'];
-        _margenController.text = element['margen'];
+        _margenController.text = element['margen']+"%";
         _custoVariavelController.text = element['custo_varivel'];
         _custoInsumosController.text = element['gastos_insumos'];
          mesSelect.value = element['mes'];
@@ -71,10 +71,10 @@ class _DadosBasicosState extends State<DadosBasicos> {
   final _margenController = TextEditingController();
   final _custoVariavelController = TextEditingController();
   final _custoInsumosController = TextEditingController();
-
   final mesSelecionaController = TextEditingController();
 
   var mesSelect = ValueNotifier('');
+
   @override
   Widget build(BuildContext context) {
 
@@ -110,17 +110,20 @@ class _DadosBasicosState extends State<DadosBasicos> {
                 children: [
                   //  const Espacamento(),
                   //  const Logo(),
+                  /*
                   const Espacamento(),
                   const Text(
                     'Sempre com você... participando do seu sucesso!',
                     style: TextStyle(fontSize: 24),
                     textAlign: TextAlign.center,
                   ),
+
+                   */
                   const Espacamento(),
                   // Text('DADOS BÁSICOS',style: TextStyle(color: Colors.white)),
                   const Text(
                     'Todos os dados devem compreender o mesmo período.',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
                   const Espacamento(),
@@ -132,6 +135,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         return SizedBox(
                           child: DropdownButtonFormField<String>(
                               decoration: const InputDecoration(
+                                floatingLabelBehavior: FloatingLabelBehavior.always,
                                 contentPadding: EdgeInsets.symmetric(
                                     horizontal: 0, vertical: 0),
                                 focusedBorder: OutlineInputBorder(
@@ -155,6 +159,14 @@ class _DadosBasicosState extends State<DadosBasicos> {
                                  return DropdownMenuItem(child: Text(e) , value: e,);
                               }).toList(),
                               onChanged: (onChanged){
+                                print(onChanged);
+                                _faturamentoController.text = "";
+                                _custoInsumosController.text="";
+                                _custoFixoController.text="";
+                                _gastoinsumosController.text="";
+                                _quantidadeController.text="";
+                                _margenController.text ="";
+                                _custoVariavelController.text="";
                                 mesSelect.value =  onChanged.toString();
                               }),
                         );
@@ -220,13 +232,14 @@ class _DadosBasicosState extends State<DadosBasicos> {
 */
                   const Espacamento(),
                   TextFormField(
+
                     validator:
                         ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
                     controller: _quantidadeController,
                     decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
                         icon: const Icon(Icons.help),
                         color: Colors.transparent,
@@ -238,13 +251,18 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         borderSide:
                             BorderSide(color: Colors.orange, width: 1.0),
                       ),
+
                       border: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
+                        borderSide: BorderSide(color: Colors.orange, width: 1.0),
+                       ),
+                 //    label: "Quantidade de clientes atendidos",
                       labelText: "Quantidade de clientes atendidos",
-                      labelStyle: TextStyle(color: Colors.black54),
-                      // hintText: 'Quantidade de clientes atendidos',
+                      labelStyle: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18,
+                      ),
+
+                     //  hintText: 'Quantidade de clientes atendidos',
                     ),
                   ),
                   const Espacamento(),
@@ -259,6 +277,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                       /*  focusedBorder: const UnderlineInputBorder(
@@ -283,13 +302,15 @@ class _DadosBasicosState extends State<DadosBasicos> {
                             BorderSide(color: Colors.orange, width: 1.0),
                       ),
                       labelText: "Faturamento com vendas",
-                      labelStyle: const TextStyle(color: Colors.black54),
+                      labelStyle: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   const Espacamento(),
                   TextFormField(
-                    validator:
-                        ValidationBuilder().maxLength(50).required().build(),
+                   // validator:  ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
                     controller: _custoInsumosController,
                     inputFormatters: [
@@ -297,6 +318,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
@@ -316,14 +339,16 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         borderSide:
                             BorderSide(color: Colors.orange, width: 1.0),
                       ),
-                      labelText: "Gasto com insumos para revenda",
-                      labelStyle: const TextStyle(color: Colors.black54),
+                      labelText: "Gasto com insumos",
+                      labelStyle: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   const Espacamento(),
                   TextFormField(
-                    validator:
-                        ValidationBuilder().maxLength(50).required().build(),
+                  //  validator:  ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
                     controller: _gastoinsumosController,
                     inputFormatters: [
@@ -331,6 +356,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
@@ -352,7 +378,10 @@ class _DadosBasicosState extends State<DadosBasicos> {
                             BorderSide(color: Colors.orange, width: 1.0),
                       ),
                       labelText: "Gasto com produto para revenda",
-                      labelStyle: const TextStyle(color: Colors.black54),
+                      labelStyle: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   const Espacamento(),
@@ -366,6 +395,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
@@ -386,7 +416,10 @@ class _DadosBasicosState extends State<DadosBasicos> {
                             BorderSide(color: Colors.orange, width: 1.0),
                       ),
                       labelText: "Total outros custos variaveis",
-                      labelStyle: const TextStyle(color: Colors.black54),
+                      labelStyle: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   const Espacamento(),
@@ -400,6 +433,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
@@ -420,13 +454,15 @@ class _DadosBasicosState extends State<DadosBasicos> {
                             BorderSide(color: Colors.orange, width: 1.0),
                       ),
                       labelText: "Total de custos fixos",
-                      labelStyle: const TextStyle(color: Colors.black54),
+                      labelStyle: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   const Espacamento(),
                   TextFormField(
-                    validator:
-                        ValidationBuilder().maxLength(50).required().build(),
+                    validator:  ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
                     controller: _margenController,
                     inputFormatters: [
@@ -434,6 +470,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       //  CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
                     decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 0, vertical: 0),
                       prefixIcon: IconButton(
@@ -454,7 +491,10 @@ class _DadosBasicosState extends State<DadosBasicos> {
                             BorderSide(color: Colors.orange, width: 1.0),
                       ),
                       labelText: "Margen que você considera ideal",
-                      labelStyle: const TextStyle(color: Colors.black54),
+                      labelStyle: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
 
@@ -466,7 +506,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         primary: Colors.orange,
                       ),
                       onPressed: _buildBuildOnPressed,
-                      child: Text("Atualizar"),
+                      child: const  Text("Salvar"),
                     ),
                   ),
                   const Espacamento(),
@@ -483,9 +523,20 @@ class _DadosBasicosState extends State<DadosBasicos> {
 
   _buildBuildOnPressed() async {
     final isValid = _formKey.currentState!.validate();
-    if (!isValid) {
+    print(_gastoinsumosController.text);
+    if(_gastoinsumosController.text == "" &&  _custoInsumosController.text =="" ){
+      alerta.openModal(context,"É NECESSÁRIO QUE TODOS OS CAMPOS SEJAM PREENCHIDOS! Exceção: no caso de 'gastos com insumos' e 'gastos com produto para revenda' será admimivel apenas um deles seja preenchido");
       return;
     }
+    if(_gastoinsumosController.text != "" &&  _custoInsumosController.text !="" ){
+      alerta.openModal(context,"É NECESSÁRIO QUE TODOS OS CAMPOS SEJAM PREENCHIDOS! Exceção: no caso de 'gastos com insumos' e 'gastos com produto para revenda' será admimivel apenas um deles seja preenchido");
+      return;
+    }
+    if (!isValid) {
+      alerta.openModal(context,"É NECESSÁRIO QUE TODOS OS CAMPOS SEJAM PREENCHIDOS! Exceção: no caso de 'gastos com insumos' e 'gastos com produto para revenda' será admimivel apenas um deles seja preenchido");
+      return;
+    }
+
     // final mesReferencia =  _validaMes(mesRef);
     // print(mesSave);
     // print(mesRef);

@@ -51,7 +51,7 @@ class DadosBasicosBloc extends BlocBase {
               _nomeController.add(userMsg);
             } else if (hora.toInt() > 13 &&  hora.toInt() < 20) {
               // boa tarde
-              var userMsg = " Boa tardes ${data['nome']}";
+              var userMsg = " Boa tarde ${data['nome']}";
               _nomeController.add(userMsg);
             } else if (hora.toInt() > 19 ) {
               //boa noite
@@ -62,5 +62,12 @@ class DadosBasicosBloc extends BlocBase {
         });
       }
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+   _mesController.close();
+   _nomeController.close();
   }
 }

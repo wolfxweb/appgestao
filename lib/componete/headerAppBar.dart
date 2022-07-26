@@ -1,14 +1,12 @@
-
-
-
-
-
 import 'package:flutter/material.dart';
 
 class HeaderAppBar {
   getAppBar(String title) {
     return AppBar(
-      title:  Text(title),
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 26,fontWeight: FontWeight.bold ),
+      ),
       centerTitle: true,
       backgroundColor: Colors.orange,
       actionsIconTheme: const IconThemeData(color: Colors.white),
