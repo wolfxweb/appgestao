@@ -125,19 +125,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_janValue.toString()),
-                          decoration: const InputDecoration(
-                            contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.orange, width: 1.0),
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.orange, width: 1.0),
-                            ),
-                            labelText: "Janeiro",
-                            labelStyle: TextStyle(color: Colors.black54),
-                          ),
+                          decoration: buildInputDecoration("Janeiro"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -157,34 +145,24 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                   child: StreamBuilder(
                     stream: _importanciaMesesBLoc.fevOutValor,
                     builder: (context, snapshot) {
-                      return SpinBox(
-                        min: 1,
-                        max: 10,
-                        value: double.parse(_fevValue.toString()),
-                        decoration: const InputDecoration(
-                          contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.orange, width: 1.0),
+                      return Container(
+                        child: SpinBox(
+                          min: 1,
+                          max: 10,
+                          value: double.parse(_fevValue.toString()),
+                          decoration:buildInputDecoration("Fevereiro"),
+                          incrementIcon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
                           ),
-                          border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.orange, width: 1.0),
+                          decrementIcon: const Icon(
+                            Icons.remove,
+                            color: Colors.red,
                           ),
-                          labelStyle: TextStyle(color: Colors.black54),
-                          labelText: "Fevereiro",
+                          onChanged: (value) {
+                            _importanciaMesesBLoc.fev(value);
+                          },
                         ),
-                        incrementIcon: const Icon(
-                          Icons.add,
-                          color: Colors.green,
-                        ),
-                        decrementIcon: const Icon(
-                          Icons.remove,
-                          color: Colors.red,
-                        ),
-                        onChanged: (value) {
-                          _importanciaMesesBLoc.fev(value);
-                        },
                       );
                     }
                   ),
@@ -206,18 +184,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_marValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Março'),
+                          decoration: buildInputDecoration("Março"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -241,18 +208,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_abrValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Abril'),
+                          decoration:buildInputDecoration("Abril"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -285,18 +241,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_maiValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Maio'),
+                          decoration: buildInputDecoration("Maio"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -320,18 +265,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_junValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Junho'),
+                          decoration: buildInputDecoration("Junho"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -363,18 +297,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_julValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Julho'),
+                          decoration:buildInputDecoration("Julho"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -398,18 +321,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_agoValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Agosto'),
+                          decoration:buildInputDecoration("Agosto"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -441,18 +353,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_setValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Setembro'),
+                          decoration:buildInputDecoration("Setembro"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -476,18 +377,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_outValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Outubro'),
+                          decoration: buildInputDecoration("Outubro"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -519,18 +409,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_novValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Novembro'),
+                          decoration: buildInputDecoration("Novembro"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -554,18 +433,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_dezValue.toString()),
-                          decoration: const InputDecoration(
-                              contentPadding:  EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orange, width: 1.0),
-                              ),
-                              labelStyle: TextStyle(color: Colors.black54),
-                              labelText: 'Dezembro'),
+                          decoration: buildInputDecoration("Dezembro"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -634,5 +502,26 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
         ),
       )),
     );
+  }
+
+  InputDecoration buildInputDecoration(mesLabel) {
+    return  InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                             fillColor: Colors.grey[150],
+                              filled: true,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.orange, width: 1.0),
+                            ),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.orange, width: 1.0),
+                            ),
+                            labelStyle: const TextStyle(
+                              color: Colors.black,
+                              backgroundColor: Colors.white,
+                            ),
+                            labelText: mesLabel,
+                        );
   }
 }
