@@ -23,7 +23,9 @@ class _CalculadoraState extends State<Calculadora> {
   var calBloc;
 
   var margemPrecoAtual = TextEditingController();
-
+  var _precoAtual = TextEditingController();
+  var _precoInsumos = TextEditingController();
+  var _margemDesejada = TextEditingController();
   void initState() {
     calBloc = CalculadoraBloc();
   }
@@ -32,6 +34,9 @@ class _CalculadoraState extends State<Calculadora> {
   final _formKey = GlobalKey<FormState>();
   var alerta = AlertModal();
   var header = new HeaderAppBar();
+  var corFundo =  Colors.grey[150];
+  var _mostrarComponentes = false;
+
   @override
   Widget build(BuildContext context) {
 
@@ -50,7 +55,7 @@ class _CalculadoraState extends State<Calculadora> {
                 children:  [
                   const Espacamento(),
                   const  Text(
-                    'Sempre com você... participando do seu sucesso!',
+                    'Use sua criatividade.!',
                     style: TextStyle(fontSize: 24),
                     textAlign: TextAlign.center,
                   ),
@@ -58,14 +63,14 @@ class _CalculadoraState extends State<Calculadora> {
                   StreamBuilder(
                       stream: null,
                       builder: (context, snapshot) {
-                        print(snapshot.data);
+                   //     print(snapshot.data);
 
                         var data = snapshot.data;
                         return TextFormField(
                           validator: ValidationBuilder().maxLength(50).required().build(),
                         //  keyboardType: TextInputType.number,
                           controller: null,
-                          decoration: _styleInput("Produto","ops"),
+                          decoration: _styleInput("Produto","cor"),
                           onChanged: (text){
 
                           },
@@ -76,23 +81,36 @@ class _CalculadoraState extends State<Calculadora> {
                   StreamBuilder(
                     stream: calBloc.outPrecoVendaAtualController,
                     builder: (context, snapshot) {
-                      print(snapshot.data);
+                    //  print(snapshot.data);
 
                       var data = snapshot.data;
                       return TextFormField(
                         validator: ValidationBuilder().maxLength(50).required().build(),
                         keyboardType: TextInputType.number,
-                        controller: TextEditingController(text: "$data"),
-                        decoration: _styleInput("Preço de venda atual","ops"),
+                        controller: null,
+                        decoration: _styleInput("Preço de venda atual","cor"),
                         inputFormatters: [
                           // obrigatório
                           FilteringTextInputFormatter.digitsOnly,
                           CentavosInputFormatter(moeda: true, casasDecimais: 2)
                         ],
                         onChanged: (text){
-
                           if(text.isNotEmpty){
                             calBloc.percoVendaAtual(text);
+                            setState(() {
+                              _precoAtual.text =  text;
+                              if(_precoAtual.text.isNotEmpty  && _precoInsumos.text.isNotEmpty && _margemDesejada.text.isNotEmpty ){
+                                _mostrarComponentes = true;
+                              }else{
+                                _mostrarComponentes = false;
+                              }
+                            });
+                          }else{
+                            if(text.isEmpty){
+                              setState(() {
+                                _mostrarComponentes = false;
+                              });
+                            }
                           }
                         },
                       );
@@ -105,24 +123,36 @@ class _CalculadoraState extends State<Calculadora> {
                   StreamBuilder(
                     stream: calBloc.outCustosComInsumosController,
                     builder: (context, snapshot) {
-                      print(snapshot.data);
+                    //  print(snapshot.data);
 
                       var data = snapshot.data;
                       return TextFormField(
                         validator: ValidationBuilder().maxLength(50).required().build(),
                         keyboardType: TextInputType.number,
-                        controller: TextEditingController(text: "$data"),
-                        decoration: _styleInput("Preço dos insumos ou da mercadoria adquirida","ops"),
+                        controller: null,
+                        decoration: _styleInput("Preço dos insumos ou da mercadoria adquirida","cor"),
                         inputFormatters: [
                           // obrigatório
                           FilteringTextInputFormatter.digitsOnly,
                           CentavosInputFormatter(moeda: true, casasDecimais: 2)
                         ],
                         onChanged: (text){
-                          print(text);
+                        //  print(text);
                           //calculadoraCusto(text)
                           if(text.isNotEmpty){
                             calBloc.calculadoraCusto(text);
+                            setState(() {
+                              _precoInsumos.text =  text;
+                              if(_precoAtual.text.isNotEmpty && _precoInsumos.text.isNotEmpty && _margemDesejada.text.isNotEmpty  ){
+                                _mostrarComponentes = true;
+                              }else{
+                                _mostrarComponentes = false;
+                              }
+                            });
+                          }else if(text.isEmpty){
+                            setState(() {
+                              _mostrarComponentes = false;
+                            });
                           }
                         },
                       );
@@ -138,36 +168,53 @@ class _CalculadoraState extends State<Calculadora> {
 
                       Container(
                         width: 150,
-                        child:  StreamBuilder(
-                            stream: null,
+                        child:_mostrarComponentes?StreamBuilder(
+                            stream: calBloc.outCalculoMargem,
                             builder: (context, snapshot) {
-                              print(snapshot.data);
-
                               var data = snapshot.data;
-                              //    /=margemPrecoAtual = data.toString();
+                              //var margemPrecoAtual = data.;
                               return TextFormField(
-                                validator: ValidationBuilder().maxLength(50).required().build(),
+                               /// validator: ValidationBuilder().maxLength(50).required().build(),
                                 keyboardType: TextInputType.number,
-                                controller: margemPrecoAtual = TextEditingController(text: "10 %"),
+                                controller:  TextEditingController(text: "$data %"),
                                 decoration: _styleInput("Margem atual","ops"),
                               );
                             }
-                        ),
+                        ):null,
                       ),
                       Container(
                         width: 150,
                         child:  StreamBuilder(
-                            stream: calBloc.outCalculoMargem,
+                            stream: null,
                             builder: (context, snapshot) {
-                              print(snapshot.data);
+                             print(snapshot.data);
 
                               var data = snapshot.data;
                               //    /=margemPrecoAtual = data.toString();
                               return TextFormField(
                                 validator: ValidationBuilder().maxLength(50).required().build(),
                                 keyboardType: TextInputType.number,
-                                controller: margemPrecoAtual = TextEditingController(text: "$data %"),
-                                decoration: _styleInput("Margem desejada","ops"),
+                                controller: null,
+                                decoration: _styleInput("Margem desejada","cor"),
+                                onChanged: (text){
+                            //      print(text);
+                                  //calculadoraCusto(text)
+                                  if(text.isNotEmpty){
+                                    calBloc.margemDesejada(text);
+                                    setState(() {
+                                      _margemDesejada.text =  text;
+                                      if(_precoAtual.text.isNotEmpty && _precoInsumos.text.isNotEmpty && _margemDesejada.text.isNotEmpty ){
+                                        _mostrarComponentes = true;
+                                      }else{
+                                        _mostrarComponentes = false;
+                                      }
+                                    });
+                                  }else if(text.isEmpty){
+                                    setState(() {
+                                      _mostrarComponentes = false;
+                                    });
+                                  }
+                                },
                               );
                             }
                         ),
@@ -181,7 +228,7 @@ class _CalculadoraState extends State<Calculadora> {
                     builder: (context, snapshot) {
                   //    print(snapshot.data);
                       var data = snapshot.data;
-                      return TextFormField(
+                      return _mostrarComponentes? TextFormField(
                         validator: ValidationBuilder().maxLength(50).required().build(),
                         keyboardType: TextInputType.number,
                         maxLines: 2,
@@ -192,7 +239,7 @@ class _CalculadoraState extends State<Calculadora> {
                           FilteringTextInputFormatter.digitsOnly,
                           CentavosInputFormatter(moeda: true, casasDecimais: 2)
                         ],
-                      );
+                      ):Container();
                     }
                   ),
                   const Espacamento(),
@@ -202,41 +249,41 @@ class _CalculadoraState extends State<Calculadora> {
                     builder: (context, snapshot) {
                 //      print(snapshot.data);
                       var data = snapshot.data;
-                      return TextFormField(
+                      return _mostrarComponentes?TextFormField(
                       //  validator: ValidationBuilder().maxLength(50).required().build(),
                         keyboardType: TextInputType.number,
-                        controller: TextEditingController(text: "R\$ 1500,00"),
-                        decoration: _styleInput("Preço sugerido","ops"),
+                        controller: TextEditingController(text: "R\$ $data"),
+                        decoration: _styleInput("Preço sugerido","1"),
                           inputFormatters: [ FilteringTextInputFormatter.digitsOnly,],
 
-                      );
+                      ):Container();
                     }
                   ),
                   const Espacamento(),
                   StreamBuilder(
                     stream: calBloc.outRelacaoPrecoController,
                     builder: (context, snapshot) {
-                      print(snapshot.data);
+                   //   print(snapshot.data);
                       var data = snapshot.data.toString();
-                      return TextFormField(
+                      return _mostrarComponentes?TextFormField(
                         validator: ValidationBuilder().maxLength(50).required().build(),
                         keyboardType: TextInputType.number,
-                        controller: TextEditingController(text: "0 %"),
+                        controller: TextEditingController(text: "$data %"),
                         decoration: _styleInput("Relação com preço atual","ops"),
-                      );
+                      ):Container();
                     }
                   ),
                   const Espacamento(),
-                  TextFormField(
+                  _mostrarComponentes ? TextFormField(
                     validator: ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
                     controller: null,
                     decoration: _styleInput("","ops"),
-                  ),
+                  ):Container(),
                   const Espacamento(),
 
 
-                  Row(
+                  _mostrarComponentes ?  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     //   mainAxisSize: MainAxisSize.max,
                     //  crossAxisAlignment: CrossAxisAlignment.center,
@@ -270,6 +317,10 @@ class _CalculadoraState extends State<Calculadora> {
                         ),
                       ),
                     ],
+                  ):const  Text(
+                    'Preencha os campos',
+                    style: TextStyle(fontSize: 24),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -317,10 +368,18 @@ class _CalculadoraState extends State<Calculadora> {
     );
   }
   _styleInput(String text,String modal){
+
+
+    if(modal == "cor"){
+      corFundo = Colors.orangeAccent[100];
+    }else{
+      corFundo = Colors.grey[150];
+    }
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-        fillColor: Colors.grey[150],
+
+        fillColor: corFundo,
         filled: true,
       focusedBorder: const OutlineInputBorder(
         borderSide:

@@ -49,11 +49,12 @@ class CalculadoraBloc extends BlocBase {
       Intl.defaultLocale = 'pt_BR';
     _getDadosBasicos();
   }
-  NumberFormat formatter = NumberFormat.simpleCurrency();
+  //NumberFormat formatter = NumberFormat.simpleCurrency();
+  NumberFormat formatter = NumberFormat("00.0000");
   _getDadosBasicos() async {
     await bd.lista().then((data) {
       data.forEach((element) {
-        print(element);
+    //    print(element);
         var faturamento = (element['faturamento']
             .toString()
             .replaceAll("R\$", "")
@@ -87,6 +88,9 @@ class CalculadoraBloc extends BlocBase {
          mars = double.parse(element['margen']);
          mar = mars / 100;
 
+         //Formula da margem atual
+        /***------------------------calculadora ------------------------ * ---------------------------Dados básicos------------------------- * ----------------Calculardora----------------****/
+       // ((preco atual de vendas calculadora-(preço insumos calculadora+((( total outros custos variaveis + custos fixo)/ faturamento vendas)*preço atual vendas)))/preco atual de vendas))
         var margemComPrecoAtual = (((double.parse(faturamento) -
                     ((double.parse(gastos_insumos) +
                         double.parse(custo_varivel) +
@@ -112,25 +116,28 @@ class CalculadoraBloc extends BlocBase {
         _precoVendaAtualController.add(formatter.format(fat));
         _custoComInsumoslController.add(formatter.format(_custoInsumo));
         _precoVendaAtual = fat;
-        _calculoController();
-        calculoRelacaoPreco();
+      //  _calculoController();
+      //  calculoRelacaoPreco();
+        _calculoMargemAtual();
       });
     });
   }
 
+  _calculoMargemAtual(){
+   // print(_precoVendaAtual);
+    /***------------------------calculadora ------------------------ * ---------------------------Dados básicos------------------------- * ----------------Calculardora----------------****/
+    // ((preco atual de vendas calculadora-(preço insumos calculadora+((( total outros custos variaveis + custos fixo)/ faturamento vendas)*preço atual vendas)))/preco atual de vendas))
+    var margemComPrecoAtual =((_precoVendaAtual-(_custoInsumo+(((cv+ cf)/fat)*_precoVendaAtual)))/_precoVendaAtual)*100;
+   // print('margemComPrecoAtual');
+
+    var margem = formatter.format(margemComPrecoAtual);
+    //print(margem);
+    _calculoMargemController.add(margem);
+    _calculoPrecodugerido();
+  }
   calculoRelacaoPreco(){
-
    // (preço sugerido/preço atual) – 100%
-    var priceA = (_calcluloSugeridoController.valueOrNull.toString()
-        .toString()
-        .replaceAll("R\$", "")
-        .replaceAll('.', '')
-        .replaceAll(',', '.'));
-
-      var price = ((double.parse(priceA)/_precoVendaAtual)-1)*100;
-      print('price');
-     print(price);
-    _relacaoPrecoController.add(price.toInt());
+    
 
   }
   calculadoraCusto(custoInsumos) {
@@ -140,14 +147,22 @@ class CalculadoraBloc extends BlocBase {
         .replaceAll('.', '')
         .replaceAll(',', '.'));
     _custoInsumo = double.parse(_custoInsumos);
-    _calculoController();
+    _calculoMargemAtual();
 
 
   }
   margemDesejada(margen) {
-    _margemDesejada = margen/100;
-    _calculoController();
-
+  //  _margemDesejada = margen/100;
+    var _margem = (margen
+        .toString()
+        .replaceAll("R\$", "")
+        .replaceAll('.', '')
+        .replaceAll(',', '.'));
+       var mar1 = double.parse(_margem);
+       var mar2 = mar1/100;
+      _margemDesejada = mar2;
+       _calculoMargemAtual();
+       _calculoPrecodugerido();
   }
  percoVendaAtual(preco){
     var price =(preco
@@ -156,13 +171,15 @@ class CalculadoraBloc extends BlocBase {
         .replaceAll('.', '')
         .replaceAll(',', '.'));
     _precoVendaAtual = double.parse(price);
-   // _precoVendaAtualController.add(_precoVendaAtual);
-    calculoRelacaoPreco();
+    _precoVendaAtualController.add(_precoVendaAtual);
+    _calculoMargemAtual();
 }
-_calculoController(){
-  var _calculoPrecodugerido = (1 / (1 - ((cv / fat + cf / fat + _margemDesejada) / 1)))*_custoInsumo;
-  _calcluloSugeridoController.add(formatter.format(_calculoPrecodugerido));
-  calculoRelacaoPreco();
+_calculoPrecodugerido(){
+
+  //(1/1-((((total outros custos variaveis + custos fixo)/faturamento vendas)+margem desejada)/(1)))*custo insumos
+  //(1/(1-((((B10+B11)/B7)+F15)/1)))*F10
+  var _calculoPrecodugerido = (1/(1-((((cf+cv)/fat)+_margemDesejada)/1)))*_custoInsumo;
+    _calcluloSugeridoController.add(formatter.format(_calculoPrecodugerido));
 }
 
   /*
