@@ -1,3 +1,5 @@
+import 'package:appgestao/classes/calculadorahistorico.dart';
+import 'package:appgestao/classes/sqlite/calculadora_sqlite.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,7 +21,7 @@ class CalculadoraBloc extends BlocBase {
   final _calculoParte1Controller = BehaviorSubject();
   final _precoVendaAtualController = BehaviorSubject();
   final _custoComInsumoslController = BehaviorSubject();
-
+  final _historicolController = BehaviorSubject();
 
   Stream get outCalculoMargem => _calculoMargemController.stream;
   Stream get outMsgMargem => _msgMargemController.stream;
@@ -30,6 +32,7 @@ class CalculadoraBloc extends BlocBase {
   Stream get outRelacaoPrecoController => _relacaoPrecoController.stream;
   Stream get outPrecoVendaAtualController => _precoVendaAtualController.stream;
   Stream get outCustosComInsumosController => _custoComInsumoslController.stream;
+  Stream get outHistoricoController => _historicolController.stream;
 
 
   var _custoInsumo = 200.0;
@@ -46,15 +49,14 @@ class CalculadoraBloc extends BlocBase {
   var _margemComPrecoAtual;
   var _calculoPrecoSuregirdo;
   var _relacaoPreco;
-
   var _nomeUsuario;
-
-
 
   CalculadoraBloc() {
       Intl.defaultLocale = 'pt_BR';
     _getDadosBasicos();
     _nomeUsuarioLogado();
+    selectHistorico();
+
   }
   //NumberFormat formatter = NumberFormat.simpleCurrency();
   NumberFormat formatter = NumberFormat("00.00");
@@ -246,6 +248,41 @@ _calculoPrecodugerido(){
           }
         });
       }
+    });
+  }
+
+  savarCalculo(produto){
+   var _db = CalculadoraSqlite();
+    /*
+          Informações par historico da calculadora
+          -> Nome do produto
+          -> data em que for salvo(Data cadastro)
+          -> preço atual ( preço atual digitado na calculadora)
+          -> margem( magem desejada digitado na calculadora)
+          -> preço sugerido
+          -> margem( margem atual)
+     */
+    print("save");
+    print(produto);
+   DateTime now = DateTime.now();
+   String formattedDate = DateFormat('dd/MM/yyyy ').format(now);
+
+   var dados =  calculadoraHistorico(null,produto,formattedDate,_precoVendaAtual.toString(),_calculoPrecoSuregirdo.toString(),_margemDesejada.toString(),_margemComPrecoAtual.toString());
+
+    _db.save(dados.toJson()).then((value) {
+      print("save value");
+      print(value);
+      selectHistorico();
+    //  alert.alertSnackBar(context, Colors.green, msg);
+    });
+  }
+  selectHistorico(){
+    var _db = CalculadoraSqlite();
+    _db.lista().then((data) {
+      data.forEach((element) {
+        print(element['id']);
+        _historicolController.add(element);
+      });
     });
   }
 

@@ -23,6 +23,7 @@ class _CalculadoraState extends State<Calculadora> {
   var _precoAtual = TextEditingController();
   var _precoInsumos = TextEditingController();
   var _margemDesejada = TextEditingController();
+  var _produto = TextEditingController();
   void initState() {
     calBloc = CalculadoraBloc();
   }
@@ -48,13 +49,7 @@ class _CalculadoraState extends State<Calculadora> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Espacamento(),
-                  const Text(
-                    'Use sua criatividade!',
-                    style: TextStyle(fontSize: 24),
-                    textAlign: TextAlign.center,
-                  ),
-                  const Espacamento(),
+            //         const Espacamento(),
                   Container(
                     decoration: buildBoxDecoration(),
                     child: StreamBuilder(
@@ -69,7 +64,7 @@ class _CalculadoraState extends State<Calculadora> {
                                 .required()
                                 .build(),
                             //  keyboardType: TextInputType.number,
-                            controller: null,
+                            controller: _produto,
                             decoration: _styleInput("Produto", "cor"),
                             onChanged: (text) {},
                           );
@@ -82,7 +77,6 @@ class _CalculadoraState extends State<Calculadora> {
                         stream: calBloc.outPrecoVendaAtualController,
                         builder: (context, snapshot) {
                           //  print(snapshot.data);
-
                           var data = snapshot.data;
                           return TextFormField(
                             validator: ValidationBuilder()
@@ -179,7 +173,7 @@ class _CalculadoraState extends State<Calculadora> {
                     //  crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 145,
+                        width: 140,
                         decoration: buildBoxDecoration(),
                         child: _mostrarComponentes
                             ? StreamBuilder(
@@ -195,29 +189,48 @@ class _CalculadoraState extends State<Calculadora> {
                                         TextEditingController(text: "$data %"),
                                     decoration:
                                         _styleInput("Margem atual", "ops"),
+
                                   );
+
                                 })
                             : null,
                       ),
                       Container(
-                        width: 170,
+                        width: 180,
                         decoration: buildBoxDecoration(),
                         child: StreamBuilder(
                             stream: null,
                             builder: (context, snapshot) {
-                              print(snapshot.data);
-
                               var data = snapshot.data;
-                              //    /=margemPrecoAtual = data.toString();
                               return TextFormField(
                                 validator: ValidationBuilder()
-                                    .maxLength(50)
+                                    .maxLength(5)
                                     .required()
                                     .build(),
                                 keyboardType: TextInputType.number,
                                 controller: null,
-                                decoration:
-                                    _styleInput("Margem desejada", "cor"),
+                                decoration: InputDecoration(
+                                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+
+                                  fillColor: Colors.orangeAccent[100],
+                                  filled: true,
+                                 suffixIcon: const Icon(
+                                     Icons.percent,
+                                     color: Colors.black54,
+                                     size: 20.0,
+                                 ),
+                                 /* focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                                  ),*/
+                                  border: InputBorder.none,
+                                  labelText: 'Margem desejada',
+                                  labelStyle: const TextStyle(
+                                    color: Colors.black,
+                                    // backgroundColor: Colors.white,
+                                  ),
+                                ),
                                 onChanged: (text) {
                                   //      print(text);
                                   //calculadoraCusto(text)
@@ -282,7 +295,7 @@ class _CalculadoraState extends State<Calculadora> {
                     //  crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 145,
+                        width: 140,
                         decoration: buildBoxDecoration(),
                         child: StreamBuilder(
                             stream: calBloc.outCaculoPrecoSugerido,
@@ -294,7 +307,11 @@ class _CalculadoraState extends State<Calculadora> {
                                       keyboardType: TextInputType.none,
                                       enabled: false,
                                       controller: TextEditingController(
-                                          text: "R\$ $data"),
+                                          text: "R\$ $data"
+
+                                      ),
+                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+
 
                                       decoration:
                                           _styleInput("Preço sugerido", "1"),
@@ -306,7 +323,7 @@ class _CalculadoraState extends State<Calculadora> {
                             }),
                       ),
                       Container(
-                        width: 170,
+                        width: 180,
                         decoration: buildBoxDecoration(),
                         child: StreamBuilder(
                             stream: calBloc.outRelacaoPrecoController,
@@ -392,7 +409,6 @@ class _CalculadoraState extends State<Calculadora> {
                           'Preencha os campos acima',
                           style: TextStyle(fontSize: 24,color: Colors.red),
                           textAlign: TextAlign.center,
-
                         ),
                 ],
               ),
@@ -418,7 +434,7 @@ class _CalculadoraState extends State<Calculadora> {
   }
 
   _buildOnPressed() {
-    print("salvar");
+    calBloc.savarCalculo(_produto.text);
   }
 
   buildSpinBox(String TextDecoretion) {
