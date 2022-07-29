@@ -1,5 +1,7 @@
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:intl/intl.dart';
 
@@ -41,16 +43,21 @@ class CalculadoraBloc extends BlocBase {
   var mars;
   var mar;
   var _precoVendaAtual = 1000.00;
+  var _margemComPrecoAtual;
+  var _calculoPrecoSuregirdo;
   var _relacaoPreco;
+
+  var _nomeUsuario;
 
 
 
   CalculadoraBloc() {
       Intl.defaultLocale = 'pt_BR';
     _getDadosBasicos();
+    _nomeUsuarioLogado();
   }
   //NumberFormat formatter = NumberFormat.simpleCurrency();
-  NumberFormat formatter = NumberFormat("00.0000");
+  NumberFormat formatter = NumberFormat("00.00");
   _getDadosBasicos() async {
     await bd.lista().then((data) {
       data.forEach((element) {
@@ -91,7 +98,7 @@ class CalculadoraBloc extends BlocBase {
          //Formula da margem atual
         /***------------------------calculadora ------------------------ * ---------------------------Dados básicos------------------------- * ----------------Calculardora----------------****/
        // ((preco atual de vendas calculadora-(preço insumos calculadora+((( total outros custos variaveis + custos fixo)/ faturamento vendas)*preço atual vendas)))/preco atual de vendas))
-        var margemComPrecoAtual = (((double.parse(faturamento) -
+  /*      var margemComPrecoAtual = (((double.parse(faturamento) -
                     ((double.parse(gastos_insumos) +
                         double.parse(custo_varivel) +
                         double.parse(custo_fixo) +
@@ -110,35 +117,77 @@ class CalculadoraBloc extends BlocBase {
           _msgMargemController
               .add('Este item impede que a margem do seu negócio seja maior');
         }
-      //  var _calculoPrecodugerido = (1 / (1 - ((cv / fat + cf / fat + _margemDesejada) / 1)))*_custoInsumo;
-     //   _calcluloSugeridoController.add(formatter.format(_calculoPrecodugerido));
-
+*/
         _precoVendaAtualController.add(formatter.format(fat));
         _custoComInsumoslController.add(formatter.format(_custoInsumo));
         _precoVendaAtual = fat;
-      //  _calculoController();
-      //  calculoRelacaoPreco();
+
         _calculoMargemAtual();
       });
     });
   }
+  _primeiroComentario(){
+    /*
+        =(fat-(cv+cf+gi+gas))/fat
+        =(B7-(B8+B9+B10+B11))/B7
+        fat = double.parse(faturamento).truncateToDouble();
+        cf = double.parse(custo_fixo).truncateToDouble();
+        cv = double.parse(custo_varivel).truncateToDouble();
+        gi = double.parse(gastos_insumos).truncateToDouble();
+        gas = double.parse(gastos).truncateToDouble();
+        SE(E(F13>B18;F13<=F15);"Fulano, este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!";
+        SE(E(F13>B18;F13>F15);"Fulano, este produto contribui muito positivamente para o resultado da empresa!";
+        SE(E(F13>0;F13>B18);"Fulano, este produto, com o preço atual, prejudica o resultado da empresa!";
+        SE(E(F13>0;F13<B18);"Fulano, este produto, mantendo-se o preço atual, impede que o resultado da empresa seja melhor!";
+        SE(F13<0;"Fulano, este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!";"")))))
+     */
+    var margeEsteProduto =((fat-(cv+cf+gi+gas))/fat);
+    if ((_margemComPrecoAtual/100) > margeEsteProduto &&  (_margemComPrecoAtual/100) <=_margemDesejada ) {
+      _msgMargemController.add(
+          '$_nomeUsuario, este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!');
+    } else if ( (_margemComPrecoAtual/100) >margeEsteProduto  && (_margemComPrecoAtual/100)  > _margemDesejada) {
+      _msgMargemController.add(
+          '$_nomeUsuario, este produto contribui muito positivamente para o resultado da empresa!');
+    } else if ((_margemComPrecoAtual/100)  > 0 && (_margemComPrecoAtual/100) <= margeEsteProduto) {
+      _msgMargemController.add(
+          '$_nomeUsuario, este produto, com o preço atual, prejudica o resultado da empresa!');
+    }else if ((_margemComPrecoAtual/100)  > 0 && (_margemComPrecoAtual/100) < margeEsteProduto ) {
+      _msgMargemController.add(
+          '$_nomeUsuario, este produto, mantendo-se o preço atual, impede que o resultado da empresa seja melhor!');
+    }else if ((_margemComPrecoAtual/100)  < 0 ) {
+      _msgMargemController.add(
+          '$_nomeUsuario, este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!');
+    }
+  }
+  _ultimoComentario(){
 
+     if(_relacaoPreco>5){
+       /* CERTIFIQUE-SE DE QUE: 1.O MOMENTO ATUAL É OPORTUNO;2.ESTE PREÇO SUGERIDO SERÁ SUPORTADO POR SEU PÚBLICO-ALVO;3.QUE ELE SERÁ COMPETITIVO! */
+       _msgPrecoSugeridoController.add("CERTIFIQUE-SE DE QUE:\n"
+           "1. O MOMENTO ATUAL É OPORTUNO;\n"
+           "2. ESTE PREÇO SUGERIDO SERÁ SUPORTADO POR SEU PÚBLICO-ALVO;\n"
+           "3. QUE ELE SERÁ COMPETITIVO!");
+     }else{
+       _msgPrecoSugeridoController.add("verifica ser vai  informação quando  a relação de preço for menor de 5% ");
+     }
+     _primeiroComentario();
+  }
   _calculoMargemAtual(){
    // print(_precoVendaAtual);
     /***------------------------calculadora ------------------------ * ---------------------------Dados básicos------------------------- * ----------------Calculardora----------------****/
     // ((preco atual de vendas calculadora-(preço insumos calculadora+((( total outros custos variaveis + custos fixo)/ faturamento vendas)*preço atual vendas)))/preco atual de vendas))
-    var margemComPrecoAtual =((_precoVendaAtual-(_custoInsumo+(((cv+ cf)/fat)*_precoVendaAtual)))/_precoVendaAtual)*100;
-   // print('margemComPrecoAtual');
-
-    var margem = formatter.format(margemComPrecoAtual);
-    //print(margem);
+    _margemComPrecoAtual =((_precoVendaAtual-(_custoInsumo+(((cv+ cf)/fat)*_precoVendaAtual)))/_precoVendaAtual)*100;
+    var margem = formatter.format(_margemComPrecoAtual);
     _calculoMargemController.add(margem);
     _calculoPrecodugerido();
+
   }
+
   calculoRelacaoPreco(){
    // (preço sugerido/preço atual) – 100%
-    
-
+     _relacaoPreco = ((_calculoPrecoSuregirdo/_precoVendaAtual)-1)*100;
+    _relacaoPrecoController.add(formatter.format(_relacaoPreco));
+    _ultimoComentario();
   }
   calculadoraCusto(custoInsumos) {
     var _custoInsumos = (custoInsumos
@@ -148,8 +197,6 @@ class CalculadoraBloc extends BlocBase {
         .replaceAll(',', '.'));
     _custoInsumo = double.parse(_custoInsumos);
     _calculoMargemAtual();
-
-
   }
   margemDesejada(margen) {
   //  _margemDesejada = margen/100;
@@ -162,7 +209,6 @@ class CalculadoraBloc extends BlocBase {
        var mar2 = mar1/100;
       _margemDesejada = mar2;
        _calculoMargemAtual();
-       _calculoPrecodugerido();
   }
  percoVendaAtual(preco){
     var price =(preco
@@ -175,27 +221,34 @@ class CalculadoraBloc extends BlocBase {
     _calculoMargemAtual();
 }
 _calculoPrecodugerido(){
-
   //(1/1-((((total outros custos variaveis + custos fixo)/faturamento vendas)+margem desejada)/(1)))*custo insumos
   //(1/(1-((((B10+B11)/B7)+F15)/1)))*F10
-  var _calculoPrecodugerido = (1/(1-((((cf+cv)/fat)+_margemDesejada)/1)))*_custoInsumo;
-    _calcluloSugeridoController.add(formatter.format(_calculoPrecodugerido));
+    _calculoPrecoSuregirdo = (1/(1-((((cf+cv)/fat)+_margemDesejada)/1)))*_custoInsumo;
+    _calcluloSugeridoController.add(formatter.format(_calculoPrecoSuregirdo));
+    calculoRelacaoPreco();
 }
+  _nomeUsuarioLogado() async {
+    await FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      var email = user!.email;
+      if (user == null) {
+      } else {
+        FirebaseFirestore.instance
+            .collection('usuario')
+            .doc(email)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.exists) {
+            // print(documentSnapshot.data());
+            Map<String, dynamic> data =
+            documentSnapshot.data()! as Map<String, dynamic>;
+            print(data);
+            _nomeUsuario = data['nome'];
+          }
+        });
+      }
+    });
+  }
 
-  /*
- *
- * informação do banco de dado
-
-  var calculo1 = outros custos variaveis/faturamento
- * (1/100-((calculo1 + calculo3 + "margem desejada colocada na calculadora")/100))* valor de insumo informado na calculadora
- *
- *Cálculo “preço sugerido”:
-(1/(100%-((total outros custos variáveis/faturamento* + total custos fixos/faturamento* + margem desejada informada na calculadora)/100%)) x custo dos insumos informado na calculadora.
- (*) informações dos DADOS BÁSICOS
- *
- *
- *
- * */
   @override
   void dispose() {
     // TODO: implement dispose

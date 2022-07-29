@@ -1,6 +1,3 @@
-
-
-
 import 'package:appgestao/blocs/calculadora_bloc.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
@@ -11,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:appgestao/componete/alertamodal.dart';
+
 class Calculadora extends StatefulWidget {
   const Calculadora({Key? key}) : super(key: key);
 
@@ -19,7 +17,6 @@ class Calculadora extends StatefulWidget {
 }
 
 class _CalculadoraState extends State<Calculadora> {
-
   var calBloc;
 
   var margemPrecoAtual = TextEditingController();
@@ -30,298 +27,373 @@ class _CalculadoraState extends State<Calculadora> {
     calBloc = CalculadoraBloc();
   }
 
-
   final _formKey = GlobalKey<FormState>();
   var alerta = AlertModal();
   var header = new HeaderAppBar();
-  var corFundo =  Colors.grey[150];
+  var corFundo = Colors.grey[150];
   var _mostrarComponentes = false;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar:header.getAppBar('Calculadora preços'),
+      appBar: header.getAppBar('Calculadora preços'),
       drawer: Menu(),
-      body:  SingleChildScrollView(
-        child:  Form(
+      body: SingleChildScrollView(
+        child: Form(
           key: _formKey,
-          child:  Center(
+          child: Center(
             child: Padding(
               padding: const EdgeInsets.all(26.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children:  [
+                children: [
                   const Espacamento(),
-                  const  Text(
-                    'Use sua criatividade.!',
+                  const Text(
+                    'Use sua criatividade!',
                     style: TextStyle(fontSize: 24),
                     textAlign: TextAlign.center,
                   ),
                   const Espacamento(),
-                  StreamBuilder(
-                      stream: null,
-                      builder: (context, snapshot) {
-                   //     print(snapshot.data);
+                  Container(
+                    decoration: buildBoxDecoration(),
+                    child: StreamBuilder(
+                        stream: null,
+                        builder: (context, snapshot) {
+                          //     print(snapshot.data);
 
-                        var data = snapshot.data;
-                        return TextFormField(
-                          validator: ValidationBuilder().maxLength(50).required().build(),
-                        //  keyboardType: TextInputType.number,
-                          controller: null,
-                          decoration: _styleInput("Produto","cor"),
-                          onChanged: (text){
-
-                          },
-                        );
-                      }
+                          var data = snapshot.data;
+                          return TextFormField(
+                            validator: ValidationBuilder()
+                                .maxLength(50)
+                                .required()
+                                .build(),
+                            //  keyboardType: TextInputType.number,
+                            controller: null,
+                            decoration: _styleInput("Produto", "cor"),
+                            onChanged: (text) {},
+                          );
+                        }),
                   ),
                   const Espacamento(),
-                  StreamBuilder(
-                    stream: calBloc.outPrecoVendaAtualController,
-                    builder: (context, snapshot) {
-                    //  print(snapshot.data);
+                  Container(
+                    decoration: buildBoxDecoration(),
+                    child: StreamBuilder(
+                        stream: calBloc.outPrecoVendaAtualController,
+                        builder: (context, snapshot) {
+                          //  print(snapshot.data);
 
-                      var data = snapshot.data;
-                      return TextFormField(
-                        validator: ValidationBuilder().maxLength(50).required().build(),
-                        keyboardType: TextInputType.number,
-                        controller: null,
-                        decoration: _styleInput("Preço de venda atual","cor"),
-                        inputFormatters: [
-                          // obrigatório
-                          FilteringTextInputFormatter.digitsOnly,
-                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                        ],
-                        onChanged: (text){
-                          if(text.isNotEmpty){
-                            calBloc.percoVendaAtual(text);
-                            setState(() {
-                              _precoAtual.text =  text;
-                              if(_precoAtual.text.isNotEmpty  && _precoInsumos.text.isNotEmpty && _margemDesejada.text.isNotEmpty ){
-                                _mostrarComponentes = true;
-                              }else{
-                                _mostrarComponentes = false;
+                          var data = snapshot.data;
+                          return TextFormField(
+                            validator: ValidationBuilder()
+                                .maxLength(50)
+                                .required()
+                                .build(),
+                            keyboardType: TextInputType.number,
+                            controller: null,
+                            decoration:
+                                _styleInput("Preço de venda atual", "cor"),
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              CentavosInputFormatter(
+                                  moeda: true, casasDecimais: 2)
+                            ],
+                            onChanged: (text) {
+                              if (text.isNotEmpty) {
+                                calBloc.percoVendaAtual(text);
+                                setState(() {
+                                  _precoAtual.text = text;
+                                  if (_precoAtual.text.isNotEmpty &&
+                                      _precoInsumos.text.isNotEmpty &&
+                                      _margemDesejada.text.isNotEmpty) {
+                                    _mostrarComponentes = true;
+                                  } else {
+                                    _mostrarComponentes = false;
+                                  }
+                                });
+                              } else {
+                                if (text.isEmpty) {
+                                  setState(() {
+                                    _mostrarComponentes = false;
+                                  });
+                                }
                               }
-                            });
-                          }else{
-                            if(text.isEmpty){
-                              setState(() {
-                                _mostrarComponentes = false;
-                              });
-                            }
-                          }
-                        },
-                      );
-                    }
+                            },
+                          );
+                        }),
                   ),
-
                   const Espacamento(),
-              //    const Text("Custo de insumos para seu preparo ou de mercadoria para vendas"),
-                  const Espacamento(),
-                  StreamBuilder(
-                    stream: calBloc.outCustosComInsumosController,
-                    builder: (context, snapshot) {
-                    //  print(snapshot.data);
+                  Container(
+                    decoration: buildBoxDecoration(),
+                    child: StreamBuilder(
+                        stream: calBloc.outCustosComInsumosController,
+                        builder: (context, snapshot) {
+                          //  print(snapshot.data);
 
-                      var data = snapshot.data;
-                      return TextFormField(
-                        validator: ValidationBuilder().maxLength(50).required().build(),
-                        keyboardType: TextInputType.number,
-                        controller: null,
-                        decoration: _styleInput("Preço dos insumos ou da mercadoria adquirida","cor"),
-                        inputFormatters: [
-                          // obrigatório
-                          FilteringTextInputFormatter.digitsOnly,
-                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                        ],
-                        onChanged: (text){
-                        //  print(text);
-                          //calculadoraCusto(text)
-                          if(text.isNotEmpty){
-                            calBloc.calculadoraCusto(text);
-                            setState(() {
-                              _precoInsumos.text =  text;
-                              if(_precoAtual.text.isNotEmpty && _precoInsumos.text.isNotEmpty && _margemDesejada.text.isNotEmpty  ){
-                                _mostrarComponentes = true;
-                              }else{
-                                _mostrarComponentes = false;
+                          var data = snapshot.data;
+                          return TextFormField(
+                            validator: ValidationBuilder()
+                                .maxLength(50)
+                                .required()
+                                .build(),
+                            keyboardType: TextInputType.number,
+                            controller: null,
+                            decoration: _styleInput(
+                                "Preço dos insumos ou da mercadoria adquirida",
+                                "cor"),
+                            inputFormatters: [
+                              // obrigatório
+                              FilteringTextInputFormatter.digitsOnly,
+                              CentavosInputFormatter(
+                                  moeda: true, casasDecimais: 2)
+                            ],
+                            onChanged: (text) {
+                              //  print(text);
+                              //calculadoraCusto(text)
+                              if (text.isNotEmpty) {
+                                calBloc.calculadoraCusto(text);
+                                setState(() {
+                                  _precoInsumos.text = text;
+                                  if (_precoAtual.text.isNotEmpty &&
+                                      _precoInsumos.text.isNotEmpty &&
+                                      _margemDesejada.text.isNotEmpty) {
+                                    _mostrarComponentes = true;
+                                  } else {
+                                    _mostrarComponentes = false;
+                                  }
+                                });
+                              } else if (text.isEmpty) {
+                                setState(() {
+                                  _mostrarComponentes = false;
+                                });
                               }
-                            });
-                          }else if(text.isEmpty){
-                            setState(() {
-                              _mostrarComponentes = false;
-                            });
-                          }
-                        },
-                      );
-                    }
+                            },
+                          );
+                        }),
                   ),
-                  const Espacamento(),
                   const Espacamento(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 //   mainAxisSize: MainAxisSize.max,
-                  //  crossAxisAlignment: CrossAxisAlignment.center,
+                    //   mainAxisSize: MainAxisSize.max,
+                    //  crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       Container(
-                        width: 150,
-                        child:_mostrarComponentes?StreamBuilder(
-                            stream: calBloc.outCalculoMargem,
-                            builder: (context, snapshot) {
-                              var data = snapshot.data;
-                              //var margemPrecoAtual = data.;
-                              return TextFormField(
-                               /// validator: ValidationBuilder().maxLength(50).required().build(),
-                                keyboardType: TextInputType.number,
-                                controller:  TextEditingController(text: "$data %"),
-                                decoration: _styleInput("Margem atual","ops"),
-                              );
-                            }
-                        ):null,
+                        width: 145,
+                        decoration: buildBoxDecoration(),
+                        child: _mostrarComponentes
+                            ? StreamBuilder(
+                                stream: calBloc.outCalculoMargem,
+                                builder: (context, snapshot) {
+                                  var data = snapshot.data;
+                                  //var margemPrecoAtual = data.;
+                                  return TextFormField(
+                                    /// validator: ValidationBuilder().maxLength(50).required().build(),
+                                    keyboardType: TextInputType.none,
+                                    enabled: false,
+                                    controller:
+                                        TextEditingController(text: "$data %"),
+                                    decoration:
+                                        _styleInput("Margem atual", "ops"),
+                                  );
+                                })
+                            : null,
                       ),
                       Container(
-                        width: 150,
-                        child:  StreamBuilder(
+                        width: 170,
+                        decoration: buildBoxDecoration(),
+                        child: StreamBuilder(
                             stream: null,
                             builder: (context, snapshot) {
-                             print(snapshot.data);
+                              print(snapshot.data);
 
                               var data = snapshot.data;
                               //    /=margemPrecoAtual = data.toString();
                               return TextFormField(
-                                validator: ValidationBuilder().maxLength(50).required().build(),
+                                validator: ValidationBuilder()
+                                    .maxLength(50)
+                                    .required()
+                                    .build(),
                                 keyboardType: TextInputType.number,
                                 controller: null,
-                                decoration: _styleInput("Margem desejada","cor"),
-                                onChanged: (text){
-                            //      print(text);
+                                decoration:
+                                    _styleInput("Margem desejada", "cor"),
+                                onChanged: (text) {
+                                  //      print(text);
                                   //calculadoraCusto(text)
-                                  if(text.isNotEmpty){
+                                  if (text.isNotEmpty) {
                                     calBloc.margemDesejada(text);
                                     setState(() {
-                                      _margemDesejada.text =  text;
-                                      if(_precoAtual.text.isNotEmpty && _precoInsumos.text.isNotEmpty && _margemDesejada.text.isNotEmpty ){
+                                      _margemDesejada.text = text;
+                                      if (_precoAtual.text.isNotEmpty &&
+                                          _precoInsumos.text.isNotEmpty &&
+                                          _margemDesejada.text.isNotEmpty) {
                                         _mostrarComponentes = true;
-                                      }else{
+                                      } else {
                                         _mostrarComponentes = false;
                                       }
                                     });
-                                  }else if(text.isEmpty){
+                                  } else if (text.isEmpty) {
                                     setState(() {
                                       _mostrarComponentes = false;
                                     });
                                   }
                                 },
                               );
-                            }
-                        ),
+                            }),
                       ),
                     ],
                   ),
-
                   const Espacamento(),
-                  StreamBuilder(
-                    stream: calBloc.outMsgMargem,
-                    builder: (context, snapshot) {
-                  //    print(snapshot.data);
-                      var data = snapshot.data;
-                      return _mostrarComponentes? TextFormField(
-                        validator: ValidationBuilder().maxLength(50).required().build(),
-                        keyboardType: TextInputType.number,
-                        maxLines: 2,
-                        controller:TextEditingController(text: "$data "),
-                        decoration: _styleInput("","ops"),
-                        inputFormatters: [
-                          // obrigatório
-                          FilteringTextInputFormatter.digitsOnly,
-                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                        ],
-                      ):Container();
-                    }
+                  Container(
+                    decoration: buildBoxDecoration(),
+                    child: StreamBuilder(
+                        stream: calBloc.outMsgMargem,
+                        builder: (context, snapshot) {
+                          //    print(snapshot.data);
+                          var data = snapshot.data;
+                          return _mostrarComponentes
+                              ? TextFormField(
+                                  validator: ValidationBuilder()
+                                      .maxLength(50)
+                                      .required()
+                                      .build(),
+                                  keyboardType: TextInputType.none,
+                                  enabled: false,
+                                  maxLines: 3,
+                                  controller:
+                                      TextEditingController(text: "$data "),
+                                  decoration: _styleInput("", "ops"),
+                                  inputFormatters: [
+                                    // obrigatório
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CentavosInputFormatter(
+                                        moeda: true, casasDecimais: 2)
+                                  ],
+                                )
+                              : Container();
+                        }),
                   ),
                   const Espacamento(),
-
-                  StreamBuilder(
-                    stream: calBloc.outCaculoPrecoSugerido,
-                    builder: (context, snapshot) {
-                //      print(snapshot.data);
-                      var data = snapshot.data;
-                      return _mostrarComponentes?TextFormField(
-                      //  validator: ValidationBuilder().maxLength(50).required().build(),
-                        keyboardType: TextInputType.number,
-                        controller: TextEditingController(text: "R\$ $data"),
-                        decoration: _styleInput("Preço sugerido","1"),
-                          inputFormatters: [ FilteringTextInputFormatter.digitsOnly,],
-
-                      ):Container();
-                    }
-                  ),
                   const Espacamento(),
-                  StreamBuilder(
-                    stream: calBloc.outRelacaoPrecoController,
-                    builder: (context, snapshot) {
-                   //   print(snapshot.data);
-                      var data = snapshot.data.toString();
-                      return _mostrarComponentes?TextFormField(
-                        validator: ValidationBuilder().maxLength(50).required().build(),
-                        keyboardType: TextInputType.number,
-                        controller: TextEditingController(text: "$data %"),
-                        decoration: _styleInput("Relação com preço atual","ops"),
-                      ):Container();
-                    }
-                  ),
-                  const Espacamento(),
-                  _mostrarComponentes ? TextFormField(
-                    validator: ValidationBuilder().maxLength(50).required().build(),
-                    keyboardType: TextInputType.number,
-                    controller: null,
-                    decoration: _styleInput("","ops"),
-                  ):Container(),
-                  const Espacamento(),
-
-
-                  _mostrarComponentes ?  Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     //   mainAxisSize: MainAxisSize.max,
                     //  crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 150,
-                        child:   SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: ElevatedButton(
-                              child: const Text('Ver o histórico'),
-                              onPressed: _buildOnPressed,
-                              style: ElevatedButton.styleFrom(
-                                textStyle: const TextStyle(fontSize: 18),
-                                primary: Colors.orange,
-                              ),
-                            )
-                        ),
+                        width: 145,
+                        decoration: buildBoxDecoration(),
+                        child: StreamBuilder(
+                            stream: calBloc.outCaculoPrecoSugerido,
+                            builder: (context, snapshot) {
+                              var data = snapshot.data;
+                              return _mostrarComponentes
+                                  ? TextFormField(
+                                      //  validator: ValidationBuilder().maxLength(50).required().build(),
+                                      keyboardType: TextInputType.none,
+                                      enabled: false,
+                                      controller: TextEditingController(
+                                          text: "R\$ $data"),
+
+                                      decoration:
+                                          _styleInput("Preço sugerido", "1"),
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
+                                    )
+                                  : Container();
+                            }),
                       ),
                       Container(
-                        width: 150,
-                        child:    SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: ElevatedButton(
-                              child: const Text('Salvar'),
-                              onPressed: _buildOnPressed,
-                              style: ElevatedButton.styleFrom(
-                                textStyle: const TextStyle(fontSize: 18),
-                                primary: Colors.orange,
-                              ),
-                            )
-                        ),
+                        width: 170,
+                        decoration: buildBoxDecoration(),
+                        child: StreamBuilder(
+                            stream: calBloc.outRelacaoPrecoController,
+                            builder: (context, snapshot) {
+                              var data = snapshot.data.toString();
+                              return _mostrarComponentes
+                                  ? TextFormField(
+                                      validator: ValidationBuilder()
+                                          .maxLength(50)
+                                          .required()
+                                          .build(),
+                                      keyboardType: TextInputType.none,
+                                      enabled: false,
+                                      controller: TextEditingController(
+                                          text: "$data %"),
+                                      decoration: _styleInput(
+                                          "Relação com preço atual", "ops"),
+                                    )
+                                  : Container();
+                            }),
                       ),
                     ],
-                  ):const  Text(
-                    'Preencha os campos',
-                    style: TextStyle(fontSize: 24),
-                    textAlign: TextAlign.center,
                   ),
+                  const Espacamento(),
+                  Container(
+                    decoration: buildBoxDecoration(),
+                    child: StreamBuilder(
+                        stream: calBloc.outMsgPrecoSugerido,
+                        builder: (context, snapshot) {
+                          var data = snapshot.data.toString();
+                          return _mostrarComponentes
+                              ? TextFormField(
+                                  validator: ValidationBuilder()
+                                      .maxLength(50)
+                                      .required()
+                                      .build(),
+                                  keyboardType: TextInputType.none,
+                                  enabled: false,
+                                  maxLines: 6,
+                                  controller:
+                                      TextEditingController(text: "$data"),
+                                  decoration: _styleInput("", "ops"),
+                                )
+                              : Container();
+                        }),
+                  ),
+                  const Espacamento(),
+                  _mostrarComponentes
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   mainAxisSize: MainAxisSize.max,
+                          //  crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 150,
+                              child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ElevatedButton(
+                                    child: const Text('Ver o histórico'),
+                                    onPressed: _buildOnPressed,
+                                    style: ElevatedButton.styleFrom(
+                                      textStyle: const TextStyle(fontSize: 18),
+                                      primary: Colors.orange,
+                                    ),
+                                  )),
+                            ),
+                            Container(
+                              width: 150,
+                              child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ElevatedButton(
+                                    child: const Text('Salvar'),
+                                    onPressed: _buildOnPressed,
+                                    style: ElevatedButton.styleFrom(
+                                      textStyle: const TextStyle(fontSize: 18),
+                                      primary: Colors.orange,
+                                    ),
+                                  )),
+                            ),
+                          ],
+                        )
+                      : const Text(
+                          'Preencha os campos acima',
+                          style: TextStyle(fontSize: 24,color: Colors.red),
+                          textAlign: TextAlign.center,
+
+                        ),
                 ],
               ),
             ),
@@ -331,8 +403,22 @@ class _CalculadoraState extends State<Calculadora> {
     );
   }
 
+  BoxDecoration buildBoxDecoration() {
+    return const BoxDecoration(
+      color: Colors.transparent,
+      //borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black45,
+          blurRadius: 1,
+          offset: Offset(1, 3), // Shadow position
+        ),
+      ],
+    );
+  }
+
   _buildOnPressed() {
-  print("salvar");
+    print("salvar");
   }
 
   buildSpinBox(String TextDecoretion) {
@@ -349,11 +435,10 @@ class _CalculadoraState extends State<Calculadora> {
         Icons.remove,
         color: Colors.red,
       ),
-      onChanged:(onChanged){
-
-      },
+      onChanged: (onChanged) {},
     );
   }
+
   buildDecoratorSpinBox(String labelText) {
     return InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
@@ -364,35 +449,32 @@ class _CalculadoraState extends State<Calculadora> {
           borderSide: BorderSide(color: Colors.orange, width: 1.0),
         ),
         labelStyle: const TextStyle(color: Colors.black54),
-        labelText: labelText
-    );
+        labelText: labelText);
   }
-  _styleInput(String text,String modal){
 
-
-    if(modal == "cor"){
+  _styleInput(String text, String modal) {
+    if (modal == "cor") {
       corFundo = Colors.orangeAccent[100];
-    }else{
-      corFundo = Colors.grey[150];
+    } else {
+      corFundo = Colors.grey[100];
     }
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
 
-        fillColor: corFundo,
-        filled: true,
+      fillColor: corFundo,
+      filled: true,
+
+      // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
-        borderSide:
-        BorderSide(color: Colors.orange, width: 1.0),
+        borderSide: BorderSide(
+            color: Colors.orange, width: 1.0, style: BorderStyle.none),
       ),
-      border: const OutlineInputBorder(
-        borderSide:
-        BorderSide(color: Colors.orange, width: 1.0),
-      ),
+      border: InputBorder.none,
       labelText: text,
       labelStyle: const TextStyle(
-          color: Colors.black,
-          backgroundColor: Colors.white,
+        color: Colors.black,
+        //  backgroundColor: Colors.white,
       ),
       // hintText: 'Quantidade de clientes atendidos',
     );
