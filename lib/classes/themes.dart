@@ -14,7 +14,15 @@ var lightThemeData = ThemeData(
 
 var darkThemeData = ThemeData(
     primaryColor: Colors.orange,
-    textTheme: const TextTheme(button: TextStyle(color: Colors.black54)),
+
+    textTheme: const TextTheme(
+        button: TextStyle(color: Colors.white),
+          headline1: TextStyle(color: Colors.grey),
+          headline2: TextStyle(color: Colors.grey),
+          bodyText2: TextStyle(color: Colors.grey),
+          subtitle1: TextStyle(color: Colors.grey),
+
+    ),
     brightness: Brightness.dark,
     accentColor: Colors.orange
 );
