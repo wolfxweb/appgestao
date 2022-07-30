@@ -19,5 +19,8 @@ class CalculadoraSqlite{
     final list = await dbClient!.rawQuery('SELECT * FROM calculadora_historico');
     return list;
   }
-
+  Future<List<dynamic>> delete(id) async {
+    final dbClient = await db;
+    return await dbClient!.rawQuery('DELETE from calculadora_historico where id = $id');
+  }
 }

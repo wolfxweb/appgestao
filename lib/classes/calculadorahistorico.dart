@@ -30,4 +30,6 @@ class calculadoraHistorico {
     data['margem_atual'] = this.margemAtual;
     return data;
   }
+
+  Object? fromJson() {}
 }

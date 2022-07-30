@@ -50,16 +50,16 @@ class CalculadoraBloc extends BlocBase {
   var _calculoPrecoSuregirdo;
   var _relacaoPreco;
   var _nomeUsuario;
-
+  List list= [];
   CalculadoraBloc() {
       Intl.defaultLocale = 'pt_BR';
     _getDadosBasicos();
     _nomeUsuarioLogado();
-    selectHistorico();
+    //selectHistorico();
 
   }
   //NumberFormat formatter = NumberFormat.simpleCurrency();
-  NumberFormat formatter = NumberFormat("00.00");
+  NumberFormat formatter = NumberFormat("0.00");
   _getDadosBasicos() async {
     await bd.lista().then((data) {
       data.forEach((element) {
@@ -97,29 +97,6 @@ class CalculadoraBloc extends BlocBase {
          mars = double.parse(element['margen']);
          mar = mars / 100;
 
-         //Formula da margem atual
-        /***------------------------calculadora ------------------------ * ---------------------------Dados básicos------------------------- * ----------------Calculardora----------------****/
-       // ((preco atual de vendas calculadora-(preço insumos calculadora+((( total outros custos variaveis + custos fixo)/ faturamento vendas)*preço atual vendas)))/preco atual de vendas))
-  /*      var margemComPrecoAtual = (((double.parse(faturamento) -
-                    ((double.parse(gastos_insumos) +
-                        double.parse(custo_varivel) +
-                        double.parse(custo_fixo) +
-                        double.parse(gastos)))) /
-                double.parse(faturamento)) *
-            100);
-        // print(margemComPrecoAtual);
-        _calculoMargemController.add(margemComPrecoAtual);
-        if (margemComPrecoAtual == mar) {
-          _msgMargemController.add(
-              'Este item contribui para manter a margem atual do seu negócio');
-        } else if (margemComPrecoAtual > mar) {
-          _msgMargemController.add(
-              'Este item contribui para que a margem do seu negócio não seja menor');
-        } else {
-          _msgMargemController
-              .add('Este item impede que a margem do seu negócio seja maior');
-        }
-*/
         _precoVendaAtualController.add(formatter.format(fat));
         _custoComInsumoslController.add(formatter.format(_custoInsumo));
         _precoVendaAtual = fat;
@@ -267,9 +244,17 @@ _calculoPrecodugerido(){
    DateTime now = DateTime.now();
    String formattedDate = DateFormat('dd/MM/yyyy ').format(now);
 
-   var dados =  calculadoraHistorico(null,produto,formattedDate,_precoVendaAtual.toString(),_calculoPrecoSuregirdo.toString(),_margemDesejada.toString(),_margemComPrecoAtual.toString());
+   var pcAtualFormatado = formatter.format(_precoVendaAtual);
+   var precoAtual = "R\$ $pcAtualFormatado";
+   var _mg = _margemDesejada * 100;
+   var _marDesejada = "$_mg  %";
+   var  pSugerigidoFormatado = formatter.format(_calculoPrecoSuregirdo);
+   var pSugerigido = "R\$ $pSugerigidoFormatado";
+   var mgComPrecoAtualFomatada = formatter.format(_margemComPrecoAtual);
+   var mgComPrecoAtual = "$mgComPrecoAtualFomatada %";
 
-    _db.save(dados.toJson()).then((value) {
+   var dados =  calculadoraHistorico(null,produto,formattedDate,precoAtual.toString(),pSugerigido.toString(),_marDesejada,mgComPrecoAtual.toString());
+   _db.save(dados.toJson()).then((value) {
       print("save value");
       print(value);
       selectHistorico();
@@ -280,12 +265,30 @@ _calculoPrecodugerido(){
     var _db = CalculadoraSqlite();
     _db.lista().then((data) {
       data.forEach((element) {
-        print(element['id']);
-        _historicolController.add(element);
+
+        var dados =  calculadoraHistorico(element['id'],element['produto'],element['data'],element['preco_atual'],element['preco_sugerido'],element['margem_desejada'],element['margem_atual']);
+        var json = dados.toJson();
+     print(json);
+
+        list.add(json);
+       // _historicolController.add(json);
+
       });
     });
+   return list;
   }
 
+  excluirHistorico(id){
+    print('excluirHistorico');
+    print(id);
+ //   delete(id)
+    var _db = CalculadoraSqlite();
+    _db.delete(id).then((value){
+      print(value);
+     // selectHistorico();
+    });
+
+  }
   @override
   void dispose() {
     // TODO: implement dispose
