@@ -19,6 +19,7 @@ class _SimuladorState extends State<Simulador> {
   final _formKey = GlobalKey<FormState>();
   var alerta = AlertModal();
   var header = new HeaderAppBar();
+  var corFundo = Colors.grey[150];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,12 +36,7 @@ class _SimuladorState extends State<Simulador> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Espacamento(),
-                    const Text(
-                      'Sempre com você... participando do seu sucesso!',
-                      style: TextStyle(fontSize: 24),
-                      textAlign: TextAlign.center,
-                    ),
+
                     const Espacamento(),
                     const Text(
                       'PARA VOCÊ DEFINIR PRIORIDADES',
@@ -48,159 +44,70 @@ class _SimuladorState extends State<Simulador> {
                       textAlign: TextAlign.center,
                     ),
                     const Espacamento(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 0),
-                      child: TextFormField(
-                        validator: ValidationBuilder()
-                            .maxLength(50)
-                            .required()
-                            .build(),
-                        keyboardType: TextInputType.number,
-                        controller: null,
-                        decoration:
-                            _styleInput("Lucro considerado ideal ", "ops"),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                        ],
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
+                          child: Container(
+                            width: 135,
+                            decoration: buildBoxDecoration(),
+                            child:TextFormField(
+                              validator: ValidationBuilder()
+                                  .maxLength(50)
+                                  .required()
+                                  .build(),
+                              keyboardType: TextInputType.number,
+                              controller: null,
+                              decoration:
+                              _styleInput("Margem ideal ", "ops",null),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
+                          child: Container(
+                            width: 145,
+                            decoration: buildBoxDecoration(),
+                            child:TextFormField(
+                              validator: ValidationBuilder()
+                                  .maxLength(50)
+                                  .required()
+                                  .build(),
+                              keyboardType: TextInputType.number,
+                              controller: null,
+                              decoration:
+                              _styleInput("Margem informada ", "ops",null),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-
                     const Espacamento(),
                     // const Text("Custo de insumos para seu preparo ou de mercadoria para vendas"),
                     // const Espacamento(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 0),
-                      child: TextFormField(
-                        validator: ValidationBuilder()
-                            .maxLength(50)
-                            .required()
-                            .build(),
-                        keyboardType: TextInputType.number,
-                        controller: null,
-                        decoration:
-                            _styleInput("Lucro (DADOS INFORMADOS)", "ops"),
-                        inputFormatters: [
-                          // obrigatório
-                          FilteringTextInputFormatter.digitsOnly,
-                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                        ],
-                      ),
-                    ),
-                    const Espacamento(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 0),
-                      child: TextFormField(
-                        validator: ValidationBuilder()
-                            .maxLength(50)
-                            .required()
-                            .build(),
-                        keyboardType: TextInputType.number,
-                        controller: null,
-                        decoration: _styleInput("Lucro Resultate", "ops"),
-                        inputFormatters: [
-                          // obrigatório
-                          FilteringTextInputFormatter.digitsOnly,
-                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                        ],
-                      ),
-                    ),
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 150,
-                            //  padding:  EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-                            child: StreamBuilder(
-                                stream: null,
-                                builder: (context, snapshot) {
-                                  return buildSpinBox("Vendas");
-                                }),
-                          ),
-                          Container(
-                            width: 150,
-                            child: StreamBuilder(
-                                stream: null,
-                                builder: (context, snapshot) {
-                                  return buildSpinBox("Ticket Médio");
-                                }),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 0),
-                      child: TextFormField(
-                        validator: ValidationBuilder()
-                            .maxLength(50)
-                            .required()
-                            .build(),
-                        keyboardType: TextInputType.number,
-                        controller: null,
-                        decoration: _styleInput("Fatutamento", "ops"),
-                        inputFormatters: [
-                          // obrigatório
-                          FilteringTextInputFormatter.digitsOnly,
-                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding:const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 150,
-                            //  padding:  EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-                            child: StreamBuilder(
-                                stream: null,
-                                builder: (context, snapshot) {
-                                  return buildSpinBox("Custo com insumos");
-                                }),
-                          ),
-                          Container(
-                            width: 150,
-                            child: StreamBuilder(
-                                stream: null,
-                                builder: (context, snapshot) {
-                                  return buildSpinBox("Custos fixos");
-                                }),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 0),
-                      child:      Container(
-
-                        child: StreamBuilder(
-                            stream: null,
-                            builder: (context, snapshot) {
-                              return buildSpinBox("Outros custos variaveis");
-                            }),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 0),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
+                     child: Container(
+                        decoration: buildBoxDecoration(),
                         child: TextFormField(
-
+                          maxLines: 3,
                           validator: ValidationBuilder()
                               .maxLength(50)
                               .required()
                               .build(),
                           keyboardType: TextInputType.number,
                           controller: null,
-                          decoration: _styleInput("Margen de distribuição", "ops"),
+                          decoration:
+                              _styleInput("", "ops",null),
                           inputFormatters: [
                             // obrigatório
                             FilteringTextInputFormatter.digitsOnly,
@@ -209,8 +116,102 @@ class _SimuladorState extends State<Simulador> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 0),
+
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 150,
+                            decoration: buildBoxDecoration(),
+                            //  padding:  EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                            child: StreamBuilder(
+                                stream: null,
+                                builder: (context, snapshot) {
+                                  return buildSpinBox("Custos insumos");
+                                }),
+                          ),
+                          Container(
+                            width: 150,
+                            decoration: buildBoxDecoration(),
+
+                            child: StreamBuilder(
+                                stream: null,
+                                builder: (context, snapshot) {
+                                  return buildSpinBox("Custo produto 3ºs");
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 150,
+                            decoration: buildBoxDecoration(),
+                            //  padding:  EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                            child: StreamBuilder(
+                                stream: null,
+                                builder: (context, snapshot) {
+                                  return buildSpinBox("Outros custos");
+                                }),
+                          ),
+                          Container(
+                            width: 150,
+                            decoration: buildBoxDecoration(),
+                            child: StreamBuilder(
+                                stream: null,
+                                builder: (context, snapshot) {
+                                  return buildSpinBox("Margem contribuição");
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 150,
+                            decoration: buildBoxDecoration(),
+                            //  padding:  EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                            child: StreamBuilder(
+                                stream: null,
+                                builder: (context, snapshot) {
+                                  return buildSpinBox("Custos fixos");
+                                }),
+                          ),
+                          Container(
+                            width: 150,
+                            decoration: buildBoxDecoration(),
+                            child: StreamBuilder(
+                                stream: null,
+                                builder: (context, snapshot) {
+                                  return buildSpinBox("Ponto equilibio");
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 150,
+                      decoration: buildBoxDecoration(),
+                    //  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 0),
                       child: TextFormField(
                         validator: ValidationBuilder()
                             .maxLength(50)
@@ -218,7 +219,10 @@ class _SimuladorState extends State<Simulador> {
                             .build(),
                         keyboardType: TextInputType.number,
                         controller: null,
-                        decoration: _styleInput("Ponto de equilibrio", "ops"),
+                        decoration: _styleInput(
+                            "Margem resultante",
+                            "ops", null
+                        ),
                         inputFormatters: [
                           // obrigatório
                           FilteringTextInputFormatter.digitsOnly,
@@ -226,6 +230,7 @@ class _SimuladorState extends State<Simulador> {
                         ],
                       ),
                     ),
+
                   ],
                 ),
               ),
@@ -235,7 +240,19 @@ class _SimuladorState extends State<Simulador> {
       ),
     );
   }
-
+  BoxDecoration buildBoxDecoration() {
+    return const BoxDecoration(
+      color: Colors.transparent,
+      //borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 1,
+          offset: Offset(1, 3), // Shadow position
+        ),
+      ],
+    );
+  }
   buildSpinBox(String TextDecoretion) {
     return SpinBox(
       min: 1,
@@ -258,36 +275,33 @@ class _SimuladorState extends State<Simulador> {
   }
 
   buildDecoratorSpinBox(String labelText) {
-    return InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.orange, width: 1.0),
-        ),
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.orange, width: 1.0),
-        ),
-        labelStyle: const TextStyle(color: Colors.black54),
-        labelText: labelText);
+    return   _styleInput(labelText, "ops",null);
   }
 
-  _styleInput(String text, String modal) {
+  _styleInput(String text, String modal, suffixIcon) {
+    if (modal == "cor") {
+      corFundo = Colors.grey[100];
+    } else {
+      corFundo = Colors.orangeAccent[100];
+    }
     return InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      prefixIcon: IconButton(
-        icon: const Icon(Icons.help),
-        color: Colors.transparent,
-        onPressed: () {
-          alerta.openModal(context, modal);
-        },
-      ),
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      suffixIcon:suffixIcon,
+      fillColor: corFundo,
+      filled: true,
+
+      // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.orange, width: 1.0),
+        borderSide: BorderSide(
+            color: Colors.orange, width: 1.0, style: BorderStyle.none),
       ),
-      border: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.orange, width: 1.0),
-      ),
+      border: InputBorder.none,
       labelText: text,
-      labelStyle: const TextStyle(color: Colors.black54),
+      labelStyle: const TextStyle(
+        color: Colors.black,
+        //  backgroundColor: Colors.white,
+      ),
       // hintText: 'Quantidade de clientes atendidos',
     );
   }
