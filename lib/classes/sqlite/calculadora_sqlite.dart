@@ -16,11 +16,11 @@ class CalculadoraSqlite{
 
   Future<List<dynamic>> lista() async {
     final dbClient = await db;
-    final list = await dbClient!.rawQuery('SELECT * FROM calculadora_historico');
+    final list = await dbClient!.rawQuery('SELECT * FROM calculadora_historico ORDER by id DESC');
     return list;
   }
   Future<List<dynamic>> delete(id) async {
     final dbClient = await db;
-    return await dbClient!.rawQuery('DELETE from calculadora_historico where id = $id');
+    return await dbClient!.rawQuery('DELETE from calculadora_historico where id = $id ');
   }
 }
