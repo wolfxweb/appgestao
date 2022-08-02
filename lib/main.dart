@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
 
     return BlocProvider(
       blocs: [
-      //  Bloc((i) => UsuarioBloc()),
         Bloc((i) {
           UsuarioBloc();
           ImportanciaMesesBLoc();
@@ -42,7 +41,6 @@ class MyApp extends StatelessWidget {
         theme: lightThemeData,
         darkTheme: darkThemeData,
         themeMode: EasyDynamicTheme.of(context).themeMode,
-
         home:SplashPage(),
       ),
     );
