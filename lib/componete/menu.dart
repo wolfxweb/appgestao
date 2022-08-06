@@ -12,6 +12,7 @@ import 'package:appgestao/pages/diagnostico.dart';
 import 'package:appgestao/pages/homeadmin.dart';
 import 'package:appgestao/pages/importanciameses.dart';
 import 'package:appgestao/pages/simulador.dart';
+import 'package:appgestao/pages/simulador_new.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -139,6 +140,14 @@ class _MenuState extends State<Menu> {
             onTap: () {
               fb.logoutUsuario(context);
               Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text("new"),
+            trailing: const Icon(Icons.arrow_forward),
+            onTap: () {
+              route.pushPage(context, const simulador_new());
             },
           ),
           const BtnDarkLight(),

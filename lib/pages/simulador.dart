@@ -4,6 +4,7 @@ import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:appgestao/componete/menu.dart';
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
@@ -43,11 +44,32 @@ class _SimuladorState extends State<Simulador> {
               children: [
                 const Espacamento(),
                 const Espacamento(),
+                Container(
+                  padding: const EdgeInsets.all(4.0),
+
+                  child: TextDropdownFormField(
+                    //   keyboardType: TextInputType.none,
+                    options: const ["Quantidade de vendas", "Ticket médio","Custo insumos","Custos produtos 3os","Outros custo variaveis","Custo fixo"],
+                    decoration: _styleInput(
+                        'Selecione um item ',
+                        "padrao",
+                        const  Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                          size: 26,
+                        )),
+
+                    // dropdownHeight: 120,
+                  ),
+                ),
+
+                buildContainerAddRemove(),
+                const Espacamento(),
                 buildRow(
                   buildStreamBuilder(
                     simuladorBloc.margemInformadaController,
                     "Margem desejada",
-                    "padrao",
+                    "desabilitado",
                     false,
                     buildIcon(),
                     null,
@@ -55,7 +77,7 @@ class _SimuladorState extends State<Simulador> {
                   buildStreamBuilder(
                     simuladorBloc.margemInformadaController,
                     "Margem informada",
-                    "padrao",
+                    "desabilitado",
                     false,
                     buildIcon(),
                     null,
@@ -66,7 +88,7 @@ class _SimuladorState extends State<Simulador> {
                   buildStreamBuilder(
                     simuladorBloc.vendasController,
                     "Vendas",
-                    "padrao",
+                    "desabilitado",
                     false,
                     null,
                     null,
@@ -74,7 +96,7 @@ class _SimuladorState extends State<Simulador> {
                   buildStreamBuilder(
                     simuladorBloc.margemInformadaController,
                     "Ticket médio",
-                    "padrao",
+                    "desabilitado",
                     true,
                     null,
                     null,
@@ -90,7 +112,7 @@ class _SimuladorState extends State<Simulador> {
                         return buildStreamBuilder(
                           simuladorBloc.custoInsumosController,
                           "Custo insumos",
-                          "padrao",
+                          "desabilitado",
                           false,
                           null,
                           null,
@@ -102,7 +124,7 @@ class _SimuladorState extends State<Simulador> {
                         return buildStreamBuilder(
                           simuladorBloc.custoProdutoController,
                           "Custo produto",
-                          "padrao",
+                          "desabilitado",
                           true,
                           null,
                           null,
@@ -114,7 +136,7 @@ class _SimuladorState extends State<Simulador> {
                   buildStreamBuilder(
                     simuladorBloc.custoInsumosController,
                     "Outros custos variáveis",
-                    "padrao",
+                    "desabilitado",
                     false,
                     null,
                     null,
@@ -122,7 +144,7 @@ class _SimuladorState extends State<Simulador> {
                   buildStreamBuilder(
                     simuladorBloc.custoProdutoController,
                     "Margem de contribuição",
-                    "padrao",
+                    "desabilitado",
                     true,
                     null,
                     null,
@@ -131,11 +153,11 @@ class _SimuladorState extends State<Simulador> {
                 const Espacamento(),
                 buildRow(
                   buildStreamBuilder(simuladorBloc.custoInsumosController,
-                      "Custos fixos", "verde", false, null, null),
+                      "Custos fixos", "desabilitado", false, null, null,),
                   buildStreamBuilder(
                     simuladorBloc.custoProdutoController,
                     "Ponto de equilibrio",
-                    "vermelho",
+                    "desabilitado",
                     true,
                     null,
                     null,
@@ -159,12 +181,100 @@ class _SimuladorState extends State<Simulador> {
                       }),
                 ),
                 const Espacamento(),
+
+
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Container buildContainerAddRemove() {
+    return Container(
+                padding: const EdgeInsets.all(3.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                            Container(
+                              padding: const EdgeInsets.all(3.0),
+                              width: 190,
+                              child: TextFormField(
+                              keyboardType: TextInputType.number,
+                          //  controller: TextEditingController(text: "$data"),
+                              decoration: InputDecoration(
+                                floatingLabelBehavior: FloatingLabelBehavior.always,
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                                suffixIcon: Icon(Icons.percent),
+                                fillColor: corFundo,
+                                filled: true,
+                                prefixIcon: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.add,
+                                    color: Colors.green,
+                                    size: 20.0,
+                                  ),
+                                ),
+                                // disabledBorder: true,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                                ),
+                                border: InputBorder.none,
+                              //  labelText: text,
+                                labelStyle: const TextStyle(
+                                  color: Colors.black,
+                                  //  backgroundColor: Colors.white,
+                                ),
+                                // hintText: 'Quantidade de clientes atendidos',
+                              ),
+                              onChanged: null
+
+                              ),
+                            ),
+
+                    Container(
+                      padding: const EdgeInsets.all(3.0),
+                      width: 190,
+                      child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          //  controller: TextEditingController(text: "$data"),
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                            prefixIcon: Icon(Icons.percent),
+                            fillColor: corFundo,
+                            filled: true,
+                            suffixIcon: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.remove,
+                                color: Colors.red,
+                                size: 20.0,
+                              ),
+                            ),
+                            // disabledBorder: true,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                            ),
+                            border: InputBorder.none,
+                            //  labelText: text,
+                            labelStyle: const TextStyle(
+                              color: Colors.black,
+                              //  backgroundColor: Colors.white,
+                            ),
+                            // hintText: 'Quantidade de clientes atendidos',
+                          ),
+                          onChanged: null
+
+                      ),
+                    ),
+                  ],
+                ),
+              );
   }
 
   Container buildContainerFaturamento() {
@@ -188,7 +298,7 @@ class _SimuladorState extends State<Simulador> {
                             .build(),
                         keyboardType: TextInputType.number,
                         controller: TextEditingController(text: "$data"),
-                        decoration: _styleInput("Faturamento", "padrao", null),
+                        decoration: _styleInput("Faturamento", "desabilitado", null),
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                           CentavosInputFormatter(moeda: true, casasDecimais: 2)
