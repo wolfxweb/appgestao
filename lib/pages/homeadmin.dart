@@ -61,7 +61,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                     BoxShadow(
                       color: Colors.black45,
                       blurRadius: 4,
-                      offset: Offset(4, 8), // Shadow position
+                      offset: Offset(1, 2), // Shadow position
                     ),
                   ],
                 ),

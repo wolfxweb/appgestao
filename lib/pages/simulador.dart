@@ -33,157 +33,178 @@ class _SimuladorState extends State<Simulador> {
     return Scaffold(
       appBar: header.getAppBar('Simulador'),
       drawer: Menu(),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Espacamento(),
-                const Espacamento(),
-                Container(
-                  padding: const EdgeInsets.all(4.0),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Espacamento(),
+                  Container(
+                    child: const Text(
+                      "Para você definir prioridades",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const Espacamento(),
+                  buildRow(
+                    buildStreamBuilder(
+                      simuladorBloc.margemIdealController,
+                      "Margem desejada",
+                      "desabilitado",
+                      false,
+                      buildIcon(),
+                      null,
+                    ),
+                    buildStreamBuilder(
+                      simuladorBloc.margemInformadaController,
+                      "Margem informada",
+                      "desabilitado",
+                      false,
+                      buildIcon(),
+                      null,
+                    ),
+                  ),
+                  const Espacamento(),
+                  Container(
+                    padding: const EdgeInsets.all(4.0),
+                    child: TextDropdownFormField(
+                      //   keyboardType: TextInputType.none,
+                      options: const [
+                        "Quantidade de vendas",
+                        "Ticket médio",
+                        "Custo insumos",
+                        "Custos produtos 3os",
+                        "Outros custo variaveis",
+                        "Custo fixo"
+                      ],
+                      decoration: _styleInput(
+                          'Selecione um item ',
+                          "padrao",
+                          const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                            size: 26,
+                          )),
 
-                  child: TextDropdownFormField(
-                    //   keyboardType: TextInputType.none,
-                    options: const ["Quantidade de vendas", "Ticket médio","Custo insumos","Custos produtos 3os","Outros custo variaveis","Custo fixo"],
-                    decoration: _styleInput(
-                        'Selecione um item ',
-                        "padrao",
-                        const  Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.white,
-                          size: 26,
-                        )),
-
-                    // dropdownHeight: 120,
+                      // dropdownHeight: 120,
+                    ),
                   ),
-                ),
-
-                buildContainerAddRemove(),
-                const Espacamento(),
-                buildRow(
-                  buildStreamBuilder(
-                    simuladorBloc.margemInformadaController,
-                    "Margem desejada",
-                    "desabilitado",
-                    false,
-                    buildIcon(),
-                    null,
+                  buildContainerAddRemove(),
+                  const Espacamento(),
+                  buildRow(
+                    buildStreamBuilder(
+                      simuladorBloc.vendasController,
+                      "Vendas",
+                      "padrao",
+                      false,
+                      null,
+                      null,
+                    ),
+                    buildStreamBuilder(
+                      simuladorBloc.ticketMedioController,
+                      "Ticket médio",
+                      "padrao",
+                      true,
+                      null,
+                      null,
+                    ),
                   ),
-                  buildStreamBuilder(
-                    simuladorBloc.margemInformadaController,
-                    "Margem informada",
-                    "desabilitado",
-                    false,
-                    buildIcon(),
-                    null,
+                  const Espacamento(),
+                  buildContainerFaturamento(),
+                  const Espacamento(),
+                  buildRow(
+                    StreamBuilder(
+                        stream: null,
+                        builder: (context, snapshot) {
+                          return buildStreamBuilder(
+                            simuladorBloc.custoInsumosController,
+                            "Custo insumos",
+                            "padrao",
+                            false,
+                            null,
+                            null,
+                          );
+                        }),
+                    StreamBuilder(
+                        stream: null,
+                        builder: (context, snapshot) {
+                          return buildStreamBuilder(
+                            simuladorBloc.custoProdutoController,
+                            "Custo produto 3os",
+                            "padrao",
+                            true,
+                            null,
+                            null,
+                          );
+                        }),
                   ),
-                ),
-                const Espacamento(),
-                buildRow(
-                  buildStreamBuilder(
-                    simuladorBloc.vendasController,
-                    "Vendas",
-                    "desabilitado",
-                    false,
-                    null,
-                    null,
+                  const Espacamento(),
+                  buildRow(
+                    buildStreamBuilder(
+                      simuladorBloc.custoInsumosController,
+                      "Outros custos variáveis",
+                      "padrao",
+                      false,
+                      null,
+                      null,
+                    ),
+                    buildStreamBuilder(
+                      simuladorBloc.margemDeContribuicaoController,
+                      "Margem de contribuição",
+                      "desabilitado",
+                      true,
+                      null,
+                      null,
+                    ),
                   ),
-                  buildStreamBuilder(
-                    simuladorBloc.margemInformadaController,
-                    "Ticket médio",
-                    "desabilitado",
-                    true,
-                    null,
-                    null,
+                  const Espacamento(),
+                  buildRow(
+                    buildStreamBuilder(
+                      simuladorBloc.custoInsumosController,
+                      "Custos fixos",
+                      "padrao",
+                      false,
+                      null,
+                      null,
+                    ),
+                    buildStreamBuilder(
+                      simuladorBloc.pontoEquilibrioController,
+                      "Ponto de equilibrio",
+                      "desabilitado",
+                      true,
+                      null,
+                      null,
+                    ),
                   ),
-                ),
-                const Espacamento(),
-                buildContainerFaturamento(),
-                const Espacamento(),
-                buildRow(
-                  StreamBuilder(
-                      stream: null,
-                      builder: (context, snapshot) {
-                        return buildStreamBuilder(
-                          simuladorBloc.custoInsumosController,
-                          "Custo insumos",
-                          "desabilitado",
-                          false,
-                          null,
-                          null,
-                        );
-                      }),
-                  StreamBuilder(
-                      stream: null,
-                      builder: (context, snapshot) {
-                        return buildStreamBuilder(
-                          simuladorBloc.custoProdutoController,
-                          "Custo produto",
-                          "desabilitado",
-                          true,
-                          null,
-                          null,
-                        );
-                      }),
-                ),
-                const Espacamento(),
-                buildRow(
-                  buildStreamBuilder(
-                    simuladorBloc.custoInsumosController,
-                    "Outros custos variáveis",
-                    "desabilitado",
-                    false,
-                    null,
-                    null,
+                  const Espacamento(),
+                  Container(
+                    child: StreamBuilder(
+                        stream: simuladorBloc.margemResultateController,
+                        builder: (context, snapshot) {
+                      //    print(snapshot.data);
+                          var data = snapshot.data;
+                          return buildContainer(
+                            "$data",
+                            "Margem resultante",
+                            "desabilitado",
+                            false,
+                            null,
+                            null,
+                          );
+                        }),
                   ),
-                  buildStreamBuilder(
-                    simuladorBloc.custoProdutoController,
-                    "Margem de contribuição",
-                    "desabilitado",
-                    true,
-                    null,
-                    null,
-                  ),
-                ),
-                const Espacamento(),
-                buildRow(
-                  buildStreamBuilder(simuladorBloc.custoInsumosController,
-                      "Custos fixos", "desabilitado", false, null, null,),
-                  buildStreamBuilder(
-                    simuladorBloc.custoProdutoController,
-                    "Ponto de equilibrio",
-                    "desabilitado",
-                    true,
-                    null,
-                    null,
-                  ),
-                ),
-                const Espacamento(),
-                Container(
-                  child: StreamBuilder(
-                      stream: simuladorBloc.custoInsumosController,
-                      builder: (context, snapshot) {
-                        print(snapshot.data);
-                        var data = snapshot.data;
-                        return buildContainer(
-                          "$data",
-                          "Margem resultante",
-                          "desabilitado",
-                          false,
-                          null,
-                          null,
-                        );
-                      }),
-                ),
-                const Espacamento(),
-
-
-              ],
+                  const Espacamento(),
+                ],
+              ),
             ),
           ),
         ),
@@ -193,88 +214,89 @@ class _SimuladorState extends State<Simulador> {
 
   Container buildContainerAddRemove() {
     return Container(
-                padding: const EdgeInsets.all(3.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                            Container(
-                              padding: const EdgeInsets.all(3.0),
-                              width: 190,
-                              child: TextFormField(
-                              keyboardType: TextInputType.number,
-                          //  controller: TextEditingController(text: "$data"),
-                              decoration: InputDecoration(
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                                suffixIcon: Icon(Icons.percent),
-                                fillColor: corFundo,
-                                filled: true,
-                                prefixIcon: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.add,
-                                    color: Colors.green,
-                                    size: 20.0,
-                                  ),
-                                ),
-                                // disabledBorder: true,
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                                ),
-                                border: InputBorder.none,
-                              //  labelText: text,
-                                labelStyle: const TextStyle(
-                                  color: Colors.black,
-                                  //  backgroundColor: Colors.white,
-                                ),
-                                // hintText: 'Quantidade de clientes atendidos',
-                              ),
-                              onChanged: null
-
-                              ),
-                            ),
-
-                    Container(
-                      padding: const EdgeInsets.all(3.0),
-                      width: 190,
-                      child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          //  controller: TextEditingController(text: "$data"),
-                          decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                            prefixIcon: Icon(Icons.percent),
-                            fillColor: corFundo,
-                            filled: true,
-                            suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.remove,
-                                color: Colors.red,
-                                size: 20.0,
-                              ),
-                            ),
-                            // disabledBorder: true,
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                            ),
-                            border: InputBorder.none,
-                            //  labelText: text,
-                            labelStyle: const TextStyle(
-                              color: Colors.black,
-                              //  backgroundColor: Colors.white,
-                            ),
-                            // hintText: 'Quantidade de clientes atendidos',
-                          ),
-                          onChanged: null
-
-                      ),
+      padding: const EdgeInsets.all(3.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(3.0),
+            width: 190,
+            child: TextFormField(
+                keyboardType: TextInputType.number,
+                //  controller: TextEditingController(text: "$data"),
+                decoration: InputDecoration(
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  suffixIcon: Icon(Icons.percent),
+                  fillColor: corFundo,
+                  filled: true,
+                  prefixIcon: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.green,
+                      size: 20.0,
                     ),
-                  ],
+                  ),
+                  // disabledBorder: true,
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.orange,
+                        width: 1.0,
+                        style: BorderStyle.none),
+                  ),
+                  border: InputBorder.none,
+                  //  labelText: text,
+                  labelStyle: const TextStyle(
+                    color: Colors.black,
+                    //  backgroundColor: Colors.white,
+                  ),
+                  // hintText: 'Quantidade de clientes atendidos',
                 ),
-              );
+                onChanged: null),
+          ),
+          Container(
+            padding: const EdgeInsets.all(3.0),
+            width: 190,
+            child: TextFormField(
+                keyboardType: TextInputType.number,
+                //  controller: TextEditingController(text: "$data"),
+                decoration: InputDecoration(
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  prefixIcon: Icon(Icons.percent),
+                  fillColor: corFundo,
+                  filled: true,
+                  suffixIcon: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.remove,
+                      color: Colors.red,
+                      size: 20.0,
+                    ),
+                  ),
+                  // disabledBorder: true,
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.orange,
+                        width: 1.0,
+                        style: BorderStyle.none),
+                  ),
+                  border: InputBorder.none,
+                  //  labelText: text,
+                  labelStyle: const TextStyle(
+                    color: Colors.black,
+                    //  backgroundColor: Colors.white,
+                  ),
+                  // hintText: 'Quantidade de clientes atendidos',
+                ),
+                onChanged: null),
+          ),
+        ],
+      ),
+    );
   }
 
   Container buildContainerFaturamento() {
@@ -282,7 +304,7 @@ class _SimuladorState extends State<Simulador> {
       child: StreamBuilder(
           stream: simuladorBloc.faturamentoController,
           builder: (context, snapshot) {
-            print(snapshot.data);
+          //  print(snapshot.data);
             var data = snapshot.data;
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
@@ -298,7 +320,8 @@ class _SimuladorState extends State<Simulador> {
                             .build(),
                         keyboardType: TextInputType.number,
                         controller: TextEditingController(text: "$data"),
-                        decoration: _styleInput("Faturamento", "desabilitado", null),
+                        decoration:
+                            _styleInput("Faturamento", "desabilitado", null),
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                           CentavosInputFormatter(moeda: true, casasDecimais: 2)
@@ -330,7 +353,7 @@ class _SimuladorState extends State<Simulador> {
       child: StreamBuilder(
           stream: stream,
           builder: (context, snapshot) {
-            print(snapshot.data);
+          //  print(snapshot.data);
             var data = snapshot.data;
             return buildContainer(
                 "$data", inputTitulo, cor, format, icone, onChanged);
