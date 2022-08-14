@@ -47,7 +47,7 @@ class _CalculadoraState extends State<Calculadora> {
 
   @override
   Widget build(BuildContext context) {
-    print(historico);
+
     return Scaffold(
       appBar: header.getAppBar('Calculadora preços'),
       drawer: Menu(),

@@ -23,9 +23,46 @@ class _SimuladorState extends State<Simulador> {
   var alerta = AlertModal();
   var header = new HeaderAppBar();
   var corFundo = Colors.grey[150];
+  var vendasController = TextEditingController();
+  var ticketMedioController = TextEditingController();
+  var custoInsumosController = TextEditingController();
+  var custoProdutoController  = TextEditingController();
+  var custoVariavelController = TextEditingController();
+  var dataVendas;
+  var vendasColor = 'padrao';
+  var ticketMedioCor = 'padrao';
+  var custoInsumosColor = 'padrao';
+  var custoProdutoColor = 'padrao';
+  var custoVariavelColor = 'padrao';
+  var vendasStatus  = true;
+  var valorInicialTicket = "";
 
   void initState() {
     simuladorBloc = SimuladorBloc();
+    var venda = simuladorBloc.getVendas();
+      venda.then((data){
+        data.forEach((element) {
+          vendasController.text = element["qtd"];
+        });
+    });
+    var ticket =  simuladorBloc.calTiketMedio();
+    ticket.then((data){
+      ticketMedioController.text =  data;
+    });
+    var custoInsumos  = simuladorBloc.getCustoInsumos();
+    custoInsumos.then((data){
+      custoInsumosController.text = data;
+    });
+    var custoProduto = simuladorBloc.getCustoProduto();
+    custoProduto.then((data){
+      custoProdutoController.text = data;
+    });
+    var custoVariavel = simuladorBloc.getCustoVariavel();
+    custoVariavel.then((data){
+      custoVariavelController.text = data;
+    });
+
+    super.initState();
   }
 
   @override
@@ -99,64 +136,175 @@ class _SimuladorState extends State<Simulador> {
                     ),
                   ),
                   buildContainerAddRemove(),
+
+
                   const Espacamento(),
                   buildRow(
-                    buildStreamBuilder(
-                      simuladorBloc.vendasController,
-                      "Vendas",
-                      "padrao",
-                      false,
-                      null,
-                      null,
-                    ),
-                    buildStreamBuilder(
-                      simuladorBloc.ticketMedioController,
-                      "Ticket médio",
-                      "padrao",
-                      true,
-                      null,
-                      null,
-                    ),
+                    StreamBuilder(
+                        stream: simuladorBloc.corVendalController,
+                        builder: (context, snapshot) {
+                          var dataCor = snapshot.data;
+                          vendasColor = dataCor.toString();
+                          print(dataCor);
+                          return  Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                            child: Container(
+                              width: 185,
+                              decoration: buildBoxDecoration(),
+                              child: StreamBuilder(
+                                  stream: simuladorBloc.vendasController,
+                                  builder: (context, snapshot) {
+                                      return TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        controller: vendasController,
+                                        decoration: _styleInput('vendas', vendasColor , null),
+                                        onChanged:  (text){
+                                          simuladorBloc.calculoVendas(text);
+                                        }
+                                      );
+
+                                  }),
+                            ),
+                          );
+                        }),
+                    StreamBuilder(
+                        stream: simuladorBloc.corTicketMediolController,
+                        builder: (context, snapshot) {
+                          var dataCor = snapshot.data;
+                          ticketMedioCor = dataCor.toString();
+                          print(dataCor);
+                          return  Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                            child: Container(
+                              width: 185,
+                              decoration: buildBoxDecoration(),
+                              child: StreamBuilder(
+                                  stream: simuladorBloc.ticketMedioController,
+                                  builder: (context, snapshot) {
+                                    var data = snapshot.data;
+
+                                    return TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        controller: ticketMedioController,
+                                        decoration: _styleInput('Ticket Médio', ticketMedioCor , null),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                                        ],
+                                        onChanged:  (text){
+
+                                          simuladorBloc.calculoTicketMedioInput(text);
+                                        }
+                                    );
+
+                                  }),
+                            ),
+                          );
+                        }),
                   ),
                   const Espacamento(),
+
                   buildContainerFaturamento(),
                   const Espacamento(),
                   buildRow(
                     StreamBuilder(
-                        stream: null,
+                        stream: simuladorBloc.corCustoInsumoslController,
                         builder: (context, snapshot) {
-                          return buildStreamBuilder(
-                            simuladorBloc.custoInsumosController,
-                            "Custo insumos",
-                            "padrao",
-                            false,
-                            null,
-                            null,
+                          var dataCor = snapshot.data;
+                          custoInsumosColor = dataCor.toString();
+                          print(dataCor);
+                          return  Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                            child: Container(
+                              width: 185,
+                              decoration: buildBoxDecoration(),
+                              child: StreamBuilder(
+                                  stream: simuladorBloc.custoInsumosController,
+                                  builder: (context, snapshot) {
+                                    return TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        controller: custoInsumosController,
+                                        decoration: _styleInput('Custo insumos', custoInsumosColor , null),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                                        ],
+                                        onChanged:(text){
+                                          simuladorBloc.calculoCustoInsumosInptu(text);
+                                        }
+                                    );
+
+                                  }),
+                            ),
                           );
                         }),
                     StreamBuilder(
-                        stream: null,
+                        stream: simuladorBloc.corCustoProdutolController,
                         builder: (context, snapshot) {
-                          return buildStreamBuilder(
-                            simuladorBloc.custoProdutoController,
-                            "Custo produto 3os",
-                            "padrao",
-                            true,
-                            null,
-                            null,
+                          var dataCor = snapshot.data;
+                          custoProdutoColor = dataCor.toString();
+                          print(dataCor);
+                          return  Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                            child: Container(
+                              width: 185,
+                              decoration: buildBoxDecoration(),
+                              child: StreamBuilder(
+                                  stream:  simuladorBloc.custoFixoController,
+                                  builder: (context, snapshot) {
+                                    return TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        controller: custoProdutoController,
+                                        decoration: _styleInput('Custo produto 3os', custoProdutoColor , null),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                                        ],
+                                        onChanged:(text){
+                                          simuladorBloc.calculoCustoProdutoInptu(text);
+                                        }
+                                    );
+
+                                  }),
+                            ),
                           );
                         }),
+
                   ),
                   const Espacamento(),
                   buildRow(
-                    buildStreamBuilder(
-                      simuladorBloc.custoInsumosController,
-                      "Outros custos variáveis",
-                      "padrao",
-                      false,
-                      null,
-                      null,
-                    ),
+                    StreamBuilder(
+                        stream: simuladorBloc.corCustoVariavelController,
+                        builder: (context, snapshot) {
+                          var dataCor = snapshot.data;
+                          custoVariavelColor = dataCor.toString();
+                          print(dataCor);
+                          return  Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                            child: Container(
+                              width: 185,
+                              decoration: buildBoxDecoration(),
+                              child: StreamBuilder(
+                                  stream:  simuladorBloc.custoProdutoController,
+                                  builder: (context, snapshot) {
+                                    return TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        controller: custoVariavelController,
+                                        decoration: _styleInput('Outros custos variáveis', custoVariavelColor , null),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                                        ],
+                                        onChanged:(text){
+                                          simuladorBloc.calculoCustoVariavelInptu(text);
+                                        }
+                                    );
+
+                                  }),
+                            ),
+                          );
+                        }),
+
                     buildStreamBuilder(
                       simuladorBloc.margemDeContribuicaoController,
                       "Margem de contribuição",
@@ -169,7 +317,7 @@ class _SimuladorState extends State<Simulador> {
                   const Espacamento(),
                   buildRow(
                     buildStreamBuilder(
-                      simuladorBloc.custoInsumosController,
+                      simuladorBloc.custoVariavelController,
                       "Custos fixos",
                       "padrao",
                       false,
@@ -210,6 +358,10 @@ class _SimuladorState extends State<Simulador> {
         ),
       ),
     );
+  }
+
+  buildCalculoVendas() {
+   // print('vendas');
   }
 
   Container buildContainerAddRemove() {
@@ -355,8 +507,7 @@ class _SimuladorState extends State<Simulador> {
           builder: (context, snapshot) {
           //  print(snapshot.data);
             var data = snapshot.data;
-            return buildContainer(
-                "$data", inputTitulo, cor, format, icone, onChanged);
+            return buildContainer("$data", inputTitulo, cor, format, icone, onChanged);
           }),
     );
   }
@@ -398,7 +549,9 @@ class _SimuladorState extends State<Simulador> {
                   keyboardType: TextInputType.number,
                   controller: TextEditingController(text: "$data"),
                   decoration: _styleInput(inputTitulo, cor, icone),
-                  onChanged: onChanged,
+                  onChanged: (text){
+                    onChanged;
+                },
                 );
               }
             }),
