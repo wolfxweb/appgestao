@@ -28,12 +28,15 @@ class _SimuladorState extends State<Simulador> {
   var custoInsumosController = TextEditingController();
   var custoProdutoController  = TextEditingController();
   var custoVariavelController = TextEditingController();
+  var custoFixoController = TextEditingController();
+
   var dataVendas;
   var vendasColor = 'padrao';
   var ticketMedioCor = 'padrao';
   var custoInsumosColor = 'padrao';
   var custoProdutoColor = 'padrao';
   var custoVariavelColor = 'padrao';
+  var custoFixoColor ='padrao';
   var vendasStatus  = true;
   var valorInicialTicket = "";
 
@@ -60,6 +63,12 @@ class _SimuladorState extends State<Simulador> {
     var custoVariavel = simuladorBloc.getCustoVariavel();
     custoVariavel.then((data){
       custoVariavelController.text = data;
+    });
+    var custoFixo = simuladorBloc.getCustoFixo();
+    custoFixo.then((data){
+      print('data');
+      print(data);
+      custoFixoController.text = data;
     });
 
     super.initState();
@@ -285,7 +294,8 @@ class _SimuladorState extends State<Simulador> {
                               width: 185,
                               decoration: buildBoxDecoration(),
                               child: StreamBuilder(
-                                  stream:  simuladorBloc.custoProdutoController,
+                              //    stream:  simuladorBloc.custoProdutoController,
+                                  stream:  simuladorBloc.custoVariavelController,
                                   builder: (context, snapshot) {
                                     return TextFormField(
                                         keyboardType: TextInputType.number,
@@ -316,14 +326,37 @@ class _SimuladorState extends State<Simulador> {
                   ),
                   const Espacamento(),
                   buildRow(
-                    buildStreamBuilder(
-                      simuladorBloc.custoVariavelController,
-                      "Custos fixos",
-                      "padrao",
-                      false,
-                      null,
-                      null,
-                    ),
+                    StreamBuilder(
+                        stream: simuladorBloc.corCustoFixoController,
+                        builder: (context, snapshot) {
+                          var dataCor = snapshot.data;
+                          custoFixoColor = dataCor.toString();
+                          print(dataCor);
+                          return  Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                            child: Container(
+                              width: 185,
+                              decoration: buildBoxDecoration(),
+                              child: StreamBuilder(
+                                  stream: simuladorBloc.vendasController,
+                                  builder: (context, snapshot) {
+                                    return TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        controller: custoFixoController,
+                                        decoration: _styleInput('Custo fixo', custoFixoColor , null),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                                        ],
+                                        onChanged:  (text){
+                                          simuladorBloc.calculoCustoFixo(text);
+                                        }
+                                    );
+
+                                  }),
+                            ),
+                          );
+                        }),
                     buildStreamBuilder(
                       simuladorBloc.pontoEquilibrioController,
                       "Ponto de equilibrio",
