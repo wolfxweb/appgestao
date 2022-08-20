@@ -49,6 +49,7 @@ class _SimuladorState extends State<Simulador> {
     simuladorBloc = SimuladorBloc();
     addController.text = '0';
     removeController.text ='0';
+    /*
     var venda = simuladorBloc.getVendas();
     venda.then((data) {
       data.forEach((element) {
@@ -61,6 +62,7 @@ class _SimuladorState extends State<Simulador> {
     });
     var custoInsumos = simuladorBloc.getCustoInsumos();
     custoInsumos.then((data) {
+      print(data);
       custoInsumosController.text = data;
     });
     var custoProduto = simuladorBloc.getCustoProduto();
@@ -77,7 +79,7 @@ class _SimuladorState extends State<Simulador> {
     //  print(data);
       custoFixoController.text = data;
     });
-
+*/
     super.initState();
   }
 
@@ -157,7 +159,7 @@ class _SimuladorState extends State<Simulador> {
                                         floatingLabelBehavior: FloatingLabelBehavior.always,
                                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                                       //  suffixIcon: suffixIcon,
-                                        fillColor: corFundo,
+                                        fillColor: Colors.grey[100],
                                         filled: true,
 
                                         // disabledBorder: true,
@@ -304,12 +306,12 @@ class _SimuladorState extends State<Simulador> {
                             child: StreamBuilder(
                                 stream: simuladorBloc.custoInsumosController,
                                 builder: (context, snapshot) {
+                                  var data = snapshot.data;
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: custoInsumosController,
-                                      decoration: _styleInput('Custo insumos',
-                                          'desabilitado', null),
+                                      controller: custoInsumosController = TextEditingController(text: '$data'),
+                                      decoration: _styleInput('Custo insumos',custoInsumosColor, null),
                                       inputFormatters: [
                                         FilteringTextInputFormatter
                                             .digitsOnly,
@@ -339,10 +341,11 @@ class _SimuladorState extends State<Simulador> {
                             child: StreamBuilder(
                                 stream: simuladorBloc.custoFixoController,
                                 builder: (context, snapshot) {
+                                  var data = snapshot.data;
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: custoProdutoController,
+                                      controller: custoProdutoController = TextEditingController(text: '$data'),
                                       decoration: _styleInput(
                                           'Custo produto 3º',
                                           custoProdutoColor,
@@ -380,10 +383,11 @@ class _SimuladorState extends State<Simulador> {
                                 //    stream:  simuladorBloc.custoProdutoController,
                                 stream: simuladorBloc.custoVariavelController,
                                 builder: (context, snapshot) {
+                                  var data = snapshot.data;
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: custoVariavelController,
+                                      controller: custoVariavelController = TextEditingController(text: '$data'),
                                       decoration: _styleInput(
                                           'Outros custos variáveis',
                                           custoVariavelColor,
@@ -426,12 +430,15 @@ class _SimuladorState extends State<Simulador> {
                             width: 185,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
-                                stream: simuladorBloc.vendasController,
+                                stream: simuladorBloc.custoProdutoController,
                                 builder: (context, snapshot) {
+                                  var data = snapshot.data;
+                                  print('Custo fixo data');
+                                  print(data);
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: custoFixoController,
+                                      controller: custoFixoController = TextEditingController(text: '$data'),
                                       decoration: _styleInput(
                                           'Custo fixo', custoFixoColor, null),
                                       inputFormatters: [
