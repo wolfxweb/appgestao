@@ -1,9 +1,11 @@
 import 'package:appgestao/blocs/simulador_bloc.dart';
+import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:appgestao/componete/menu.dart';
+import 'package:appgestao/pages/telaAjudaSimulador.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +32,10 @@ class _SimuladorState extends State<Simulador> {
   var custoProdutoController = TextEditingController();
   var custoVariavelController = TextEditingController();
   var custoFixoController = TextEditingController();
-  var addController =  TextEditingController();
+  var addController = TextEditingController();
   var removeController = TextEditingController();
   var selectController = "";
-  
-  
+
   var dataVendas;
   var vendasColor = 'desabilitado';
   var ticketMedioCor = 'desabilitado';
@@ -44,11 +45,12 @@ class _SimuladorState extends State<Simulador> {
   var custoFixoColor = 'desabilitado';
   var vendasStatus = true;
   var valorInicialTicket = "";
-
+  var route = PushPage();
   void initState() {
     simuladorBloc = SimuladorBloc();
+
     addController.text = '0';
-    removeController.text ='0';
+    removeController.text = '0';
     /*
     var venda = simuladorBloc.getVendas();
     venda.then((data) {
@@ -99,14 +101,44 @@ class _SimuladorState extends State<Simulador> {
               children: [
                 const Espacamento(),
                 Container(
-                  child: const Text(
+                  child: GestureDetector(
+                    onTap: (){
+                      route.pushPage(context, const TelaAjudaSimulador());
+                    },
+                    child: TextFormField(
+                      textAlign: TextAlign.center,
+                      enabled: false,
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        //  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                        prefixIcon: IconButton(
+                          onPressed: () {
 
-                    "Para você definir prioridades",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                          },
+                          icon: const Icon(
+                            Icons.help,
+                            color: Colors.white,
+                          ),
+                        ),
+                        //suffixIcon: suffixIcon,
+                        fillColor: Colors.orange,
+                        filled: true,
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.orange,
+                              width: 1.0,
+                              style: BorderStyle.none),
+                        ),
+                        border: InputBorder.none,
+                        hintText: 'Para você definir prioridades',
+                        hintStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          //  fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onChanged: (text) {},
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
                 const Espacamento(),
@@ -130,12 +162,12 @@ class _SimuladorState extends State<Simulador> {
                 ),
                 const Espacamento(),
                 Container(
-                  child:     StreamBuilder(
+                  child: StreamBuilder(
                       stream: simuladorBloc.margemResultateController,
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         vendasColor = dataCor.toString();
-                   //     print(dataCor);
+                        //     print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -147,55 +179,61 @@ class _SimuladorState extends State<Simulador> {
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
                                   return TextFormField(
-                                     // textAlignVertical: TextAlignVertical.center,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold ) ,
-                                      enabled: false,
-                                      keyboardType: TextInputType.number,
-                                      controller: TextEditingController(text: "$data"),
-                                      decoration: InputDecoration(
-
-
-                                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                                    // textAlignVertical: TextAlignVertical.center,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold),
+                                    enabled: false,
+                                    keyboardType: TextInputType.number,
+                                    controller:
+                                        TextEditingController(text: "$data"),
+                                    decoration: InputDecoration(
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.always,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 5),
                                       //  suffixIcon: suffixIcon,
-                                        fillColor: Colors.grey[100],
-                                        filled: true,
+                                      fillColor: Colors.grey[100],
+                                      filled: true,
 
-                                        // disabledBorder: true,
-                                        focusedBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                                        ),
-                                        border: InputBorder.none,
-                                        labelText: 'Margem resultante',
-                                        labelStyle: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontStyle: FontStyle.normal,
-
-                                          //  backgroundColor: Colors.white,
-                                        ),
-                                        // hintText: 'Quantidade de clientes atendidos',
+                                      // disabledBorder: true,
+                                      focusedBorder: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.orange,
+                                            width: 1.0,
+                                            style: BorderStyle.none),
                                       ),
-                                     );
+                                      border: InputBorder.none,
+                                      labelText: 'Margem resultante',
+                                      labelStyle: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontStyle: FontStyle.normal,
+
+                                        //  backgroundColor: Colors.white,
+                                      ),
+                                      // hintText: 'Quantidade de clientes atendidos',
+                                    ),
+                                  );
                                 }),
                           ),
                         );
                       }),
                 ),
-
                 const Espacamento(),
                 Container(
                   padding: const EdgeInsets.all(4.0),
                   child: TextDropdownFormField(
                     //keyboardType: TextInputType.none,
-                    onChanged: (dynamic text){
-                    //  print(text);
+                    onChanged: (dynamic text) {
+                      simuladorBloc.setPercentualInput();
                       setState(() {
                         valorInicialTicket = text;
                       });
                     },
+
 
                     options: const [
                       "Quantidade de vendas",
@@ -205,6 +243,7 @@ class _SimuladorState extends State<Simulador> {
                       "Outros custo variaveis",
                       "Custo fixo"
                     ],
+           
 
                     decoration: _styleInput(
                         'Selecione um item ',
@@ -214,7 +253,7 @@ class _SimuladorState extends State<Simulador> {
                           color: Colors.white,
                           size: 26,
                         )),
-                     dropdownHeight: 350,
+                    dropdownHeight: 350,
                   ),
                 ),
                 buildContainerAddRemove(context),
@@ -225,7 +264,7 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         vendasColor = dataCor.toString();
-                      //  print(dataCor);
+                        //  print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -235,12 +274,13 @@ class _SimuladorState extends State<Simulador> {
                             child: StreamBuilder(
                                 stream: simuladorBloc.vendasController,
                                 builder: (context, snapshot) {
-                            //      print(snapshot.data);
+                                  //      print(snapshot.data);
                                   var data = snapshot.data;
                                   return TextFormField(
-                                   //   enabled: false,
+                                      //   enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: TextEditingController(text: '$data'),
+                                      controller:
+                                          TextEditingController(text: '$data'),
                                       decoration: _styleInput(
                                           'vendas', vendasColor, null),
                                       onChanged: (text) {
@@ -255,7 +295,7 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         ticketMedioCor = dataCor.toString();
-                      //  print(dataCor);
+                        //  print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -270,11 +310,12 @@ class _SimuladorState extends State<Simulador> {
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: ticketMedioController = TextEditingController(text: '$data'),
-                                      decoration: _styleInput('Ticket Médio', ticketMedioCor, null),
+                                      controller: ticketMedioController =
+                                          TextEditingController(text: '$data'),
+                                      decoration: _styleInput(
+                                          'Ticket Médio', ticketMedioCor, null),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter
-                                            .digitsOnly,
+                                        FilteringTextInputFormatter.digitsOnly,
                                         CentavosInputFormatter(
                                             moeda: true, casasDecimais: 2)
                                       ],
@@ -296,7 +337,7 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         custoInsumosColor = dataCor.toString();
-                    //    print(dataCor);
+                        //    print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -310,11 +351,12 @@ class _SimuladorState extends State<Simulador> {
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: custoInsumosController = TextEditingController(text: '$data'),
-                                      decoration: _styleInput('Custo insumos',custoInsumosColor, null),
+                                      controller: custoInsumosController =
+                                          TextEditingController(text: '$data'),
+                                      decoration: _styleInput('Custo insumos',
+                                          custoInsumosColor, null),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter
-                                            .digitsOnly,
+                                        FilteringTextInputFormatter.digitsOnly,
                                         CentavosInputFormatter(
                                             moeda: true, casasDecimais: 2)
                                       ],
@@ -331,7 +373,7 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         custoProdutoColor = dataCor.toString();
-                    //    print(dataCor);
+                        //    print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -345,14 +387,14 @@ class _SimuladorState extends State<Simulador> {
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: custoProdutoController = TextEditingController(text: '$data'),
+                                      controller: custoProdutoController =
+                                          TextEditingController(text: '$data'),
                                       decoration: _styleInput(
                                           'Custo produto 3º',
                                           custoProdutoColor,
                                           null),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter
-                                            .digitsOnly,
+                                        FilteringTextInputFormatter.digitsOnly,
                                         CentavosInputFormatter(
                                             moeda: true, casasDecimais: 2)
                                       ],
@@ -372,7 +414,7 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         custoVariavelColor = dataCor.toString();
-                    //    print(dataCor);
+                        //    print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -387,14 +429,14 @@ class _SimuladorState extends State<Simulador> {
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: custoVariavelController = TextEditingController(text: '$data'),
+                                      controller: custoVariavelController =
+                                          TextEditingController(text: '$data'),
                                       decoration: _styleInput(
                                           'Outros custos variáveis',
                                           custoVariavelColor,
                                           null),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter
-                                            .digitsOnly,
+                                        FilteringTextInputFormatter.digitsOnly,
                                         CentavosInputFormatter(
                                             moeda: true, casasDecimais: 2)
                                       ],
@@ -422,7 +464,7 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         custoFixoColor = dataCor.toString();
-                    //    print(dataCor);
+                        //    print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -438,12 +480,12 @@ class _SimuladorState extends State<Simulador> {
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: custoFixoController = TextEditingController(text: '$data'),
+                                      controller: custoFixoController =
+                                          TextEditingController(text: '$data'),
                                       decoration: _styleInput(
                                           'Custo fixo', custoFixoColor, null),
                                       inputFormatters: [
-                                        FilteringTextInputFormatter
-                                            .digitsOnly,
+                                        FilteringTextInputFormatter.digitsOnly,
                                         CentavosInputFormatter(
                                             moeda: true, casasDecimais: 2)
                                       ],
@@ -464,7 +506,20 @@ class _SimuladorState extends State<Simulador> {
                   ),
                 ),
                 const Espacamento(),
-
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton (
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange, // background
+                      onPrimary: Colors.white, // foreground
+                    ),
+                    child: const Text('Limpar filtros',style: TextStyle(color: Colors.white)),
+                    onPressed:(){
+                      simuladorBloc.getDadosBasicos();
+                      simuladorBloc.limparCorInputs();
+                    },
+                  ),
+                ),
                 const Espacamento(),
               ],
             ),
@@ -488,30 +543,31 @@ class _SimuladorState extends State<Simulador> {
             padding: const EdgeInsets.all(3.0),
             width: 190,
             child: StreamBuilder(
-              stream: simuladorBloc.percentualAddController,
-              builder: (context, snapshot) {
-               // print(snapshot.data);
-                var data  = snapshot.data;
+                stream: simuladorBloc.percentualAddController,
+                builder: (context, snapshot) {
+                  // print(snapshot.data);
+                  var data = snapshot.data;
 
-                return GestureDetector(
-                  onTap: (){
-                    simuladorBloc.calculoPercentual(addController.text,1,valorInicialTicket,1,context);
-                  },
-                  child: TextFormField(
-                      enabled: false,
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      controller: addController = TextEditingController(text: '$data'),
-                      decoration: InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                        suffixIcon: const Icon(Icons.percent),
-                        fillColor: Colors.orangeAccent[100],
-                        filled: true,
-                        prefixIcon: IconButton(
+                  return GestureDetector(
+                    onTap: () {
+                      simuladorBloc.calculoPercentual(addController.text, 1,
+                          valorInicialTicket, 1, context);
+                    },
+                    child: TextFormField(
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        controller: addController =  TextEditingController(text: '$data'),
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 5),
+                          suffixIcon: const Icon(Icons.percent),
+                          fillColor: Colors.orangeAccent[100],
+                          filled: true,
+                          prefixIcon: IconButton(
                             onPressed: () {
-                          //   simuladorBloc.calculoPercentual(addController.text,1,valorInicialTicket,1,context);
+                              //   simuladorBloc.calculoPercentual(addController.text,1,valorInicialTicket,1,context);
                             },
                             icon: const Icon(
                               Icons.add,
@@ -520,83 +576,80 @@ class _SimuladorState extends State<Simulador> {
                             ),
                           ),
 
-                        // disabledBorder: true,
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.orange,
-                              width: 1.0,
-                              style: BorderStyle.none),
+                          // disabledBorder: true,
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.orange,
+                                width: 1.0,
+                                style: BorderStyle.none),
+                          ),
+                          border: InputBorder.none,
+                          labelText: '',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            //  backgroundColor: Colors.white,
+                          ),
+                          // hintText: 'Quantidade de clientes atendidos',
                         ),
-                        border: InputBorder.none,
-                        labelText: '',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                          //  backgroundColor: Colors.white,
-                        ),
-                        // hintText: 'Quantidade de clientes atendidos',
-                      ),
-                      onChanged: (text){
-                       // simuladorBloc.calculoPercentual(text,1,valorInicialTicket,2,context);
-
-                      }),
-                );
-              }
-            ),
+                        onChanged: (text) {
+                          // simuladorBloc.calculoPercentual(text,1,valorInicialTicket,2,context);
+                        }),
+                  );
+                }),
           ),
           Container(
             padding: const EdgeInsets.all(3.0),
             width: 190,
             child: StreamBuilder(
-              stream: simuladorBloc.percentualRemoveController,
-              builder: (context, snapshot) {
-                var data = snapshot.data;
-                return GestureDetector(
-                  onTap: (){
-                    simuladorBloc.calculoPercentual(removeController.text,2,valorInicialTicket,2,context);
-                  //  simuladorBloc.calculoPercentual(removeController.text,2,valorInicialTicket,2,context);
-                  },
-                  child: TextFormField(
-                      enabled: false,
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                       controller: removeController = TextEditingController(text: '$data'),
-                      decoration: InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                        prefixIcon:  IconButton(
-                          onPressed: () {
-
-
-                       //     removeController.text = removeController.text +'1';
-                          },
-                          icon: const Icon(
-                            Icons.remove,
-                            color: Colors.red,
+                stream: simuladorBloc.percentualRemoveController,
+                builder: (context, snapshot) {
+                  var data = snapshot.data;
+                  return GestureDetector(
+                    onTap: () {
+                      simuladorBloc.calculoPercentual(removeController.text, 2,
+                          valorInicialTicket, 2, context);
+                      //  simuladorBloc.calculoPercentual(removeController.text,2,valorInicialTicket,2,context);
+                    },
+                    child: TextFormField(
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        controller: removeController =
+                            TextEditingController(text: '$data'),
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 5),
+                          prefixIcon: IconButton(
+                            onPressed: () {
+                              //     removeController.text = removeController.text +'1';
+                            },
+                            icon: const Icon(
+                              Icons.remove,
+                              color: Colors.red,
+                            ),
                           ),
+                          fillColor: Colors.orangeAccent[100],
+                          filled: true,
+                          suffixIcon: const Icon(Icons.percent),
+                          // disabledBorder: true,
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.orange,
+                                width: 1.0,
+                                style: BorderStyle.none),
+                          ),
+                          border: InputBorder.none,
+                          labelText: '',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            //  backgroundColor: Colors.white,
+                          ),
+                          // hintText: 'Quantidade de clientes atendidos',
                         ),
-                        fillColor: Colors.orangeAccent[100],
-                        filled: true,
-                        suffixIcon: const  Icon(Icons.percent),
-                        // disabledBorder: true,
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.orange,
-                              width: 1.0,
-                              style: BorderStyle.none),
-                        ),
-                        border: InputBorder.none,
-                         labelText: '',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                          //  backgroundColor: Colors.white,
-                        ),
-                        // hintText: 'Quantidade de clientes atendidos',
-                      ),
-                      onChanged: null),
-                );
-              }
-            ),
+                        onChanged: null),
+                  );
+                }),
           ),
         ],
       ),
@@ -685,7 +738,7 @@ class _SimuladorState extends State<Simulador> {
             builder: (context, snapshot) {
               if (format) {
                 return TextFormField(
-                //  textAlign: TextAlign.center,
+                  //  textAlign: TextAlign.center,
                   enabled: false,
                   validator:
                       ValidationBuilder().maxLength(50).required().build(),
@@ -700,7 +753,7 @@ class _SimuladorState extends State<Simulador> {
                 );
               } else {
                 return TextFormField(
-                 // textAlign: TextAlign.center,
+                  // textAlign: TextAlign.center,
                   enabled: false,
                   validator:
                       ValidationBuilder().maxLength(50).required().build(),

@@ -93,6 +93,10 @@ class SimuladorBloc extends BlocBase {
   NumberFormat formatterPercentual = NumberFormat("0.0");
   NumberFormat formatterMoeda = NumberFormat("0.00");
 
+  setPercentualInput(){
+    _percentualAddController.add('0');
+    _percentualRemoveController.add('0');
+  }
   getDadosBasicos() async {
     await bd.lista().then((data) {
       data.forEach((element) {
@@ -105,18 +109,23 @@ class SimuladorBloc extends BlocBase {
         _cus = element["gastos"];
         _marIdeal = element["margen"];
         _element = element;
-
-        updateStream(
-            _marIdeal, _qtd, _fat, _gpv, _cusf, _cus, _marIdeal, _element);
+        updateStream(_marIdeal, _qtd, _fat, _gpv, _cusf, _cus, _marIdeal, _element);
       });
     });
   }
+  limparCorInputs(){
+    corCustoFixo("desabilitado");
+    corTicketMedio('desabilitado');
+    corCustoInsumos('desabilitado');
+    corCustoVariavel("desabilitado");
+    corCustoProduto("desabilitado");
+    _corVendaController.add('desabilitado');
+  }
+
 
   calculoPercentual(percent, operacao, selecionado, modo, context) {
-    print(selecionado);
+
     var select = selecionado;
-    bool refTicketValor = true;
-    var ticketOriginal;
 
     if (select == "") {
       select = 'Quantidade de vendas';

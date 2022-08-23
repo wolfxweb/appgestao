@@ -9,9 +9,11 @@ class DadosBasicosBloc extends BlocBase {
   var bd = DadosBasicosSqlite();
   final _mesController = BehaviorSubject();
   final _nomeController = BehaviorSubject();
+  final _fulanoController = BehaviorSubject();
 
   Stream get mesOutUsuario => _mesController.stream;
   Stream get nomeOutUsuario => _nomeController.stream;
+  Stream get fulanoController => _fulanoController.stream;
 
   DadosBasicosBloc() {
     _getMes();
@@ -30,10 +32,8 @@ class DadosBasicosBloc extends BlocBase {
 
   _nomeUsuarioLogado() async {
     await FirebaseAuth.instance.authStateChanges().listen((User? user) {
-     // print(user!.email);
       var email = user!.email;
       if (user == null) {
-        print('logado');
       } else {
         FirebaseFirestore.instance
             .collection('usuario')
@@ -42,21 +42,24 @@ class DadosBasicosBloc extends BlocBase {
             .then((DocumentSnapshot documentSnapshot) {
           if (documentSnapshot.exists) {
           //  print(documentSnapshot.data());
-            Map<String, dynamic> data =
-                documentSnapshot.data()! as Map<String, dynamic>;
+            Map<String, dynamic> data =  documentSnapshot.data()! as Map<String, dynamic>;
             final hora = DateTime.now().hour;
+            _fulanoController.add(data['nome']);
             if (hora.toInt() < 13 && hora.toInt()>6) {
               // bom dia
               var userMsg = " Bom dia ${data['nome']}";
               _nomeController.add(userMsg);
+              _fulanoController.add(data['nome']);
             } else if (hora.toInt() > 13 &&  hora.toInt() < 20) {
               // boa tarde
               var userMsg = " Boa tarde ${data['nome']}";
               _nomeController.add(userMsg);
+              _fulanoController.add(data['nome']);
             } else if (hora.toInt() > 19 ) {
               //boa noite
               var userMsg = " Boa Noite ${data['nome']}";
               _nomeController.add(userMsg);
+              _fulanoController.add(data['nome']);
             }
           }
         });

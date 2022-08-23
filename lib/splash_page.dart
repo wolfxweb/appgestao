@@ -31,7 +31,6 @@ class _SplashPageState extends State<SplashPage> {
         .authStateChanges()
         .listen((User? user) {
       if (user == null) {
-        print('User is currently signed out!');
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const Login()),
@@ -46,7 +45,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return  const Scaffold(
       body: Center(
-        child: CircularProgressIndicator()
+        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),)
       ),
 
     );
