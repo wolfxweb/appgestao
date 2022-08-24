@@ -66,7 +66,7 @@ class TelaAjudaSimulador extends StatelessWidget {
   TextStyle buildTextStyle() {
     return const TextStyle(
       //  color: Colors.white,
-      fontSize: 28,
+      fontSize: 26,
 
       //  fontWeight: FontWeight.bold,
     );
