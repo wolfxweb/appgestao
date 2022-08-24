@@ -102,42 +102,25 @@ class _SimuladorState extends State<Simulador> {
                 const Espacamento(),
                 Container(
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       route.pushPage(context, const TelaAjudaSimulador());
                     },
                     child: TextFormField(
                       textAlign: TextAlign.center,
                       enabled: false,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        //  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                        prefixIcon: IconButton(
-                          onPressed: () {
-
-                          },
-                          icon: const Icon(
-                            Icons.help,
-                            color: Colors.white,
-                          ),
+                        hintText: 'Para você definir prioridades',
+                        prefixIcon: Icon(
+                          Icons.help,
+                          color: Colors.black,
                         ),
-                        //suffixIcon: suffixIcon,
-                        fillColor: Colors.orange,
-                        filled: true,
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.orange,
-                              width: 1.0,
-                              style: BorderStyle.none),
+                        hintStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 22,
                         ),
                         border: InputBorder.none,
-                        hintText: 'Para você definir prioridades',
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          //  fontWeight: FontWeight.bold,
-                        ),
                       ),
-                      onChanged: (text) {},
                     ),
                   ),
                 ),
@@ -223,37 +206,48 @@ class _SimuladorState extends State<Simulador> {
                       }),
                 ),
                 const Espacamento(),
-                Container(
+                Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: TextDropdownFormField(
-                    //keyboardType: TextInputType.none,
-                    onChanged: (dynamic text) {
-                      simuladorBloc.setPercentualInput();
-                      setState(() {
-                        valorInicialTicket = text;
-                      });
-                    },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
+                      //borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 1,
+                          offset: Offset(1, 3), // Shadow position
+                        ),
+                      ],
+                    ),
+                    child: TextDropdownFormField(
+                      //keyboardType: TextInputType.none,
+                      onChanged: (dynamic text) {
+                        simuladorBloc.setPercentualInput();
+                        setState(() {
+                          valorInicialTicket = text;
+                        });
+                      },
 
+                      options: const [
+                        "Quantidade de vendas",
+                        "Ticket médio",
+                        "Custo insumos",
+                        "Custos produtos 3º",
+                        "Outros custo variaveis",
+                        "Custo fixo"
+                      ],
 
-                    options: const [
-                      "Quantidade de vendas",
-                      "Ticket médio",
-                      "Custo insumos",
-                      "Custos produtos 3º",
-                      "Outros custo variaveis",
-                      "Custo fixo"
-                    ],
-           
-
-                    decoration: _styleInput(
-                        'Selecione um item ',
-                        "padrao",
-                        const Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.white,
-                          size: 26,
-                        )),
-                    dropdownHeight: 350,
+                      decoration: _styleInput(
+                          'Selecione um item ',
+                          "padrao",
+                          const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                            size: 26,
+                          )),
+                      dropdownHeight: 350,
+                    ),
                   ),
                 ),
                 buildContainerAddRemove(context),
@@ -508,13 +502,14 @@ class _SimuladorState extends State<Simulador> {
                 const Espacamento(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  child: ElevatedButton (
+                  child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Colors.orange, // background
                       onPrimary: Colors.white, // foreground
                     ),
-                    child: const Text('Limpar filtros',style: TextStyle(color: Colors.white)),
-                    onPressed:(){
+                    child: const Text('Limpar filtros',
+                        style: TextStyle(color: Colors.white)),
+                    onPressed: () {
                       simuladorBloc.getDadosBasicos();
                       simuladorBloc.limparCorInputs();
                     },
@@ -539,117 +534,147 @@ class _SimuladorState extends State<Simulador> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
+          Padding(
             padding: const EdgeInsets.all(3.0),
-            width: 190,
-            child: StreamBuilder(
-                stream: simuladorBloc.percentualAddController,
-                builder: (context, snapshot) {
-                  // print(snapshot.data);
-                  var data = snapshot.data;
+            child: Container(
+              // padding: const EdgeInsets.all(3.0),
+              width: 180,
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+                //borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 1,
+                    offset: Offset(1, 3), // Shadow position
+                  ),
+                ],
+              ),
+              child: StreamBuilder(
+                  stream: simuladorBloc.percentualAddController,
+                  builder: (context, snapshot) {
+                    // print(snapshot.data);
+                    var data = snapshot.data;
 
-                  return GestureDetector(
-                    onTap: () {
-                      simuladorBloc.calculoPercentual(addController.text, 1,
-                          valorInicialTicket, 1, context);
-                    },
-                    child: TextFormField(
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        keyboardType: TextInputType.number,
-                        controller: addController =  TextEditingController(text: '$data'),
-                        decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 5),
-                          suffixIcon: const Icon(Icons.percent),
-                          fillColor: Colors.orangeAccent[100],
-                          filled: true,
-                          prefixIcon: IconButton(
-                            onPressed: () {
-                              //   simuladorBloc.calculoPercentual(addController.text,1,valorInicialTicket,1,context);
-                            },
-                            icon: const Icon(
-                              Icons.add,
-                              color: Colors.green,
-                              size: 20.0,
+                    return GestureDetector(
+                      onTap: () {
+                        simuladorBloc.calculoPercentual(addController.text, 1,
+                            valorInicialTicket, 1, context);
+                      },
+                      child: TextFormField(
+                          enabled: false,
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.number,
+                          controller: addController =
+                              TextEditingController(text: '$data'),
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 5),
+                            suffixIcon: const Icon(Icons.percent),
+                            fillColor: Colors.orangeAccent[100],
+                            filled: true,
+                            prefixIcon: IconButton(
+                              onPressed: () {
+                                //   simuladorBloc.calculoPercentual(addController.text,1,valorInicialTicket,1,context);
+                              },
+                              icon: const Icon(
+                                Icons.add,
+                                color: Colors.green,
+                                size: 20.0,
+                              ),
                             ),
-                          ),
 
-                          // disabledBorder: true,
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.orange,
-                                width: 1.0,
-                                style: BorderStyle.none),
+                            // disabledBorder: true,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 1.0,
+                                  style: BorderStyle.none),
+                            ),
+                            border: InputBorder.none,
+                            labelText: '',
+                            labelStyle: const TextStyle(
+                              color: Colors.black,
+                              //  backgroundColor: Colors.white,
+                            ),
+                            // hintText: 'Quantidade de clientes atendidos',
                           ),
-                          border: InputBorder.none,
-                          labelText: '',
-                          labelStyle: const TextStyle(
-                            color: Colors.black,
-                            //  backgroundColor: Colors.white,
-                          ),
-                          // hintText: 'Quantidade de clientes atendidos',
-                        ),
-                        onChanged: (text) {
-                          // simuladorBloc.calculoPercentual(text,1,valorInicialTicket,2,context);
-                        }),
-                  );
-                }),
+                          onChanged: (text) {
+                            // simuladorBloc.calculoPercentual(text,1,valorInicialTicket,2,context);
+                          }),
+                    );
+                  }),
+            ),
           ),
-          Container(
+          Padding(
             padding: const EdgeInsets.all(3.0),
-            width: 190,
-            child: StreamBuilder(
-                stream: simuladorBloc.percentualRemoveController,
-                builder: (context, snapshot) {
-                  var data = snapshot.data;
-                  return GestureDetector(
-                    onTap: () {
-                      simuladorBloc.calculoPercentual(removeController.text, 2,
-                          valorInicialTicket, 2, context);
-                      //  simuladorBloc.calculoPercentual(removeController.text,2,valorInicialTicket,2,context);
-                    },
-                    child: TextFormField(
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        keyboardType: TextInputType.number,
-                        controller: removeController =
-                            TextEditingController(text: '$data'),
-                        decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 5),
-                          prefixIcon: IconButton(
-                            onPressed: () {
-                              //     removeController.text = removeController.text +'1';
-                            },
-                            icon: const Icon(
-                              Icons.remove,
-                              color: Colors.red,
+            child: Container(
+              // padding: const EdgeInsets.all(3.0),
+
+              width: 180,
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+                //borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 1,
+                    offset: Offset(1, 3), // Shadow position
+                  ),
+                ],
+              ),
+              child: StreamBuilder(
+                  stream: simuladorBloc.percentualRemoveController,
+                  builder: (context, snapshot) {
+                    var data = snapshot.data;
+                    return GestureDetector(
+                      onTap: () {
+                        simuladorBloc.calculoPercentual(removeController.text,
+                            2, valorInicialTicket, 2, context);
+                        //  simuladorBloc.calculoPercentual(removeController.text,2,valorInicialTicket,2,context);
+                      },
+                      child: TextFormField(
+                          enabled: false,
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.number,
+                          controller: removeController =
+                              TextEditingController(text: '$data'),
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 5),
+                            prefixIcon: IconButton(
+                              onPressed: () {
+                                //     removeController.text = removeController.text +'1';
+                              },
+                              icon: const Icon(
+                                Icons.remove,
+                                color: Colors.red,
+                              ),
                             ),
+                            fillColor: Colors.orangeAccent[100],
+                            filled: true,
+                            suffixIcon: const Icon(Icons.percent),
+                            // disabledBorder: true,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 1.0,
+                                  style: BorderStyle.none),
+                            ),
+                            border: InputBorder.none,
+                            labelText: '',
+                            labelStyle: const TextStyle(
+                              color: Colors.black,
+                              //  backgroundColor: Colors.white,
+                            ),
+                            // hintText: 'Quantidade de clientes atendidos',
                           ),
-                          fillColor: Colors.orangeAccent[100],
-                          filled: true,
-                          suffixIcon: const Icon(Icons.percent),
-                          // disabledBorder: true,
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.orange,
-                                width: 1.0,
-                                style: BorderStyle.none),
-                          ),
-                          border: InputBorder.none,
-                          labelText: '',
-                          labelStyle: const TextStyle(
-                            color: Colors.black,
-                            //  backgroundColor: Colors.white,
-                          ),
-                          // hintText: 'Quantidade de clientes atendidos',
-                        ),
-                        onChanged: null),
-                  );
-                }),
+                          onChanged: null),
+                    );
+                  }),
+            ),
           ),
         ],
       ),

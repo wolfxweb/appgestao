@@ -15,50 +15,56 @@ class TelaAjudaSimulador extends StatelessWidget {
 
     return Scaffold(
         appBar: header.getAppBar('Ajuda Simulador'),
-        body: StreamBuilder(
-          stream: mesBloc.fulanoController,
-          builder: (context, snapshot) {
+        body: SingleChildScrollView(
+          child: StreamBuilder(
+            stream: mesBloc.fulanoController,
+            builder: (context, snapshot) {
 
-            // var data  =snapshot.data.toString();
-             if (!snapshot.hasData) {
-               return const Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),));
-             }
+              // var data  =snapshot.data.toString();
+               if (!snapshot.hasData) {
+                 return const Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),));
+               }
 
-             if(snapshot.data.toString().isNotEmpty){
-               texto1 ="${snapshot.data.toString().isNotEmpty?snapshot.data.toString():'Esta'} ferramenta permite que você anteveja a consequência de alterações (Margem resultante),  na quantidade de vendas, no valor do Ticket médio ou em quaisquer dos Custos informados em DADOS BÁSICOS. Assim você pode tomar decisões estratégicas para o sucesso do seu negócio!";
+               if(snapshot.data.toString().isNotEmpty){
+                 texto1 ="${snapshot.data.toString().isNotEmpty?snapshot.data.toString():'Esta'} essa ferramenta permite que você anteveja a consequência de alterações (Margem resultante),  na quantidade de vendas, no valor do Ticket médio ou em quaisquer dos Custos informados em DADOS BÁSICOS. Assim você pode tomar decisões estratégicas para o sucesso do seu negócio!";
+              }
+              return Center(
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          "$texto1",
+                          style: buildTextStyle(),
+                          textAlign: TextAlign.justify,
+                        ),
+                        Text(
+                          "$texto2",
+                          style: buildTextStyle(),
+                          textAlign: TextAlign.justify,
+                        ),
+                        Text(
+                          "$texto3",
+                          style: buildTextStyle(),
+                          textAlign: TextAlign.justify,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+
+
             }
-            return Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Text(
-                    "$texto1",
-                    style: buildTextStyle(),
-                    textAlign: TextAlign.justify,
-                  ),
-                  Text(
-                    "$texto2",
-                    style: buildTextStyle(),
-                    textAlign: TextAlign.justify,
-                  ),
-                  Text(
-                    "$texto3",
-                    style: buildTextStyle(),
-                    textAlign: TextAlign.justify,
-                  )
-                ],
-              ),
-            );
-
-
-          }
+          ),
         ));
   }
 
   TextStyle buildTextStyle() {
     return const TextStyle(
                 //  color: Colors.white,
-                fontSize: 20,
+                fontSize: 28,
 
                 //  fontWeight: FontWeight.bold,
               );
