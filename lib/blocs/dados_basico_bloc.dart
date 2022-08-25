@@ -19,6 +19,8 @@ class DadosBasicosBloc extends BlocBase {
     _getMes();
     _nomeUsuarioLogado();
   }
+
+
   _getMes() async {
     await bd.lista().then((data) {
       data.forEach((element) {

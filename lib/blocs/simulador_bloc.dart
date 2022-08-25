@@ -491,25 +491,19 @@ class SimuladorBloc extends BlocBase {
   }
 
   calculoPontoEquilibrio() {
-    _calculoPontoEquilibio =
-        (calc_cv / _margemContribuicaoCalculada) * _ticketMedio;
-    _pontoEquilibrioController
-        .add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
+    _calculoPontoEquilibio = (calc_cv / _margemContribuicaoCalculada) * _ticketMedio;
+    _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
   }
 
-  calPontoEquilibrio(
-      calc_cf_v, _margemContribuicaoCalculada_v, _ticketMedio_v) {
-    _calculoPontoEquilibio =
-        (calc_cf_v / _margemContribuicaoCalculada_v) * _ticketMedio_v;
+  calPontoEquilibrio( calc_cf_v, _margemContribuicaoCalculada_v, _ticketMedio_v) {
+    _calculoPontoEquilibio = (calc_cf_v / _margemContribuicaoCalculada_v) * _ticketMedio_v;
     _pontoEquilibrioController
         .add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
   }
 
   calculoMargemConribuicao() {
-    _margemContribuicaoCalculada =
-        (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
-    _margemDeContribuicaoController
-        .add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
+    _margemContribuicaoCalculada =(calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
+    _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
   }
 
   calMargemConribuicao(
