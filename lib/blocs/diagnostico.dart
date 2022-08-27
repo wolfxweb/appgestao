@@ -87,8 +87,8 @@ class DignosticoBloc extends BlocBase {
   var _totalMeses = 0;
 
   DignosticoBloc() {
-    _textPrejuisoController.add('');
-    _textDiagnosticoController.add('');
+   // _textPrejuisoController.add('');
+  //  _textDiagnosticoController.add('');
     _fulanoLogado();
   }
   NumberFormat formatterMoeda = NumberFormat("0.00");
@@ -114,7 +114,7 @@ class DignosticoBloc extends BlocBase {
     });
   }
 
-  _montaTexto(qualTextoMostrar) {
+  _montaTexto() {
     _text_1 =
         "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_B}%. "
         "O ticket médio foi de R\$ ${_C} . Margem de contribuição R\$ ${_D}. Para começar a ter lucro foi preciso vender R\$ ${_E}, "
@@ -139,11 +139,12 @@ class DignosticoBloc extends BlocBase {
 
     var _b = double.parse(_B).truncateToDouble();
     var _h = double.parse(_H).truncateToDouble();
-
+   // print(_H);
+  //  print(_B);
     if (_b > 0.0) {
       if (_b < _h) {
-       // print(_b);
-    //    print(_h);
+      //  print(_b);
+      //  print(_h);
         _textDiagnosticoController.add("Lucro");
         _textLucro_1_Controller.add(_text_1);
         _textLucro_2_Controller.add(_text_2);
@@ -161,6 +162,7 @@ class DignosticoBloc extends BlocBase {
       _textPrejuisoController.add(_text_5);
       _textDiagnosticoController.add("prejuízo");
     }
+
   }
 
   _getDadosBasicos() async {
@@ -169,7 +171,8 @@ class DignosticoBloc extends BlocBase {
       //  print(element);
         _A = element['mes'];
         calculo_a = element['mes'];
-        _H = (element['margen'].toString().replaceAll("%", ""));
+     //   print(element['margen']);
+        _H = (element['margen']);
         _convertFoat(element);
       });
     });
@@ -202,7 +205,6 @@ class DignosticoBloc extends BlocBase {
         _out = (element['out'] * 100) / element['total'];
         _nov = (element['nov'] * 100) / element['total'];
         _dez = (element['dez'] * 100) / element['total'];
-//print(_A);
 
         switch (_A) {
           case 'Janeiro':
@@ -251,19 +253,20 @@ class DignosticoBloc extends BlocBase {
             // do something else
             break;
         }
+        _montaTexto();
       });
     });
 
     //
   }
 
-  _calculoM( _n){
+  _calculoM(_n){
     if(_n > 0.0){
       _M ="lucro";
     }else{
       _M = "prejuízo";
     }
-    _montaTexto(qualTextoMostrar);
+    _montaTexto();
   }
   // mesInicial = _jun;
   // mesProximo = _jul;
@@ -297,9 +300,8 @@ class DignosticoBloc extends BlocBase {
     _calculoMargemConribuicao();
   }
   _calculoMargemResultante() {
-    calculo_b =
-        (((calc_fat - (calc_gi + calc_cv + calc_cf + calc_gas)) / calc_fat) *
-            100);
+    calculo_b = (((calc_fat - (calc_gi + calc_cv + calc_cf + calc_gas)) / calc_fat) *100);
+   // print(calculo_b);
     _B = calculo_b.toStringAsPrecision(2);
     _O = _B;
     _calculoTiketMedio();
@@ -342,7 +344,6 @@ class DignosticoBloc extends BlocBase {
     calc_cv = double.parse(custo_varivel).truncateToDouble();
     calc_gi = double.parse(gastos_insumos).truncateToDouble();
     calc_gas = double.parse(gastos).truncateToDouble();
-
     _calculoMargemResultante();
   }
 }

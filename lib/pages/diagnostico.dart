@@ -28,20 +28,40 @@ class _DiagnosticoState extends State<Diagnostico> {
           child: StreamBuilder(
               stream: dignosticoBloc.textDiagnosticoController,
               builder: (context, snapshot) {
+                var lista = snapshot.data;
+                print(lista);
+               // return Text("data");
                 if (snapshot.hasData) {
-                  var lista = snapshot.data;
+                //  return Text("data");
+
+                  print(lista);
                   if (lista == "prejuízo") {
                     return buildContainerPrejuiso();
                   } else if (lista == "Lucro") {
                     return buildContainerLucro();
                   } else {
-                    return Text('AGUARDE...');
+                    return buildVerificarDadosBasicos();
                   }
                 } else {
                   return buildLoad();
                 }
               })),
     );
+  }
+
+  Padding buildVerificarDadosBasicos() {
+    return const Padding(
+                    padding:  EdgeInsets.all(16.0),
+                    child:Text(
+                     "Verifique se os dados basicos está preencido",
+                      style:  TextStyle(
+                        //  color: Colors.white,
+                        fontSize: 20,
+                        //  fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.justify,
+                    ),
+                  );
   }
 
   Center buildLoad() {
