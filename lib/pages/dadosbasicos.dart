@@ -125,20 +125,28 @@ class _DadosBasicosState extends State<DadosBasicos> {
                           return SizedBox(
                             child: DropdownButtonFormField<String>(
                                 decoration: InputDecoration(
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
+                                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                                  prefixIcon: IconButton(
+                                    icon: const Icon(Icons.help),
+                                    color: Colors.transparent,
+                                    onPressed: () {
+                                      //  alerta.openModal(context, text);
+                                    },
+                                  ),
                                   fillColor: color,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 0, vertical: 0),
                                   filled: true,
+                                  // disabledBorder: true,
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                                  ),
                                   border: InputBorder.none,
-                                  labelText: "Selecione o mês referência",
-                                  labelStyle:
-                                      const TextStyle(color: Colors.black54),
-                                  prefixIcon: const IconButton(
-                                      icon: Icon(null),
-                                      color: Colors.transparent,
-                                      onPressed: null),
+                                  labelText: "Quantidade de clientes atendidos",
+                                  labelStyle: const TextStyle(
+                                    color: Colors.black,
+                                    //  backgroundColor: Colors.white,
+                                  ),
                                 ),
                                 isExpanded: true,
                                 hint: const Text("Selecione o mês referência"),
@@ -174,28 +182,26 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       controller: _quantidadeController,
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 0),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                         prefixIcon: IconButton(
                           icon: const Icon(Icons.help),
                           color: Colors.transparent,
                           onPressed: () {
-                            //   alerta.openModal(context,'opaaa');
+                          //  alerta.openModal(context, text);
                           },
                         ),
+                        fillColor: color,
+                        filled: true,
+                        // disabledBorder: true,
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orange,
-                              width: 1.0,
-                              style: BorderStyle.none),
+                              color: Colors.orange, width: 1.0, style: BorderStyle.none),
                         ),
-                        filled: true,
                         border: InputBorder.none,
-                        fillColor: Colors.orangeAccent[100],
                         labelText: "Quantidade de clientes atendidos",
                         labelStyle: const TextStyle(
                           color: Colors.black,
-                          fontSize: 14,
+                          //  backgroundColor: Colors.white,
                         ),
                       ),
                     ),
@@ -245,8 +251,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       // decoration: buildInputDecoration(context,'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).'),
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 0),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                         prefixIcon: IconButton(
                           icon: const Icon(Icons.help),
                           color: Colors.black54,
@@ -255,22 +260,21 @@ class _DadosBasicosState extends State<DadosBasicos> {
                                 'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
                           },
                         ),
+                        suffixIcon: Icon(Icons.percent),
+                        fillColor: color,
+                        filled: true,
+                        // disabledBorder: true,
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orange,
-                              width: 1.0,
-                              style: BorderStyle.none),
+                              color: Colors.orange, width: 1.0, style: BorderStyle.none),
                         ),
-                        suffixIcon: Icon(Icons.percent),
-                        //  hintText: 'Margen que você considera ideal',
-                        fillColor: Colors.orangeAccent[100],
-                        filled: true,
                         border: InputBorder.none,
                         labelText: "Margen que você considera ideal",
                         labelStyle: const TextStyle(
                           color: Colors.black,
-                          fontSize: 14,
+                          //  backgroundColor: Colors.white,
                         ),
+                        // hintText: 'Quantidade de clientes atendidos',
                       ),
                     ),
                   ),
@@ -334,7 +338,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
   InputDecoration buildInputDecoration(BuildContext context, text, titulo) {
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
-      contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       prefixIcon: IconButton(
         icon: const Icon(Icons.help),
         color: Colors.black54,
@@ -342,18 +346,20 @@ class _DadosBasicosState extends State<DadosBasicos> {
           alerta.openModal(context, text);
         },
       ),
+      fillColor: color,
+      filled: true,
+      // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
             color: Colors.orange, width: 1.0, style: BorderStyle.none),
       ),
-      filled: true,
-      fillColor: Colors.orangeAccent[100],
       border: InputBorder.none,
-      labelText: titulo, //"Faturamento com vendas",
+      labelText: titulo,
       labelStyle: const TextStyle(
         color: Colors.black,
-        fontSize: 14,
+        //  backgroundColor: Colors.white,
       ),
+      // hintText: 'Quantidade de clientes atendidos',
     );
   }
 
