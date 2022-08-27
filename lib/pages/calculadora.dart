@@ -47,7 +47,7 @@ class _CalculadoraState extends State<Calculadora> {
 
   @override
   Widget build(BuildContext context) {
-
+   // print(historico);
     return Scaffold(
       appBar: header.getAppBar('Calculadora preços'),
       drawer: Menu(),
@@ -111,7 +111,10 @@ class _CalculadoraState extends State<Calculadora> {
                                         decoration: InputDecoration(
                                             floatingLabelBehavior:
                                                 FloatingLabelBehavior.always,
-                                            contentPadding:  const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16,
+                                                    vertical: 5),
                                             fillColor: Colors.orangeAccent[100],
                                             filled: true,
                                             border: InputBorder.none,
@@ -120,24 +123,27 @@ class _CalculadoraState extends State<Calculadora> {
                                               color: Colors.black,
                                               //  backgroundColor: Colors.white,
                                             ),
-                                            suffixIcon:  IconButton(
+                                            suffixIcon: IconButton(
                                               icon: const Icon(Icons.refresh),
                                               color: Colors.black54,
                                               onPressed: () {
-                                                     _pesquisaController.text ="";
-                                                     setState(() {
-                                                        historico.clear();
-                                                        historico =  calBloc.selectHistorico();
-                                                     });
+                                                _pesquisaController.text = "";
+                                                setState(() {
+                                                  historico.clear();
+                                                  historico =
+                                                      calBloc.selectHistorico();
+                                                });
                                               },
                                             )),
                                         onChanged: (text) {
-                                          if(historico.isEmpty){
-                                          //  alerta.openModal(context, 'Nenhum item encontrado');
+                                          if (historico.isEmpty) {
+                                            //  alerta.openModal(context, 'Nenhum item encontrado');
                                           }
                                           setState(() {
-                                            historico.retainWhere((element){
-                                              return element['produto'].toString().contains(text.toString());
+                                            historico.retainWhere((element) {
+                                              return element['produto']
+                                                  .toString()
+                                                  .contains(text.toString());
                                             });
                                           });
                                         },
@@ -154,17 +160,15 @@ class _CalculadoraState extends State<Calculadora> {
                   ),
 
                   //  const Espacamento(),
-                  _verHistorico ? Container(
+                  _verHistorico
+                      ? Container(
                           child: ListView.builder(
-                                  shrinkWrap: true,
-                                  // padding: const EdgeInsets.all(8),
-                                  itemCount: historico.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return buildContainer(index, historico);
-                                  })
-                       )
-
+                              shrinkWrap: true,
+                              // padding: const EdgeInsets.all(8),
+                              itemCount: historico.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return buildContainer(index, historico);
+                              }))
                       : Container(),
                   const Espacamento(),
                   !_verHistorico
@@ -495,10 +499,9 @@ class _CalculadoraState extends State<Calculadora> {
                               builder: (context, snapshot) {
                                 var data = snapshot.data.toString();
                                 var obs = true;
-                                if(data.isEmpty){
-                                  print('data');
+                                if (data.isEmpty) {
+                                //  print('obs');
                                   obs = false;
-
                                 }
 
                                 return _mostrarComponentes && obs
@@ -518,22 +521,7 @@ class _CalculadoraState extends State<Calculadora> {
                               }),
                         )
                       : Container(),
-                  /*
-                  const Espacamento(),
-                  !_mostrarComponentes
-                      ? Container(
-                          child: !_verHistorico
-                              ? const Text(
-                                  'Preencha os campos acima',
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.red),
-                                  textAlign: TextAlign.center,
-                                )
-                              : Container(),
-                        )
-                      : Container(),
 
-                   */
                   const Espacamento(),
                   Container(
                       child: Row(
@@ -563,7 +551,7 @@ class _CalculadoraState extends State<Calculadora> {
                                         _produto.text = "";
                                         _mostrarComponentes = false;
                                         _btnStatus = false;
-                                        _pesquisaController.text ="";
+                                        _pesquisaController.text = "";
                                       });
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -607,7 +595,7 @@ class _CalculadoraState extends State<Calculadora> {
   }
 
   Container buildContainer(int index, historico) {
-    print(index);
+
     var produto = historico[index]['produto'].toString();
     var data = historico[index]['data'].toString();
     var preco_atual = historico[index]['preco_atual'].toString();
@@ -616,8 +604,6 @@ class _CalculadoraState extends State<Calculadora> {
     var margem_atual = historico[index]['margem_atual'].toString();
 
     var id = historico[index]['id'];
-    print('id');
-    print(id);
 
     return Container(
       // height: 250,
@@ -628,8 +614,6 @@ class _CalculadoraState extends State<Calculadora> {
         color: Theme.of(context).colorScheme.surfaceVariant,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          //  mainAxisSize: MainAxisSize.min,
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ListTile(
                 title: Text("Produto: $produto"),
@@ -640,13 +624,6 @@ class _CalculadoraState extends State<Calculadora> {
                 ),
                 onTap: () {
                   confrimModal(context, id, index);
-                  //  calBloc.excluirHistorico(id);
-                  //   historico.removeAt(index);
-
-                  setState(() {
-                   // historico.clear();
-                   // calBloc.selectHistorico();
-                  });
                 }),
             Padding(
               padding:
@@ -654,10 +631,13 @@ class _CalculadoraState extends State<Calculadora> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Preco Atual: $preco_atual"),
-                  Text("Preço Sugerido: $preco_sugerido"),
-                  Text("Margem Desejada: $margem_desejada"),
-                  Text("Margem Atual: $margem_atual"),
+                  Text("Preco Atual R\$: $preco_atual"),
+                  buildSizedBox(),
+                  Text("Margem Desejada: $margem_desejada "),
+                  buildSizedBox(),
+                  Text("Preço Sugerido R\$: $preco_sugerido"),
+                  buildSizedBox(),
+                  Text("Margem Atual: $margem_atual "),
                 ],
               ),
             ),
@@ -665,6 +645,12 @@ class _CalculadoraState extends State<Calculadora> {
           ],
         ),
       ),
+    );
+  }
+
+  SizedBox buildSizedBox() {
+    return const SizedBox(
+      height: 4.0,
     );
   }
 
@@ -704,7 +690,7 @@ class _CalculadoraState extends State<Calculadora> {
         _produto.text = "";
         _mostrarComponentes = false;
         _btnStatus = false;
-        _pesquisaController.text ="";
+        _pesquisaController.text = "";
       });
     });
 
@@ -718,9 +704,9 @@ class _CalculadoraState extends State<Calculadora> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(
+            title: const Text(
               "Deseja mesmo excluir, esta ação é ireversivel.",
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16),
               textAlign: TextAlign.justify,
               softWrap: true,
             ),
@@ -731,7 +717,6 @@ class _CalculadoraState extends State<Calculadora> {
                   style: TextStyle(color: Colors.amber),
                 ),
                 onPressed: () {
-
                   Navigator.pop(context);
                 },
               ),
@@ -749,7 +734,7 @@ class _CalculadoraState extends State<Calculadora> {
                     //  calBloc.selectHistorico();
                     setState(() {
                       //  _verHistorico = !_verHistorico;
-                      _pesquisaController.text ="";
+                      _pesquisaController.text = "";
                       historico.clear();
                       calBloc.selectHistorico();
                     });

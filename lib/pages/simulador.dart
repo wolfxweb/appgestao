@@ -240,7 +240,7 @@ class _SimuladorState extends State<Simulador> {
                                 builder: (context, snapshot) {
 
                                   var data = snapshot.data;
-                                  print(data);
+                                  //(data);
 
                                   return TextFormField(
                                       //   enabled: false,
@@ -441,8 +441,8 @@ class _SimuladorState extends State<Simulador> {
                                 stream: simuladorBloc.custoProdutoController,
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
-                                  print('Custo fixo data');
-                                  print(data);
+                                //  print('Custo fixo data');
+                                //  print(data);
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
