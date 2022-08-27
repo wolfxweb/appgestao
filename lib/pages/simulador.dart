@@ -51,37 +51,7 @@ class _SimuladorState extends State<Simulador> {
 
     addController.text = '0';
     removeController.text = '0';
-    /*
-    var venda = simuladorBloc.getVendas();
-    venda.then((data) {
-      data.forEach((element) {
-        vendasController.text = element["qtd"];
-      });
-    });
-    var ticket = simuladorBloc.calTiketMedio();
-    ticket.then((data) {
-      ticketMedioController.text = data;
-    });
-    var custoInsumos = simuladorBloc.getCustoInsumos();
-    custoInsumos.then((data) {
-      print(data);
-      custoInsumosController.text = data;
-    });
-    var custoProduto = simuladorBloc.getCustoProduto();
-    custoProduto.then((data) {
-      custoProdutoController.text = data;
-    });
-    var custoVariavel = simuladorBloc.getCustoVariavel();
-    custoVariavel.then((data) {
-      custoVariavelController.text = data;
-    });
-    var custoFixo = simuladorBloc.getCustoFixo();
-    custoFixo.then((data) {
-     // print('data');
-    //  print(data);
-      custoFixoController.text = data;
-    });
-*/
+
     super.initState();
   }
 
@@ -268,8 +238,10 @@ class _SimuladorState extends State<Simulador> {
                             child: StreamBuilder(
                                 stream: simuladorBloc.vendasController,
                                 builder: (context, snapshot) {
-                                  //      print(snapshot.data);
+
                                   var data = snapshot.data;
+                                  print(data);
+
                                   return TextFormField(
                                       //   enabled: false,
                                       keyboardType: TextInputType.number,
@@ -524,9 +496,7 @@ class _SimuladorState extends State<Simulador> {
     );
   }
 
-  buildCalculoVendas() {
-    // print('vendas');
-  }
+
 
   Container buildContainerAddRemove(context) {
     return Container(
@@ -555,11 +525,13 @@ class _SimuladorState extends State<Simulador> {
                   builder: (context, snapshot) {
                     // print(snapshot.data);
                     var data = snapshot.data;
-
                     return GestureDetector(
                       onTap: () {
-                        simuladorBloc.calculoPercentual(addController.text, 1,
-                            valorInicialTicket, 1, context);
+                        if(valorInicialTicket.isEmpty){
+                           alerta.openModal(context, "Selecione um item para a realização da simulação");
+                        }else{
+                          simuladorBloc.calculoPercentual(addController.text, 1, valorInicialTicket, 1, context);
+                        }
                       },
                       child: TextFormField(
                           enabled: false,
@@ -630,9 +602,11 @@ class _SimuladorState extends State<Simulador> {
                     var data = snapshot.data;
                     return GestureDetector(
                       onTap: () {
-                        simuladorBloc.calculoPercentual(removeController.text,
-                            2, valorInicialTicket, 2, context);
-                        //  simuladorBloc.calculoPercentual(removeController.text,2,valorInicialTicket,2,context);
+                        if(valorInicialTicket.isEmpty){
+                          alerta.openModal(context, "Selecione um item para a realização da simulação");
+                        }else{
+                          simuladorBloc.calculoPercentual(removeController.text,2, valorInicialTicket, 2, context);
+                        }
                       },
                       child: TextFormField(
                           enabled: false,

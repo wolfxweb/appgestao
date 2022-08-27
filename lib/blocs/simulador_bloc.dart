@@ -157,6 +157,7 @@ class SimuladorBloc extends BlocBase {
           novaQtd = calc_qtd - qtdAUX;
         }
         calc_qtd = novaQtd;
+
         _vendasController.add(novaQtd.toString());
         calculoVendas(novaQtd.toString());
         break;
@@ -539,9 +540,11 @@ class SimuladorBloc extends BlocBase {
 
   updateStream(marIdeal, qtd, fat, gi, gpv, cusf, cus, element) {
 
-    print(element);
+    print(qtd.runtimeType);
+
+    var qtdjust = int.parse(qtd);
     _margemIdealController.add(marIdeal);
-    _vendasController.add(qtd);
+    _vendasController.add(qtdjust.toString());
     _faturamentoController.add(fat);
     _custoInsumosController.add(element['gastos_insumos']);
     _custoVariavelController.add(element['custo_fixo']);

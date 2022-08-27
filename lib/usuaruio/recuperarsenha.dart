@@ -58,17 +58,13 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                   ),
                   const Espacamento(),
 
-                  TextFormField(
-                    validator: ValidationBuilder().email().maxLength(50).required().build(),
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      prefixIcon: Icon(Icons.email, color: Colors.orange),
-                      hintText: 'Digite o seu email',
+                  Container(
+                    decoration: buildBoxDecoration(),
+                    child: TextFormField(
+                      validator: ValidationBuilder().email().maxLength(50).required().build(),
+                      keyboardType: TextInputType.emailAddress,
+                      controller: _emailController,
+                      decoration: buildInputDecoration("Digite o seu email")
                     ),
                   ),
                   const Espacamento(),
@@ -106,6 +102,40 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
           ),
         ),
       ),
+    );
+  }
+  InputDecoration buildInputDecoration(text) {
+    return  InputDecoration(
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      //   suffixIcon: suffixIcon,
+      fillColor: Colors.orangeAccent[100],
+      filled: true,
+
+      // disabledBorder: true,
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+      ),
+      border: InputBorder.none,
+      labelText: text,
+      labelStyle: const TextStyle(
+        color: Colors.black,
+        //  backgroundColor: Colors.white,
+      ),
+    );
+  }
+  BoxDecoration buildBoxDecoration() {
+    return const BoxDecoration(
+      color: Colors.transparent,
+      //borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 1,
+          offset: Offset(1, 3), // Shadow position
+        ),
+      ],
     );
   }
   _buildOnPressed()async{

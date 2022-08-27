@@ -1,4 +1,3 @@
-
 import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
@@ -23,15 +22,12 @@ import '../main.dart';
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
-
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  void initState(){
-
-  }
+  void initState() {}
   var irPagina = PushPage();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
@@ -54,49 +50,46 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                 const Logo(),
-                  TextFormField(
-                    validator: ValidationBuilder().email().maxLength(50).required().build(),
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      prefixIcon: Icon(Icons.email, color: Colors.orange),
-                      hintText: 'Digite o seu email',
-                    ),
-                  ),
-                  const Espacamento(),
-                  TextFormField(
-                    validator: ValidationBuilder().minLength(6).maxLength(50).required().build(),
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    controller: _senhaController,
-                    decoration: const InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      border: UnderlineInputBorder(),
-                      prefixIcon: Icon(Icons.password, color: Colors.orange),
-                      //    suffixIcon: Icon(Icons.remove_red_eye,color: Colors.orange),
-                      hintText: 'Digite sua senha',
-                    ),
-                  ),
-                  const Espacamento(),
+                  const Logo(),
+                  Container(
+                    decoration: buildBoxDecoration(),
+                    child: TextFormField(
+                      validator: ValidationBuilder()
+                          .email()
+                          .maxLength(50)
+                          .required()
+                          .build(),
+                      keyboardType: TextInputType.emailAddress,
+                      controller: _emailController,
+                      decoration:buildInputDecoration('Digite o seu email'),
 
+                    ),
+                  ),
+                  const Espacamento(),
+                  Container(
+                    decoration: buildBoxDecoration(),
+                    child: TextFormField(
+                      validator: ValidationBuilder()
+                          .minLength(6)
+                          .maxLength(50)
+                          .required()
+                          .build(),
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                      controller: _senhaController,
+                      decoration: buildInputDecoration('Digite sua senha'),
+                    ),
+                  ),
+                  const Espacamento(),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton (
+                    child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.orange, // background
                         onPrimary: Colors.white, // foreground
                       ),
-                      child: Text('Entrar',style: TextStyle(color: Colors.white)),
-                      onPressed:_buildOnPressed,
-
+                      child: Text('Entrar', style: TextStyle(color: Colors.white)),
+                      onPressed: _buildOnPressed,
                     ),
                   ),
                   const Espacamento(),
@@ -109,40 +102,77 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                   const Espacamento(),
-                  const BtnDarkLight(),
+                 // const BtnDarkLight(),
                 ],
               ),
             ),
           ),
         ),
-    ),
+      ),
     );
   }
 
-  _buildOnPressed()async{
+  InputDecoration buildInputDecoration(text) {
+    return  InputDecoration(
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+   //   suffixIcon: suffixIcon,
+      fillColor: Colors.orangeAccent[100],
+      filled: true,
+
+      // disabledBorder: true,
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+      ),
+      border: InputBorder.none,
+      labelText: text,
+      labelStyle: const TextStyle(
+        color: Colors.black,
+        //  backgroundColor: Colors.white,
+      ),
+    );
+  }
+  BoxDecoration buildBoxDecoration() {
+    return const BoxDecoration(
+      color: Colors.transparent,
+      //borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 1,
+          offset: Offset(1, 3), // Shadow position
+        ),
+      ],
+    );
+  }
+
+  _buildOnPressed() async {
     final isValid = _formKey.currentState!.validate();
-    if(!isValid){
+    if (!isValid) {
       return;
     }
     var alert = AlertSnackBar();
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
         email: _emailController.text,
         password: _senhaController.text,
-      ).then((value){
+      )
+          .then((value) {
         print(value.user!.email);
-         var user = VerificaStatusFairebase();
-         user.statusUsuario(value.user!.email, context);
+        var user = VerificaStatusFairebase();
+        user.statusUsuario(value.user!.email, context);
       });
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
-        alert.alertSnackBar(context,Colors.red, 'Nenhum usuário encontrado para esse e-mail.');
+        alert.alertSnackBar(
+            context, Colors.red, 'Nenhum usuário encontrado para esse e-mail.');
       } else if (e.code == 'wrong-password') {
         print('Senha incorreta fornecida para esse usuário.');
-        alert.alertSnackBar(context,Colors.red, 'Senha incorreta fornecida para esse usuário.');
-
+        alert.alertSnackBar(context, Colors.red,
+            'Senha incorreta fornecida para esse usuário.');
       }
     }
   }

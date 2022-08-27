@@ -64,68 +64,47 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ),
                     const Espacamento(),
 
-                    TextFormField(
-                      validator: ValidationBuilder().email().maxLength(50).required().build(),
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailController,
-                      decoration: const InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.orange, width: 1.0),
-                        ),
-                        prefixIcon: Icon(Icons.email, color: Colors.orange),
-                        hintText: 'Digite o seu email',
+                    Container(
+                      decoration: buildBoxDecoration(),
+                      child: TextFormField(
+                        validator: ValidationBuilder().email().maxLength(50).required().build(),
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
+                        decoration:  buildInputDecoration("Digite seu email")
                       ),
                     ),
                     const Espacamento(),
-                    TextFormField(
-                      validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
-                      keyboardType: TextInputType.text,
-                      controller: _nomeController,
-                      decoration: const InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.orange, width: 1.0),
-                        ),
-                        border: UnderlineInputBorder(),
-                        prefixIcon: Icon(Icons.person, color: Colors.orange),
-                        hintText: 'Digite como gostaria de ser chamado',
+                    Container(
+                      decoration: buildBoxDecoration(),
+                      child: TextFormField(
+                        validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
+                        keyboardType: TextInputType.text,
+                        controller: _nomeController,
+                        decoration: buildInputDecoration("Digite como gostaria de ser chamado")
                       ),
                     ),
                     const Espacamento(),
-                    TextFormField(
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        TelefoneInputFormatter(),
-                      ],
-                      keyboardType: TextInputType.number,
-                      controller: _telefoneController,
-                      decoration: const InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.orange, width: 1.0),
-                        ),
-                        border: UnderlineInputBorder(),
-                        prefixIcon: Icon(Icons.whatsapp, color: Colors.orange),
-                        hintText: 'Digite seu telefone',
+                    Container(
+                      decoration: buildBoxDecoration(),
+                      child: TextFormField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          TelefoneInputFormatter(),
+                        ],
+                        keyboardType: TextInputType.number,
+                        controller: _telefoneController,
+                        decoration: buildInputDecoration("Digite seu telefone")
                       ),
-
                     ),
                     const Espacamento(),
-                    TextFormField(
-                      validator: ValidationBuilder().minLength(6).maxLength(50).required().build(),
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      controller: _senhaController,
-                      decoration: const InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.orange, width: 1.0),
-                        ),
-                        border: UnderlineInputBorder(),
-                        prefixIcon: Icon(Icons.password, color: Colors.orange),
-                        //    suffixIcon: Icon(Icons.remove_red_eye,color: Colors.orange),
-                        hintText: 'Digite sua senha',
+                    Container(
+                      decoration: buildBoxDecoration(),
+                      child: TextFormField(
+                        validator: ValidationBuilder().minLength(6).maxLength(50).required().build(),
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                        controller: _senhaController,
+                        decoration: buildInputDecoration("Digite sua senha")
                       ),
                     ),
                     const Espacamento(),
@@ -175,7 +154,40 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       ),
     );
   }
+  InputDecoration buildInputDecoration(text) {
+    return  InputDecoration(
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      //   suffixIcon: suffixIcon,
+      fillColor: Colors.orangeAccent[100],
+      filled: true,
 
+      // disabledBorder: true,
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+      ),
+      border: InputBorder.none,
+      labelText: text,
+      labelStyle: const TextStyle(
+        color: Colors.black,
+        //  backgroundColor: Colors.white,
+      ),
+    );
+  }
+  BoxDecoration buildBoxDecoration() {
+    return const BoxDecoration(
+      color: Colors.transparent,
+      //borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 1,
+          offset: Offset(1, 3), // Shadow position
+        ),
+      ],
+    );
+  }
   _buildOnPressed()async {
     final isValid = _formKey.currentState!.validate();
     if(!isValid){
