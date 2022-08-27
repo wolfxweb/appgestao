@@ -104,17 +104,6 @@ class _DadosBasicosState extends State<DadosBasicos> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  //  const Espacamento(),
-                  //  const Logo(),
-                  /*
-                  const Espacamento(),
-                  const Text(
-                    'Sempre com você... participando do seu sucesso!',
-                    style: TextStyle(fontSize: 24),
-                    textAlign: TextAlign.center,
-                  ),
-
-                   */
                   const Espacamento(),
                   // Text('DADOS BÁSICOS',style: TextStyle(color: Colors.white)),
                   const Text(
@@ -125,154 +114,94 @@ class _DadosBasicosState extends State<DadosBasicos> {
                   const Espacamento(),
 
                   const Espacamento(),
-                  ValueListenableBuilder(
-                      valueListenable: mesSelect,
-                      builder: (BuildContext context, String value, _) {
-                        return SizedBox(
-                          child: DropdownButtonFormField<String>(
-                              decoration: const InputDecoration(
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 0, vertical: 0),
-                                filled: true,
-                                border: InputBorder.none,
+                  Container(
+                    decoration: buildBuildBoxDecoration(),
+                    child: ValueListenableBuilder(
+                        valueListenable: mesSelect,
+                        builder: (BuildContext context, String value, _) {
+                          return SizedBox(
+                            child: DropdownButtonFormField<String>(
+                                decoration: const InputDecoration(
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 0, vertical: 0),
+                                  filled: true,
+                                  border: InputBorder.none,
+                                  labelText: "Selecione o mês referência",
+                                  labelStyle: TextStyle(color: Colors.black54),
+                                  prefixIcon: IconButton(
+                                      icon: const Icon(null),
+                                      color: Colors.transparent,
+                                      onPressed: null),
+                                ),
+                                isExpanded: true,
+                                hint: const Text("Selecione o mês referência"),
+                                value: (value.isEmpty) ? null : value,
+                                items: dropOpcoes.map((e) {
+                                  return DropdownMenuItem(
+                                    child: Text(e),
+                                    value: e,
+                                  );
+                                }).toList(),
+                                onChanged: (onChanged) {
+                                  print(onChanged);
+                                  _faturamentoController.text = "";
+                                  _custoInsumosController.text = "";
+                                  _custoFixoController.text = "";
+                                  _gastoinsumosController.text = "";
+                                  _quantidadeController.text = "";
+                                  _margenController.text = "";
+                                  _custoVariavelController.text = "";
+                                  mesSelect.value = onChanged.toString();
+                                }),
+                          );
+                        }),
+                  ),
 
-                                labelText: "Selecione o mês referência",
-                                labelStyle: TextStyle(color: Colors.black54),
-                                prefixIcon: IconButton(
-                                    icon: const Icon(null),
-                                    color: Colors.transparent,
-                                    onPressed: null),
-                              ),
-                              isExpanded: true,
-                              hint: const Text("Selecione o mês referência"),
-                              value: (value.isEmpty) ? null : value,
-                              items: dropOpcoes.map((e) {
-                                return DropdownMenuItem(
-                                  child: Text(e),
-                                  value: e,
-                                );
-                              }).toList(),
-                              onChanged: (onChanged) {
-                                print(onChanged);
-                                _faturamentoController.text = "";
-                                _custoInsumosController.text = "";
-                                _custoFixoController.text = "";
-                                _gastoinsumosController.text = "";
-                                _quantidadeController.text = "";
-                                _margenController.text = "";
-                                _custoVariavelController.text = "";
-                                mesSelect.value = onChanged.toString();
-                              }),
-                        );
-                      }),
-
-/*
                   const Espacamento(),
-                  StreamBuilder<dynamic>(
-                      stream: mesBloc.mesOutUsuario,
-                      builder: (context, snapshot) {
-
-                        if (snapshot.hasData) {
-                          mesController =  DropdownEditingController(value: mesRef);
-                        }
-                        return TextDropdownFormField(
-                          controller: mesController,
-                          options: const [
-                            "Janeiro",
-                            "Fevereiro",
-                            "Março",
-                            "Abril",
-                            "Maio",
-                            "Juho",
-                            "Julho",
-                            "Agosto",
-                            "Setembro",
-                            "Outubro",
-                            "Novembro",
-                            "Dezembro"
-                          ],
-
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.orange, width: 1.0),
-                            ),
-                            focusColor: Colors.orangeAccent,
-                            border: OutlineInputBorder(),
-                            suffixIcon: Icon(
-                              Icons.arrow_drop_down,
-                              color: Colors.orangeAccent,
-                            ),
-                            labelText: "Selecione o mês referência",
-                            labelStyle: TextStyle(color: Colors.black54),
-                            prefixIcon: IconButton(
-                                icon: const Icon(null),
-                                color: Colors.transparent,
-                                onPressed: null),
-                          ),
-                          onChanged: (dynamic str) {
-                            print(str);
-                            //  setState(() { mesRef = str; });
-                            //  mesController = str;
-                            mesSave = str;
-                            // mesController = str;
+                  Container(
+                    decoration: buildBuildBoxDecoration(),
+                    child: TextFormField(
+                      validator:
+                          ValidationBuilder().maxLength(50).required().build(),
+                      keyboardType: TextInputType.number,
+                      controller: _quantidadeController,
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 0),
+                        prefixIcon: IconButton(
+                          icon: const Icon(Icons.help),
+                          color: Colors.transparent,
+                          onPressed: () {
+                            //   alerta.openModal(context,'opaaa');
                           },
-                          // dropdownHeight: 120,
-                        );
-                      }),
-*/
-                  const Espacamento(),
-                  TextFormField(
-                    validator:
-                        ValidationBuilder().maxLength(50).required().build(),
-                    keyboardType: TextInputType.number,
-                    controller: _quantidadeController,
-                    decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 0),
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.help),
-                        color: Colors.transparent,
-                        onPressed: () {
-                          //   alerta.openModal(context,'opaaa');
-                        },
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                      ),
-                      filled: true,
-                      border: InputBorder.none,
-                      fillColor: Colors.orangeAccent[100],
-                      labelText: "Quantidade de clientes atendidos",
-                      labelStyle: const TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18,
-                      ),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.orange,
+                              width: 1.0,
+                              style: BorderStyle.none),
+                        ),
+                        filled: true,
+                        border: InputBorder.none,
+                        fillColor: Colors.orangeAccent[100],
+                        labelText: "Quantidade de clientes atendidos",
+                        labelStyle: const TextStyle(
+                          color: Colors.black54,
+                          fontSize: 18,
+                        ),
 
-                      //  hintText: 'Quantidade de clientes atendidos',
+                        //  hintText: 'Quantidade de clientes atendidos',
+                      ),
                     ),
                   ),
                   const Espacamento(),
-                  TextFormField(
-                    validator:
-                        ValidationBuilder().maxLength(50).required().build(),
-                    keyboardType: TextInputType.number,
-                    controller: _faturamentoController,
-                    inputFormatters: [
-                      // obrigatório
-                      FilteringTextInputFormatter.digitsOnly,
-                      CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                    ],
-                    decoration: buildInputDecoration(context,'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).'),
-                  ),
+                  buildContainerInput(context, 'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).', "Faturamento com vendas",_faturamentoController),
                   const Espacamento(),
-                  TextFormField(
+                  buildContainerInput(context, 'Considere os produtos de terceiros adquiridos e comercializado no mês informado.', "Gastos com insumos",_custoInsumosController),
+              /*    TextFormField(
                     // validator:  ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
                     controller: _custoInsumosController,
@@ -280,38 +209,14 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       FilteringTextInputFormatter.digitsOnly,
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
-                    decoration: buildInputDecoration(context,'Considere os produtos de terceiros adquiridos e comercializado no mês informado.'),
-                 /*   decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 0),
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.help),
-                        color: Colors.orange,
-                        onPressed: () {
-                          alerta.openModal(context,
-                              'Considere os produtos de terceiros adquiridos e comercializado no mês informado.');
-                        },
-                      ),
-                      //    hintText: 'Gasto com insumos para revenda',
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      border: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      labelText: "Gasto com insumos",
-                      labelStyle: const TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18,
-                      ),
-                    ),*/
-                  ),
+                    decoration: buildInputDecoration(
+                        context,
+                        'Considere os produtos de terceiros adquiridos e comercializado no mês informado.',
+                        "Gastos com insumos"),
+                  ),*/
                   const Espacamento(),
-                  TextFormField(
+                  buildContainerInput(context, 'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa, bem como os produtos adquiridos prontos para revender. IMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).', "Gasto com produto para revenda",_gastoinsumosController),
+                /*  TextFormField(
                     //  validator:  ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
                     controller: _gastoinsumosController,
@@ -319,38 +224,14 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       FilteringTextInputFormatter.digitsOnly,
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
-                    decoration: buildInputDecoration(context,'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa, bem como os produtos adquiridos prontos para revender. IMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).'),
-                  /*  decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 0),
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.help),
-                        color: Colors.orange,
-                        onPressed: () {
-                          alerta.openModal(context,
-                              'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa, bem como os produtos adquiridos prontos para revender. IMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).');
-                        },
-                      ),
-                      //  hintText: 'Gasto com produto para revenda',
-                      //    hintText: 'Gasto com insumos para revenda',
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      border: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      labelText: "Gasto com produto para revenda",
-                      labelStyle: const TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18,
-                      ),
-                    ),*/
-                  ),
+                    decoration: buildInputDecoration(
+                        context,
+                        'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa, bem como os produtos adquiridos prontos para revender. IMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).',
+                        "Gasto com produto para revenda"),
+                  ),*/
                   const Espacamento(),
-                  TextFormField(
+                  buildContainerInput(context,  'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.', 'Total custo variáveis',_custoVariavelController),
+                 /* TextFormField(
                     validator:
                         ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
@@ -359,37 +240,14 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       FilteringTextInputFormatter.digitsOnly,
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
-                    decoration: buildInputDecoration(context,'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.'),
-                 /*  decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 0),
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.help),
-                        color: Colors.orange,
-                        onPressed: () {
-                          alerta.openModal(context,
-                              'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.');
-                        },
-                      ),
-                      //  hintText: 'Total outros custos variaveis',
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      border: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      labelText: "Total outros custos variaveis",
-                      labelStyle: const TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18,
-                      ),
-                    ),*/
-                  ),
+                    decoration: buildInputDecoration(
+                        context,
+                        'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
+                        'Total custo variáveis'),
+                  ),*/
                   const Espacamento(),
-                  TextFormField(
+                  buildContainerInput(context, 'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.',  'Custo fixo',_custoFixoController),
+               /*   TextFormField(
                     validator:
                         ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.number,
@@ -398,35 +256,11 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       FilteringTextInputFormatter.digitsOnly,
                       CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
-                    decoration: buildInputDecoration(context,'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.'),
-                 /*   decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 0),
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.help),
-                        color: Colors.orange,
-                        onPressed: () {
-                          alerta.openModal(context,
-                              'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.');
-                        },
-                      ),
-                      //  hintText: 'Total de custos fixos',
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      border: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orange, width: 1.0),
-                      ),
-                      labelText: "Total de custos fixos",
-                      labelStyle: const TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18,
-                      ),
-                    ),*/
-                  ),
+                    decoration: buildInputDecoration(
+                        context,
+                        'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.',
+                        'Custo fixo'),
+                  ),*/
                   const Espacamento(),
                   TextFormField(
                     validator:
@@ -437,7 +271,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       FilteringTextInputFormatter.digitsOnly,
                       //  CentavosInputFormatter(moeda: true, casasDecimais: 2)
                     ],
-                   // decoration: buildInputDecoration(context,'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).'),
+                    // decoration: buildInputDecoration(context,'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).'),
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       contentPadding: const EdgeInsets.symmetric(
@@ -446,12 +280,15 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         icon: const Icon(Icons.help),
                         color: Colors.black54,
                         onPressed: () {
-                          alerta.openModal(context,'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
+                          alerta.openModal(context,
+                              'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
                         },
                       ),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
-                            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                            color: Colors.orange,
+                            width: 1.0,
+                            style: BorderStyle.none),
                       ),
                       suffixIcon: Icon(Icons.percent),
                       //  hintText: 'Margen que você considera ideal',
@@ -489,7 +326,39 @@ class _DadosBasicosState extends State<DadosBasicos> {
     );
   }
 
-  InputDecoration buildInputDecoration(BuildContext context, text) {
+  Container buildContainerInput(BuildContext context,text, titulo ,controllerInformado ) {
+    return Container(
+      decoration: buildBuildBoxDecoration(),
+      child: TextFormField(
+        validator: ValidationBuilder().maxLength(50).required().build(),
+        keyboardType: TextInputType.number,
+      //  controller: _faturamentoController,
+        controller: controllerInformado,
+        inputFormatters: [
+          // obrigatório
+          FilteringTextInputFormatter.digitsOnly,
+          CentavosInputFormatter(moeda: true, casasDecimais: 2)
+        ],
+        decoration: buildInputDecoration(context,text,titulo),
+      ),
+    );
+  }
+
+  buildBuildBoxDecoration() {
+    return const BoxDecoration(
+      color: Colors.transparent,
+      //borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 1,
+          offset: Offset(1, 3), // Shadow position
+        ),
+      ],
+    );
+  }
+
+  InputDecoration buildInputDecoration(BuildContext context, text, titulo) {
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -508,7 +377,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
       filled: true,
       fillColor: Colors.orangeAccent[100],
       border: InputBorder.none,
-      labelText: "Faturamento com vendas",
+      labelText: titulo, //"Faturamento com vendas",
       labelStyle: const TextStyle(
         color: Colors.black54,
         fontSize: 18,
