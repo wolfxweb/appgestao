@@ -34,11 +34,10 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
   }
 
   void _consultar() async {
-
     var bd = InportanciasMeses();
     await bd.lista().then((data) {
       data.forEach((element) {
-     //   print(element);
+        //   print(element);
         _janValue = element['jan'];
         _fevValue = element['fev'];
         _marValue = element['mar'];
@@ -53,9 +52,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
         _dezValue = element['dez'];
       });
     });
-
   }
-
 
   var _janValue = 5;
   var _fevValue = 5;
@@ -117,7 +114,8 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 // ..quantity = int.parse(quantityController.text);
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(6),
+                 // padding: EdgeInsets.all(6),
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.janOutValor,
                       builder: (context, snapshot) {
@@ -142,33 +140,34 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
                 Container(
                   width: 150,
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
-                    stream: _importanciaMesesBLoc.fevOutValor,
-                    builder: (context, snapshot) {
-                      return Container(
-                        child: SpinBox(
-                          min: 1,
-                          max: 10,
-                          value: double.parse(_fevValue.toString()),
-                          decoration:buildInputDecoration("Fevereiro"),
-                          incrementIcon: const Icon(
-                            Icons.add,
-                            color: Colors.green,
+                      stream: _importanciaMesesBLoc.fevOutValor,
+                      builder: (context, snapshot) {
+                        return Container(
+                          child: SpinBox(
+                            min: 1,
+                            max: 10,
+                            value: double.parse(_fevValue.toString()),
+                            decoration: buildInputDecoration("Fevereiro"),
+                            incrementIcon: const Icon(
+                              Icons.add,
+                              color: Colors.green,
+                            ),
+                            decrementIcon: const Icon(
+                              Icons.remove,
+                              color: Colors.red,
+                            ),
+                            onChanged: (value) {
+                              _importanciaMesesBLoc.fev(value);
+                            },
                           ),
-                          decrementIcon: const Icon(
-                            Icons.remove,
-                            color: Colors.red,
-                          ),
-                          onChanged: (value) {
-                            _importanciaMesesBLoc.fev(value);
-                          },
-                        ),
-                      );
-                    }
-                  ),
+                        );
+                      }),
                 ),
               ],
             ),
+            const Espacamento(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -176,7 +175,8 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               children: [
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(6),
+                  //padding: EdgeInsets.all(6),
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.marOutValor,
                       builder: (context, snapshot) {
@@ -201,6 +201,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
                 Container(
                   width: 150,
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.abrOutValor,
                       builder: (context, snapshot) {
@@ -208,7 +209,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_abrValue.toString()),
-                          decoration:buildInputDecoration("Abril"),
+                          decoration: buildInputDecoration("Abril"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -226,6 +227,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
               ],
             ),
+            const Espacamento(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -233,7 +235,8 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               children: [
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(6),
+              //    padding: EdgeInsets.all(6),
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.maiOutValor,
                       builder: (context, snapshot) {
@@ -258,6 +261,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
                 Container(
                   width: 150,
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.junOutValor,
                       builder: (context, snapshot) {
@@ -282,6 +286,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
               ],
             ),
+            const Espacamento(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -289,7 +294,8 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               children: [
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(6),
+                 // padding: EdgeInsets.all(6),
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.julOutValor,
                       builder: (context, snapshot) {
@@ -297,7 +303,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_julValue.toString()),
-                          decoration:buildInputDecoration("Julho"),
+                          decoration: buildInputDecoration("Julho"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -314,6 +320,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
                 Container(
                   width: 150,
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.agoOutValor,
                       builder: (context, snapshot) {
@@ -321,7 +328,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_agoValue.toString()),
-                          decoration:buildInputDecoration("Agosto"),
+                          decoration: buildInputDecoration("Agosto"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -338,6 +345,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
               ],
             ),
+            const Espacamento(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -345,7 +353,8 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               children: [
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(6),
+                //  padding: EdgeInsets.all(6),
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.setOutValor,
                       builder: (context, snapshot) {
@@ -353,7 +362,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           min: 1,
                           max: 10,
                           value: double.parse(_setValue.toString()),
-                          decoration:buildInputDecoration("Setembro"),
+                          decoration: buildInputDecoration("Setembro"),
                           incrementIcon: const Icon(
                             Icons.add,
                             color: Colors.green,
@@ -370,6 +379,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
                 Container(
                   width: 150,
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.outOutValor,
                       builder: (context, snapshot) {
@@ -394,6 +404,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
               ],
             ),
+            const Espacamento(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -401,7 +412,8 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               children: [
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(6),
+                 // padding: EdgeInsets.all(6),
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.novOutValor,
                       builder: (context, snapshot) {
@@ -426,6 +438,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
                 Container(
                   width: 150,
+                  decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.dezOutValor,
                       builder: (context, snapshot) {
@@ -450,9 +463,10 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 ),
               ],
             ),
+            const Espacamento(),
             Container(
               height: 350,
-              width: 300,
+              width: 350,
               child: StreamBuilder<List?>(
                   stream: _importanciaMesesBLoc.outValorMeses,
                   builder: (context, snapshot) {
@@ -505,23 +519,52 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
   }
 
   InputDecoration buildInputDecoration(mesLabel) {
-    return  InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                             fillColor: Colors.grey[150],
-                              filled: true,
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.orange, width: 1.0),
-                            ),
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.orange, width: 1.0),
-                            ),
-                            labelStyle: const TextStyle(
-                              color: Colors.black,
-                              backgroundColor: Colors.white,
-                            ),
-                            labelText: mesLabel,
-                        );
+    return InputDecoration(
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      fillColor: Colors.orangeAccent[100],
+      filled: true,
+      // disabledBorder: true,
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+      ),
+      border: InputBorder.none,
+      labelText: mesLabel,
+      labelStyle: const TextStyle(
+        color: Colors.black,
+        //  backgroundColor: Colors.white,
+      ),
+      /*
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      fillColor: Colors.grey[150],
+      filled: true,
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.orange, width: 1.0),
+      ),
+      border: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.orange, width: 1.0),
+      ),
+      labelStyle: const TextStyle(
+        color: Colors.black,
+        backgroundColor: Colors.white,
+      ),
+      labelText: mesLabel,
+
+       */
+    );
+  }
+  buildBuildBoxDecoration() {
+    return const BoxDecoration(
+      color: Colors.transparent,
+      //borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 1,
+          offset: Offset(1, 3), // Shadow position
+        ),
+      ],
+    );
   }
 }
