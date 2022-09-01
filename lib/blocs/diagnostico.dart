@@ -54,6 +54,8 @@ class DignosticoBloc extends BlocBase {
   var _M;
   var _N;
   var _O;
+  var _X;
+
 
   var calculo_a;
   var calculo_b;
@@ -63,6 +65,8 @@ class DignosticoBloc extends BlocBase {
   var calculo_f;
   var calculo_g;
   var calculo_k;
+  var calculo_h;
+
 
   var _text_1;
   var _text_2;
@@ -123,7 +127,7 @@ class DignosticoBloc extends BlocBase {
     _text_2 =
         "O fato é que o resultado não é aquele que você gostaria. Então, ${_fulano}, "
         "use o SIMULADOR para ver o que pode ser feito! Com a ajuda da CALCULADORA DE PREÇOS verifique (pelo menos), "
-        "a margem dos seus produtos que mais vendem. Com um aumento de xx% na produtividade você alcançaria os xx% que considera ideal!";
+        "a margem dos seus produtos que mais vendem. Com um aumento de ${_X}% na produtividade você alcançaria os ${_H}% que considera ideal!";
 
     _text_3 = "Parabéns ${_fulano}! Você certamente está satisfeito com a lucratividade do negócio. Mesmo assim dê uma analisada com a ajuda do SIMULADOR para ver se poderia ser ainda melhor.";
 
@@ -139,20 +143,14 @@ class DignosticoBloc extends BlocBase {
 
     var _b = double.parse(_B).truncateToDouble();
     var _h = double.parse(_H).truncateToDouble();
-   // print(_H);
-  //  print(_B);
+
     if (_b > 0.0) {
       if (_b < _h) {
-      //  print(_b);
-      //  print(_h);
         _textDiagnosticoController.add("Lucro");
         _textLucro_1_Controller.add(_text_1);
         _textLucro_2_Controller.add(_text_2);
         _textLucro_3_Controller.add(_text_4);
-
       } else if (_b > _h) {
-       // print(_b);
-     //   print(_h);
         _textDiagnosticoController.add("Lucro");
         _textLucro_1_Controller.add(_text_1);
         _textLucro_2_Controller.add(_text_3);
@@ -173,6 +171,7 @@ class DignosticoBloc extends BlocBase {
         calculo_a = element['mes'];
      //   print(element['margen']);
         _H = (element['margen']);
+        calculo_h = element['margen'];
         _convertFoat(element);
       });
     });
@@ -192,7 +191,8 @@ class DignosticoBloc extends BlocBase {
     await bdi.lista().then((data) {
      // print(data);
       data.forEach((element) {
-        //    print(element);
+     //   print(element);
+       //     print(element['setb']);
         _jan = (element['jan'] * 100) / element['total'];
         _fev = (element['fev'] * 100) / element['total'];
         _mar = (element['mar'] * 100) / element['total'];
@@ -201,56 +201,61 @@ class DignosticoBloc extends BlocBase {
         _jun = (element['jun'] * 100) / element['total'];
         _jul = (element['jul'] * 100) / element['total'];
         _ago = (element['ago'] * 100) / element['total'];
-      //  _set = (element['setb']*100)/element['total'];
+        _set = (element['setb']*100)/element['total'];
         _out = (element['out'] * 100) / element['total'];
         _nov = (element['nov'] * 100) / element['total'];
         _dez = (element['dez'] * 100) / element['total'];
 
         switch (_A) {
           case 'Janeiro':
-            // do something
+            _calculoMensal(_dez, _jan, _fev , "Fevereiro");
             break;
           case 'Fevereiro':
-            // do something else
+            _calculoMensal(_jan, _fev, _mar , "Março");
             break;
           case 'Março':
-            // do something
+            _calculoMensal(_fev, _mar, _abr , "Abril");
             break;
           case 'Abril':
-            // do something else
+            _calculoMensal(_mar, _abr, _mai , "Maio");
             break;
           case 'Maio':
-            // do something
+            _calculoMensal(_abr, _mai, _jun , "Junho");
             break;
           case 'Junho':
+            _calculoMensal(_mai, _jun, _jul , "Julho");
+            /*
             var junho =  _calculoK(_jun, _jul);
             var calculo_n =_calculoK(_jun, _ago);
             _K = formatterMoeda.format(junho*100);
             _N = formatterMoeda.format(calculo_n*100);
             _L = "Agosto";
             _calculoM( calculo_n );
+*/
 
             break;
           case 'Julho':
-            var Julho =  _calculoK(_jul, _ago);
-           // var calculo_n =_calculoK(_jul, _setb);
-            _K = formatterMoeda.format(Julho*100);
+            _calculoMensal(_jun, _jul, _ago , "Agosto");
+          //  var Julho =  _calculoK(_jul, _ago);
+           // var calculo_n =_calculoK(_jul, _set);
+           // _K = formatterMoeda.format(Julho*100);
          //   print(_K);
             break;
           case 'Agosto':
+            _calculoMensal(_jul, _ago, _set , "Setembro");
             // do something else
             break;
           case 'Setembro':
-            // do something
+            _calculoMensal(_ago, _set, _out , "Outubro");
             break;
           case 'Outubro':
-            // do something else
+            _calculoMensal(_set, _out, _nov , "Novembro");
             break;
           case 'Novembro':
-            // do something
+            _calculoMensal(_out, _nov, _dez , "Dezembro");
             break;
           case 'Dezembro':
-            // do something else
+            _calculoMensal(_nov, _dez, _jan , "Janeiro");
             break;
         }
         _montaTexto();
@@ -260,12 +265,58 @@ class DignosticoBloc extends BlocBase {
     //
   }
 
+  _calculoX(){
+    /*
+      var calc_qtd;
+  var calc_fat;
+  var calc_cf;
+  var calc_cv;
+  var calc_gi;
+  var calc_gas;
+  var calc_cpv;
+  var calc_mar;
+     */
+    var _h = double.parse(calculo_h);
+    print('B8');
+    print(calc_fat);
+    print('B14');
+    print(_h);
+    print('B20');
+    print(calculo_b);
+    print('b18');
+   print(calculo_d);
+    print('b17');
+    print(calculo_d);
+    print('b12');
+    print(calculo_c);
+    print('b12');
+    print(calculo_c);
+  //  print('calculo_c');
+//    print(calculo_c);
+
+  //  var calculoX=(((calc_fat+((((calc_fat*_h)-(calculo_b*calc_fat))/calculo_d)*calculo_c))/calc_cf)/(calc_fat/calc_cf));
+    var calculoX=(((24000.0+((((24000.0*25)-(7.1*24000.0))/13.0)*48.0))/4800.00)/(24000.00/4800.00));
+
+    print('calculoX');
+    print(calculoX);
+  }
+  _calculoMensal(mesDadosBasicos, mesAtual, proximoMese , textoL){
+    var mesReferencia =  _calculoK(mesDadosBasicos, mesAtual);
+    var calculo_n =_calculoK(mesDadosBasicos, proximoMese);
+    _K = formatterMoeda.format(mesReferencia*100);
+    _N = formatterMoeda.format(calculo_n*100);
+    _L = textoL;
+    _calculoM( calculo_n );
+    _calculoX();
+  }
+
   _calculoM(_n){
     if(_n > 0.0){
       _M ="lucro";
     }else{
       _M = "prejuízo";
     }
+
     _montaTexto();
   }
   // mesInicial = _jun;
@@ -301,7 +352,6 @@ class DignosticoBloc extends BlocBase {
   }
   _calculoMargemResultante() {
     calculo_b = (((calc_fat - (calc_gi + calc_cv + calc_cf + calc_gas)) / calc_fat) *100);
-   // print(calculo_b);
     _B = calculo_b.toStringAsPrecision(2);
     _O = _B;
     _calculoTiketMedio();

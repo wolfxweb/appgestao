@@ -29,12 +29,12 @@ class _DiagnosticoState extends State<Diagnostico> {
               stream: dignosticoBloc.textDiagnosticoController,
               builder: (context, snapshot) {
                 var lista = snapshot.data;
-                print(lista);
+           //     print(lista);
                // return Text("data");
                 if (snapshot.hasData) {
                 //  return Text("data");
 
-                  print(lista);
+                //  print(lista);
                   if (lista == "prejuízo") {
                     return buildContainerPrejuiso();
                   } else if (lista == "Lucro") {

@@ -129,9 +129,9 @@ class _DadosBasicosState extends State<DadosBasicos> {
                                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                                   prefixIcon: IconButton(
                                     icon: const Icon(Icons.help),
-                                    color: Colors.transparent,
+                                   // color: Colors.transparent,
                                     onPressed: () {
-                                      //  alerta.openModal(context, text);
+                                        alerta.openModal(context,'Todos os dados devem se referir ao mês selecionado. Caso você esteja estudando a viabilidade de um negócio novo, anote suas estimativas e metas.');
                                     },
                                   ),
                                   fillColor: color,
@@ -171,7 +171,16 @@ class _DadosBasicosState extends State<DadosBasicos> {
                           );
                         }),
                   ),
-
+                  const Espacamento(),
+                  // Text('DADOS BÁSICOS',style: TextStyle(color: Colors.white)),
+                  const Text(
+                    'a) se o mês atual menos o mês selecionado for = 1, o comentário será: A exatidão das informações determinará a qualidade/utilidade desta ferramenta.',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                   const Espacamento(),
                   Container(
                     decoration: buildBuildBoxDecoration(),
@@ -229,13 +238,17 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       context,
                       'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
                       'Total custo variáveis',
-                      _custoVariavelController),
+                      _custoFixoController
+                    //  _custoVariavelController
+                  ),
                   const Espacamento(),
                   buildContainerInput(
                       context,
                       'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.',
                       'Custo fixo',
-                      _custoFixoController),
+                      _custoVariavelController
+                      //_custoFixoController
+                  ),
                   const Espacamento(),
                   Container(
                     decoration: buildBuildBoxDecoration(),
