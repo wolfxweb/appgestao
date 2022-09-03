@@ -1,3 +1,4 @@
+import 'package:appgestao/blocs/analiseViabilidade_bloc.dart';
 import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
@@ -17,11 +18,20 @@ class AnaliseViabilidade extends StatefulWidget {
 
 class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
   var header = new HeaderAppBar();
+  var analiseViabilidadeBloc = AnaliseViabilidadeBloc();
+
+  var _precoVendaAtualController = TextEditingController();
+  var _custoInsumosProdutoController = TextEditingController();
+  var _descontoPromocionalController = TextEditingController();
+  var _investimentoComAcaoController = TextEditingController();
+  var _objetivoVendaController = TextEditingController();
+
   var color = Colors.orangeAccent[100];
   var alerta = AlertModal();
-  var corFundo = Colors.grey[150];
+  var corFundo = Colors.grey[100];
   var _comentario = "";
   var _mostrarComentario = false;
+  var dataCor = Colors.grey[100];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,109 +42,178 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              buildContainerPromocaoPropaganda(context),
-              const Espacamento(),
-              buildAcaoObjetiva(),
-
-            TextFormField(
-              onChanged:(text){
-                print(text);
-              },
-              validator: ValidationBuilder().maxLength(50).required().build(),
-              keyboardType: TextInputType.number,
-              //  controller: _faturamentoController,
-              //  controller: controllerInformado,
-              inputFormatters: [
-                // obrigatório
-                FilteringTextInputFormatter.digitsOnly,
-                CentavosInputFormatter(moeda: true, casasDecimais: 2)
-              ],
-              decoration: buildInputDecoration(context, 'Se a ação abranger mais de um produto, considere a soma de seus preços', 'Preço de venda atual'),
-
-            ),
-              const Espacamento(),
-              TextFormField(
-                onChanged:(text){
-                  print(text);
-                },
-                validator: ValidationBuilder().maxLength(50).required().build(),
-                keyboardType: TextInputType.number,
-                //  controller: _faturamentoController,
-                //  controller: controllerInformado,
-                inputFormatters: [
-                  // obrigatório
-                  FilteringTextInputFormatter.digitsOnly,
-                  CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                ],
-                decoration: buildInputDecoration(context, 'Se a ação abranger mais de um produto, considere a soma de seus preços', 'Preço de venda atual'),
-
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  //borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 1,
+                      offset: Offset(1, 3), // Shadow position
+                    ),
+                  ],
+                ),
+                child: buildContainerPromocaoPropaganda(context),
               ),
               const Espacamento(),
-              TextFormField(
-                onChanged:(text){
-                  print(text);
-                },
-                validator: ValidationBuilder().maxLength(50).required().build(),
-                keyboardType: TextInputType.number,
-                //  controller: _faturamentoController,
-                //  controller: controllerInformado,
-                inputFormatters: [
-                  // obrigatório
-                  FilteringTextInputFormatter.digitsOnly,
-                  CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                ],
-                decoration:InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-
-                  suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
-                  fillColor: color,
-                  filled: true,
-                  // disabledBorder: true,
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                  ),
-                  border: InputBorder.none,
-                  labelText: 'Desconto máximo para vender sem prejuiso',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    //  backgroundColor: Colors.white,
-                  ),
-
-                  // hintText: 'Quantidade de clientes atendidos',
+              buildAcaoObjetiva(),
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  //borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 1,
+                      offset: Offset(1, 3), // Shadow position
+                    ),
+                  ],
                 ),
+                child: TextFormField(
+                  onChanged: (text) {
+                    analiseViabilidadeBloc.precoVendaAtual(text);
+                  },
+                  validator:
+                      ValidationBuilder().maxLength(50).required().build(),
+                  keyboardType: TextInputType.number,
+                  controller: _precoVendaAtualController,
+                  inputFormatters: [
+                    // obrigatório
+                    FilteringTextInputFormatter.digitsOnly,
+                    CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                  ],
+                  decoration: buildInputDecoration(
+                      context,
+                      'Se a ação abranger mais de um produto, considere a soma de seus preços',
+                      'Preço de venda atual'),
+                ),
+              ),
+              const Espacamento(),
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  //borderRadius: BorderRadius.circular(20),
+
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 1,
+                      offset: Offset(1, 3), // Shadow position
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  onChanged: (text) {
+                    analiseViabilidadeBloc.custoInsumosProduto(text);
+                  },
+                  validator: ValidationBuilder().maxLength(50).required().build(),
+                  keyboardType: TextInputType.number,
+                  controller: _custoInsumosProdutoController,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                  ],
+                  decoration: buildInputDecoration(
+                      context,
+                      'Se a ação abranger mais de um produto, considere a soma de seus preços',
+                      'Custo dos insumos e produtos'),
+                ),
+              ),
+              const Espacamento(),
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  //borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 1,
+                      offset: Offset(1, 3), // Shadow position
+                    ),
+                  ],
+                ),
+                child: StreamBuilder(
+                    stream: analiseViabilidadeBloc.outPrecoDescontoMaximoSemPrejuizo,
+                    builder: (context, snapshot) {
+                      var data = "";
+                      if (snapshot.hasData) {
+                        data = snapshot.data.toString();
+                      }
+                      return TextFormField(
+                        validator: ValidationBuilder()
+                            .maxLength(50)
+                            .required()
+                            .build(),
+                        keyboardType: TextInputType.number,
+                        controller:
+                            TextEditingController(text: data.toString()),
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 5),
+                          fillColor: Colors.grey[100],
+                          filled: true,
+                          //disabledBorder: true,
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.orange,
+                                width: 1.0,
+                                style: BorderStyle.none),
+                          ),
+                          border: InputBorder.none,
+                          labelText: 'Desconto máximo para vender sem prejuizo',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            //  backgroundColor: Colors.white,
+                          ),
+
+                          // hintText: 'Quantidade de clientes atendidos',
+                        ),
+                      );
+                    }),
               ),
               const Espacamento(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 180,
-                    child: TextFormField(
-                      onChanged:(text){
-                        print(text);
-                      },
-                      validator: ValidationBuilder().maxLength(50).required().build(),
-                      keyboardType: TextInputType.number,
-                      //  controller: _faturamentoController,
-                      //  controller: controllerInformado,
-                      inputFormatters: [
-                        // obrigatório
-                        FilteringTextInputFormatter.digitsOnly,
-                        CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                    width: 205,
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
+                      //borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 1,
+                          offset: Offset(1, 3), // Shadow position
+                        ),
                       ],
-                      decoration:InputDecoration(
+                    ),
+                    child: TextFormField(
+                      onChanged: (text) {
+                        analiseViabilidadeBloc.descontoPromocional(text);
+                      },
+                      validator:
+                          ValidationBuilder().maxLength(50).required().build(),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-
-                    //    suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 5),
                         fillColor: color,
                         filled: true,
+                        suffixIcon:const Icon(
+                          Icons.percent,
+                          color: Colors.grey,
+                          size: 16,
+                        ),
                         // disabledBorder: true,
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                              color: Colors.orange,
+                              width: 1.0,
+                              style: BorderStyle.none),
                         ),
                         border: InputBorder.none,
                         labelText: 'Desconto Promocional',
@@ -148,197 +227,290 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                     ),
                   ),
                   Container(
-                    width: 180,
-                    child: TextFormField(
-                      onChanged:(text){
-                        print(text);
-                      },
-                      validator: ValidationBuilder().maxLength(50).required().build(),
-                      keyboardType: TextInputType.number,
-                      //  controller: _faturamentoController,
-                      //  controller: controllerInformado,
-                      inputFormatters: [
-                        // obrigatório
-                        FilteringTextInputFormatter.digitsOnly,
-                        CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                    width: 150,
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
+                      //borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 1,
+                          offset: Offset(1, 3), // Shadow position
+                        ),
                       ],
-                      decoration:InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                       // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
-                        fillColor: color,
-                        filled: true,
-                        // disabledBorder: true,
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                        ),
-                        border: InputBorder.none,
-                        labelText: 'Preço promocional',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                          //  backgroundColor: Colors.white,
-                        ),
+                    ),
+                    child: StreamBuilder(
+                      stream: analiseViabilidadeBloc.outPrecoPromocional,
+                      builder: (context, snapshot) {
+                        var data = "";
+                        if(snapshot.hasData){
+                          data =snapshot.data.toString();
+                        }
+                        return TextFormField(
+                          keyboardType: TextInputType.none,
+                            controller: TextEditingController(text: data),
+                          //  controller: controllerInformado,
+                          inputFormatters: [
+                            // obrigatório
+                            FilteringTextInputFormatter.digitsOnly,
+                            CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                          ],
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 5),
+                            // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
+                            fillColor: Colors.grey[100],
+                            filled: true,
+                            // disabledBorder: true,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 1.0,
+                                  style: BorderStyle.none),
+                            ),
+                            border: InputBorder.none,
+                            labelText: 'Preço promocional',
+                            labelStyle: const TextStyle(
+                              color: Colors.black,
+                              //  backgroundColor: Colors.white,
+                            ),
 
-                        // hintText: 'Quantidade de clientes atendidos',
-                      ),
+                            // hintText: 'Quantidade de clientes atendidos',
+                          ),
+                        );
+                      }
                     ),
                   ),
                 ],
               ),
               const Espacamento(),
-              TextFormField(
-                onChanged:(text){
-                  print(text);
-                },
-                validator: ValidationBuilder().maxLength(50).required().build(),
-                keyboardType: TextInputType.number,
-                //  controller: _faturamentoController,
-                //  controller: controllerInformado,
-                inputFormatters: [
-                  // obrigatório
-                  FilteringTextInputFormatter.digitsOnly,
-                  CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                ],
-                decoration:InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  //borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 1,
+                      offset: Offset(1, 3), // Shadow position
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  onChanged: (text) {
+                    analiseViabilidadeBloc.invertimentoAcao(text);
+                  },
+                  validator:
+                      ValidationBuilder().maxLength(50).required().build(),
+                  keyboardType: TextInputType.number,
+                  //  controller: _faturamentoController,
+                  //  controller: controllerInformado,
+                  inputFormatters: [
+                    // obrigatório
+                    FilteringTextInputFormatter.digitsOnly,
+                    CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                  ],
+                  decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
 
-                 // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
-                  fillColor: color,
-                  filled: true,
-                  // disabledBorder: true,
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                  ),
-                  border: InputBorder.none,
-                  labelText: 'Investimetno com a ação',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    //  backgroundColor: Colors.white,
-                  ),
+                    // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
+                    fillColor: color,
+                    filled: true,
+                    // disabledBorder: true,
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colors.orange,
+                          width: 1.0,
+                          style: BorderStyle.none),
+                    ),
+                    border: InputBorder.none,
+                    labelText: 'Investimetno com a ação',
+                    labelStyle: const TextStyle(
+                      color: Colors.black,
+                      //  backgroundColor: Colors.white,
+                    ),
 
-                  // hintText: 'Quantidade de clientes atendidos',
+                    // hintText: 'Quantidade de clientes atendidos',
+                  ),
                 ),
               ),
               const Espacamento(),
-              TextFormField(
-                onChanged:(text){
-                  print(text);
-                },
-                validator: ValidationBuilder().maxLength(50).required().build(),
-                keyboardType: TextInputType.number,
-                //  controller: _faturamentoController,
-                //  controller: controllerInformado,
-                inputFormatters: [
-                  // obrigatório
-                  FilteringTextInputFormatter.digitsOnly,
-                  CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                ],
-                decoration:InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  //borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 1,
+                      offset: Offset(1, 3), // Shadow position
+                    ),
+                  ],
+                ),
+                child: StreamBuilder(
+                  stream: analiseViabilidadeBloc.outPrecoVendaParaRecuperarInvestimento,
+                  builder: (context, snapshot) {
+                    var data ="";
+                    if(snapshot.hasData){
+                      data = snapshot.data.toString();
+                    }
+                    return TextFormField(
 
-                  // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
-                  fillColor: color,
-                  filled: true,
-                  // disabledBorder: true,
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                  ),
-                  border: InputBorder.none,
-                  labelText: 'Vendas necessárias para recuperar o investimento',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    //  backgroundColor: Colors.white,
-                  ),
+                      keyboardType: TextInputType.number,
+                        controller: TextEditingController(text: data),
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                        fillColor: Colors.grey[100],
+                        filled: true,
+                        // disabledBorder: true,
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.orange,
+                              width: 1.0,
+                              style: BorderStyle.none),
+                        ),
+                        border: InputBorder.none,
+                        labelText:'Vendas necessárias para recuperar o investimento',
+                        labelStyle: const TextStyle(
+                          color: Colors.black,
+                          //  backgroundColor: Colors.white,
+                        ),
 
-                  // hintText: 'Quantidade de clientes atendidos',
+                        // hintText: 'Quantidade de clientes atendidos',
+                      ),
+                    );
+                  }
                 ),
               ),
               const Espacamento(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 180,
-                    child: TextFormField(
-                      onChanged:(text){
-                        print(text);
-                      },
-                      validator: ValidationBuilder().maxLength(50).required().build(),
-                      keyboardType: TextInputType.number,
-                      //  controller: _faturamentoController,
-                      //  controller: controllerInformado,
-                      inputFormatters: [
-                        // obrigatório
-                        FilteringTextInputFormatter.digitsOnly,
-                        CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                      ],
-                      decoration:InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 180,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        //borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 1,
+                            offset: Offset(1, 3), // Shadow position
+                          ),
+                        ],
+                      ),
+                      child: TextFormField(
+                        onChanged: (text) {
+                          analiseViabilidadeBloc.objetivoVendas(text);
+                        },
+                        validator: ValidationBuilder()
+                            .maxLength(50)
+                            .required()
+                            .build(),
+                        keyboardType: TextInputType.number,
+                        //  controller: _faturamentoController,
+                        //  controller: controllerInformado,
 
-                        //    suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
-                        fillColor: color,
-                        filled: true,
-                        // disabledBorder: true,
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                        ),
-                        border: InputBorder.none,
-                        labelText: 'Obejetivo de vendas',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                          //  backgroundColor: Colors.white,
-                        ),
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 5),
 
-                        // hintText: 'Quantidade de clientes atendidos',
+                          //    suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
+                          fillColor: color,
+                          filled: true,
+                          // disabledBorder: true,
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.orange,
+                                width: 1.0,
+                                style: BorderStyle.none),
+                          ),
+                          border: InputBorder.none,
+                          labelText: 'Obejetivo de vendas',
+                          labelStyle: const TextStyle(
+                            color: Colors.black,
+                            //  backgroundColor: Colors.white,
+                          ),
+
+                          // hintText: 'Quantidade de clientes atendidos',
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 180,
-                    child: TextFormField(
-                      onChanged:(text){
-                        print(text);
-                      },
-                      validator: ValidationBuilder().maxLength(50).required().build(),
-                      keyboardType: TextInputType.number,
-                      //  controller: _faturamentoController,
-                      //  controller: controllerInformado,
-                      inputFormatters: [
-                        // obrigatório
-                        FilteringTextInputFormatter.digitsOnly,
-                        CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                      ],
-                      decoration:InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                        // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
-                        fillColor: color,
-                        filled: true,
-                        // disabledBorder: true,
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                        ),
-                        border: InputBorder.none,
-                        labelText: 'Resultado desta ação',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                          //  backgroundColor: Colors.white,
-                        ),
+                    StreamBuilder(
+                      stream: analiseViabilidadeBloc.outResultadoCorController,
+                      builder: (context, snapshot) {
 
-                        // hintText: 'Quantidade de clientes atendidos',
-                      ),
+                        if(snapshot.hasData){
+                          print(snapshot.data.toString());
+                          if('Prejuizo' ==snapshot.data.toString() ){
+                            dataCor = Colors.red;
+                          }else if('lucro' ==snapshot.data.toString()){
+                            dataCor = Colors.green;
+                          }
+                        }
+                        return Container(
+                          width: 180,
+                          decoration: const BoxDecoration(
+                            color: Colors.transparent,
+                            //borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 1,
+                                offset: Offset(1, 3), // Shadow position
+                              ),
+                            ],
+                          ),
+                          child: StreamBuilder(
+                            stream: analiseViabilidadeBloc.outResultadoController,
+                            builder: (context, snapshot) {
+                              var data = "";
+                              if(snapshot.hasData){
+                                data = snapshot.data.toString();
+                              }
+                              return TextFormField(
+                                validator: ValidationBuilder()
+                                    .maxLength(50)
+                                    .required()
+                                    .build(),
+                                keyboardType: TextInputType.number,
+                                  controller:TextEditingController(text: data),
+
+                                decoration:  InputDecoration(
+                                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                                  contentPadding:const  EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                                  // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
+                                  fillColor: dataCor,
+                                  filled: true,
+                                  // disabledBorder: true,
+                                  focusedBorder:const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.orange,
+                                        width: 1.0,
+                                        style: BorderStyle.none),
+                                  ),
+                                  border: InputBorder.none,
+                                  labelText: 'Resultado desta ação',
+                                  labelStyle: const TextStyle(
+                                    color: Colors.black,
+                                    //  backgroundColor: Colors.white,
+                                  ),
+                                  // hintText: 'Quantidade de clientes atendidos',
+                                ),
+                              );
+                            }
+                          ),
+                        );
+                      }
                     ),
-                  ),
-
-                ],
+                  ],
+                ),
               ),
               const Espacamento(),
               const Espacamento(),
@@ -348,7 +520,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
       ),
     );
   }
-
 
   InputDecoration buildInputDecoration(BuildContext context, text, titulo) {
     return InputDecoration(
@@ -378,117 +549,121 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
       // hintText: 'Quantidade de clientes atendidos',
     );
   }
+
   Column buildAcaoObjetiva() {
     return Column(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                    //borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 1,
-                        offset: Offset(1, 3), // Shadow position
-                      ),
-                    ],
-                  ),
-                  child: TextDropdownFormField(
-                    //keyboardType: TextInputType.none,
-                    onChanged: (dynamic text) {
-                      setState(() {
-                        _mostrarComentario = true;
-                        //   valorInicialTicket = text;
-                        if (text == "1. VENDER MAIS") {
-                          var _venderMais =
-                              "Certifique-se de que: 1) existe demanda; 2) o momento é oportuno (época, conjuntura, fornecedores, concorrência); 3) está preparado (capacidade de atendimento com qualidade); 4) não infringe a Lei de Defesa do Consumidor.Descontos do tipo “50% OFF”, não causam boa impressão, e, o cliente que pagou o preço antigo sente-se lesado. Em fim, pode ser válido em uma data específica (“Black Friday”, aniversário, etc.). Melhor oferecer este desconto como “cashback” (ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
-                          _comentario = _venderMais;
-                        } else if (text == "2. AUMENTAR O TICKET MÉDIO") {
-                          var aumentarTicketMedio =
-                              "Sempre oferecer ao cliente o máximo de opções que de alguma forma complementam o objeto da compra. Vemos muito desta prática em lojas de roupas, materiais de construção, lanchonetes (os famosos combos), etc. 'Na compra da segunda peça você leva mais uma sem custo'; 'compras acima de R\$...., você ganha um brinde!'; 'a cada R\$... em compras você ganha x pontos!'. ";
-                          _comentario = aumentarTicketMedio;
-                        } else if (text == "3. GIRAR ESTOQUE DE PRODUTO") {
-                          var girarEstoqueProduto =
-                              "Verifique a possibilidade de criar um “combo” associando a outro(s) produto(s) mais lucrativo(s) e de maior demanda. Outra alternativa pode ser o “cashback” (enquanto durar o estoque), em que ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+            //borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 1,
+                offset: Offset(1, 3), // Shadow position
+              ),
+            ],
+          ),
+          child: TextDropdownFormField(
+            //keyboardType: TextInputType.none,
+            onChanged: (dynamic text) {
+              setState(() {
+                _mostrarComentario = true;
+                //   valorInicialTicket = text;
+                if (text == "1. VENDER MAIS") {
+                  var _venderMais =
+                      "Certifique-se de que: 1) existe demanda; 2) o momento é oportuno (época, conjuntura, fornecedores, concorrência); 3) está preparado (capacidade de atendimento com qualidade); 4) não infringe a Lei de Defesa do Consumidor.Descontos do tipo “50% OFF”, não causam boa impressão, e, o cliente que pagou o preço antigo sente-se lesado. Em fim, pode ser válido em uma data específica (“Black Friday”, aniversário, etc.). Melhor oferecer este desconto como “cashback” (ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
+                  _comentario = _venderMais;
+                } else if (text == "2. AUMENTAR O TICKET MÉDIO") {
+                  var aumentarTicketMedio =
+                      "Sempre oferecer ao cliente o máximo de opções que de alguma forma complementam o objeto da compra. Vemos muito desta prática em lojas de roupas, materiais de construção, lanchonetes (os famosos combos), etc. 'Na compra da segunda peça você leva mais uma sem custo'; 'compras acima de R\$...., você ganha um brinde!'; 'a cada R\$... em compras você ganha x pontos!'. ";
+                  _comentario = aumentarTicketMedio;
+                } else if (text == "3. GIRAR ESTOQUE DE PRODUTO") {
+                  var girarEstoqueProduto =
+                      "Verifique a possibilidade de criar um “combo” associando a outro(s) produto(s) mais lucrativo(s) e de maior demanda. Outra alternativa pode ser o “cashback” (enquanto durar o estoque), em que ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
 
-                          _comentario = girarEstoqueProduto;
-                        } else if (text == "4. FIDELIZAR CLIENTES") {
-                          var fidelizarClientes =
-                              "Exemplo de promoção frequente em alguns segmentos: oferta de pontos, milhas e cupons para troca por mercadorias. Mais recentemente, o “cashback”(dinheiro de volta), em que o cliente recebe um crédito para utilizar em compras futuras.";
-                          _comentario = fidelizarClientes;
-                        } else if (text == "5. ATRAIR NOVOS CLIENTES") {
-                          var divulgarMarca =
-                              "Neste caso a ação principal é a propaganda. Busque detalhes que o diferencie dos concorrentes. Faça-se presente no Google e nas mídias e buscadores digitais.";
-                          _comentario = divulgarMarca;
-                        } else if (text == "6. DIVULGAR A MARCA") {
-                          var divulgarMarca =
-                              "Neste caso a ação principal é a propaganda. Busque detalhes que o diferencie dos concorrentes. Faça-se presente no Google e nas mídias e buscadores digitais.";
-                          _comentario = divulgarMarca;
-                        } else if (text == "7. LANÇAR PRODUTO NOVO") {
-                          var lancarProduto =
-                              "Neste caso a ação principal é a propaganda/divulgação. Dê destaque aos detalhes que o diferenciam dos concorrentes. Veja o que melhor se aplica ao seu caso: amostra grátis, degustação, demonstrações, feiras e exposições, depoimento de especialistas e/ou influenciadores. Faça-se presente no Google e nas mídias e buscadores digitais.";
-                          _comentario = lancarProduto;
-                        }
-                      });
-                    },
-                    //  1. VENDER MAIS; 2. AUMENTAR O TICKET MÉDIO; 3. GIRAR ESTOQUE DE PRODUTO; ; 4. FIDELIZAR CLIENTES; 5. ATRAIR NOVOS CLIENTES; 6. DIVULGAR A MARCA; 7. LANÇAE PRODUTO NOVO.
+                  _comentario = girarEstoqueProduto;
+                } else if (text == "4. FIDELIZAR CLIENTES") {
+                  var fidelizarClientes =
+                      "Exemplo de promoção frequente em alguns segmentos: oferta de pontos, milhas e cupons para troca por mercadorias. Mais recentemente, o “cashback”(dinheiro de volta), em que o cliente recebe um crédito para utilizar em compras futuras.";
+                  _comentario = fidelizarClientes;
+                } else if (text == "5. ATRAIR NOVOS CLIENTES") {
+                  var divulgarMarca =
+                      "Neste caso a ação principal é a propaganda. Busque detalhes que o diferencie dos concorrentes. Faça-se presente no Google e nas mídias e buscadores digitais.";
+                  _comentario = divulgarMarca;
+                } else if (text == "6. DIVULGAR A MARCA") {
+                  var divulgarMarca =
+                      "Neste caso a ação principal é a propaganda. Busque detalhes que o diferencie dos concorrentes. Faça-se presente no Google e nas mídias e buscadores digitais.";
+                  _comentario = divulgarMarca;
+                } else if (text == "7. LANÇAR PRODUTO NOVO") {
+                  var lancarProduto =
+                      "Neste caso a ação principal é a propaganda/divulgação. Dê destaque aos detalhes que o diferenciam dos concorrentes. Veja o que melhor se aplica ao seu caso: amostra grátis, degustação, demonstrações, feiras e exposições, depoimento de especialistas e/ou influenciadores. Faça-se presente no Google e nas mídias e buscadores digitais.";
+                  _comentario = lancarProduto;
+                }
+              });
+            },
+            //  1. VENDER MAIS; 2. AUMENTAR O TICKET MÉDIO; 3. GIRAR ESTOQUE DE PRODUTO; ; 4. FIDELIZAR CLIENTES; 5. ATRAIR NOVOS CLIENTES; 6. DIVULGAR A MARCA; 7. LANÇAE PRODUTO NOVO.
 
-                    options: const [
-                      "1. VENDER MAIS",
-                      "2. AUMENTAR O TICKET MÉDIO",
-                      "3. GIRAR ESTOQUE DE PRODUTO",
-                      "4. FIDELIZAR CLIENTES",
-                      "5. ATRAIR NOVOS CLIENTES",
-                      "6. DIVULGAR A MARCA",
-                      "7. LANÇAR PRODUTO NOVO"
-                    ],
-                    decoration: _styleInput(
-                        'A ação objetiva',
-                        "padrao",
-                        const Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.white,
-                          size: 26,
-                        )),
-                    dropdownHeight: 350,
+            options: const [
+              "1. VENDER MAIS",
+              "2. AUMENTAR O TICKET MÉDIO",
+              "3. GIRAR ESTOQUE DE PRODUTO",
+              "4. FIDELIZAR CLIENTES",
+              "5. ATRAIR NOVOS CLIENTES",
+              "6. DIVULGAR A MARCA",
+              "7. LANÇAR PRODUTO NOVO"
+            ],
+            decoration: _styleInput(
+                'A ação objetiva',
+                "padrao",
+                const Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.white,
+                  size: 26,
+                )),
+            dropdownHeight: 350,
+          ),
+        ),
+        const Espacamento(),
+        _mostrarComentario
+            ? Container(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  //borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 1,
+                      offset: Offset(1, 3), // Shadow position
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    _comentario,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.justify,
                   ),
                 ),
-                const Espacamento(),
-                _mostrarComentario? Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                    //borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 1,
-                        offset: Offset(1, 3), // Shadow position
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      _comentario,
-                      style: const TextStyle(
-                        fontSize: 16,
-                       // fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.justify,
-                    ),
-                  ),
-                ):Container(),
-                _mostrarComentario?  const Espacamento():Container(),
-              ],
-            );
+              )
+            : Container(),
+        _mostrarComentario ? const Espacamento() : Container(),
+      ],
+    );
   }
 
   Container buildContainerPromocaoPropaganda(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        // fillColor: Colors.grey[100],
         //borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 1,

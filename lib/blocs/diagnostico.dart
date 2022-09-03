@@ -277,7 +277,7 @@ class DignosticoBloc extends BlocBase {
   var calc_mar;
      */
     var _h = double.parse(calculo_h);
-    print('B8');
+   /* print('B8');
     print(calc_fat);
     print('B14');
     print(_h);
@@ -290,14 +290,14 @@ class DignosticoBloc extends BlocBase {
     print('b12');
     print(calculo_c);
     print('b12');
-    print(calculo_c);
+    print(calculo_c);*/
   //  print('calculo_c');
 //    print(calculo_c);
 
   //  var calculoX=(((calc_fat+((((calc_fat*_h)-(calculo_b*calc_fat))/calculo_d)*calculo_c))/calc_cf)/(calc_fat/calc_cf));
     var calculoX=(((24000.0+((((24000.0*25)-(7.1*24000.0))/13.0)*48.0))/4800.00)/(24000.00/4800.00));
 
-    print('calculoX');
+    print('falta fazer o calculo XXXXXX DO DIAGNOSTICO....');
     print(calculoX);
   }
   _calculoMensal(mesDadosBasicos, mesAtual, proximoMese , textoL){
