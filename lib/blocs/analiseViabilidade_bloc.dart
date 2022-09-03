@@ -83,23 +83,37 @@ class AnaliseViabilidadeBloc extends BlocBase{
   precoVendaAtual(value){
     _precoVendaAtual =  _convertFloatMonetario(value);
     _calculoVenderSemPrejuizo();
+    _calculoPrecoPromocional();
+    _calculoInvestimentoComAcao();
+    _calculoResultadoAcao();
   }
   custoInsumosProduto(value){
     _custoInsumosProduto =_convertFloatMonetario(value);
     _calculoVenderSemPrejuizo();
+    _calculoPrecoPromocional();
+    _calculoInvestimentoComAcao();
+    _calculoResultadoAcao();
   }
   descontoPromocional(value){
     _descontoPromocional =_convertFloatMonetario(value);
     _calculoPrecoPromocional();
+    _calculoVenderSemPrejuizo();
+    _calculoInvestimentoComAcao();
+    _calculoResultadoAcao();
   }
   invertimentoAcao(value){
     _invertimentoAcao =_convertFloatMonetario(value);
     _calculoInvestimentoComAcao();
+    _calculoVenderSemPrejuizo();
+    _calculoPrecoPromocional();
+    _calculoResultadoAcao();
   }
   objetivoVendas(value){
     _objetivoVendas =_convertFloatMonetario(value);
     _calculoResultadoAcao();
-
+    _calculoVenderSemPrejuizo();
+    _calculoPrecoPromocional();
+    _calculoInvestimentoComAcao();
   }
   _getDadosBasicos() async {
     await bd.lista().then((data) {

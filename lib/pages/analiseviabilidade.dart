@@ -79,7 +79,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   keyboardType: TextInputType.number,
                   controller: _precoVendaAtualController,
                   inputFormatters: [
-                    // obrigatório
                     FilteringTextInputFormatter.digitsOnly,
                     CentavosInputFormatter(moeda: true, casasDecimais: 2)
                   ],
@@ -93,8 +92,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
               Container(
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
-                  //borderRadius: BorderRadius.circular(20),
-
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black12,
@@ -124,7 +121,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
               Container(
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
-                  //borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black12,
@@ -151,7 +147,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                               horizontal: 16, vertical: 5),
                           fillColor: Colors.grey[100],
                           filled: true,
-                          //disabledBorder: true,
                           focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors.orange,
@@ -162,10 +157,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                           labelText: 'Desconto máximo para vender sem prejuizo',
                           labelStyle: const TextStyle(
                             color: Colors.black,
-                            //  backgroundColor: Colors.white,
                           ),
-
-                          // hintText: 'Quantidade de clientes atendidos',
                         ),
                       );
                     }),
@@ -191,13 +183,11 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                       onChanged: (text) {
                         analiseViabilidadeBloc.descontoPromocional(text);
                       },
-                      validator:
-                          ValidationBuilder().maxLength(50).required().build(),
+                      validator:ValidationBuilder().maxLength(50).required().build(),
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 5),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                         fillColor: color,
                         filled: true,
                         suffixIcon:const Icon(
@@ -205,7 +195,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                           color: Colors.grey,
                           size: 16,
                         ),
-                        // disabledBorder: true,
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors.orange,
@@ -216,10 +205,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                         labelText: 'Desconto Promocional',
                         labelStyle: const TextStyle(
                           color: Colors.black,
-                          //  backgroundColor: Colors.white,
                         ),
-
-                        // hintText: 'Quantidade de clientes atendidos',
                       ),
                     ),
                   ),
@@ -265,10 +251,8 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                             labelText: 'Preço promocional',
                             labelStyle: const TextStyle(
                               color: Colors.black,
-                              //  backgroundColor: Colors.white,
                             ),
 
-                            // hintText: 'Quantidade de clientes atendidos',
                           ),
                         );
                       }
@@ -280,7 +264,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
               Container(
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
-                  //borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black12,
@@ -293,11 +276,8 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   onChanged: (text) {
                     analiseViabilidadeBloc.invertimentoAcao(text);
                   },
-                  validator:
-                      ValidationBuilder().maxLength(50).required().build(),
+                  validator: ValidationBuilder().maxLength(50).required().build(),
                   keyboardType: TextInputType.number,
-                  //  controller: _faturamentoController,
-                  //  controller: controllerInformado,
                   inputFormatters: [
                     // obrigatório
                     FilteringTextInputFormatter.digitsOnly,
@@ -305,10 +285,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   ],
                   decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-
-                    // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
+                    contentPadding:const EdgeInsets.symmetric(horizontal: 16, vertical: 5,),
                     fillColor: color,
                     filled: true,
                     // disabledBorder: true,
@@ -322,10 +299,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                     labelText: 'Investimetno com a ação',
                     labelStyle: const TextStyle(
                       color: Colors.black,
-                      //  backgroundColor: Colors.white,
                     ),
-
-                    // hintText: 'Quantidade de clientes atendidos',
                   ),
                 ),
               ),
@@ -355,7 +329,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                       keyboardType: TextInputType.number,
                       controller: TextEditingController(text: data),
                       decoration: InputDecoration(
-                       // contentPadding: EdgeInsets.,
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                         fillColor: Colors.grey[100],
@@ -371,12 +344,8 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                         labelText:'Vendas necessárias para recuperar o investimento',
                         labelStyle: const TextStyle(
                           color: Colors.black,
-
-                          //  backgroundColor: Colors.white,
                         ),
 
-
-                        // hintText: 'Quantidade de clientes atendidos',
                       ),
                     );
                   }
@@ -409,18 +378,11 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                             .required()
                             .build(),
                         keyboardType: TextInputType.number,
-                        //  controller: _faturamentoController,
-                        //  controller: controllerInformado,
-
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 5),
-
-                          //    suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                           fillColor: color,
                           filled: true,
-                          // disabledBorder: true,
                           focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors.orange,
@@ -512,7 +474,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
       ),
     );
   }
-
   InputDecoration buildInputDecoration(BuildContext context, text, titulo) {
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -537,8 +498,6 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
         color: Colors.black,
         //  backgroundColor: Colors.white,
       ),
-
-      // hintText: 'Quantidade de clientes atendidos',
     );
   }
 
