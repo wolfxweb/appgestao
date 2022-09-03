@@ -4,6 +4,7 @@
 
 
 import 'package:appgestao/componete/btnCadastrese.dart';
+import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:flutter/material.dart';
 
 class HomeInativo extends StatefulWidget {
@@ -15,12 +16,19 @@ class HomeInativo extends StatefulWidget {
 
 class _HomeInativoState extends State<HomeInativo> {
   @override
+  var header =  HeaderAppBar();
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
-      child: const Center(
-        child:   BtnCadastreSe(),
-      ),
+    return Scaffold(
+        appBar: header.getAppBar('Cadastro inativo'),
+      body:Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: const [
+            Text("Seu cadastro ainda não está ativo entre em contato com suporte para ativar sua conta"),
+            Text("Email xx@gmail.com"),
+          ],
+        ),
+      )
     );
   }
 }

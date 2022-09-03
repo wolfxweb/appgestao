@@ -28,8 +28,7 @@ class CalculadoraBloc extends BlocBase {
   Stream get outCaculoPedido1Controller => _calculoParte1Controller.stream;
   Stream get outRelacaoPrecoController => _relacaoPrecoController.stream;
   Stream get outPrecoVendaAtualController => _precoVendaAtualController.stream;
-  Stream get outCustosComInsumosController =>
-      _custoComInsumoslController.stream;
+  Stream get outCustosComInsumosController => _custoComInsumoslController.stream;
   Stream get outHistoricoController => _historicolController.stream;
 
   var _custoInsumo = 200.0;
