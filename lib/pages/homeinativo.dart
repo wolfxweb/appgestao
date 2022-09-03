@@ -24,7 +24,7 @@ class _HomeInativoState extends State<HomeInativo> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: const [
-            Text("Seu cadastro ainda não está ativo entre em contato com suporte para ativar sua conta"),
+            Text("Seu cadastro ainda não está ativo entre em contato com suporte para ativar sua conta."),
             Text("Email xx@gmail.com"),
           ],
         ),
