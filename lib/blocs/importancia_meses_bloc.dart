@@ -23,6 +23,8 @@ class ImportanciaMesesBLoc extends BlocBase {
   final _dezController = BehaviorSubject();
   final _id = 1;
 
+  final _msgInfoMesSelecionado =  BehaviorSubject();
+
   Stream get outResult => _resultadoController.stream;
   Stream get outMedia => _mediaController.stream;
   Stream<List> get outValorMeses => _valorMesesController.stream;
@@ -38,17 +40,72 @@ class ImportanciaMesesBLoc extends BlocBase {
   Stream get  outOutValor => _outController.stream;
   Stream get  novOutValor => _novController.stream;
   Stream get  dezOutValor => _dezController.stream;
+  Stream get  outInfoMesSelecionado => _msgInfoMesSelecionado.stream;
 
   final List _listValores = [];
 
   ImportanciaMesesBLoc() {
     _resultadoCalculadoListner();
   }
-
   inicializarBloc(){
     _consultarMeses();
-
   }
+  _msgMesSelecionado(mesAtual, mesSelecionado){
+    if(mesAtual == mesSelecionado){
+      _msgInfoMesSelecionado.add("A exatidão das informações determinará a qualidade/utilidade desta ferramenta.");
+    }else{
+      _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do mês atual, mais útil será para suas análises.");
+    }
+  }
+  msgInfoMesSelecionado(value){
+    final mes = DateTime.now().month;
+    print("msgInfoMesSelecionado");
+    print(value);
+    print("hora");
+    print(mes);
+    switch (value){
+      case "Janeiro":
+        _msgMesSelecionado(mes, 1);
+        break;
+      case "Fevereiro":
+        _msgMesSelecionado(mes, 2);
+        break;
+      case "Março":
+        _msgMesSelecionado(mes, 3);
+        break;
+      case "Abril":
+        _msgMesSelecionado(mes, 4);
+        break;
+      case "Maio":
+        _msgMesSelecionado(mes, 5);
+        break;
+      case "Junho":
+        _msgMesSelecionado(mes, 6);
+        break;
+      case "Julho":
+        _msgMesSelecionado(mes, 7);
+        break;
+      case "Agosto":
+        _msgMesSelecionado(mes, 8);
+        break;
+      case "Setembro":
+        _msgMesSelecionado(mes, 9);
+        break;
+      case "Outubro":
+        _msgMesSelecionado(mes, 10);
+        break;
+      case "Novembro":
+        _msgMesSelecionado(mes, 11);
+        break;
+      case "Dezembro":
+        _msgMesSelecionado(mes, 8);
+        break;
+
+    }
+  }
+
+
+
 _consultarMeses() async {
 
     var bd = InportanciasMeses();

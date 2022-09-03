@@ -189,10 +189,7 @@ class DignosticoBloc extends BlocBase {
 
   _consultarMeses() async {
     await bdi.lista().then((data) {
-     // print(data);
       data.forEach((element) {
-     //   print(element);
-       //     print(element['setb']);
         _jan = (element['jan'] * 100) / element['total'];
         _fev = (element['fev'] * 100) / element['total'];
         _mar = (element['mar'] * 100) / element['total'];
@@ -224,26 +221,12 @@ class DignosticoBloc extends BlocBase {
             break;
           case 'Junho':
             _calculoMensal(_mai, _jun, _jul , "Julho");
-            /*
-            var junho =  _calculoK(_jun, _jul);
-            var calculo_n =_calculoK(_jun, _ago);
-            _K = formatterMoeda.format(junho*100);
-            _N = formatterMoeda.format(calculo_n*100);
-            _L = "Agosto";
-            _calculoM( calculo_n );
-*/
-
             break;
           case 'Julho':
             _calculoMensal(_jun, _jul, _ago , "Agosto");
-          //  var Julho =  _calculoK(_jul, _ago);
-           // var calculo_n =_calculoK(_jul, _set);
-           // _K = formatterMoeda.format(Julho*100);
-         //   print(_K);
             break;
           case 'Agosto':
             _calculoMensal(_jul, _ago, _set , "Setembro");
-            // do something else
             break;
           case 'Setembro':
             _calculoMensal(_ago, _set, _out , "Outubro");

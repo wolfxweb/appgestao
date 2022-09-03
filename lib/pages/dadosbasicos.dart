@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:appgestao/blocs/dados_basico_bloc.dart';
+import 'package:appgestao/blocs/importancia_meses_bloc.dart';
 import 'package:appgestao/classes/dadosbasicossqlite.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:appgestao/componete/alertamodal.dart';
@@ -26,8 +27,9 @@ class _DadosBasicosState extends State<DadosBasicos> {
   var mesSave;
   DropdownEditingController<String>? mesController;
   var mesBloc = DadosBasicosBloc();
-
   var bd = DadosBasicosSqlite();
+  var importanciaMesesBLoc = ImportanciaMesesBLoc();
+
   var id = 0;
   @override
   void _consultar() async {
@@ -125,13 +127,19 @@ class _DadosBasicosState extends State<DadosBasicos> {
                           return SizedBox(
                             child: DropdownButtonFormField<String>(
                                 decoration: InputDecoration(
-                                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 5),
                                   prefixIcon: IconButton(
-                                    icon: const Icon(Icons.help),
-                                   // color: Colors.transparent,
+                                    icon: const  Icon(
+                                      Icons.help,
+                                      color: Colors.grey,
+                                    ),
+                                    // color: Colors.transparent,
                                     onPressed: () {
-                                        alerta.openModal(context,'Todos os dados devem se referir ao mês selecionado. Caso você esteja estudando a viabilidade de um negócio novo, anote suas estimativas e metas.');
+                                      alerta.openModal(context,
+                                          'Todos os dados devem se referir ao mês selecionado. Caso você esteja estudando a viabilidade de um negócio novo, anote suas estimativas e metas.');
                                     },
                                   ),
                                   fillColor: color,
@@ -139,7 +147,9 @@ class _DadosBasicosState extends State<DadosBasicos> {
                                   // disabledBorder: true,
                                   focusedBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                                        color: Colors.orange,
+                                        width: 1.0,
+                                        style: BorderStyle.none),
                                   ),
                                   border: InputBorder.none,
                                   labelText: "Quantidade de clientes atendidos",
@@ -158,7 +168,9 @@ class _DadosBasicosState extends State<DadosBasicos> {
                                   );
                                 }).toList(),
                                 onChanged: (onChanged) {
-                                  print(onChanged);
+                                 // print('onChanged');
+                               //   print(onChanged);
+                                  importanciaMesesBLoc.msgInfoMesSelecionado(onChanged);
                                   _faturamentoController.text = "";
                                   _custoInsumosController.text = "";
                                   _custoFixoController.text = "";
@@ -172,15 +184,63 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         }),
                   ),
                   const Espacamento(),
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 1,
+                          offset: Offset(1, 3), // Shadow position
+                        ),
+                      ],
+                    ),
+                    child: StreamBuilder(
+                        stream: importanciaMesesBLoc.outInfoMesSelecionado,
+                        builder: (context, snapshot) {
+                          var data = "";
+                          if (snapshot.hasData) {
+                            data = snapshot.data.toString();
+                            return TextFormField(
+                              textAlign: TextAlign.center,
+                              enabled: false,
+                              keyboardType: TextInputType.none,
+                              maxLines: 3,
+                              controller:
+                              TextEditingController(text: data.toString()),
+                              decoration: InputDecoration(
+                                floatingLabelBehavior:
+                                FloatingLabelBehavior.always,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 5),
+                                fillColor: Colors.grey[100],
+                                filled: true,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 1.0,
+                                      style: BorderStyle.none),
+                                ),
+                                border: InputBorder.none,
+                                //  labelText: 'Desconto máximo para vender sem prejuizo',
+                                labelStyle: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            );
+                          }
+                         return Container();
+                        }),
+                  ),
                   // Text('DADOS BÁSICOS',style: TextStyle(color: Colors.white)),
-                  const Text(
+                  /* const Text(
                     'a) se o mês atual menos o mês selecionado for = 1, o comentário será: A exatidão das informações determinará a qualidade/utilidade desta ferramenta.',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
                     ),
                     textAlign: TextAlign.center,
-                  ),
+                  ),*/
                   const Espacamento(),
                   Container(
                     decoration: buildBuildBoxDecoration(),
@@ -191,12 +251,13 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       controller: _quantidadeController,
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 5),
                         prefixIcon: IconButton(
-                          icon: const Icon(Icons.help),
+                          icon: const Icon(Icons.help,),
                           color: Colors.transparent,
                           onPressed: () {
-                          //  alerta.openModal(context, text);
+                            //  alerta.openModal(context, text);
                           },
                         ),
                         fillColor: color,
@@ -204,7 +265,9 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         // disabledBorder: true,
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                              color: Colors.orange,
+                              width: 1.0,
+                              style: BorderStyle.none),
                         ),
                         border: InputBorder.none,
                         labelText: "Quantidade de clientes atendidos",
@@ -239,8 +302,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
                       'Total custo variáveis',
                       _custoFixoController
-                    //  _custoVariavelController
-                  ),
+                      //  _custoVariavelController
+                      ),
                   const Espacamento(),
                   buildContainerInput(
                       context,
@@ -248,7 +311,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       'Custo fixo',
                       _custoVariavelController
                       //_custoFixoController
-                  ),
+                      ),
                   const Espacamento(),
                   Container(
                     decoration: buildBuildBoxDecoration(),
@@ -264,22 +327,24 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       // decoration: buildInputDecoration(context,'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).'),
                       decoration: InputDecoration(
                         floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 5),
                         prefixIcon: IconButton(
-                          icon: const Icon(Icons.help),
+                          icon: const Icon(Icons.help, color: Colors.grey,),
                           color: Colors.black54,
                           onPressed: () {
-                            alerta.openModal(context,
-                                'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
+                            alerta.openModal(context, 'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
                           },
                         ),
-                        suffixIcon: Icon(Icons.percent),
+                        suffixIcon: Icon(Icons.percent, color: Colors.grey,),
                         fillColor: color,
                         filled: true,
                         // disabledBorder: true,
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                              color: Colors.orange,
+                              width: 1.0,
+                              style: BorderStyle.none),
                         ),
                         border: InputBorder.none,
                         labelText: "Margen que você considera ideal",
@@ -353,7 +418,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       prefixIcon: IconButton(
-        icon: const Icon(Icons.help),
+        icon: const Icon(Icons.help, color: Colors.grey,),
         color: Colors.black54,
         onPressed: () {
           alerta.openModal(context, text);
