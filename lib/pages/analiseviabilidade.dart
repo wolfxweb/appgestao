@@ -141,13 +141,10 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                         data = snapshot.data.toString();
                       }
                       return TextFormField(
-                        validator: ValidationBuilder()
-                            .maxLength(50)
-                            .required()
-                            .build(),
-                        keyboardType: TextInputType.number,
-                        controller:
-                            TextEditingController(text: data.toString()),
+                        textAlign: TextAlign.center,
+                        enabled: false,
+                        keyboardType: TextInputType.none,
+                        controller: TextEditingController(text: data.toString()),
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           contentPadding: const EdgeInsets.symmetric(
@@ -248,13 +245,8 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                         }
                         return TextFormField(
                           keyboardType: TextInputType.none,
-                            controller: TextEditingController(text: data),
-                          //  controller: controllerInformado,
-                          inputFormatters: [
-                            // obrigatório
-                            FilteringTextInputFormatter.digitsOnly,
-                            CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                          ],
+                          controller: TextEditingController(text: data),
+                          enabled: false,
                           decoration: InputDecoration(
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             contentPadding: const EdgeInsets.symmetric(
@@ -358,10 +350,12 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                       data = snapshot.data.toString();
                     }
                     return TextFormField(
-
+                      textAlign: TextAlign.center,
+                      enabled: false,
                       keyboardType: TextInputType.number,
-                        controller: TextEditingController(text: data),
+                      controller: TextEditingController(text: data),
                       decoration: InputDecoration(
+                       // contentPadding: EdgeInsets.,
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                         fillColor: Colors.grey[100],
@@ -377,8 +371,10 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                         labelText:'Vendas necessárias para recuperar o investimento',
                         labelStyle: const TextStyle(
                           color: Colors.black,
+
                           //  backgroundColor: Colors.white,
                         ),
+
 
                         // hintText: 'Quantidade de clientes atendidos',
                       ),
@@ -475,13 +471,9 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                                 data = snapshot.data.toString();
                               }
                               return TextFormField(
-                                validator: ValidationBuilder()
-                                    .maxLength(50)
-                                    .required()
-                                    .build(),
                                 keyboardType: TextInputType.number,
-                                  controller:TextEditingController(text: data),
-
+                                enabled: false,
+                                controller:TextEditingController(text: data),
                                 decoration:  InputDecoration(
                                   floatingLabelBehavior: FloatingLabelBehavior.always,
                                   contentPadding:const  EdgeInsets.symmetric(horizontal: 16, vertical: 5),
