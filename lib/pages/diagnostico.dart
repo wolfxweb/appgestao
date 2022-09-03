@@ -25,27 +25,29 @@ class _DiagnosticoState extends State<Diagnostico> {
       appBar: header.getAppBar('Diagnóstico'),
       drawer: Menu(),
       body: SingleChildScrollView(
-          child: StreamBuilder(
-              stream: dignosticoBloc.textDiagnosticoController,
-              builder: (context, snapshot) {
-                var lista = snapshot.data;
-           //     print(lista);
-               // return Text("data");
-                if (snapshot.hasData) {
-                //  return Text("data");
+          child: Card(
+            child: StreamBuilder(
+                stream: dignosticoBloc.textDiagnosticoController,
+                builder: (context, snapshot) {
+                  var lista = snapshot.data;
+             //     print(lista);
+                 // return Text("data");
+                  if (snapshot.hasData) {
+                  //  return Text("data");
 
-                //  print(lista);
-                  if (lista == "prejuízo") {
-                    return buildContainerPrejuiso();
-                  } else if (lista == "Lucro") {
-                    return buildContainerLucro();
+                  //  print(lista);
+                    if (lista == "prejuízo") {
+                      return buildContainerPrejuiso();
+                    } else if (lista == "Lucro") {
+                      return buildContainerLucro();
+                    } else {
+                      return buildVerificarDadosBasicos();
+                    }
                   } else {
-                    return buildVerificarDadosBasicos();
+                    return buildLoad();
                   }
-                } else {
-                  return buildLoad();
-                }
-              })),
+                }),
+          )),
     );
   }
 
