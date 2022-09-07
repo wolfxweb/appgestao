@@ -30,33 +30,33 @@ class _DiagnosticoState extends State<Diagnostico> {
                 stream: dignosticoBloc.textDiagnosticoController,
                 builder: (context, snapshot) {
                   var lista = snapshot.data;
-             //     print(lista);
-                 // return Text("data");
-                  if (snapshot.hasData) {
-                  //  return Text("data");
+                  print(lista);
 
-                  //  print(lista);
+                  if (snapshot.hasData) {
                     if (lista == "prejuízo") {
                       return buildContainerPrejuiso();
                     } else if (lista == "Lucro") {
                       return buildContainerLucro();
-                    } else {
-                      return buildVerificarDadosBasicos();
+                    } else if(lista == "dadosbssiconull") {
+                      return buildVerificarDadosBasicos( "Verifique se os dados básicos estão preenchidos.");
+                    }else{
+                      return buildVerificarDadosBasicos( "Verifique se a importância dos meses esta preenchida.");
                     }
                   } else {
                     return buildLoad();
+                 //   return buildVerificarDadosBasicos( "Verifique se os dados básicos e a impotâcia dos meses estão preenchidos.");
                   }
                 }),
           )),
     );
   }
 
-  Padding buildVerificarDadosBasicos() {
-    return const Padding(
+  Padding buildVerificarDadosBasicos(text) {
+    return  Padding(
                     padding:  EdgeInsets.all(16.0),
                     child:Text(
-                     "Verifique se os dados basicos está preencido",
-                      style:  TextStyle(
+                      text.toString(),
+                      style:const  TextStyle(
                         //  color: Colors.white,
                         fontSize: 20,
                         //  fontWeight: FontWeight.bold,

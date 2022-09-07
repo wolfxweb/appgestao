@@ -25,6 +25,7 @@ class _SimuladorState extends State<Simulador> {
   final _formKey = GlobalKey<FormState>();
   var alerta = AlertModal();
   var header = new HeaderAppBar();
+  var info = AlertSnackBar();
   var corFundo = Colors.grey[150];
   var vendasController = TextEditingController();
   var ticketMedioController = TextEditingController();
@@ -45,6 +46,7 @@ class _SimuladorState extends State<Simulador> {
   var custoFixoColor = 'desabilitado';
   var vendasStatus = true;
   var valorInicialTicket = "";
+  var _dadosBasicoNULL = false;
   var route = PushPage();
   void initState() {
     simuladorBloc = SimuladorBloc();
@@ -131,6 +133,11 @@ class _SimuladorState extends State<Simulador> {
                                 stream: simuladorBloc.margemResultateController,
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
+                                  if(!snapshot.hasData){
+                                    data ="";
+                                    _dadosBasicoNULL = true;
+                                 //   info.alertSnackBar(context, Colors.red, 'Nenhum usuário encontrado para esse e-mail.');
+                                  }
                                   return TextFormField(
                                     // textAlignVertical: TextAlignVertical.center,
                                     textAlign: TextAlign.center,
@@ -164,7 +171,6 @@ class _SimuladorState extends State<Simulador> {
                                         color: Colors.black,
                                         fontSize: 18,
                                         fontStyle: FontStyle.normal,
-
                                         //  backgroundColor: Colors.white,
                                       ),
                                       // hintText: 'Quantidade de clientes atendidos',
@@ -240,7 +246,9 @@ class _SimuladorState extends State<Simulador> {
                                 builder: (context, snapshot) {
 
                                   var data = snapshot.data;
-                                  //(data);
+                                  if(!snapshot.hasData){
+                                    data ="";
+                                  }
 
                                   return TextFormField(
                                       //   enabled: false,
@@ -272,7 +280,9 @@ class _SimuladorState extends State<Simulador> {
                                 stream: simuladorBloc.ticketMedioController,
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
-
+                                  if(!snapshot.hasData){
+                                    data ="";
+                                  }
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
@@ -314,6 +324,9 @@ class _SimuladorState extends State<Simulador> {
                                 stream: simuladorBloc.custoInsumosController,
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
+                                  if(!snapshot.hasData){
+                                    data ="";
+                                  }
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
@@ -350,6 +363,9 @@ class _SimuladorState extends State<Simulador> {
                                 stream: simuladorBloc.custoFixoController,
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
+                                  if(!snapshot.hasData){
+                                    data ="";
+                                  }
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
@@ -392,6 +408,9 @@ class _SimuladorState extends State<Simulador> {
                                 stream: simuladorBloc.custoVariavelController,
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
+                                  if(!snapshot.hasData){
+                                    data ="";
+                                  }
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
@@ -430,6 +449,7 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         custoFixoColor = dataCor.toString();
+
                         //    print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
@@ -441,8 +461,9 @@ class _SimuladorState extends State<Simulador> {
                                 stream: simuladorBloc.custoProdutoController,
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
-                                //  print('Custo fixo data');
-                                //  print(data);
+                                  if(!snapshot.hasData){
+                                    data ="";
+                                  }
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
@@ -525,11 +546,20 @@ class _SimuladorState extends State<Simulador> {
                   builder: (context, snapshot) {
                     // print(snapshot.data);
                     var data = snapshot.data;
+                    if(!snapshot.hasData){
+                      data ="";
+
+                    }
                     return GestureDetector(
                       onTap: () {
                         if(valorInicialTicket.isEmpty){
-                           alerta.openModal(context, "Selecione um item para a realização da simulação");
+                           alerta.openModal(context, "Selecione um item para a realização da simulação.");
                         }else{
+
+                          if(_dadosBasicoNULL){
+                            alerta.openModal(context, "Verifique se os dados básicos estão preenchidos.");
+                          }
+
                           simuladorBloc.calculoPercentual(addController.text, 1, valorInicialTicket, 1, context);
                         }
                       },
@@ -600,11 +630,17 @@ class _SimuladorState extends State<Simulador> {
                   stream: simuladorBloc.percentualRemoveController,
                   builder: (context, snapshot) {
                     var data = snapshot.data;
+                    if(!snapshot.hasData){
+                      data ="";
+                    }
                     return GestureDetector(
                       onTap: () {
                         if(valorInicialTicket.isEmpty){
                           alerta.openModal(context, "Selecione um item para a realização da simulação");
                         }else{
+                          if(_dadosBasicoNULL){
+                            alerta.openModal(context, "Verifique se os dados básicos estão preenchidos.");
+                          }
                           simuladorBloc.calculoPercentual(removeController.text,2, valorInicialTicket, 2, context);
                         }
                       },
@@ -661,32 +697,61 @@ class _SimuladorState extends State<Simulador> {
           stream: simuladorBloc.faturamentoController,
           builder: (context, snapshot) {
             //  print(snapshot.data);
-            var data = snapshot.data;
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-              child: Container(
-                decoration: buildBoxDecoration(),
-                child: StreamBuilder(
-                    stream: null,
-                    builder: (context, snapshot) {
-                      return TextFormField(
-                        enabled: false,
-                        validator: ValidationBuilder()
-                            .maxLength(50)
-                            .required()
-                            .build(),
-                        keyboardType: TextInputType.number,
-                        controller: TextEditingController(text: "$data"),
-                        decoration:
-                            _styleInput("Faturamento", "desabilitado", null),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          CentavosInputFormatter(moeda: true, casasDecimais: 2)
-                        ],
-                      );
-                    }),
-              ),
-            );
+
+            if(snapshot.hasData){
+              var data = snapshot.data;
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                child: Container(
+                  decoration: buildBoxDecoration(),
+                  child: StreamBuilder(
+                      stream: null,
+                      builder: (context, snapshot) {
+                        return TextFormField(
+                          enabled: false,
+                          validator: ValidationBuilder()
+                              .maxLength(50)
+                              .required()
+                              .build(),
+                          keyboardType: TextInputType.number,
+                          controller: TextEditingController(text: "$data"),
+                          decoration:
+                          _styleInput("Faturamento", "desabilitado", null),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                          ],
+                        );
+                      }),
+                ),
+              );
+            }else{
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                child: Container(
+                  decoration: buildBoxDecoration(),
+                  child: StreamBuilder(
+                      stream: null,
+                      builder: (context, snapshot) {
+                        return TextFormField(
+                          enabled: false,
+                          validator: ValidationBuilder()
+                              .maxLength(50)
+                              .required()
+                              .build(),
+                          keyboardType: TextInputType.number,
+                          controller: TextEditingController(text: ""),
+                          decoration:
+                          _styleInput("Faturamento", "desabilitado", null),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                          ],
+                        );
+                      }),
+                ),
+              );
+            }
           }),
     );
   }
@@ -710,10 +775,12 @@ class _SimuladorState extends State<Simulador> {
       child: StreamBuilder(
           stream: stream,
           builder: (context, snapshot) {
-            //  print(snapshot.data);
-            var data = snapshot.data;
-            return buildContainer(
-                "$data", inputTitulo, cor, format, icone, onChanged);
+            if(snapshot.hasData){
+             var  data = snapshot.data;
+              return buildContainer("$data", inputTitulo, cor, format, icone, onChanged);
+            }else{
+              return buildContainer("", inputTitulo, cor, format, icone, onChanged);
+            }
           }),
     );
   }

@@ -555,11 +555,11 @@ class _CalculadoraState extends State<Calculadora> {
                                       });
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      textStyle: const TextStyle(fontSize: 18),
+                                      textStyle: const TextStyle(fontSize: 16),
                                       primary: Colors.orange,
                                       elevation: 5,
                                       shadowColor: Colors.black,
-                                      padding: EdgeInsets.all(14),
+                                      padding: EdgeInsets.all(16),
                                     ),
                                   )),
                             )
@@ -574,7 +574,7 @@ class _CalculadoraState extends State<Calculadora> {
                                     onPressed:
                                         _btnStatus ? _buildOnPressed : null,
                                     style: ElevatedButton.styleFrom(
-                                      textStyle: const TextStyle(fontSize: 18),
+                                      textStyle: const TextStyle(fontSize: 16),
                                       primary: Colors.orange,
                                       elevation: 5,
                                       shadowColor: Colors.black,

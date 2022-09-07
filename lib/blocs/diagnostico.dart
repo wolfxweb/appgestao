@@ -144,6 +144,7 @@ class DignosticoBloc extends BlocBase {
     var _b = double.parse(_B).truncateToDouble();
     var _h = double.parse(_H).truncateToDouble();
 
+
     if (_b > 0.0) {
       if (_b < _h) {
         _textDiagnosticoController.add("Lucro");
@@ -161,20 +162,27 @@ class DignosticoBloc extends BlocBase {
       _textDiagnosticoController.add("prejuízo");
     }
 
+
+
+
   }
 
   _getDadosBasicos() async {
-    await bd.lista().then((data) {
+    var dadosBasicos = true;
+  await bd.lista().then((data) {
       data.forEach((element) {
-      //  print(element);
+        dadosBasicos = false;
         _A = element['mes'];
         calculo_a = element['mes'];
-     //   print(element['margen']);
         _H = (element['margen']);
         calculo_h = element['margen'];
         _convertFoat(element);
       });
     });
+
+   if(dadosBasicos){
+     _textDiagnosticoController.add("dadosbssiconull");
+   }
   }
 
   _lucroOuPrejuiso() {
@@ -188,8 +196,11 @@ class DignosticoBloc extends BlocBase {
   }
 
   _consultarMeses() async {
+    var dates = true;
     await bdi.lista().then((data) {
+
       data.forEach((element) {
+        dates = false;
         _jan = (element['jan'] * 100) / element['total'];
         _fev = (element['fev'] * 100) / element['total'];
         _mar = (element['mar'] * 100) / element['total'];
@@ -243,9 +254,11 @@ class DignosticoBloc extends BlocBase {
         }
         _montaTexto();
       });
-    });
 
-    //
+    });
+   if(dates){
+     _textDiagnosticoController.add("inportanciamesesNULL");
+   }
   }
 
   _calculoX(){
