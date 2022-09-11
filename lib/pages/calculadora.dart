@@ -61,98 +61,101 @@ class _CalculadoraState extends State<Calculadora> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _verHistorico
-                          ? Container(
-                              width: 100,
-                              //   decoration: buildBoxDecoration(),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 0.0, horizontal: 6.0),
-                              child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: ElevatedButton(
-                                    child: _verHistorico
-                                        ? Text('Voltar ')
-                                        : Text('Ver o histórico'),
-                                    onPressed: () {
-                                      setState(() {
-                                        _verHistorico = !_verHistorico;
-                                        historico.clear();
-                                        calBloc.selectHistorico();
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      textStyle: const TextStyle(fontSize: 18),
-                                      primary: Colors.orange,
-                                      elevation: 5,
-                                      shadowColor: Colors.black,
-                                      padding: EdgeInsets.all(14),
-                                    ),
-                                  )),
-                            )
-                          : Container(),
-                      //width: 220,
-                      _verHistorico
-                          ? Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 0.0, horizontal: 6.0),
-                              child: Container(
-                                width: 220,
-                                decoration: buildBoxDecoration(),
-                                child: StreamBuilder(
-                                    stream: null,
-                                    builder: (context, snapshot) {
-                                      var data = snapshot.data;
-                                      return TextFormField(
-                                        keyboardType: TextInputType.text,
-                                        controller: _pesquisaController,
-                                        decoration: InputDecoration(
-                                            floatingLabelBehavior:
-                                                FloatingLabelBehavior.always,
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16,
-                                                    vertical: 5),
-                                            fillColor: Colors.orangeAccent[100],
-                                            filled: true,
-                                            border: InputBorder.none,
-                                            labelText: "Localizar produto",
-                                            labelStyle: const TextStyle(
-                                              color: Colors.black,
-                                              //  backgroundColor: Colors.white,
-                                            ),
-                                            suffixIcon: IconButton(
-                                              icon: const Icon(Icons.refresh),
-                                              color: Colors.black54,
-                                              onPressed: () {
-                                                _pesquisaController.text = "";
-                                                setState(() {
-                                                  historico.clear();
-                                                  historico =
-                                                      calBloc.selectHistorico();
-                                                });
-                                              },
-                                            )),
-                                        onChanged: (text) {
-                                          if (historico.isEmpty) {
-                                            //  alerta.openModal(context, 'Nenhum item encontrado');
-                                          }
-                                          setState(() {
-                                            historico.retainWhere((element) {
-                                              return element['produto']
-                                                  .toString()
-                                                  .contains(text.toString());
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _verHistorico
+                            ? Container(
+                                width: 100,
+                                //   decoration: buildBoxDecoration(),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0.0, horizontal: 6.0),
+                                child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ElevatedButton(
+                                      child: _verHistorico
+                                          ? Text('Voltar ')
+                                          : Text('Ver o histórico'),
+                                      onPressed: () {
+                                        setState(() {
+                                          _verHistorico = !_verHistorico;
+                                          historico.clear();
+                                          calBloc.selectHistorico();
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        textStyle: const TextStyle(fontSize: 18),
+                                        primary: Colors.orange,
+                                        elevation: 5,
+                                        shadowColor: Colors.black,
+                                        padding: EdgeInsets.all(14),
+                                      ),
+                                    )),
+                              )
+                            : Container(),
+                        //width: 220,
+                        _verHistorico
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0.0, horizontal: 6.0),
+                                child: Container(
+                                  width: 220,
+                                  decoration: buildBoxDecoration(),
+                                  child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) {
+                                        var data = snapshot.data;
+                                        return TextFormField(
+                                          keyboardType: TextInputType.text,
+                                          controller: _pesquisaController,
+                                          decoration: InputDecoration(
+                                              floatingLabelBehavior:
+                                                  FloatingLabelBehavior.always,
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 5),
+                                              fillColor: Colors.orangeAccent[100],
+                                              filled: true,
+                                              border: InputBorder.none,
+                                              labelText: "Localizar produto",
+                                              labelStyle: const TextStyle(
+                                                color: Colors.black,
+                                                //  backgroundColor: Colors.white,
+                                              ),
+                                              suffixIcon: IconButton(
+                                                icon: const Icon(Icons.refresh),
+                                                color: Colors.black54,
+                                                onPressed: () {
+                                                  _pesquisaController.text = "";
+                                                  setState(() {
+                                                    historico.clear();
+                                                    historico =
+                                                        calBloc.selectHistorico();
+                                                  });
+                                                },
+                                              )),
+                                          onChanged: (text) {
+                                            if (historico.isEmpty) {
+                                              //  alerta.openModal(context, 'Nenhum item encontrado');
+                                            }
+                                            setState(() {
+                                              historico.retainWhere((element) {
+                                                return element['produto']
+                                                    .toString()
+                                                    .contains(text.toString());
+                                              });
                                             });
-                                          });
-                                        },
-                                      );
-                                    }),
-                              ),
-                            )
-                          : Container(),
-                    ],
+                                          },
+                                        );
+                                      }),
+                                ),
+                              )
+                            : Container(),
+                      ],
+                    ),
                   ),
 
                   const SizedBox(
@@ -299,100 +302,103 @@ class _CalculadoraState extends State<Calculadora> {
                       : Container(),
                   const Espacamento(),
                   !_verHistorico
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   mainAxisSize: MainAxisSize.max,
-                          //  crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 140,
-                              decoration: buildBoxDecoration(),
-                              child: _mostrarComponentes
-                                  ? StreamBuilder(
-                                      stream: calBloc.outCalculoMargem,
-                                      builder: (context, snapshot) {
-                                        var data = snapshot.data;
-                                        //var margemPrecoAtual = data.;
-                                        return TextFormField(
-                                          /// validator: ValidationBuilder().maxLength(50).required().build(),
-                                          keyboardType: TextInputType.none,
-                                          enabled: false,
-                                          controller: TextEditingController(
-                                              text: "$data %"),
-                                          decoration: _styleInput(
-                                              "Margem atual", "ops"),
-                                        );
-                                      })
-                                  : null,
-                            ),
-                            Container(
-                              width: 180,
-                              decoration: buildBoxDecoration(),
-                              child: StreamBuilder(
-                                  stream: null,
-                                  builder: (context, snapshot) {
-                                    var data = snapshot.data;
-                                    return TextFormField(
-                                      validator: ValidationBuilder()
-                                          .maxLength(5)
-                                          .required()
-                                          .build(),
-                                      keyboardType: TextInputType.number,
-                                      controller: _margemDesejadaController,
-                                      decoration: InputDecoration(
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.always,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 16, vertical: 5),
-                                        fillColor: Colors.orangeAccent[100],
-                                        filled: true,
-                                        suffixIcon: const Icon(
-                                          Icons.percent,
-                                          color: Colors.black54,
-                                          size: 20.0,
+                      ? SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   mainAxisSize: MainAxisSize.max,
+                            //  crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 140,
+                                decoration: buildBoxDecoration(),
+                                child: _mostrarComponentes
+                                    ? StreamBuilder(
+                                        stream: calBloc.outCalculoMargem,
+                                        builder: (context, snapshot) {
+                                          var data = snapshot.data;
+                                          //var margemPrecoAtual = data.;
+                                          return TextFormField(
+                                            /// validator: ValidationBuilder().maxLength(50).required().build(),
+                                            keyboardType: TextInputType.none,
+                                            enabled: false,
+                                            controller: TextEditingController(
+                                                text: "$data %"),
+                                            decoration: _styleInput(
+                                                "Margem atual", "ops"),
+                                          );
+                                        })
+                                    : null,
+                              ),
+                              Container(
+                                width: 180,
+                                decoration: buildBoxDecoration(),
+                                child: StreamBuilder(
+                                    stream: null,
+                                    builder: (context, snapshot) {
+                                      var data = snapshot.data;
+                                      return TextFormField(
+                                        validator: ValidationBuilder()
+                                            .maxLength(5)
+                                            .required()
+                                            .build(),
+                                        keyboardType: TextInputType.number,
+                                        controller: _margemDesejadaController,
+                                        decoration: InputDecoration(
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.always,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 16, vertical: 5),
+                                          fillColor: Colors.orangeAccent[100],
+                                          filled: true,
+                                          suffixIcon: const Icon(
+                                            Icons.percent,
+                                            color: Colors.black54,
+                                            size: 20.0,
+                                          ),
+                                          /* focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                                    ),*/
+                                          border: InputBorder.none,
+                                          labelText: 'Margem desejada',
+                                          labelStyle: const TextStyle(
+                                            color: Colors.black,
+                                            // backgroundColor: Colors.white,
+                                          ),
                                         ),
-                                        /* focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                                  ),*/
-                                        border: InputBorder.none,
-                                        labelText: 'Margem desejada',
-                                        labelStyle: const TextStyle(
-                                          color: Colors.black,
-                                          // backgroundColor: Colors.white,
-                                        ),
-                                      ),
-                                      onChanged: (text) {
-                                        //      print(text);
-                                        //calculadoraCusto(text)
-                                        if (text.isNotEmpty) {
-                                          calBloc.margemDesejada(text);
-                                          setState(() {
-                                            _margemDesejada.text = text;
-                                            if (_precoAtual.text.isNotEmpty &&
-                                                _precoInsumos.text.isNotEmpty &&
-                                                _margemDesejada
-                                                    .text.isNotEmpty) {
-                                              _mostrarComponentes = true;
-                                              _btnStatus = true;
-                                            } else {
+                                        onChanged: (text) {
+                                          //      print(text);
+                                          //calculadoraCusto(text)
+                                          if (text.isNotEmpty) {
+                                            calBloc.margemDesejada(text);
+                                            setState(() {
+                                              _margemDesejada.text = text;
+                                              if (_precoAtual.text.isNotEmpty &&
+                                                  _precoInsumos.text.isNotEmpty &&
+                                                  _margemDesejada
+                                                      .text.isNotEmpty) {
+                                                _mostrarComponentes = true;
+                                                _btnStatus = true;
+                                              } else {
+                                                _mostrarComponentes = false;
+                                                _btnStatus = false;
+                                              }
+                                            });
+                                          } else if (text.isEmpty) {
+                                            setState(() {
                                               _mostrarComponentes = false;
                                               _btnStatus = false;
-                                            }
-                                          });
-                                        } else if (text.isEmpty) {
-                                          setState(() {
-                                            _mostrarComponentes = false;
-                                            _btnStatus = false;
-                                          });
-                                        }
-                                      },
-                                    );
-                                  }),
-                            ),
-                          ],
-                        )
+                                            });
+                                          }
+                                        },
+                                      );
+                                    }),
+                              ),
+                            ],
+                          ),
+                      )
                       : Container(),
                   const Espacamento(),
                   !_verHistorico
@@ -430,65 +436,68 @@ class _CalculadoraState extends State<Calculadora> {
                   const Espacamento(),
                   const Espacamento(),
                   !_verHistorico
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   mainAxisSize: MainAxisSize.max,
-                          //  crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 140,
-                              decoration: buildBoxDecoration(),
-                              child: StreamBuilder(
-                                  stream: calBloc.outCaculoPrecoSugerido,
-                                  builder: (context, snapshot) {
-                                    var data = snapshot.data;
-                                    return _mostrarComponentes
-                                        ? TextFormField(
-                                            //  validator: ValidationBuilder().maxLength(50).required().build(),
-                                            keyboardType: TextInputType.none,
-                                            enabled: false,
-                                            controller: TextEditingController(
-                                                text: "R\$ $data"),
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
+                      ? SingleChildScrollView(
+                         scrollDirection: Axis.horizontal,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   mainAxisSize: MainAxisSize.max,
+                            //  crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 140,
+                                decoration: buildBoxDecoration(),
+                                child: StreamBuilder(
+                                    stream: calBloc.outCaculoPrecoSugerido,
+                                    builder: (context, snapshot) {
+                                      var data = snapshot.data;
+                                      return _mostrarComponentes
+                                          ? TextFormField(
+                                              //  validator: ValidationBuilder().maxLength(50).required().build(),
+                                              keyboardType: TextInputType.none,
+                                              enabled: false,
+                                              controller: TextEditingController(
+                                                  text: "R\$ $data"),
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
 
-                                            decoration: _styleInput(
-                                                "Preço sugerido", "1"),
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter
-                                                  .digitsOnly,
-                                            ],
-                                          )
-                                        : Container();
-                                  }),
-                            ),
-                            Container(
-                              width: 180,
-                              decoration: buildBoxDecoration(),
-                              child: StreamBuilder(
-                                  stream: calBloc.outRelacaoPrecoController,
-                                  builder: (context, snapshot) {
-                                    var data = snapshot.data.toString();
-                                    return _mostrarComponentes
-                                        ? TextFormField(
-                                            validator: ValidationBuilder()
-                                                .maxLength(50)
-                                                .required()
-                                                .build(),
-                                            keyboardType: TextInputType.none,
-                                            enabled: false,
-                                            controller: TextEditingController(
-                                                text: "$data %"),
-                                            decoration: _styleInput(
-                                                "Relação com preço atual",
-                                                "ops"),
-                                          )
-                                        : Container();
-                                  }),
-                            ),
-                          ],
-                        )
+                                              decoration: _styleInput(
+                                                  "Preço sugerido", "1"),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly,
+                                              ],
+                                            )
+                                          : Container();
+                                    }),
+                              ),
+                              Container(
+                                width: 170,
+                                decoration: buildBoxDecoration(),
+                                child: StreamBuilder(
+                                    stream: calBloc.outRelacaoPrecoController,
+                                    builder: (context, snapshot) {
+                                      var data = snapshot.data.toString();
+                                      return _mostrarComponentes
+                                          ? TextFormField(
+                                              validator: ValidationBuilder()
+                                                  .maxLength(50)
+                                                  .required()
+                                                  .build(),
+                                              keyboardType: TextInputType.none,
+                                              enabled: false,
+                                              controller: TextEditingController(
+                                                  text: "$data %"),
+                                              decoration: _styleInput(
+                                                  "Relação com preço atual",
+                                                  "ops"),
+                                            )
+                                          : Container();
+                                    }),
+                              ),
+                            ],
+                          ),
+                      )
                       : Container(),
                   const Espacamento(),
                   !_verHistorico
@@ -524,67 +533,70 @@ class _CalculadoraState extends State<Calculadora> {
 
                   const Espacamento(),
                   Container(
-                      child: Row(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     //   mainAxisSize: MainAxisSize.max,
                     //  crossAxisAlignment: CrossAxisAlignment.center,
 
                     children: [
-                      !_verHistorico
-                          ? Container(
-                              width: 150,
-                              child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: ElevatedButton(
-                                    child: _verHistorico
-                                        ? Text('Voltar Calculadora')
-                                        : Text('Ver o histórico'),
-                                    onPressed: () {
-                                      setState(() {
-                                        _verHistorico = !_verHistorico;
-                                        _margemDesejadaController.text = "";
-                                        _precoInsumosController.text = "";
-                                        _precoAtualController.text = "";
-                                        _precoAtual.text = "";
-                                        _precoInsumos.text = "";
-                                        _margemDesejada.text = "";
-                                        _produto.text = "";
-                                        _mostrarComponentes = false;
-                                        _btnStatus = false;
-                                        _pesquisaController.text = "";
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      textStyle: const TextStyle(fontSize: 16),
-                                      primary: Colors.orange,
-                                      elevation: 5,
-                                      shadowColor: Colors.black,
-                                      padding: EdgeInsets.all(16),
-                                    ),
-                                  )),
-                            )
-                          : Container(),
-                      !_verHistorico
-                          ? Container(
-                              width: 150,
-                              child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: ElevatedButton(
-                                    child: const Text('Salvar'),
-                                    onPressed:
-                                        _btnStatus ? _buildOnPressed : null,
-                                    style: ElevatedButton.styleFrom(
-                                      textStyle: const TextStyle(fontSize: 16),
-                                      primary: Colors.orange,
-                                      elevation: 5,
-                                      shadowColor: Colors.black,
-                                      padding: EdgeInsets.all(14),
-                                    ),
-                                  )),
-                            )
-                          : Container()
+                        !_verHistorico
+                            ? Container(
+                                width: 150,
+                                child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ElevatedButton(
+                                      child: _verHistorico
+                                          ? Text('Voltar Calculadora')
+                                          : Text('Ver o histórico'),
+                                      onPressed: () {
+                                        setState(() {
+                                          _verHistorico = !_verHistorico;
+                                          _margemDesejadaController.text = "";
+                                          _precoInsumosController.text = "";
+                                          _precoAtualController.text = "";
+                                          _precoAtual.text = "";
+                                          _precoInsumos.text = "";
+                                          _margemDesejada.text = "";
+                                          _produto.text = "";
+                                          _mostrarComponentes = false;
+                                          _btnStatus = false;
+                                          _pesquisaController.text = "";
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        textStyle: const TextStyle(fontSize: 16),
+                                        primary: Colors.orange,
+                                        elevation: 5,
+                                        shadowColor: Colors.black,
+                                        padding: EdgeInsets.all(14),
+                                      ),
+                                    )),
+                              )
+                            : Container(),
+                        !_verHistorico
+                            ? Container(
+                                width: 150,
+                                child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ElevatedButton(
+                                      child: const Text('Salvar'),
+                                      onPressed:
+                                          _btnStatus ? _buildOnPressed : null,
+                                      style: ElevatedButton.styleFrom(
+                                        textStyle: const TextStyle(fontSize: 16),
+                                        primary: Colors.orange,
+                                        elevation: 5,
+                                        shadowColor: Colors.black,
+                                        padding: EdgeInsets.all(14),
+                                      ),
+                                    )),
+                              )
+                            : Container()
                     ],
-                  ))
+                  ),
+                      ))
                 ],
               ),
             ),

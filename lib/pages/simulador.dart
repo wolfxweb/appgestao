@@ -522,171 +522,174 @@ class _SimuladorState extends State<Simulador> {
   Container buildContainerAddRemove(context) {
     return Container(
       padding: const EdgeInsets.all(3.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: Container(
-              // padding: const EdgeInsets.all(3.0),
-              width: 180,
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-                //borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 1,
-                    offset: Offset(1, 3), // Shadow position
-                  ),
-                ],
-              ),
-              child: StreamBuilder(
-                  stream: simuladorBloc.percentualAddController,
-                  builder: (context, snapshot) {
-                    // print(snapshot.data);
-                    var data = snapshot.data;
-                    if(!snapshot.hasData){
-                      data ="";
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Container(
+                // padding: const EdgeInsets.all(3.0),
+                width: 180,
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  //borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 1,
+                      offset: Offset(1, 3), // Shadow position
+                    ),
+                  ],
+                ),
+                child: StreamBuilder(
+                    stream: simuladorBloc.percentualAddController,
+                    builder: (context, snapshot) {
+                      // print(snapshot.data);
+                      var data = snapshot.data;
+                      if(!snapshot.hasData){
+                        data ="";
 
-                    }
-                    return GestureDetector(
-                      onTap: () {
-                        if(valorInicialTicket.isEmpty){
-                           alerta.openModal(context, "Selecione um item para a realização da simulação.");
-                        }else{
+                      }
+                      return GestureDetector(
+                        onTap: () {
+                          if(valorInicialTicket.isEmpty){
+                         //    alerta.openModal(context, "Selecione um item para a realização da simulação.");
+                          }else{
 
-                          if(_dadosBasicoNULL){
-                            alerta.openModal(context, "Verifique se os dados básicos estão preenchidos.");
+                            if(_dadosBasicoNULL){
+                         //     alerta.openModal(context, "Verifique se os dados básicos estão preenchidos.");
+                            }
+
+                            simuladorBloc.calculoPercentual(addController.text, 1, valorInicialTicket, 1, context);
                           }
-
-                          simuladorBloc.calculoPercentual(addController.text, 1, valorInicialTicket, 1, context);
-                        }
-                      },
-                      child: TextFormField(
-                          enabled: false,
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.number,
-                          controller: addController =
-                              TextEditingController(text: '$data'),
-                          decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 5),
-                            suffixIcon: const Icon(Icons.percent),
-                            fillColor: Colors.orangeAccent[100],
-                            filled: true,
-                            prefixIcon: IconButton(
-                              onPressed: () {
-                                //   simuladorBloc.calculoPercentual(addController.text,1,valorInicialTicket,1,context);
-                              },
-                              icon: const Icon(
-                                Icons.add,
-                                color: Colors.green,
-                                size: 20.0,
+                        },
+                        child: TextFormField(
+                            enabled: false,
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.number,
+                            controller: addController =
+                                TextEditingController(text: '$data'),
+                            decoration: InputDecoration(
+                              floatingLabelBehavior: FloatingLabelBehavior.always,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 5),
+                              suffixIcon: const Icon(Icons.percent),
+                              fillColor: Colors.orangeAccent[100],
+                              filled: true,
+                              prefixIcon: IconButton(
+                                onPressed: () {
+                                  //   simuladorBloc.calculoPercentual(addController.text,1,valorInicialTicket,1,context);
+                                },
+                                icon: const Icon(
+                                  Icons.add,
+                                  color: Colors.green,
+                                  size: 20.0,
+                                ),
                               ),
-                            ),
 
-                            // disabledBorder: true,
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.orange,
-                                  width: 1.0,
-                                  style: BorderStyle.none),
+                              // disabledBorder: true,
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange,
+                                    width: 1.0,
+                                    style: BorderStyle.none),
+                              ),
+                              border: InputBorder.none,
+                              labelText: '',
+                              labelStyle: const TextStyle(
+                                color: Colors.black,
+                                //  backgroundColor: Colors.white,
+                              ),
+                              // hintText: 'Quantidade de clientes atendidos',
                             ),
-                            border: InputBorder.none,
-                            labelText: '',
-                            labelStyle: const TextStyle(
-                              color: Colors.black,
-                              //  backgroundColor: Colors.white,
-                            ),
-                            // hintText: 'Quantidade de clientes atendidos',
-                          ),
-                          onChanged: (text) {
-                            // simuladorBloc.calculoPercentual(text,1,valorInicialTicket,2,context);
-                          }),
-                    );
-                  }),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: Container(
-              // padding: const EdgeInsets.all(3.0),
-
-              width: 180,
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-                //borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 1,
-                    offset: Offset(1, 3), // Shadow position
-                  ),
-                ],
+                            onChanged: (text) {
+                              // simuladorBloc.calculoPercentual(text,1,valorInicialTicket,2,context);
+                            }),
+                      );
+                    }),
               ),
-              child: StreamBuilder(
-                  stream: simuladorBloc.percentualRemoveController,
-                  builder: (context, snapshot) {
-                    var data = snapshot.data;
-                    if(!snapshot.hasData){
-                      data ="";
-                    }
-                    return GestureDetector(
-                      onTap: () {
-                        if(valorInicialTicket.isEmpty){
-                          alerta.openModal(context, "Selecione um item para a realização da simulação");
-                        }else{
-                          if(_dadosBasicoNULL){
-                            alerta.openModal(context, "Verifique se os dados básicos estão preenchidos.");
-                          }
-                          simuladorBloc.calculoPercentual(removeController.text,2, valorInicialTicket, 2, context);
-                        }
-                      },
-                      child: TextFormField(
-                          enabled: false,
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.number,
-                          controller: removeController =
-                              TextEditingController(text: '$data'),
-                          decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 5),
-                            prefixIcon: IconButton(
-                              onPressed: () {
-                                //     removeController.text = removeController.text +'1';
-                              },
-                              icon: const Icon(
-                                Icons.remove,
-                                color: Colors.red,
-                              ),
-                            ),
-                            fillColor: Colors.orangeAccent[100],
-                            filled: true,
-                            suffixIcon: const Icon(Icons.percent),
-                            // disabledBorder: true,
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.orange,
-                                  width: 1.0,
-                                  style: BorderStyle.none),
-                            ),
-                            border: InputBorder.none,
-                            labelText: '',
-                            labelStyle: const TextStyle(
-                              color: Colors.black,
-                              //  backgroundColor: Colors.white,
-                            ),
-                            // hintText: 'Quantidade de clientes atendidos',
-                          ),
-                          onChanged: null),
-                    );
-                  }),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Container(
+                // padding: const EdgeInsets.all(3.0),
+
+                width: 180,
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  //borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 1,
+                      offset: Offset(1, 3), // Shadow position
+                    ),
+                  ],
+                ),
+                child: StreamBuilder(
+                    stream: simuladorBloc.percentualRemoveController,
+                    builder: (context, snapshot) {
+                      var data = snapshot.data;
+                      if(!snapshot.hasData){
+                        data ="";
+                      }
+                      return GestureDetector(
+                        onTap: () {
+                          if(valorInicialTicket.isEmpty){
+                           // alerta.openModal(context, "Selecione um item para a realização da simulação");
+                          }else{
+                            if(_dadosBasicoNULL){
+                           //   alerta.openModal(context, "Verifique se os dados básicos estão preenchidos.");
+                            }
+                            simuladorBloc.calculoPercentual(removeController.text,2, valorInicialTicket, 2, context);
+                          }
+                        },
+                        child: TextFormField(
+                            enabled: false,
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.number,
+                            controller: removeController =
+                                TextEditingController(text: '$data'),
+                            decoration: InputDecoration(
+                              floatingLabelBehavior: FloatingLabelBehavior.always,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 5),
+                              prefixIcon: IconButton(
+                                onPressed: () {
+                                  //     removeController.text = removeController.text +'1';
+                                },
+                                icon: const Icon(
+                                  Icons.remove,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              fillColor: Colors.orangeAccent[100],
+                              filled: true,
+                              suffixIcon: const Icon(Icons.percent),
+                              // disabledBorder: true,
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange,
+                                    width: 1.0,
+                                    style: BorderStyle.none),
+                              ),
+                              border: InputBorder.none,
+                              labelText: '',
+                              labelStyle: const TextStyle(
+                                color: Colors.black,
+                                //  backgroundColor: Colors.white,
+                              ),
+                              // hintText: 'Quantidade de clientes atendidos',
+                            ),
+                            onChanged: null),
+                      );
+                    }),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -760,11 +763,14 @@ class _SimuladorState extends State<Simulador> {
  buildStreamBuilder(simuladorBloc.margemInformadaController, "Margem desejada","ops",false, buildIcon()),
                   buildStreamBuilder(simuladorBloc.margemInformadaController, "Margem informada","ops",false, buildIcon()),
  */
-  Row buildRow(coluna1, coluna2) {
+  SingleChildScrollView buildRow(coluna1, coluna2) {
     const Espacamento();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [coluna1, coluna2],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [coluna1, coluna2],
+      ),
     );
   }
 

@@ -163,84 +163,42 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                     }),
               ),
               const Espacamento(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 205,
-                    decoration: const BoxDecoration(
-                      color: Colors.transparent,
-                      //borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 1,
-                          offset: Offset(1, 3), // Shadow position
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+                  scrollDirection:  Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 205,
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                          //borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 1,
+                              offset: Offset(1, 3), // Shadow position
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: TextFormField(
-                      onChanged: (text) {
-                        analiseViabilidadeBloc.descontoPromocional(text);
-                      },
-                      validator:ValidationBuilder().maxLength(50).required().build(),
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                        fillColor: color,
-                        filled: true,
-                        suffixIcon:const Icon(
-                          Icons.percent,
-                          color: Colors.grey,
-                          size: 16,
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.orange,
-                              width: 1.0,
-                              style: BorderStyle.none),
-                        ),
-                        border: InputBorder.none,
-                        labelText: 'Desconto Promocional',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 150,
-                    decoration: const BoxDecoration(
-                      color: Colors.transparent,
-                      //borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 1,
-                          offset: Offset(1, 3), // Shadow position
-                        ),
-                      ],
-                    ),
-                    child: StreamBuilder(
-                      stream: analiseViabilidadeBloc.outPrecoPromocional,
-                      builder: (context, snapshot) {
-                        var data = "";
-                        if(snapshot.hasData){
-                          data =snapshot.data.toString();
-                        }
-                        return TextFormField(
-                          keyboardType: TextInputType.none,
-                          controller: TextEditingController(text: data),
-                          enabled: false,
+                        child: TextFormField(
+                          onChanged: (text) {
+                            analiseViabilidadeBloc.descontoPromocional(text);
+                          },
+                          validator:ValidationBuilder().maxLength(50).required().build(),
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             floatingLabelBehavior: FloatingLabelBehavior.always,
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 5),
-                            // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
-                            fillColor: Colors.grey[100],
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                            fillColor: color,
                             filled: true,
-                            // disabledBorder: true,
+                            suffixIcon:const Icon(
+                              Icons.percent,
+                              color: Colors.black,
+                              size: 16,
+                            ),
                             focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Colors.orange,
@@ -248,17 +206,65 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                                   style: BorderStyle.none),
                             ),
                             border: InputBorder.none,
-                            labelText: 'Preço promocional',
+                            labelText: 'Desconto Promocional',
                             labelStyle: const TextStyle(
                               color: Colors.black,
                             ),
-
                           ),
-                        );
-                      }
-                    ),
+                        ),
+                      ),
+                      Container(
+                        width: 150,
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                          //borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 1,
+                              offset: Offset(1, 3), // Shadow position
+                            ),
+                          ],
+                        ),
+                        child: StreamBuilder(
+                          stream: analiseViabilidadeBloc.outPrecoPromocional,
+                          builder: (context, snapshot) {
+                            var data = "";
+                            if(snapshot.hasData){
+                              data =snapshot.data.toString();
+                            }
+                            return TextFormField(
+                              keyboardType: TextInputType.none,
+                              controller: TextEditingController(text: data),
+                              enabled: false,
+                              decoration: InputDecoration(
+                                floatingLabelBehavior: FloatingLabelBehavior.always,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 5),
+                                // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
+                                fillColor: Colors.grey[100],
+                                filled: true,
+                                // disabledBorder: true,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.orange,
+                                      width: 1.0,
+                                      style: BorderStyle.none),
+                                ),
+                                border: InputBorder.none,
+                                labelText: 'Preço promocional',
+                                labelStyle: const TextStyle(
+                                  color: Colors.black,
+                                ),
+
+                              ),
+                            );
+                          }
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
               const Espacamento(),
               Container(
@@ -353,117 +359,120 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
               ),
               const Espacamento(),
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 180,
-                      decoration: const BoxDecoration(
-                        color: Colors.transparent,
-                        //borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 1,
-                            offset: Offset(1, 3), // Shadow position
-                          ),
-                        ],
-                      ),
-                      child: TextFormField(
-                        onChanged: (text) {
-                          analiseViabilidadeBloc.objetivoVendas(text);
-                        },
-                        validator: ValidationBuilder()
-                            .maxLength(50)
-                            .required()
-                            .build(),
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                          fillColor: color,
-                          filled: true,
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.orange,
-                                width: 1.0,
-                                style: BorderStyle.none),
-                          ),
-                          border: InputBorder.none,
-                          labelText: 'Obejetivo de vendas',
-                          labelStyle: const TextStyle(
-                            color: Colors.black,
-                            //  backgroundColor: Colors.white,
-                          ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 180,
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                          //borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 1,
+                              offset: Offset(1, 3), // Shadow position
+                            ),
+                          ],
+                        ),
+                        child: TextFormField(
+                          onChanged: (text) {
+                            analiseViabilidadeBloc.objetivoVendas(text);
+                          },
+                          validator: ValidationBuilder()
+                              .maxLength(50)
+                              .required()
+                              .build(),
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                            fillColor: color,
+                            filled: true,
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 1.0,
+                                  style: BorderStyle.none),
+                            ),
+                            border: InputBorder.none,
+                            labelText: 'Obejetivo de vendas',
+                            labelStyle: const TextStyle(
+                              color: Colors.black,
+                              //  backgroundColor: Colors.white,
+                            ),
 
-                          // hintText: 'Quantidade de clientes atendidos',
+                            // hintText: 'Quantidade de clientes atendidos',
+                          ),
                         ),
                       ),
-                    ),
-                    StreamBuilder(
-                      stream: analiseViabilidadeBloc.outResultadoCorController,
-                      builder: (context, snapshot) {
+                      StreamBuilder(
+                        stream: analiseViabilidadeBloc.outResultadoCorController,
+                        builder: (context, snapshot) {
 
-                        if(snapshot.hasData){
-                          print(snapshot.data.toString());
-                          if('Prejuizo' ==snapshot.data.toString() ){
-                            dataCor = Colors.red;
-                          }else if('lucro' ==snapshot.data.toString()){
-                            dataCor = Colors.green;
-                          }
-                        }
-                        return Container(
-                          width: 180,
-                          decoration: const BoxDecoration(
-                            color: Colors.transparent,
-                            //borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 1,
-                                offset: Offset(1, 3), // Shadow position
-                              ),
-                            ],
-                          ),
-                          child: StreamBuilder(
-                            stream: analiseViabilidadeBloc.outResultadoController,
-                            builder: (context, snapshot) {
-                              var data = "";
-                              if(snapshot.hasData){
-                                data = snapshot.data.toString();
-                              }
-                              return TextFormField(
-                                keyboardType: TextInputType.number,
-                                enabled: false,
-                                controller:TextEditingController(text: data),
-                                decoration:  InputDecoration(
-                                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                                  contentPadding:const  EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                                  // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
-                                  fillColor: dataCor,
-                                  filled: true,
-                                  // disabledBorder: true,
-                                  focusedBorder:const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.orange,
-                                        width: 1.0,
-                                        style: BorderStyle.none),
-                                  ),
-                                  border: InputBorder.none,
-                                  labelText: 'Resultado desta ação',
-                                  labelStyle: const TextStyle(
-                                    color: Colors.black,
-                                    //  backgroundColor: Colors.white,
-                                  ),
-                                  // hintText: 'Quantidade de clientes atendidos',
-                                ),
-                              );
+                          if(snapshot.hasData){
+                            print(snapshot.data.toString());
+                            if('Prejuizo' ==snapshot.data.toString() ){
+                              dataCor = Colors.red;
+                            }else if('lucro' ==snapshot.data.toString()){
+                              dataCor = Colors.green;
                             }
-                          ),
-                        );
-                      }
-                    ),
-                  ],
+                          }
+                          return Container(
+                            width: 180,
+                            decoration: const BoxDecoration(
+                              color: Colors.transparent,
+                              //borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 1,
+                                  offset: Offset(1, 3), // Shadow position
+                                ),
+                              ],
+                            ),
+                            child: StreamBuilder(
+                              stream: analiseViabilidadeBloc.outResultadoController,
+                              builder: (context, snapshot) {
+                                var data = "";
+                                if(snapshot.hasData){
+                                  data = snapshot.data.toString();
+                                }
+                                return TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  enabled: false,
+                                  controller:TextEditingController(text: data),
+                                  decoration:  InputDecoration(
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                    contentPadding:const  EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                                    // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
+                                    fillColor: dataCor,
+                                    filled: true,
+                                    // disabledBorder: true,
+                                    focusedBorder:const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.orange,
+                                          width: 1.0,
+                                          style: BorderStyle.none),
+                                    ),
+                                    border: InputBorder.none,
+                                    labelText: 'Resultado desta ação',
+                                    labelStyle: const TextStyle(
+                                      color: Colors.black,
+                                      //  backgroundColor: Colors.white,
+                                    ),
+                                    // hintText: 'Quantidade de clientes atendidos',
+                                  ),
+                                );
+                              }
+                            ),
+                          );
+                        }
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const Espacamento(),
@@ -622,28 +631,31 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
           ),
         ],
       ),
-      child: Row(
-        // mainAxisAlignment: MainAxisAlignment.center
-        children: [
-          SizedBox(
-            width: 50,
-            child: IconButton(
-                onPressed: () {
-                  alerta.openModal(context,
-                      'Promoção: oferta/divulgação de benefício concreto, por um período específico de tempo. Tudo muito bem explicado Propaganda: assunto para profissionais (o que divulgar, como, onde, quando, por quanto tempo).IMPORTANTE: certifique-se de que sua promoção e/ou propaganda é relevante para o seu público-alvo; garanta que ao serem motivados, os clientes não se decepcionem; evite repetições frequentes e durações longas. Observe o que seus concorrentes estão fazendo. Encontre um diferencial mais atrativo. Crie uma forma de acompanhar e controlar resultados.');
-                },
-                icon: const Icon(Icons.help)),
-          ),
-          Column(
-            children: const [
-              Text(
-                'PROMOÇÃO e/ou PROPAGANDA',
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          )
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.center
+          children: [
+            SizedBox(
+              width: 50,
+              child: IconButton(
+                  onPressed: () {
+                    alerta.openModal(context,
+                        'Promoção: oferta/divulgação de benefício concreto, por um período específico de tempo. Tudo muito bem explicado Propaganda: assunto para profissionais (o que divulgar, como, onde, quando, por quanto tempo).IMPORTANTE: certifique-se de que sua promoção e/ou propaganda é relevante para o seu público-alvo; garanta que ao serem motivados, os clientes não se decepcionem; evite repetições frequentes e durações longas. Observe o que seus concorrentes estão fazendo. Encontre um diferencial mais atrativo. Crie uma forma de acompanhar e controlar resultados.');
+                  },
+                  icon: const Icon(Icons.help)),
+            ),
+            Column(
+              children: const [
+                Text(
+                  'PROMOÇÃO e/ou PROPAGANDA',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
