@@ -533,6 +533,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
       labelText: mesLabel,
       labelStyle: const TextStyle(
         color: Colors.black,
+        fontSize: 13,
         //  backgroundColor: Colors.white,
       ),
       /*

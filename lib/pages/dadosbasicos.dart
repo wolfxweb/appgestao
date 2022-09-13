@@ -100,7 +100,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(26.0),
+              padding: const EdgeInsets.all(8.0),
               child: Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +112,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                     'Todos os dados devem compreender o mesmo período.',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 14,
+                      fontSize: 13,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -152,9 +152,10 @@ class _DadosBasicosState extends State<DadosBasicos> {
                                         style: BorderStyle.none),
                                   ),
                                   border: InputBorder.none,
-                                  labelText: "Quantidade de clientes atendidos",
+                                  labelText: "Selecione o mês",
                                   labelStyle: const TextStyle(
                                     color: Colors.black,
+                                    fontSize: 13,
                                     //  backgroundColor: Colors.white,
                                   ),
                                 ),
@@ -232,15 +233,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                          return Container();
                         }),
                   ),
-                  // Text('DADOS BÁSICOS',style: TextStyle(color: Colors.white)),
-                  /* const Text(
-                    'a) se o mês atual menos o mês selecionado for = 1, o comentário será: A exatidão das informações determinará a qualidade/utilidade desta ferramenta.',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),*/
+
                   const Espacamento(),
                   Container(
                     decoration: buildBuildBoxDecoration(),
@@ -273,6 +266,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         labelText: "Quantidade de clientes atendidos",
                         labelStyle: const TextStyle(
                           color: Colors.black,
+                          fontSize: 13,
                           //  backgroundColor: Colors.white,
                         ),
                       ),
@@ -350,6 +344,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         labelText: "Margen que você considera ideal",
                         labelStyle: const TextStyle(
                           color: Colors.black,
+                          fontSize: 13,
                           //  backgroundColor: Colors.white,
                         ),
                         // hintText: 'Quantidade de clientes atendidos',
@@ -435,6 +430,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
       labelText: titulo,
       labelStyle: const TextStyle(
         color: Colors.black,
+        fontSize: 13,
         //  backgroundColor: Colors.white,
       ),
       // hintText: 'Quantidade de clientes atendidos',

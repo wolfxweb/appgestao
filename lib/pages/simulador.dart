@@ -66,7 +66,7 @@ class _SimuladorState extends State<Simulador> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(3.0),
+            padding: const EdgeInsets.all(0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,7 +89,7 @@ class _SimuladorState extends State<Simulador> {
                         ),
                         hintStyle: TextStyle(
                           color: Colors.black,
-                          fontSize: 22,
+                          fontSize: 18,
                         ),
                         border: InputBorder.none,
                       ),
@@ -124,10 +124,10 @@ class _SimuladorState extends State<Simulador> {
                         vendasColor = dataCor.toString();
                         //     print(dataCor);
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 4, vertical: 0),
+                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
                           child: Container(
                             width: 185,
+                           // width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
                                 stream: simuladorBloc.margemResultateController,
@@ -152,8 +152,7 @@ class _SimuladorState extends State<Simulador> {
                                       floatingLabelBehavior:
                                           FloatingLabelBehavior.always,
                                       contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 5),
+                                          const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                                       //  suffixIcon: suffixIcon,
                                       fillColor: Colors.grey[100],
                                       filled: true,
@@ -185,6 +184,7 @@ class _SimuladorState extends State<Simulador> {
                 Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Container(
+                    width: MediaQuery.of(context).size.width*0.92,
                     decoration: const BoxDecoration(
                       color: Colors.transparent,
                       //borderRadius: BorderRadius.circular(20),
@@ -236,10 +236,10 @@ class _SimuladorState extends State<Simulador> {
                         vendasColor = dataCor.toString();
                         //  print(dataCor);
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 4, vertical: 0),
+                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
                           child: Container(
-                            width: 185,
+                         //   width: 185,
+                            width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
                                 stream: simuladorBloc.vendasController,
@@ -274,7 +274,8 @@ class _SimuladorState extends State<Simulador> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
                           child: Container(
-                            width: 185,
+                          //  width: 185,
+                            width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
                                 stream: simuladorBloc.ticketMedioController,
@@ -318,7 +319,8 @@ class _SimuladorState extends State<Simulador> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
                           child: Container(
-                            width: 185,
+                           // width: 185,
+                            width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
                                 stream: simuladorBloc.custoInsumosController,
@@ -357,7 +359,8 @@ class _SimuladorState extends State<Simulador> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
                           child: Container(
-                            width: 185,
+                           // width: 185,
+                            width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
                                 stream: simuladorBloc.custoFixoController,
@@ -401,7 +404,8 @@ class _SimuladorState extends State<Simulador> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
                           child: Container(
-                            width: 185,
+                         //   width: 185,
+                            width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
                                 //    stream:  simuladorBloc.custoProdutoController,
@@ -455,7 +459,8 @@ class _SimuladorState extends State<Simulador> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
                           child: Container(
-                            width: 185,
+                         //   width: 185,
+                            width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
                                 stream: simuladorBloc.custoProdutoController,
@@ -493,19 +498,23 @@ class _SimuladorState extends State<Simulador> {
                   ),
                 ),
                 const Espacamento(),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.orange, // background
-                      onPrimary: Colors.white, // foreground
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 10),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                  //  width: MediaQuery.of(context).size.width*0.45,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orange, // background
+                        onPrimary: Colors.white, // foreground
+                      ),
+                      child: const Text('Limpar filtros',
+                          style: TextStyle(color: Colors.white)),
+                      onPressed: () {
+                        simuladorBloc.getDadosBasicos();
+                        simuladorBloc.limparCorInputs();
+                      },
                     ),
-                    child: const Text('Limpar filtros',
-                        style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      simuladorBloc.getDadosBasicos();
-                      simuladorBloc.limparCorInputs();
-                    },
                   ),
                 ),
                 const Espacamento(),
@@ -531,7 +540,8 @@ class _SimuladorState extends State<Simulador> {
               padding: const EdgeInsets.all(3.0),
               child: Container(
                 // padding: const EdgeInsets.all(3.0),
-                width: 180,
+               // width: 180,
+                width: MediaQuery.of(context).size.width*0.45,
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
                   //borderRadius: BorderRadius.circular(20),
@@ -573,8 +583,7 @@ class _SimuladorState extends State<Simulador> {
                                 TextEditingController(text: '$data'),
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 5),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                               suffixIcon: const Icon(Icons.percent),
                               fillColor: Colors.orangeAccent[100],
                               filled: true,
@@ -616,7 +625,8 @@ class _SimuladorState extends State<Simulador> {
               child: Container(
                 // padding: const EdgeInsets.all(3.0),
 
-                width: 180,
+              //  width: 180,
+                width: MediaQuery.of(context).size.width*0.45,
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
                   //borderRadius: BorderRadius.circular(20),
@@ -654,8 +664,7 @@ class _SimuladorState extends State<Simulador> {
                                 TextEditingController(text: '$data'),
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 5),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                               prefixIcon: IconButton(
                                 onPressed: () {
                                   //     removeController.text = removeController.text +'1';
@@ -706,6 +715,7 @@ class _SimuladorState extends State<Simulador> {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
                 child: Container(
+                  width: MediaQuery.of(context).size.width*0.92,
                   decoration: buildBoxDecoration(),
                   child: StreamBuilder(
                       stream: null,
@@ -801,9 +811,10 @@ class _SimuladorState extends State<Simulador> {
 
   Padding buildContainer(data, inputTitulo, cor, format, icone, onChanged) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       child: Container(
-        width: 185,
+       // width: 185,
+        width: MediaQuery.of(context).size.width*0.45,
         decoration: buildBoxDecoration(),
         child: StreamBuilder(
             stream: null,
@@ -846,6 +857,7 @@ class _SimuladorState extends State<Simulador> {
     return const BoxDecoration(
       color: Colors.transparent,
       //borderRadius: BorderRadius.circular(20),
+
       boxShadow: [
         BoxShadow(
           color: Colors.black12,
@@ -859,7 +871,7 @@ class _SimuladorState extends State<Simulador> {
   buildSpinBox(String TextDecoretion) {
     return SpinBox(
       min: 1,
-      max: 100000000,
+      max: 10000,
       value: 5,
       decoration: buildDecoratorSpinBox(TextDecoretion),
       incrementIcon: const Icon(
@@ -896,7 +908,7 @@ class _SimuladorState extends State<Simulador> {
 
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       suffixIcon: suffixIcon,
       fillColor: corFundo,
       filled: true,
@@ -910,6 +922,7 @@ class _SimuladorState extends State<Simulador> {
       labelText: text,
       labelStyle: const TextStyle(
         color: Colors.black,
+        fontSize: 13,
         //  backgroundColor: Colors.white,
       ),
       // hintText: 'Quantidade de clientes atendidos',
