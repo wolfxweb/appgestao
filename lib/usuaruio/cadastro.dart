@@ -29,7 +29,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
 
   final _emailController = TextEditingController();
   final _nomeController = TextEditingController();
-  final _telefoneController = TextEditingController();
+  final _telefoneController = TextEditingController(text: '(00)00000000');
   final _senhaController = TextEditingController();
 
   @override
@@ -59,7 +59,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
-                        color: Colors.orange,
+                        color: const Color.fromRGBO(159, 105, 56,1),
                       ),
                     ),
                     const Espacamento(),
@@ -83,7 +83,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         decoration: buildInputDecoration("Digite como gostaria de ser chamado")
                       ),
                     ),
-                    const Espacamento(),
+                  /*  const Espacamento(),
                     Container(
                       decoration: buildBoxDecoration(),
                       child: TextFormField(
@@ -95,7 +95,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         controller: _telefoneController,
                         decoration: buildInputDecoration("Digite seu telefone")
                       ),
-                    ),
+                    ),*/
                     const Espacamento(),
                     Container(
                       decoration: buildBoxDecoration(),
@@ -112,7 +112,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.orange, // background
+                          primary: const Color.fromRGBO(159, 105, 56,1),
+                           // background
                           onPrimary: Colors.white, // foreground
                         ),
                         onPressed: _buildOnPressed,
@@ -127,7 +128,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       children: [
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            primary: Colors.orange, // background
+                            primary: const Color.fromRGBO(159, 105, 56,1),
+
                           ),
                           child: const Text('Login'),
                           onPressed: () {
@@ -136,7 +138,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         ),
                         TextButton(
                           style: OutlinedButton.styleFrom(
-                            primary: Colors.orange, // background
+                            primary: const Color.fromRGBO(159, 105, 56,0.5),
+
                           ),
                           child: const Text('Esqueceu a senha?'),
                           onPressed: () {
@@ -159,13 +162,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       //   suffixIcon: suffixIcon,
-      fillColor: Colors.orangeAccent[100],
+      fillColor: const Color.fromRGBO(159, 105, 56,0.5),
       filled: true,
 
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+            color: Color.fromRGBO(159, 105, 56,0.5), width: 1.0, style: BorderStyle.none),
       ),
       border: InputBorder.none,
       labelText: text,

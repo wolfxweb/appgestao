@@ -16,7 +16,7 @@ class AlertModal {
               TextButton(
                 child: const Text(
                   "Fechar",
-                  style: TextStyle(color: Colors.amber),
+                  style: TextStyle(color:  Color.fromRGBO(159, 105, 56,1),),
                 ),
                 onPressed: () {
                   Navigator.pop(context);

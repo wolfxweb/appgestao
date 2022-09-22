@@ -53,7 +53,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
-                      color: Colors.orange,
+                      color: const Color.fromRGBO(159, 105, 56,1),
                     ),
                   ),
                   const Espacamento(),
@@ -72,7 +72,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton (
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.orange, // background
+                        primary: const Color.fromRGBO(159, 105, 56,1), // background
                         onPrimary: Colors.white, // foreground
                       ),
                       child: Text('Enviar',style: TextStyle(color: Colors.white)),
@@ -87,7 +87,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                     BtnCadastreSe(),
                     TextButton(
                         style: OutlinedButton.styleFrom(
-                          primary: Colors.orange, // background
+                          primary: const Color.fromRGBO(159, 105, 56,1), // background
                         ),
                         child: const Text('Login'),
                         onPressed:(){
@@ -109,13 +109,13 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       //   suffixIcon: suffixIcon,
-      fillColor: Colors.orangeAccent[100],
+      fillColor: const Color.fromRGBO(159, 105, 56,0.5),
       filled: true,
 
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+            color: const Color.fromRGBO(159, 105, 56,1), width: 1.0, style: BorderStyle.none),
       ),
       border: InputBorder.none,
       labelText: text,

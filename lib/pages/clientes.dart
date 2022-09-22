@@ -52,16 +52,16 @@ var textSearch ='';
                        decoration: const InputDecoration(
                          focusedBorder: UnderlineInputBorder(
                            borderSide:
-                           BorderSide(color: Colors.orange, width: 1.0),
+                           BorderSide(color:Color.fromRGBO(159, 105, 56,1), width: 1.0),
                          ),
                          border: UnderlineInputBorder(),
                          prefixIcon: Icon(Icons.password, color: Colors.transparent),
-                         suffixIcon: Icon(Icons.search_rounded,color: Colors.orange),
+                         suffixIcon: Icon(Icons.search_rounded,color:  Color.fromRGBO(159, 105, 56,1)),
                          hintText: 'Digite o nome do cliente para filtrar',
 
                        ),
                        onChanged: (text) {
-                         print('First text field: $text');
+                      ///   print('First text field: $text');
                          setState(() {
                            textSearch = text;
                          });
@@ -88,7 +88,7 @@ var textSearch ='';
                               children: [
                                 ListTile(
                                   title: Text( data['nome']),
-                                  subtitle: Text(" $email  -  $tel "),
+                                  subtitle: Text(" $email "),
                                   trailing: data['status']?const Icon(Icons.check,color: Colors.green):const Icon(Icons.close,color: Colors.red,),
                                   onTap: () {
                                     FirebaseFirestore.instance.collection("usuario").doc(data['email']??"").update({'status':!data['status']});
@@ -111,7 +111,7 @@ var textSearch ='';
     );
   }
   _filter(text){
-    print(text);
+  //  print(text);
 
   }
 }

@@ -44,7 +44,7 @@ class _HomeAdminState extends State<HomeAdmin> {
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
               child: Text(
-                'Sempre com você... participando do seu sucesso!',
+                'Somando forças para multiplicar resultados.',
                 style: TextStyle(fontSize: 20),
                 textAlign: TextAlign.center,
               ),
@@ -171,7 +171,7 @@ class _HomeAdminState extends State<HomeAdmin> {
         height:altura,
         padding: const EdgeInsets.all(8),
         decoration: const BoxDecoration(
-          color: Colors.orange,
+          color:  Color.fromRGBO(159, 105, 56,1),
           //borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(

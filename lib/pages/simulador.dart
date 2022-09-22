@@ -85,7 +85,7 @@ class _SimuladorState extends State<Simulador> {
                         hintText: 'Para você definir prioridades',
                         prefixIcon: Icon(
                           Icons.help,
-                          color: Colors.black,
+                          color: Colors.black54,
                         ),
                         hintStyle: TextStyle(
                           color: Colors.black,
@@ -505,7 +505,7 @@ class _SimuladorState extends State<Simulador> {
                   //  width: MediaQuery.of(context).size.width*0.45,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.orange, // background
+                        primary: Color.fromRGBO(159, 105, 56,1), // background
                         onPrimary: Colors.white, // foreground
                       ),
                       child: const Text('Limpar filtros',
@@ -584,8 +584,8 @@ class _SimuladorState extends State<Simulador> {
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
                               contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                              suffixIcon: const Icon(Icons.percent),
-                              fillColor: Colors.orangeAccent[100],
+                              suffixIcon: const Icon(Icons.percent, color: Colors.black54,),
+                              fillColor:Color.fromRGBO(159, 105, 56,0.5),
                               filled: true,
                               prefixIcon: IconButton(
                                 onPressed: () {
@@ -674,9 +674,9 @@ class _SimuladorState extends State<Simulador> {
                                   color: Colors.red,
                                 ),
                               ),
-                              fillColor: Colors.orangeAccent[100],
+                              fillColor: Color.fromRGBO(159, 105, 56,0.5),
                               filled: true,
-                              suffixIcon: const Icon(Icons.percent),
+                              suffixIcon: const Icon(Icons.percent ,  color: Colors.black54),
                               // disabledBorder: true,
                               focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -705,6 +705,7 @@ class _SimuladorState extends State<Simulador> {
 
   Container buildContainerFaturamento() {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
       child: StreamBuilder(
           stream: simuladorBloc.faturamentoController,
           builder: (context, snapshot) {
@@ -893,7 +894,7 @@ class _SimuladorState extends State<Simulador> {
   _styleInput(String text, String cor, suffixIcon) {
     switch (cor) {
       case "padrao":
-        corFundo = Colors.orangeAccent[100];
+        corFundo = Color.fromRGBO(159, 105, 56,0.5);
         break;
       case 'desabilitado':
         corFundo = Colors.grey[100];

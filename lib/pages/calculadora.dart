@@ -88,7 +88,7 @@ class _CalculadoraState extends State<Calculadora> {
                                       },
                                       style: ElevatedButton.styleFrom(
                                         textStyle: const TextStyle(fontSize: 13),
-                                        primary: Colors.orange,
+                                        primary: Color.fromRGBO(159, 105, 56,1),
                                         elevation: 5,
                                         shadowColor: Colors.black,
                                         padding: EdgeInsets.all(16),
@@ -119,7 +119,7 @@ class _CalculadoraState extends State<Calculadora> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 16,
                                                       vertical: 5),
-                                              fillColor: Colors.orangeAccent[100],
+                                              fillColor:const Color.fromRGBO(159, 105, 56,0.5),
                                               filled: true,
                                               border: InputBorder.none,
                                               labelText: "Localizar produto",
@@ -355,15 +355,15 @@ class _CalculadoraState extends State<Calculadora> {
                                               .build(),
                                           keyboardType: TextInputType.number,
                                           controller: _margemDesejadaController,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             floatingLabelBehavior:
                                                 FloatingLabelBehavior.always,
                                             contentPadding:
-                                                const EdgeInsets.symmetric(
+                                                EdgeInsets.symmetric(
                                                     horizontal: 16, vertical: 5),
-                                            fillColor: Colors.orangeAccent[100],
+                                            fillColor: Color.fromRGBO(159, 105, 56,0.5),
                                             filled: true,
-                                            suffixIcon: const Icon(
+                                            suffixIcon: Icon(
                                               Icons.percent,
                                               color: Colors.black54,
                                               size: 20.0,
@@ -374,7 +374,7 @@ class _CalculadoraState extends State<Calculadora> {
                                       ),*/
                                             border: InputBorder.none,
                                             labelText: 'Margem desejada',
-                                            labelStyle: const TextStyle(
+                                            labelStyle: TextStyle(
                                               color: Colors.black,
                                               fontSize: 13,
                                               // backgroundColor: Colors.white,
@@ -605,7 +605,7 @@ class _CalculadoraState extends State<Calculadora> {
                                       },
                                       style: ElevatedButton.styleFrom(
                                         textStyle: const TextStyle(fontSize: 14),
-                                        primary: Colors.orange,
+                                        primary:const Color.fromRGBO(159, 105, 56,1),
                                         elevation: 5,
                                         shadowColor: Colors.black,
                                         padding: EdgeInsets.all(14),
@@ -625,7 +625,7 @@ class _CalculadoraState extends State<Calculadora> {
                                           _btnStatus ? _buildOnPressed : null,
                                       style: ElevatedButton.styleFrom(
                                         textStyle: const TextStyle(fontSize: 14),
-                                        primary: Colors.orange,
+                                        primary:const Color.fromRGBO(159, 105, 56,1),
                                         elevation: 5,
                                         shadowColor: Colors.black,
                                         padding: EdgeInsets.all(14),
@@ -684,11 +684,13 @@ class _CalculadoraState extends State<Calculadora> {
                 children: [
                   Text("Preco Atual R\$: $preco_atual"),
                   buildSizedBox(),
-                  Text("Margem Desejada: $margem_desejada "),
+                  Text("Margem Atual: $margem_atual "),
                   buildSizedBox(),
                   Text("Preço Sugerido R\$: $preco_sugerido"),
                   buildSizedBox(),
-                  Text("Margem Atual: $margem_atual "),
+                  Text("Margem Desejada: $margem_desejada "),
+
+
                 ],
               ),
             ),
@@ -821,7 +823,7 @@ class _CalculadoraState extends State<Calculadora> {
     return InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.orange, width: 1.0),
+          borderSide: BorderSide(color: Color.fromRGBO(159, 105, 56,1), width: 1.0),
         ),
         border: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.orange, width: 1.0),
@@ -832,7 +834,7 @@ class _CalculadoraState extends State<Calculadora> {
 
   _styleInput(String text, String modal) {
     if (modal == "cor") {
-      corFundo = Colors.orangeAccent[100];
+      corFundo = Color.fromRGBO(159, 105, 56,0.5);
     } else {
       corFundo = Colors.grey[100];
     }
@@ -846,7 +848,7 @@ class _CalculadoraState extends State<Calculadora> {
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+            color: Color.fromRGBO(159, 105, 56,1), width: 1.0, style: BorderStyle.none),
       ),
       border: InputBorder.none,
       labelText: text,

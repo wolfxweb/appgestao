@@ -74,7 +74,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
 
   var mesSelect = ValueNotifier('');
 
-  var color = Colors.orangeAccent[100];
+  var color = Color.fromRGBO(159, 105, 56,0.5);
   @override
   Widget build(BuildContext context) {
     final dropOpcoes = [
@@ -134,7 +134,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                                   prefixIcon: IconButton(
                                     icon: const  Icon(
                                       Icons.help,
-                                      color: Colors.grey,
+                                      color: Colors.black54,
                                     ),
                                     // color: Colors.transparent,
                                     onPressed: () {
@@ -147,14 +147,14 @@ class _DadosBasicosState extends State<DadosBasicos> {
                                   // disabledBorder: true,
                                   focusedBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
+                                        color: Color.fromRGBO(159, 105, 56,1),
                                         width: 1.0,
                                         style: BorderStyle.none),
                                   ),
                                   border: InputBorder.none,
                                   labelText: "Selecione o mês",
                                   labelStyle: const TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.black54,
                                     fontSize: 13,
                                     //  backgroundColor: Colors.white,
                                   ),
@@ -209,23 +209,23 @@ class _DadosBasicosState extends State<DadosBasicos> {
                               maxLines: 3,
                               controller:
                               TextEditingController(text: data.toString()),
-                              decoration: InputDecoration(
+                              decoration:  InputDecoration(
                                 floatingLabelBehavior:
                                 FloatingLabelBehavior.always,
-                                contentPadding: const EdgeInsets.symmetric(
+                                contentPadding:const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 5),
                                 fillColor: Colors.grey[100],
                                 filled: true,
-                                focusedBorder: const OutlineInputBorder(
+                                focusedBorder:const OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Colors.orange,
+                                      color: Color.fromRGBO(159, 105, 56,1),
                                       width: 1.0,
                                       style: BorderStyle.none),
                                 ),
                                 border: InputBorder.none,
                                 //  labelText: 'Desconto máximo para vender sem prejuizo',
                                 labelStyle: const TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.black54,
                                 ),
                               ),
                             );
@@ -258,14 +258,14 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         // disabledBorder: true,
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orange,
+                              color:  Color.fromRGBO(159, 105, 56,1),
                               width: 1.0,
                               style: BorderStyle.none),
                         ),
                         border: InputBorder.none,
                         labelText: "Quantidade de clientes atendidos",
                         labelStyle: const TextStyle(
-                          color: Colors.black,
+                          color: Colors.black54,
                           fontSize: 13,
                           //  backgroundColor: Colors.white,
                         ),
@@ -324,19 +324,19 @@ class _DadosBasicosState extends State<DadosBasicos> {
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 5),
                         prefixIcon: IconButton(
-                          icon: const Icon(Icons.help, color: Colors.grey,),
+                          icon: const Icon(Icons.help, color: Colors.black54,),
                           color: Colors.black54,
                           onPressed: () {
                             alerta.openModal(context, 'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
                           },
                         ),
-                        suffixIcon: Icon(Icons.percent, color: Colors.grey,),
+                        suffixIcon: Icon(Icons.percent, color: Colors.black54,),
                         fillColor: color,
                         filled: true,
                         // disabledBorder: true,
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orange,
+                              color: const Color.fromRGBO(159, 105, 56,1),
                               width: 1.0,
                               style: BorderStyle.none),
                         ),
@@ -357,7 +357,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
-                        primary: Colors.orange,
+                        primary: const Color.fromRGBO(159, 105, 56,1),
                       ),
                       onPressed: _buildBuildOnPressed,
                       child: const Text("Salvar"),
@@ -413,7 +413,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       prefixIcon: IconButton(
-        icon: const Icon(Icons.help, color: Colors.grey,),
+        icon: const Icon(Icons.help, color: Colors.black54,),
         color: Colors.black54,
         onPressed: () {
           alerta.openModal(context, text);

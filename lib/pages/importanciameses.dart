@@ -87,14 +87,33 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                    child: const Text("Selecione a importancia dos meses")),
+                Column(
+                  children: [
+                    Container(
+                      child: const Text(
+                        "Indique a importância dos meses ",
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: const Text(
+                        " para suas vendas",
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   alignment: Alignment.bottomRight,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.orange, // background
+                      primary:
+                          const Color.fromRGBO(159, 105, 56, 1), // background
                     ),
                     child: const Text('Atualizar'),
                     onPressed: () {
@@ -114,7 +133,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                 // ..quantity = int.parse(quantityController.text);
                 Container(
                   width: 150,
-                 // padding: EdgeInsets.all(6),
+                  // padding: EdgeInsets.all(6),
                   decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.janOutValor,
@@ -235,7 +254,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               children: [
                 Container(
                   width: 150,
-              //    padding: EdgeInsets.all(6),
+                  //    padding: EdgeInsets.all(6),
                   decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.maiOutValor,
@@ -294,7 +313,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               children: [
                 Container(
                   width: 150,
-                 // padding: EdgeInsets.all(6),
+                  // padding: EdgeInsets.all(6),
                   decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.julOutValor,
@@ -353,7 +372,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               children: [
                 Container(
                   width: 150,
-                //  padding: EdgeInsets.all(6),
+                  //  padding: EdgeInsets.all(6),
                   decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.setOutValor,
@@ -412,7 +431,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               children: [
                 Container(
                   width: 150,
-                 // padding: EdgeInsets.all(6),
+                  // padding: EdgeInsets.all(6),
                   decoration: buildBuildBoxDecoration(),
                   child: StreamBuilder(
                       stream: _importanciaMesesBLoc.novOutValor,
@@ -498,7 +517,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           tooltipBehavior: TooltipBehavior(enable: false),
                           series: <ChartSeries<_SalesData, String>>[
                             LineSeries<_SalesData, String>(
-                                color: Colors.orangeAccent,
+                                color: const Color.fromRGBO(159, 105, 56, 1),
                                 dataSource: data,
                                 xValueMapper: (_SalesData sales, _) =>
                                     sales.year,
@@ -522,7 +541,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-      fillColor: Colors.orangeAccent[100],
+      fillColor: const Color.fromRGBO(159, 105, 56, 0.5),
       filled: true,
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
@@ -555,6 +574,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
        */
     );
   }
+
   buildBuildBoxDecoration() {
     return const BoxDecoration(
       color: Colors.transparent,

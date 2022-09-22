@@ -43,7 +43,6 @@ class DadosBasicosBloc extends BlocBase {
             .get()
             .then((DocumentSnapshot documentSnapshot) {
           if (documentSnapshot.exists) {
-          //  print(documentSnapshot.data());
             Map<String, dynamic> data =  documentSnapshot.data()! as Map<String, dynamic>;
             final hora = DateTime.now().hour;
             _fulanoController.add(data['nome']);
@@ -52,12 +51,12 @@ class DadosBasicosBloc extends BlocBase {
               var userMsg = " Bom dia ${data['nome']}";
               _nomeController.add(userMsg);
               _fulanoController.add(data['nome']);
-            } else if (hora.toInt() > 13 &&  hora.toInt() < 20) {
+            } else if (hora.toInt() > 13 &&  hora.toInt() < 18) {
               // boa tarde
               var userMsg = " Boa tarde ${data['nome']}";
               _nomeController.add(userMsg);
               _fulanoController.add(data['nome']);
-            } else if (hora.toInt() > 19 ) {
+            } else if (hora.toInt() > 17 ) {
               //boa noite
               var userMsg = " Boa Noite ${data['nome']}";
               _nomeController.add(userMsg);

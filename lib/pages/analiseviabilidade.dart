@@ -26,7 +26,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
   var _investimentoComAcaoController = TextEditingController();
   var _objetivoVendaController = TextEditingController();
 
-  var color = Colors.orangeAccent[100];
+  var color = const Color.fromRGBO(159, 105, 56,0.5);
   var alerta = AlertModal();
   var corFundo = Colors.grey[100];
   var _comentario = "";
@@ -35,7 +35,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header.getAppBar('Análise viabilidade'),
+      appBar: header.getAppBar('PROMOÇÃO & PROPAGANDA'),
       drawer: Menu(),
       body: SingleChildScrollView(
         child: Padding(
@@ -149,7 +149,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                           filled: true,
                           focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.orange,
+                                color: Color.fromRGBO(159, 105, 56,1),
                                 width: 1.0,
                                 style: BorderStyle.none),
                           ),
@@ -206,7 +206,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                               ),
                               focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.orange,
+                                    color: Color.fromRGBO(159, 105, 56,1),
                                     width: 1.0,
                                     style: BorderStyle.none),
                               ),
@@ -257,7 +257,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                                   // disabledBorder: true,
                                   focusedBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.orange,
+                                        color:Color.fromRGBO(159, 105, 56,1),
                                         width: 1.0,
                                         style: BorderStyle.none),
                                   ),
@@ -309,7 +309,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                     // disabledBorder: true,
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
-                          color: Colors.orange,
+                          color: Color.fromRGBO(159, 105, 56,1),
                           width: 1.0,
                           style: BorderStyle.none),
                     ),
@@ -355,7 +355,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                         // disabledBorder: true,
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orange,
+                              color: Color.fromRGBO(159, 105, 56,1),
                               width: 1.0,
                               style: BorderStyle.none),
                         ),
@@ -411,7 +411,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                               filled: true,
                               focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.orange,
+                                    color: Color.fromRGBO(159, 105, 56,1),
                                     width: 1.0,
                                     style: BorderStyle.none),
                               ),
@@ -476,7 +476,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                                       // disabledBorder: true,
                                       focusedBorder:const OutlineInputBorder(
                                         borderSide: BorderSide(
-                                            color: Colors.orange,
+                                            color: Color.fromRGBO(159, 105, 56,1),
                                             width: 1.0,
                                             style: BorderStyle.none),
                                       ),
@@ -524,7 +524,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+            color: Color.fromRGBO(159, 105, 56,1), width: 1.0, style: BorderStyle.none),
       ),
       border: InputBorder.none,
       labelText: titulo,
@@ -540,7 +540,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
     return Column(
       children: [
         Container(
-          decoration: const BoxDecoration(
+          decoration:  BoxDecoration(
             color: Colors.transparent,
             //borderRadius: BorderRadius.circular(20),
             boxShadow: [
@@ -559,7 +559,14 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                 //   valorInicialTicket = text;
                 if (text == "1. VENDER MAIS") {
                   var _venderMais =
-                      "Certifique-se de que: 1) existe demanda; 2) o momento é oportuno (época, conjuntura, fornecedores, concorrência); 3) está preparado (capacidade de atendimento com qualidade); 4) não infringe a Lei de Defesa do Consumidor.Descontos do tipo “50% OFF”, não causam boa impressão, e, o cliente que pagou o preço antigo sente-se lesado. Em fim, pode ser válido em uma data específica (“Black Friday”, aniversário, etc.). Melhor oferecer este desconto como “cashback” (ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
+                       "Certifique-se de que: "
+                       "1) existe demanda;"
+                       "2) o momento é oportuno (época, conjuntura, fornecedores, concorrência);"
+                       "3) está preparado (capacidade de atendimento com qualidade); "
+                       "4) não infringe a Lei de Defesa do Consumidor.Descontos do tipo “50% OFF”,"
+                       " não causam boa impressão, e, o cliente que pagou o preço antigo sente-se lesado. "
+                       " Em fim, pode ser válido em uma data específica (“Black Friday”, aniversário, etc.). "
+                       " Melhor oferecer este desconto como “cashback” (ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
                   _comentario = _venderMais;
                 } else if (text == "2. AUMENTAR O TICKET MÉDIO") {
                   var aumentarTicketMedio =
@@ -614,10 +621,11 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
         const Espacamento(),
         _mostrarComentario
             ? Container(
-                decoration: const BoxDecoration(
-                  color: Colors.transparent,
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  // fillColor: Colors.grey[100],
                   //borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 1,
@@ -676,7 +684,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                 Container(
                   width: MediaQuery.of(context).size.width*0.85,
                   child: const Text(
-                    'PROMOÇÃO e/ou PROPAGANDA',
+                    'Análise viabilidade',
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
@@ -692,7 +700,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
   _styleInput(String text, String cor, suffixIcon) {
     switch (cor) {
       case "padrao":
-        corFundo = Colors.orangeAccent[100];
+        corFundo = Color.fromRGBO(159, 105, 56,0.5);
         break;
       case 'desabilitado':
         corFundo = Colors.grey[100];
@@ -715,7 +723,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+            color: Color.fromRGBO(159, 105, 56,1), width: 1.0, style: BorderStyle.none),
       ),
       border: InputBorder.none,
       labelText: text,

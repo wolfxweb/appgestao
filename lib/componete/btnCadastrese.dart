@@ -12,7 +12,7 @@ class BtnCadastreSe extends StatelessWidget {
     var irPagina = PushPage();
     return  OutlinedButton(
       style: OutlinedButton.styleFrom(
-        primary: Colors.orange, // background
+        primary:  const Color.fromRGBO(159, 105, 56,1),// background
       ),
       child: const Text('Cadastre-se '),
       onPressed:(){

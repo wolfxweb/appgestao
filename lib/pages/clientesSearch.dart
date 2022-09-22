@@ -43,12 +43,12 @@ class _clientesSearchState extends State<clientesSearch> {
                   keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange, width: 1.0),
+                      borderSide: BorderSide(color:  Color.fromRGBO(159, 105, 56,1),width: 1.0),
                     ),
                     border: UnderlineInputBorder(),
                     prefixIcon: Icon(Icons.password, color: Colors.transparent),
                     suffixIcon:
-                        Icon(Icons.search_rounded, color: Colors.orange),
+                        Icon(Icons.search_rounded, color:  Color.fromRGBO(159, 105, 56,1)),
                     hintText: 'Digite o nome do cliente para filtrar',
                   ),
                   onChanged: (text) {
@@ -109,7 +109,7 @@ class _clientesSearchState extends State<clientesSearch> {
                                 children: [
                                   ListTile(
                                       title: Text(nome),
-                                      subtitle: Text(" $email  -  $tel "),
+                                      subtitle: Text(" $email   "),
                                       trailing: status
                                           ? const Icon(Icons.check,
                                               color: Colors.green)
