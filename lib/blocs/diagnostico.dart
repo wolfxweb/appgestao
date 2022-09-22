@@ -95,7 +95,7 @@ class DignosticoBloc extends BlocBase {
   //  _textDiagnosticoController.add('');
     _fulanoLogado();
   }
-  NumberFormat formatterMoeda = NumberFormat("0.00");
+  NumberFormat formatterMoeda = NumberFormat("#,##0.00", "pt_BR");
   _fulanoLogado() async {
     await FirebaseAuth.instance.authStateChanges().listen((User? user) {
       var email = user!.email;
@@ -291,10 +291,10 @@ class DignosticoBloc extends BlocBase {
 //    print(calculo_c);
 
   //  var calculoX=(((calc_fat+((((calc_fat*_h)-(calculo_b*calc_fat))/calculo_d)*calculo_c))/calc_cf)/(calc_fat/calc_cf));
-    var calculoX=(((24000.0+((((24000.0*25)-(7.1*24000.0))/13.0)*48.0))/4800.00)/(24000.00/4800.00));
+    //var calculoX=(((24000.0+((((24000.0*25)-(7.1*24000.0))/13.0)*48.0))/4800.00)/(24000.00/4800.00));
 
-    print('falta fazer o calculo XXXXXX DO DIAGNOSTICO....');
-    print(calculoX);
+  //  print('falta fazer o calculo XXXXXX DO DIAGNOSTICO....');
+   // print(calculoX);
   }
   _calculoMensal(mesDadosBasicos, mesAtual, proximoMese , textoL){
     var mesReferencia =  _calculoK(mesDadosBasicos, mesAtual);
@@ -328,7 +328,8 @@ class DignosticoBloc extends BlocBase {
   }
   _calculoF() {
     calculo_f = calculo_e / calc_fat;
-    _F = calculo_f.toStringAsPrecision(2);
+    var calc = calculo_f *100;
+    _F = calc.toStringAsPrecision(2);
     _calculoG();
   }
   _calculoPontoEquilibrio() {

@@ -5,7 +5,7 @@ class HeaderAppBar {
     return AppBar(
       title: Text(
         title,
-        style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold ),
+        style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold ),
       ),
       centerTitle: true,
       backgroundColor: const Color.fromRGBO(159, 105, 56,1),

@@ -295,7 +295,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       context,
                       'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
                       'Total custo variáveis',
-                      _custoFixoController
+                      _custoVariavelController
+
                       //  _custoVariavelController
                       ),
                   const Espacamento(),
@@ -303,7 +304,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       context,
                       'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.',
                       'Custo fixo',
-                      _custoVariavelController
+                      _custoFixoController
                       //_custoFixoController
                       ),
                   const Espacamento(),

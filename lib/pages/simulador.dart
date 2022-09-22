@@ -408,8 +408,8 @@ class _SimuladorState extends State<Simulador> {
                             width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
-                                //    stream:  simuladorBloc.custoProdutoController,
-                                stream: simuladorBloc.custoVariavelController,
+                                   stream:  simuladorBloc.custoProdutoController,
+                               // stream: simuladorBloc.custoVariavelController,
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
                                   if(!snapshot.hasData){
@@ -463,8 +463,10 @@ class _SimuladorState extends State<Simulador> {
                             width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
-                                stream: simuladorBloc.custoProdutoController,
+                               // stream:null,
+                               stream: simuladorBloc.custoVariavelController,
                                 builder: (context, snapshot) {
+                                  print(snapshot.data);
                                   var data = snapshot.data;
                                   if(!snapshot.hasData){
                                     data ="";

@@ -35,7 +35,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header.getAppBar('PROMOÇÃO & PROPAGANDA'),
+      appBar: header.getAppBar('Promoção & Propaganda'),
       drawer: Menu(),
       body: SingleChildScrollView(
         child: Padding(

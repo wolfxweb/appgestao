@@ -40,7 +40,7 @@ class AnaliseViabilidadeBloc extends BlocBase{
 
 
   NumberFormat formatterPercentual = NumberFormat("0.0");
-  NumberFormat formatterMoeda = NumberFormat("0.00");
+  NumberFormat formatterMoeda = NumberFormat("#,##0.00", "pt_BR");
   NumberFormat formatterQuantidade = NumberFormat("0");
 
   AnaliseViabilidadeBloc(){
