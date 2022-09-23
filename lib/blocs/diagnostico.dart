@@ -120,21 +120,21 @@ class DignosticoBloc extends BlocBase {
 
   _montaTexto() {
     _text_1 =
-        "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_B}%. "
-        "O ticket médio foi de R\$ ${_C} . Margem de contribuição R\$ ${_D}. Para começar a ter lucro foi preciso vender R\$ ${_E}, "
-        "o que representa ${_F}% do total faturado no mês. A produtividade foi de R\$ ${_G} de faturamento para cada R\$1,00 de custo fixo.";
+        "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_B}%.\n"
+        "O ticket médio foi de R\$ ${_C} .\nMargem de contribuição R\$ ${_D}.\nPara começar a ter lucro foi preciso vender R\$ ${_E}, "
+        "o que representa ${_F}% do total faturado no mês.\nA produtividade foi de R\$ ${_G} de faturamento para cada R\$1,00 de custo fixo.";
 
     _text_2 =
-        "O fato é que o resultado não é aquele que você gostaria. Então, ${_fulano}, "
-        "use o SIMULADOR para ver o que pode ser feito! Com a ajuda da CALCULADORA DE PREÇOS verifique (pelo menos), "
-        "a margem dos seus produtos que mais vendem. Com um aumento de ${_X}% na produtividade você alcançaria os ${_H}% que considera ideal!";
+        "O fato é que o resultado não é aquele que você gostaria.\nEntão, ${_fulano}, "
+        "use o SIMULADOR para ver o que pode ser feito! Com a ajuda da Esta é uma situação que requer providências imediatas.\nCALCULADORA DE PREÇOS verifique (pelo menos), "
+        "a margem dos seus produtos que mais vendem.\nCom um aumento de ${_X}% na produtividade você alcançaria os ${_H}% que considera ideal!";
 
-    _text_3 = "Parabéns ${_fulano}! Você certamente está satisfeito com a lucratividade do negócio. Mesmo assim dê uma analisada com a ajuda do SIMULADOR para ver se poderia ser ainda melhor.";
+    _text_3 = "Parabéns ${_fulano}! Você certamente está satisfeito com a lucratividade do negócio.\nMesmo assim dê uma analisada com a ajuda do SIMULADOR para ver se poderia ser ainda melhor.";
 
-    _text_4 = "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com ${_J} de   ${_K} % e em ${_L}, com resultado ${_M} de ${_N}%.";
+    _text_4 = "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com ${_J} de   ${_K} %. \nEm ${_L}, com resultado ${_M} de ${_N}%.";
 
-    _text_5 = "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou prejuízo de ${_O}%. "
-               "Esta é uma situação que requer providências imediatas. ";
+    _text_5 = "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou prejuízo de ${_O}%.\n"
+               "Esta é uma situação que requer providências imediatas.";
 
     _text_6 = "1. Verifique se os DADOS BÁSICOS informados estão corretos"
               "2. Analise, no SIMULADOR, as providências prioritárias para sair do prejuízo."

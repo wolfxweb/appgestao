@@ -48,17 +48,17 @@ class DadosBasicosBloc extends BlocBase {
             _fulanoController.add(data['nome']);
             if (hora.toInt() < 13 && hora.toInt()>6) {
               // bom dia
-              var userMsg = " Bom dia ${data['nome']}";
+              var userMsg = "Bom dia ${data['nome']}";
               _nomeController.add(userMsg);
               _fulanoController.add(data['nome']);
             } else if (hora.toInt() > 13 &&  hora.toInt() < 18) {
               // boa tarde
-              var userMsg = " Boa tarde ${data['nome']}";
+              var userMsg = "Boa tarde ${data['nome']}";
               _nomeController.add(userMsg);
               _fulanoController.add(data['nome']);
             } else if (hora.toInt() > 17 ) {
               //boa noite
-              var userMsg = " Boa Noite ${data['nome']}";
+              var userMsg = "Boa Noite ${data['nome']}";
               _nomeController.add(userMsg);
               _fulanoController.add(data['nome']);
             }
