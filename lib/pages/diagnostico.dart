@@ -40,7 +40,7 @@ class _DiagnosticoState extends State<Diagnostico> {
                     } else if(lista == "dadosbssiconull") {
                       return buildVerificarDadosBasicos( "Verifique se os dados básicos estão preenchidos.");
                     }else{
-                      return buildVerificarDadosBasicos( "Verifique se a importância dos meses esta preenchida.");
+                      return buildVerificarDadosBasicos( "Atualise a importância dos meses e verifigue se os bados básico esta preenchido.");
                     }
                   } else {
                     return buildLoad();
