@@ -540,7 +540,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
     return Column(
       children: [
         Container(
-          decoration:  BoxDecoration(
+          decoration:  const BoxDecoration(
             color: Colors.transparent,
             //borderRadius: BorderRadius.circular(20),
             boxShadow: [
@@ -559,39 +559,38 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                 //   valorInicialTicket = text;
                 if (text == "1. VENDER MAIS") {
                   var _venderMais =
-                       "Certifique-se de que: "
-                       "1) existe demanda;"
-                       "2) o momento é oportuno (época, conjuntura, fornecedores, concorrência);"
-                       "3) está preparado (capacidade de atendimento com qualidade); "
-                       "4) não infringe a Lei de Defesa do Consumidor.Descontos do tipo “50% OFF”,"
-                       " não causam boa impressão, e, o cliente que pagou o preço antigo sente-se lesado. "
-                       " Em fim, pode ser válido em uma data específica (“Black Friday”, aniversário, etc.). "
-                       " Melhor oferecer este desconto como “cashback” (ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
+                       "Certifique-se de que:\n"
+                       "1) Existe demanda;\n"
+                       "2) O momento é oportuno (época, conjuntura, fornecedores, concorrência);\n"
+                       "3) Está preparado (capacidade de atendimento com qualidade);\n"
+                       "4) Não infringe a Lei de Defesa do Consumidor.Descontos do tipo “50% OFF”, não causam boa impressão, e, o cliente que pagou o preço antigo sente-se lesado.\n"
+                       "Em fim, pode ser válido em uma data específica (“Black Friday”, aniversário, etc.).\n"
+                       "Melhor oferecer este desconto como “cashback” (ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
                   _comentario = _venderMais;
                 } else if (text == "2. AUMENTAR O TICKET MÉDIO") {
                   var aumentarTicketMedio =
-                      "Sempre oferecer ao cliente o máximo de opções que de alguma forma complementam o objeto da compra. Vemos muito desta prática em lojas de roupas, materiais de construção, lanchonetes (os famosos combos), etc. 'Na compra da segunda peça você leva mais uma sem custo'; 'compras acima de R\$...., você ganha um brinde!'; 'a cada R\$... em compras você ganha x pontos!'. ";
+                      "Sempre oferecer ao cliente o máximo de opções que de alguma forma complementam o objeto da compra.\nVemos muito desta prática em lojas de roupas, materiais de construção, lanchonetes (os famosos combos), etc.\n'Na compra da segunda peça você leva mais uma sem custo'; 'compras acima de R\$...., você ganha um brinde!'; 'a cada R\$... em compras você ganha x pontos!'. ";
                   _comentario = aumentarTicketMedio;
                 } else if (text == "3. GIRAR ESTOQUE DE PRODUTO") {
                   var girarEstoqueProduto =
-                      "Verifique a possibilidade de criar um “combo” associando a outro(s) produto(s) mais lucrativo(s) e de maior demanda. Outra alternativa pode ser o “cashback” (enquanto durar o estoque), em que ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
+                      "Verifique a possibilidade de criar um “combo” associando a outro(s) produto(s) mais lucrativo(s) e de maior demanda.\nOutra alternativa pode ser o “cashback” (enquanto durar o estoque), em que ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
 
                   _comentario = girarEstoqueProduto;
                 } else if (text == "4. FIDELIZAR CLIENTES") {
                   var fidelizarClientes =
-                      "Exemplo de promoção frequente em alguns segmentos: oferta de pontos, milhas e cupons para troca por mercadorias. Mais recentemente, o “cashback”(dinheiro de volta), em que o cliente recebe um crédito para utilizar em compras futuras.";
+                      "Exemplo de promoção frequente em alguns segmentos: oferta de pontos, milhas e cupons para troca por mercadorias.\nMais recentemente, o “cashback”(dinheiro de volta), em que o cliente recebe um crédito para utilizar em compras futuras.";
                   _comentario = fidelizarClientes;
                 } else if (text == "5. ATRAIR NOVOS CLIENTES") {
                   var divulgarMarca =
-                      "Neste caso a ação principal é a propaganda. Busque detalhes que o diferencie dos concorrentes. Faça-se presente no Google e nas mídias e buscadores digitais.";
+                      "Neste caso a ação principal é a propaganda. Busque detalhes que o diferencie dos concorrentes.\nFaça-se presente no Google e nas mídias e buscadores digitais.";
                   _comentario = divulgarMarca;
                 } else if (text == "6. DIVULGAR A MARCA") {
                   var divulgarMarca =
-                      "Neste caso a ação principal é a propaganda. Busque detalhes que o diferencie dos concorrentes. Faça-se presente no Google e nas mídias e buscadores digitais.";
+                      "Neste caso a ação principal é a propaganda. Busque detalhes que o diferencie dos concorrentes.\nFaça-se presente no Google e nas mídias e buscadores digitais.";
                   _comentario = divulgarMarca;
                 } else if (text == "7. LANÇAR PRODUTO NOVO") {
                   var lancarProduto =
-                      "Neste caso a ação principal é a propaganda/divulgação. Dê destaque aos detalhes que o diferenciam dos concorrentes. Veja o que melhor se aplica ao seu caso: amostra grátis, degustação, demonstrações, feiras e exposições, depoimento de especialistas e/ou influenciadores. Faça-se presente no Google e nas mídias e buscadores digitais.";
+                      "Neste caso a ação principal é a propaganda/divulgação. Dê destaque aos detalhes que o diferenciam dos concorrentes.\nVeja o que melhor se aplica ao seu caso: amostra grátis, degustação, demonstrações, feiras e exposições, depoimento de especialistas e/ou influenciadores. Faça-se presente no Google e nas mídias e buscadores digitais.";
                   _comentario = lancarProduto;
                 }
               });
@@ -613,7 +612,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                 const Icon(
                   Icons.arrow_drop_down,
                   color: Colors.white,
-                  size: 26,
+                  size: 16,
                 )),
             dropdownHeight: 350,
           ),
@@ -638,7 +637,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   child: Text(
                     _comentario,
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 14,
                       // fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.justify,

@@ -262,39 +262,13 @@ class DignosticoBloc extends BlocBase {
   }
 
   _calculoX(){
-    /*
-      var calc_qtd;
-  var calc_fat;
-  var calc_cf;
-  var calc_cv;
-  var calc_gi;
-  var calc_gas;
-  var calc_cpv;
-  var calc_mar;
-     */
+    //  var calculoX=(((24000.0+((((24000.0*25)-(7.1*24000.0))/13.0)*48.0))/4800.00)/(24000.00/4800.00));
+    // print('calculoX');
+    //  print(calculoX);
     var _h = double.parse(calculo_h);
-   /* print('B8');
-    print(calc_fat);
-    print('B14');
-    print(_h);
-    print('B20');
-    print(calculo_b);
-    print('b18');
-   print(calculo_d);
-    print('b17');
-    print(calculo_d);
-    print('b12');
-    print(calculo_c);
-    print('b12');
-    print(calculo_c);*/
-  //  print('calculo_c');
-//    print(calculo_c);
+    var calculoX=(((calc_fat+((((calc_fat*_h)-(calculo_b*calc_fat))/calculo_d)*calculo_c))/calc_cf)/(calc_fat/calc_cf));
+    _X  =calculoX.toStringAsPrecision(4);
 
-  //  var calculoX=(((calc_fat+((((calc_fat*_h)-(calculo_b*calc_fat))/calculo_d)*calculo_c))/calc_cf)/(calc_fat/calc_cf));
-    //var calculoX=(((24000.0+((((24000.0*25)-(7.1*24000.0))/13.0)*48.0))/4800.00)/(24000.00/4800.00));
-
-  //  print('falta fazer o calculo XXXXXX DO DIAGNOSTICO....');
-   // print(calculoX);
   }
   _calculoMensal(mesDadosBasicos, mesAtual, proximoMese , textoL){
     var mesReferencia =  _calculoK(mesDadosBasicos, mesAtual);

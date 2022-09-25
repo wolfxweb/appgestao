@@ -39,9 +39,9 @@ class _DadosBasicosState extends State<DadosBasicos> {
         _quantidadeController.text = element['qtd'];
         _faturamentoController.text = element['faturamento'];
         _gastoinsumosController.text = element['gastos'];
-        _custoFixoController.text = element['custo_fixo'];
+        _custoFixoController.text = element['custo_varivel'];
         _margenController.text = element['margen'];
-        _custoVariavelController.text = element['custo_varivel'];
+        _custoVariavelController.text = element['custo_fixo'];
         _custoInsumosController.text = element['gastos_insumos'];
         mesSelect.value = element['mes'];
       });
@@ -290,24 +290,24 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa, bem como os produtos adquiridos prontos para revender. IMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).',
                       "Gasto com produto para revenda",
                       _gastoinsumosController),
-                  const Espacamento(),
-                  buildContainerInput(
-                      context,
-                      'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
-                      'Total custo variáveis ',
-                      _custoFixoController
-                    //_custoFixoController
-                  ),
+
                   const Espacamento(),
                   buildContainerInput(
                       context,
                       'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.',
-                      'Custo fixo',
+                      'Total custo variáveis ',
                       _custoVariavelController
 
                       //  _custoVariavelController
                       ),
-
+                  const Espacamento(),
+                  buildContainerInput(
+                      context,
+                      'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
+                      'Custo fixo',
+                      _custoFixoController
+                    //_custoFixoController
+                  ),
                   const Espacamento(),
                   Container(
                     decoration: buildBuildBoxDecoration(),
@@ -452,16 +452,19 @@ class _DadosBasicosState extends State<DadosBasicos> {
       //    alerta.openModal(context,"É NECESSÁRIO QUE TODOS OS CAMPOS SEJAM PREENCHIDOS! Exceção: no caso de 'gastos com insumos' e 'gastos com produto para revenda' será admimivel apenas um deles seja preenchido");
       // return;
     }
+    if(mesSelect.value.isEmpty){
+      alerta.openModal(context,
+          "Selecionde o mês de referencia");
+      return;
+    }
     if (!isValid) {
       alerta.openModal(context,
           "É NECESSÁRIO QUE TODOS OS CAMPOS SEJAM PREENCHIDOS! Exceção: no caso de 'gastos com insumos' e 'gastos com produto para revenda' será admimivel apenas um deles seja preenchido");
       return;
     }
 
-    // final mesReferencia =  _validaMes(mesRef);
-    // print(mesSave);
-    // print(mesRef);
-    // print(mesController.toString());
+
+
     if (id == 0) {
       _saveUpdate(_getDados(null, mesSave),
           "Dados básicos cadastrado realizado com sucesso");
@@ -469,6 +472,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
       _saveUpdate(
           _getDados(id, mesSave), "Dados básicos atulizado com sucesso");
     }
+
+
   }
 
   _getDados(idinfo, mesRef) {

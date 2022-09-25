@@ -47,12 +47,15 @@ class _SimuladorState extends State<Simulador> {
   var vendasStatus = true;
   var valorInicialTicket = "";
   var _dadosBasicoNULL = false;
+
+  var addRemoveInput = false;
+
   var route = PushPage();
   void initState() {
     simuladorBloc = SimuladorBloc();
 
-    addController.text = '0';
-    removeController.text = '0';
+    addController.text = '';
+    removeController.text = '';
 
     super.initState();
   }
@@ -199,11 +202,17 @@ class _SimuladorState extends State<Simulador> {
                     child: TextDropdownFormField(
                       //keyboardType: TextInputType.none,
                       onChanged: (dynamic text) {
-                        simuladorBloc.setPercentualInput();
+
+                        removeController.text ='';
+                        addController.text ='';
+                     //   simuladorBloc.setPercentualInput();
                         setState(() {
                           valorInicialTicket = text;
+                          addRemoveInput = true;
+
                         });
                       },
+
 
                       options: const [
                         "Quantidade de vendas",
@@ -226,7 +235,7 @@ class _SimuladorState extends State<Simulador> {
                     ),
                   ),
                 ),
-                buildContainerAddRemove(context),
+                addRemoveInput ?buildContainerAddRemove(context) : Container(),
                 const Espacamento(),
                 buildRow(
                   StreamBuilder(
@@ -269,7 +278,8 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         ticketMedioCor = dataCor.toString();
-                        //  print(dataCor);
+                        print('ticketMedioCor');
+                          print(ticketMedioCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -466,7 +476,7 @@ class _SimuladorState extends State<Simulador> {
                                // stream:null,
                                stream: simuladorBloc.custoVariavelController,
                                 builder: (context, snapshot) {
-                                  print(snapshot.data);
+                              //    print(snapshot.data);
                                   var data = snapshot.data;
                                   if(!snapshot.hasData){
                                     data ="";
@@ -513,6 +523,8 @@ class _SimuladorState extends State<Simulador> {
                       child: const Text('Limpar filtros',
                           style: TextStyle(color: Colors.white)),
                       onPressed: () {
+                        removeController.text ='';
+                        addController.text ='';
                         simuladorBloc.getDadosBasicos();
                         simuladorBloc.limparCorInputs();
                       },
@@ -574,15 +586,14 @@ class _SimuladorState extends State<Simulador> {
                          //     alerta.openModal(context, "Verifique se os dados básicos estão preenchidos.");
                             }
 
-                            simuladorBloc.calculoPercentual(addController.text, 1, valorInicialTicket, 1, context);
+                        //    simuladorBloc.calculoPercentual(addController.text, 1, valorInicialTicket, 1, context);
                           }
                         },
                         child: TextFormField(
-                            enabled: false,
+                           // enabled: false,
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
-                            controller: addController =
-                                TextEditingController(text: '$data'),
+                            controller: addController,
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
                               contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
@@ -591,7 +602,14 @@ class _SimuladorState extends State<Simulador> {
                               filled: true,
                               prefixIcon: IconButton(
                                 onPressed: () {
-                                  //   simuladorBloc.calculoPercentual(addController.text,1,valorInicialTicket,1,context);
+
+                                  if(addController.text.isEmpty){
+                                    alerta.openModal(context, "Adicione o percentual.");
+                                  }else{
+                                    removeController.text ='';
+                                    simuladorBloc.calculoPercentual(addController.text, 1, valorInicialTicket, 1, context);
+                                  }
+
                                 },
                                 icon: const Icon(
                                   Icons.add,
@@ -655,21 +673,26 @@ class _SimuladorState extends State<Simulador> {
                             if(_dadosBasicoNULL){
                            //   alerta.openModal(context, "Verifique se os dados básicos estão preenchidos.");
                             }
-                            simuladorBloc.calculoPercentual(removeController.text,2, valorInicialTicket, 2, context);
+                         //   simuladorBloc.calculoPercentual(removeController.text,2, valorInicialTicket, 2, context);
                           }
                         },
                         child: TextFormField(
-                            enabled: false,
+                          //  enabled: false,
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
-                            controller: removeController =
-                                TextEditingController(text: '$data'),
+                            controller: removeController,
                             decoration: InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
                               contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                               prefixIcon: IconButton(
                                 onPressed: () {
-                                  //     removeController.text = removeController.text +'1';
+                                  if(removeController.text.isEmpty){
+                                    alerta.openModal(context, "Adicione o percentual.");
+                                  }else{
+                                    addController.text ='';
+                                    simuladorBloc.calculoPercentual(removeController.text,2, valorInicialTicket, 2, context);
+                                  }
+
                                 },
                                 icon: const Icon(
                                   Icons.remove,
@@ -906,6 +929,9 @@ class _SimuladorState extends State<Simulador> {
         break;
       case 'verde':
         corFundo = Colors.green;
+        break;
+      case 'null':
+        corFundo = Colors.grey[100];
         break;
     }
 

@@ -137,27 +137,28 @@ class SimuladorBloc extends BlocBase {
     var percoOriginal = fat/qtd;
     // percentual = percentual+1;
     if (modo == 1 && operacao == 1) {
-      percentual++;
-      _percentualRemoveController.add('0');
+     // percentual++;
+      _percentualRemoveController.add('');
       _percentualAddController.add(percentual.toStringAsPrecision(2));
     }
     if (modo == 2 && operacao == 2) {
-      percentual++;
-      _percentualAddController.add('0');
+     // percentual++;
+      _percentualAddController.add('');
       _percentualRemoveController.add(percentual.toStringAsPrecision(2));
     }
 
 
     switch (select) {
       case 'Quantidade de vendas':
+
         if (operacao == 1) {
           novaQtd = calc_qtd * ((percentual / 100) + 1);
+
         } else {
           var qtdAUX = calc_qtd * (percentual / 100);
           novaQtd = calc_qtd - qtdAUX;
         }
         calc_qtd = novaQtd;
-
         _vendasController.add(novaQtd.toString());
         calculoVendas(novaQtd.toString());
         break;
@@ -169,6 +170,10 @@ class SimuladorBloc extends BlocBase {
               novoTicketMedio = _ticketMedio - qtdAUX;
             }
             _ticketMedio = novoTicketMedio;
+            print('_ticketMedio');
+            print(_ticketMedio);
+            print('novoTicketMedio');
+            print(novoTicketMedio);
             if (_ticketMedio > percoOriginal) {
               corTicketMedio('verde');
             } else if (_ticketMedio < percoOriginal) {
