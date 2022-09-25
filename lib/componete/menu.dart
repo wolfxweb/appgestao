@@ -14,6 +14,7 @@ import 'package:appgestao/pages/importanciameses.dart';
 import 'package:appgestao/pages/simulador.dart';
 import 'package:flutter/material.dart';
 
+
 class Menu extends StatefulWidget {
   Menu({Key? key}) : super(key: key);
 
@@ -107,6 +108,16 @@ class _MenuState extends State<Menu> {
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const AnaliseViabilidade());
+              //  Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.rocket_launch),
+            title: const Text("Acesse nosso site"),
+            trailing: const Icon(Icons.arrow_forward, ),
+            onTap: () {
+              _ususarioBloc.openURL();
+           //   route.pushPage(context, const AnaliseViabilidade());
               //  Navigator.pop(context);
             },
           ),

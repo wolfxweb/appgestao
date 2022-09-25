@@ -3,6 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'dart:async';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 class UsuarioBloc extends BlocBase {
   final _usersController = BehaviorSubject<List>();
   final _IsAdmiController = BehaviorSubject();
@@ -69,6 +73,14 @@ class UsuarioBloc extends BlocBase {
         });
       }
     });
+  }
+  Future<void> openURL()async{
+    final Uri _url = Uri.parse('https://wolfx.com.br/');
+    if( await canLaunchUrl(_url)){
+      if (await launchUrl(_url,mode: LaunchMode.externalApplication)) {
+        throw 'Could not launch $_url';
+      }
+    }
   }
 
   @override

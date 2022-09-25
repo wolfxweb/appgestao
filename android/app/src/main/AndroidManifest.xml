@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.wolfx.appgestao">
    <application
-        android:label="Get upp app.br"
+        android:label="Get up app.br"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
