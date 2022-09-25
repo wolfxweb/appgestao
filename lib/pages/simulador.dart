@@ -557,7 +557,7 @@ class _SimuladorState extends State<Simulador> {
                // width: 180,
                 width: MediaQuery.of(context).size.width*0.45,
                 decoration: const BoxDecoration(
-                  color: Colors.transparent,
+                color: Colors.transparent,
                   //borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -612,9 +612,9 @@ class _SimuladorState extends State<Simulador> {
 
                                 },
                                 icon: const Icon(
-                                  Icons.add,
+                                  Icons.add_circle,
                                   color: Colors.green,
-                                  size: 20.0,
+                                  size: 25.0,
                                 ),
                               ),
 
@@ -695,7 +695,7 @@ class _SimuladorState extends State<Simulador> {
 
                                 },
                                 icon: const Icon(
-                                  Icons.remove,
+                                  Icons.remove_circle,
                                   color: Colors.red,
                                 ),
                               ),
@@ -903,6 +903,7 @@ class _SimuladorState extends State<Simulador> {
       incrementIcon: const Icon(
         Icons.add,
         color: Colors.green,
+
       ),
       decrementIcon: const Icon(
         Icons.remove,

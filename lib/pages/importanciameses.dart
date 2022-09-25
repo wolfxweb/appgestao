@@ -144,11 +144,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_janValue.toString()),
                           decoration: buildInputDecoration("Janeiro"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -170,11 +170,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                             value: double.parse(_fevValue.toString()),
                             decoration: buildInputDecoration("Fevereiro"),
                             incrementIcon: const Icon(
-                              Icons.add,
+                              Icons.add_circle,
                               color: Colors.green,
                             ),
                             decrementIcon: const Icon(
-                              Icons.remove,
+                              Icons.remove_circle,
                               color: Colors.red,
                             ),
                             onChanged: (value) {
@@ -205,11 +205,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_marValue.toString()),
                           decoration: buildInputDecoration("Março"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -230,11 +230,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_abrValue.toString()),
                           decoration: buildInputDecoration("Abril"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -265,11 +265,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_maiValue.toString()),
                           decoration: buildInputDecoration("Maio"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -290,11 +290,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_junValue.toString()),
                           decoration: buildInputDecoration("Junho"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -324,11 +324,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_julValue.toString()),
                           decoration: buildInputDecoration("Julho"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -349,11 +349,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_agoValue.toString()),
                           decoration: buildInputDecoration("Agosto"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -383,11 +383,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_setValue.toString()),
                           decoration: buildInputDecoration("Setembro"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -408,11 +408,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_outValue.toString()),
                           decoration: buildInputDecoration("Outubro"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -442,11 +442,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_novValue.toString()),
                           decoration: buildInputDecoration("Novembro"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
@@ -467,11 +467,11 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           value: double.parse(_dezValue.toString()),
                           decoration: buildInputDecoration("Dezembro"),
                           incrementIcon: const Icon(
-                            Icons.add,
+                            Icons.add_circle,
                             color: Colors.green,
                           ),
                           decrementIcon: const Icon(
-                            Icons.remove,
+                            Icons.remove_circle,
                             color: Colors.red,
                           ),
                           onChanged: (value) {
