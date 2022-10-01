@@ -47,6 +47,15 @@ class AnaliseViabilidadeBloc extends BlocBase{
     _getDadosBasicos();
   }
 
+  limparStrean(){
+    _precoDescontoMaximoSemPrejuizoController.add("");
+    _precoPromocionalController.add("");
+    _vendaParaRecuperarInvestimentoController.add("");
+    _resultadoAcaoController.add("");
+    _resultadoAcaoCorController.add("");
+    _getDadosBasicos();
+
+  }
   _calculoResultadoAcao(){
     var resultadoAcao = (((_venderComLucro/100 - _descontoPromocional/100)*_precoVendaAtual)*_objetivoVendas)-_invertimentoAcao;
     _resultadoAcaoController.add("R\$ ${formatterMoeda.format(resultadoAcao)}");

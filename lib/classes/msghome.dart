@@ -104,6 +104,8 @@ class _MsgDiaState extends State<MsgDia> {
       }
     }
 
+    print(diaMes);
+    print(fimSemana);
 
     if(feriados.contains(diaMes)){
       if(fimSemana == 1 || fimSemana == 2 ){
@@ -141,6 +143,14 @@ class _MsgDiaState extends State<MsgDia> {
            */
           break;
       }
+    }
+    if(qtdDiasUteis <0){
+      if (fimSemana == 1 || fimSemana == 2){
+        qtdDiasUteis = 22;
+      }else{
+        qtdDiasUteis = 1;
+      }
+
     }
      switch (qtdDiasUteis) {
       case 1:

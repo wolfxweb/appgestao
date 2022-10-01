@@ -118,7 +118,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   decoration: buildInputDecoration(
                       context,
                       'Se a ação abranger mais de um produto, considere a soma de seus preços',
-                      'Custo dos insumos e produtos'),
+                      'Custo dos insumos e produtos de 3º'),
                 ),
               ),
               const Espacamento(),
@@ -196,6 +196,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                               setState(() { _mostrarComentario = false; });
                               analiseViabilidadeBloc.descontoPromocional(text);
                             },
+                            controller: _descontoPromocionalController,
                             validator:ValidationBuilder().maxLength(50).required().build(),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -299,6 +300,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                     setState(() { _mostrarComentario = false; });
                     analiseViabilidadeBloc.invertimentoAcao(text);
                   },
+                  controller: _investimentoComAcaoController,
                   validator: ValidationBuilder().maxLength(50).required().build(),
                   keyboardType: TextInputType.number,
                   inputFormatters: [
@@ -405,6 +407,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                               setState(() { _mostrarComentario = false; });
                               analiseViabilidadeBloc.objetivoVendas(text);
                             },
+                            controller: _objetivoVendaController,
                             validator: ValidationBuilder()
                                 .maxLength(50)
                                 .required()
@@ -444,6 +447,8 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                               dataCor = Colors.red;
                             }else if('lucro' ==snapshot.data.toString()){
                               dataCor = Colors.green;
+                            }else{
+                              dataCor = Colors.grey[100];
                             }
                           }
                           return Padding(
@@ -502,7 +507,28 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                           );
                         }
                       ),
+
                     ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  //  width: MediaQuery.of(context).size.width*0.45,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color.fromRGBO(159, 105, 56,1), // background
+                      onPrimary: Colors.white, // foreground
+                    ),
+                    child: const Text('Limpar Análise',style: TextStyle(color: Colors.white)),
+                    onPressed: () {
+
+                      Navigator.popAndPushNamed(context,'/analiseViabilidae');
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                     // route.pushPage(context, const AnaliseViabilidade());
+                    },
                   ),
                 ),
               ),

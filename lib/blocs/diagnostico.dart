@@ -126,12 +126,12 @@ class DignosticoBloc extends BlocBase {
 
     _text_2 =
         "O fato é que o resultado não é aquele que você gostaria.\nEntão, ${_fulano}, "
-        "use o SIMULADOR para ver o que pode ser feito! Com a ajuda da Esta é uma situação que requer providências imediatas.\nCALCULADORA DE PREÇOS verifique (pelo menos), "
-        "a margem dos seus produtos que mais vendem.\nCom um aumento de ${_X}% na produtividade você alcançaria os ${_H}% que considera ideal!";
+        "use o SIMULADOR para ver o que pode ser feito! Com a ajuda da CALCULADORA DE PREÇOS verifique, "
+        "a margem dos seus produtos que mais vendem.\n";//Com um aumento de ${_X}% na produtividade você alcançaria os ${_H}% que considera ideal!";
 
     _text_3 = "Parabéns ${_fulano}! Você certamente está satisfeito com a lucratividade do negócio.\nMesmo assim dê uma analisada com a ajuda do SIMULADOR para ver se poderia ser ainda melhor.";
 
-    _text_4 = "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com ${_J} de   ${_K} %. \nEm ${_L}, com resultado ${_M} de ${_N}%.";
+    _text_4 = "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com ${_J} de   ${_K} %. \nEm ${_L}, com ${_M} de ${_N}%.";
 
     _text_5 = "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou prejuízo de ${_O}%.\n"
                "Esta é uma situação que requer providências imediatas.";
@@ -139,7 +139,7 @@ class DignosticoBloc extends BlocBase {
     _text_6 = "1. Verifique se os DADOS BÁSICOS informados estão corretos"
               "2. Analise, no SIMULADOR, as providências prioritárias para sair do prejuízo."
               "3. Com a CALCULADORA DE PREÇOS verifique a margem de cada produto. Se você concluir que precisa vender mais, ou descontinuar algum produto, estude a VIABILIDADE DE PROMOÇÃO & PROPAGANDA"
-              "4. Avalie como está sua disponibilidade de CAPITAL DE GIRO.  Se for o caso, consulte o CHECKLIST 'O que fazer para diminuir a necessidade de capital de giro!'";
+              "4. Avalie como está sua disponibilidade de CAPITAL DE GIRO."; // Se for o caso, consulte o CHECKLIST 'O que fazer para diminuir a necessidade de capital de giro!'";
 
     var _b = double.parse(_B).truncateToDouble();
     var _h = double.parse(_H).truncateToDouble();
@@ -213,42 +213,46 @@ class DignosticoBloc extends BlocBase {
         _out = (element['out'] * 100) / element['total'];
         _nov = (element['nov'] * 100) / element['total'];
         _dez = (element['dez'] * 100) / element['total'];
-
-        switch (_A) {
-          case 'Janeiro':
+        print('_A');
+        print(_A);
+        final mesAtual = DateTime.now().month;
+        print('mesAtual');
+        print(mesAtual);
+        switch (mesAtual) {
+          case 1:
             _calculoMensal(_dez, _jan, _fev , "Fevereiro");
             break;
-          case 'Fevereiro':
+          case 2:
             _calculoMensal(_jan, _fev, _mar , "Março");
             break;
-          case 'Março':
+          case 3:
             _calculoMensal(_fev, _mar, _abr , "Abril");
             break;
-          case 'Abril':
+          case 4:
             _calculoMensal(_mar, _abr, _mai , "Maio");
             break;
-          case 'Maio':
+          case 5:
             _calculoMensal(_abr, _mai, _jun , "Junho");
             break;
-          case 'Junho':
+          case 6:
             _calculoMensal(_mai, _jun, _jul , "Julho");
             break;
-          case 'Julho':
+          case 7:
             _calculoMensal(_jun, _jul, _ago , "Agosto");
             break;
-          case 'Agosto':
+          case 8:
             _calculoMensal(_jul, _ago, _set , "Setembro");
             break;
-          case 'Setembro':
+          case 9:
             _calculoMensal(_ago, _set, _out , "Outubro");
             break;
-          case 'Outubro':
+          case 10:
             _calculoMensal(_set, _out, _nov , "Novembro");
             break;
-          case 'Novembro':
+          case 11:
             _calculoMensal(_out, _nov, _dez , "Dezembro");
             break;
-          case 'Dezembro':
+          case 12:
             _calculoMensal(_nov, _dez, _jan , "Janeiro");
             break;
         }
@@ -296,7 +300,7 @@ class DignosticoBloc extends BlocBase {
     return calculo_k;
   }
   _calculoG() {
-    calculo_g = calc_fat / calc_cf;
+    calculo_g = calc_fat / calc_cv;
     _G = formatterMoeda.format(calculo_g);
     _lucroOuPrejuiso();
   }

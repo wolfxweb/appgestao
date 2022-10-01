@@ -166,7 +166,7 @@ class _MenuState extends State<Menu> {
     return Text(
       text,
       style: const TextStyle(
-        fontSize: 13,
+        fontSize: 12,
        // color: Colors.white,
       ),
     );

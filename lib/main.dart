@@ -1,6 +1,8 @@
 import 'package:appgestao/blocs/importancia_meses_bloc.dart';
 import 'package:appgestao/blocs/usuario_bloc.dart';
 import 'package:appgestao/classes/themes.dart';
+import 'package:appgestao/pages/analiseviabilidade.dart';
+import 'package:appgestao/pages/calculadora.dart';
 import 'package:appgestao/splash_page.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
@@ -42,6 +44,11 @@ class MyApp extends StatelessWidget {
         darkTheme: darkThemeData,
         themeMode: EasyDynamicTheme.of(context).themeMode,
         home:SplashPage(),
+        routes: <String, WidgetBuilder> {
+          '/analiseViabilidae': (BuildContext context) => const AnaliseViabilidade(),
+          '/calculadora': (BuildContext context) => const Calculadora(),
+
+        },
       ),
     );
   }

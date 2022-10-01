@@ -605,7 +605,10 @@ class _SimuladorState extends State<Simulador> {
                       padding: const EdgeInsets.all(3.0),
                       child:  Column(
                         children: [
-                          Text('Aumentar'),
+                       const   Text('Aumentar',style:  TextStyle(
+                            fontSize: 12,
+
+                          ),),
                           IconButton(
                             onPressed: () {
                               if(addController.text.isEmpty){
@@ -619,8 +622,8 @@ class _SimuladorState extends State<Simulador> {
                             },
                             icon: const Icon(
                               Icons.add_circle,
-                              color: Colors.black54,
-                              size: 30.0,
+                              color: Color.fromRGBO(159, 105, 56,0.5),
+                              size: 35.0,
                             ),
                           ),
                         ],
@@ -630,7 +633,10 @@ class _SimuladorState extends State<Simulador> {
                       padding: const EdgeInsets.all(3.0),
                       child:  Column(
                         children: [
-                          Text('Diminuir'),
+                          Text('Diminuir',style:  TextStyle(
+                        fontSize: 12,
+
+                      ),),
                           IconButton(
                             onPressed: () {
                               if(addController.text.isEmpty){
@@ -644,8 +650,8 @@ class _SimuladorState extends State<Simulador> {
                             },
                             icon: const Icon(
                               Icons.remove_circle,
-                              color: Colors.black54,
-                              size: 30.0,
+                              color: Color.fromRGBO(159, 105, 56,0.5),
+                              size: 35.0,
                             ),
                           ),
                         ],

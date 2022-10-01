@@ -745,6 +745,7 @@ class _CalculadoraState extends State<Calculadora> {
         _btnStatus = false;
         _pesquisaController.text = "";
       });
+      Navigator.popAndPushNamed(context,'/calculadora');
     });
 
     setState(() {
