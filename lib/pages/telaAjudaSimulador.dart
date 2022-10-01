@@ -13,7 +13,7 @@ class TelaAjudaSimulador extends StatelessWidget {
     var texto2 =
         "Você pode selecionar um ou vários itens, indicando aumentos % ou diminuições %. Sempre que fizer isso observe a consequência em 'Margem resultante'.";
     var texto3 =
-        "Caso queira rever o % atribuido em um determinado item, é só selecioná-lo novamente.";
+        "\nCaso queira rever o % atribuido em um determinado item, é só selecioná-lo novamente.";
 
     return Scaffold(
         appBar: header.getAppBar('Ajuda Simulador'),
@@ -31,7 +31,8 @@ class TelaAjudaSimulador extends StatelessWidget {
 
                 if (snapshot.data.toString().isNotEmpty) {
                   texto1 =
-                      "${snapshot.data.toString().isNotEmpty ? snapshot.data.toString() : 'Esta'} essa ferramenta permite que você anteveja a consequência de alterações (Margem resultante),  na quantidade de vendas, no valor do Ticket médio ou em quaisquer dos Custos informados em DADOS BÁSICOS. Assim você pode tomar decisões estratégicas para o sucesso do seu negócio!";
+                      "${snapshot.data.toString().isNotEmpty ? snapshot.data.toString() : 'Esta'}, após escolher qual o item que pretende alterar, você deverá digitar o percentual e apertar + (se quiser aumentar), ou, - (se quiser diminuir).\n\nPode alterar um ou mais itens e ver o que acontece com a Margem resultante, além de poder comparar com a Margem desejada (ideal), e com a informada (em função dos Dados Básicos).\n\nAssim você vai saber quais as providências que deve priorizar.  " ;
+
                 }
                 return Center(
                   child: Container(
@@ -44,16 +45,16 @@ class TelaAjudaSimulador extends StatelessWidget {
                             style: buildTextStyle(),
                             textAlign: TextAlign.justify,
                           ),
-                          Text(
-                            "$texto2",
+                       /*   Text(
+                            "$texto1",
                             style: buildTextStyle(),
                             textAlign: TextAlign.justify,
                           ),
                           Text(
-                            "$texto3",
+                            "$texto1",
                             style: buildTextStyle(),
                             textAlign: TextAlign.justify,
-                          )
+                          )*/
                         ],
                       ),
                     ),
@@ -66,7 +67,7 @@ class TelaAjudaSimulador extends StatelessWidget {
   TextStyle buildTextStyle() {
     return const TextStyle(
       //  color: Colors.white,
-      fontSize: 26,
+      fontSize: 18,
 
       //  fontWeight: FontWeight.bold,
     );

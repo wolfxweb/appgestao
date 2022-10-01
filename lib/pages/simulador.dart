@@ -89,6 +89,7 @@ class _SimuladorState extends State<Simulador> {
                         prefixIcon: Icon(
                           Icons.help,
                           color: Colors.black54,
+                          size: 30,
                         ),
                         hintStyle: TextStyle(
                           color: Colors.black,
@@ -235,7 +236,8 @@ class _SimuladorState extends State<Simulador> {
                     ),
                   ),
                 ),
-                addRemoveInput ?buildContainerAddRemove(context) : Container(),
+             //   addRemoveInput ?buildContainerAddRemove(context) : Container(),
+                addRemoveInput ? buildNewRemoveAdd(context):Container(),
                 const Espacamento(),
                 buildRow(
                   StreamBuilder(
@@ -540,9 +542,129 @@ class _SimuladorState extends State<Simulador> {
     );
   }
 
+  Container buildNewRemoveAdd(BuildContext context) {
+      return Container(
+        padding: const EdgeInsets.all(3.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(3.0),
+                child:  Container(
+                  width: MediaQuery.of(context).size.width*0.45,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                    //borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 1,
+                        offset: Offset(1, 3), // Shadow position
+                      ),
+                    ],
+                  ),
+                  child: TextFormField(
+                    // enabled: false,
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      controller: addController,
+                      decoration: const InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        suffixIcon: Icon(Icons.percent, color: Colors.black54,),
+                        fillColor:Color.fromRGBO(159, 105, 56,0.5),
+                        filled: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.orange,
+                              width: 1.0,
+                              style: BorderStyle.none),
+                        ),
+                        border: InputBorder.none,
+                        labelText: 'Indique',
+                        labelStyle: TextStyle(
+                          color: Colors.black,
+                          //  backgroundColor: Colors.white,
+                        ),
+                       // hintText: 'Indique',
+                      ),
+                      onChanged: (text) {
+                        // simuladorBloc.calculoPercentual(text,1,valorInicialTicket,2,context);
+                      }),
+                  ),
+                ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 0.0 , horizontal: 15.0),
+                width: MediaQuery.of(context).size.width*0.47,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child:  Column(
+                        children: [
+                          Text('Aumentar'),
+                          IconButton(
+                            onPressed: () {
+                              if(addController.text.isEmpty){
+                                alerta.openModal(context, "Adicione o percentual.");
+                              }else{
+
+                                simuladorBloc.calculoPercentual(addController.text, 1, valorInicialTicket, 1, context);
+                                addController.text ='';
+                                FocusScope.of(context).requestFocus(new FocusNode());
+                              }
+                            },
+                            icon: const Icon(
+                              Icons.add_circle,
+                              color: Colors.black54,
+                              size: 30.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child:  Column(
+                        children: [
+                          Text('Diminuir'),
+                          IconButton(
+                            onPressed: () {
+                              if(addController.text.isEmpty){
+                                alerta.openModal(context, "Adicione o percentual.");
+                              }else{
+
+                                simuladorBloc.calculoPercentual(addController.text,2, valorInicialTicket, 2, context);
+                                addController.text ='';
+                                FocusScope.of(context).requestFocus(new FocusNode());
+                              }
+                            },
+                            icon: const Icon(
+                              Icons.remove_circle,
+                              color: Colors.black54,
+                              size: 30.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
 
-  Container buildContainerAddRemove(context) {
+            ],
+          ),
+        ),
+      );
+  }
+
+
+
+  Container buildContainerAddRemoveNew(context) {
     return Container(
       padding: const EdgeInsets.all(3.0),
       child: SingleChildScrollView(
@@ -640,7 +762,7 @@ class _SimuladorState extends State<Simulador> {
                     }),
               ),
             ),
-            Padding(
+            Padding( //aqui
               padding: const EdgeInsets.all(3.0),
               child: Container(
                 // padding: const EdgeInsets.all(3.0),
@@ -847,7 +969,8 @@ class _SimuladorState extends State<Simulador> {
             builder: (context, snapshot) {
               if (format) {
                 return TextFormField(
-                  //  textAlign: TextAlign.center,
+                   // textAlign: TextAlign.center,
+                  //textAlignVertical: TextAlignVertical.center,
                   enabled: false,
                   validator:
                       ValidationBuilder().maxLength(50).required().build(),
@@ -858,11 +981,14 @@ class _SimuladorState extends State<Simulador> {
                     FilteringTextInputFormatter.digitsOnly,
                     CentavosInputFormatter(moeda: true, casasDecimais: 2)
                   ],
+
+
+
                   onChanged: onChanged,
                 );
               } else {
                 return TextFormField(
-                  // textAlign: TextAlign.center,
+                   textAlign: TextAlign.center,
                   enabled: false,
                   validator:
                       ValidationBuilder().maxLength(50).required().build(),
@@ -872,6 +998,9 @@ class _SimuladorState extends State<Simulador> {
                   onChanged: (text) {
                     onChanged;
                   },
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold
+                  ),
                 );
               }
             }),

@@ -275,27 +275,27 @@ class _DadosBasicosState extends State<DadosBasicos> {
                   const Espacamento(),
                   buildContainerInput(
                       context,
-                      'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).',
+                      'Valor bruto apurado com as vendas realizadas (valor pago pelos clientes).',
                       "Faturamento com vendas",
                       _faturamentoController),
                   const Espacamento(),
                   buildContainerInput(
                       context,
-                      'Considere os produtos de terceiros adquiridos e comercializado no mês informado.',
+                      'Considere os produtos de terceiros adquiridos e comercializados no mês informado.',
                       "Gastos com insumos",
                       _custoInsumosController),
                   const Espacamento(),
                   buildContainerInput(
                       context,
-                      'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa, bem como os produtos adquiridos prontos para revender. IMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).',
-                      "Gasto com produto para revenda",
+                      'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).',
+                      "Gastos com produtos para revenda",
                       _gastoinsumosController),
 
                   const Espacamento(),
                   buildContainerInput(
                       context,
-                      'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.',
-                      'Total custo variáveis ',
+                      'TOTAL OUTROS CUSTOS VARIÁVEIS.\nConsidere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
+                      'Outros custos variáveis',
                       _custoVariavelController
 
                       //  _custoVariavelController
@@ -303,8 +303,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                   const Espacamento(),
                   buildContainerInput(
                       context,
-                      'TOTAL OUTROS CUSTOS VARIÁVEIS.Considere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
-                      'Custo fixo',
+                      'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.',
+                      'Custos fixos',
                       _custoFixoController
                     //_custoFixoController
                   ),
