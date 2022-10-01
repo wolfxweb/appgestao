@@ -40,12 +40,11 @@ class _HomeAdminState extends State<HomeAdmin> {
           children: [
             const Espacamento(),
             const Logo(),
-            const Espacamento(),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
               child: Text(
                 'Somando forças para multiplicar resultados.',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -75,7 +74,7 @@ class _HomeAdminState extends State<HomeAdmin> {
               children: [
                 buildGestureDetector(
                   context,
-                  "Importência dos meses",
+                  "Importância dos meses",
                   InportanciaMeses(),
                   const Icon(
                     Icons.calendar_month,
@@ -131,7 +130,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                 ),
                 buildGestureDetector(
                   context,
-                  "Calculadora",
+                  "Calculadora de preços",
                   Calculadora(),
                   const Icon(
                     Icons.calculate,
@@ -191,7 +190,7 @@ class _HomeAdminState extends State<HomeAdmin> {
               softWrap: true,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 color: Colors.white,
               ),
             ),

@@ -191,7 +191,7 @@ class _CalculadoraState extends State<Calculadora> {
                                       .build(),
                                   //  keyboardType: TextInputType.number,
                                   controller: _produto,
-                                  decoration: _styleInput("Produto", "cor"),
+                                  decoration: _styleInput("Preço dos insumos e/ou produtos de 3º", "cor"),
                                   onChanged: (text) {},
                                 );
                               }),
@@ -331,7 +331,7 @@ class _CalculadoraState extends State<Calculadora> {
                                               controller: TextEditingController(
                                                   text: "$data %"),
                                               decoration: _styleInput(
-                                                  "Margem atual", "ops"),
+                                                  "Margem preço atual", "ops"),
                                             );
                                           })
                                       : null,

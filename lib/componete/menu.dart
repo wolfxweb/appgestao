@@ -2,6 +2,7 @@ import 'package:appgestao/blocs/usuario_bloc.dart';
 import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/btnDarkLight.dart';
+import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/logo.dart';
 import 'package:appgestao/pages/analiseviabilidade.dart';
 import 'package:appgestao/pages/calculadora.dart';
@@ -13,7 +14,6 @@ import 'package:appgestao/pages/homeadmin.dart';
 import 'package:appgestao/pages/importanciameses.dart';
 import 'package:appgestao/pages/simulador.dart';
 import 'package:flutter/material.dart';
-
 
 class Menu extends StatefulWidget {
   Menu({Key? key}) : super(key: key);
@@ -32,6 +32,7 @@ class _MenuState extends State<Menu> {
     _ususarioBloc = UsuarioBloc();
     super.initState();
   }
+
   var userstatus = new VerificaStatusFairebase();
 
   var fb = VerificaStatusFairebase();
@@ -39,18 +40,21 @@ class _MenuState extends State<Menu> {
 
   var nivelAcesso = true;
 
-
-
   @override
   Widget build(BuildContext context) {
-
     return Drawer(
       child: ListView(
         children: [
-          const Logo(),
+          const Espacamento(),
+          const Espacamento(),
+          SizedBox(
+            width: 100,
+            height: 80,
+            child: Image.asset("assets/img/Logo.png"),
+          ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text("Home"),
+            title: buildText('Home'),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const HomeAdmin());
@@ -59,7 +63,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.calendar_month),
-            title: const Text("Importância dos meses"),
+            title: buildText("Importância dos meses"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const InportanciaMeses());
@@ -68,7 +72,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.description),
-            title: const Text("Dados Básicos"),
+            title: buildText("Dados Básicos"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, DadosBasicos());
@@ -77,7 +81,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.currency_exchange),
-            title: const Text("Diagnóstico"),
+            title: buildText("Diagnóstico"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const Diagnostico());
@@ -86,7 +90,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.data_exploration),
-            title: const Text("Simulador"),
+            title: buildText("Simulador"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const Simulador());
@@ -95,7 +99,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.calculate),
-            title: const Text("Calculadora de preços"),
+            title: buildText("Calculadora de preços"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const Calculadora());
@@ -104,7 +108,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.insights),
-            title: const Text("Análise de viabilidade"),
+            title:  buildText("Análise de viabilidade"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const AnaliseViabilidade());
@@ -113,34 +117,35 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.rocket_launch),
-            title: const Text("Acesse nosso site"),
-            trailing: const Icon(Icons.arrow_forward, ),
+            title:   buildText("Para mais,acesse nosso site"),
+            trailing: const Icon(
+              Icons.arrow_forward,
+            ),
             onTap: () {
               _ususarioBloc.openURL();
-           //   route.pushPage(context, const AnaliseViabilidade());
+              //   route.pushPage(context, const AnaliseViabilidade());
               //  Navigator.pop(context);
             },
           ),
           if (nivelAcesso)
-          StreamBuilder(
-            stream: _ususarioBloc.outIsAdminUsuario,
-            builder: (context, snapshot) {
-            //  print("btn admin");
-          //    print(snapshot.data.toString());
-              if(snapshot.data.toString() =='admin'){
-                return ListTile(
-                  leading: const Icon(Icons.people),
-                  title: const Text("Clientes"),
-                  trailing: const Icon(Icons.arrow_forward),
-                  onTap: () {
-                    route.pushPage(context, const clientesSearch());
-                  },
-                );
-              }else{
-                return const SizedBox(height: 0.0);
-              }
-            }
-          ),
+            StreamBuilder(
+                stream: _ususarioBloc.outIsAdminUsuario,
+                builder: (context, snapshot) {
+                  //  print("btn admin");
+                  //    print(snapshot.data.toString());
+                  if (snapshot.data.toString() == 'admin') {
+                    return ListTile(
+                      leading: const Icon(Icons.people),
+                      title:  buildText("Clientes"),
+                      trailing: const Icon(Icons.arrow_forward),
+                      onTap: () {
+                        route.pushPage(context, const clientesSearch());
+                      },
+                    );
+                  } else {
+                    return const SizedBox(height: 0.0);
+                  }
+                }),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text("Sair"),
@@ -151,8 +156,18 @@ class _MenuState extends State<Menu> {
             },
           ),
 
-        //  const BtnDarkLight(),
+          //  const BtnDarkLight(),
         ],
+      ),
+    );
+  }
+
+  buildText(text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 13,
+       // color: Colors.white,
       ),
     );
   }

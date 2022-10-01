@@ -32,6 +32,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
   var _comentario = "";
   var _mostrarComentario = false;
   var dataCor = Colors.grey[100];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +73,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                 ),
                 child: TextFormField(
                   onChanged: (text) {
+                    setState(() { _mostrarComentario = false; });
                     analiseViabilidadeBloc.precoVendaAtual(text);
                   },
                   validator:
@@ -103,6 +105,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                 ),
                 child: TextFormField(
                   onChanged: (text) {
+                    setState(() { _mostrarComentario = false; });
                     analiseViabilidadeBloc.custoInsumosProduto(text);
                   },
                   validator: ValidationBuilder().maxLength(50).required().build(),
@@ -190,6 +193,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                           ),
                           child: TextFormField(
                             onChanged: (text) {
+                              setState(() { _mostrarComentario = false; });
                               analiseViabilidadeBloc.descontoPromocional(text);
                             },
                             validator:ValidationBuilder().maxLength(50).required().build(),
@@ -292,6 +296,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                 ),
                 child: TextFormField(
                   onChanged: (text) {
+                    setState(() { _mostrarComentario = false; });
                     analiseViabilidadeBloc.invertimentoAcao(text);
                   },
                   validator: ValidationBuilder().maxLength(50).required().build(),
@@ -397,6 +402,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                           ),
                           child: TextFormField(
                             onChanged: (text) {
+                              setState(() { _mostrarComentario = false; });
                               analiseViabilidadeBloc.objetivoVendas(text);
                             },
                             validator: ValidationBuilder()

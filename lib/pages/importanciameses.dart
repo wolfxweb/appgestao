@@ -107,6 +107,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                     ),
                   ],
                 ),
+
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   alignment: Alignment.bottomRight,
@@ -122,6 +123,15 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                   ),
                 ),
               ],
+            ),
+            const Espacamento(),
+            Container(
+              child: const Text(
+                "Indique notas de 1 a 10 para os meses.",
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
             ),
             const Espacamento(),
             Row(
@@ -483,6 +493,8 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               ],
             ),
             const Espacamento(),
+
+            const Espacamento(),
             Container(
               height: 350,
               width: 350,
@@ -510,7 +522,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                           // Chart title
                           title: ChartTitle(
                               text:
-                                  'PARTICIPAÇÃO DOS MESES NO RESULTADO DO ANO'),
+                                  'PARTICIPAÇÃO DOS MESES NO RESULTADO DO ANO EM PERCENTUAIS'),
                           // Enable legend
                           legend: Legend(isVisible: false),
                           // Enable tooltip
