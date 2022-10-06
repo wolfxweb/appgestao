@@ -35,13 +35,15 @@ class _DadosBasicosState extends State<DadosBasicos> {
   void _consultar() async {
     await bd.lista().then((data) {
       data.forEach((element) {
+        print('element');
+        print(element);
         id = element['id'];
         _quantidadeController.text = element['qtd'];
         _faturamentoController.text = element['faturamento'];
         _gastoinsumosController.text = element['gastos'];
-        _custoFixoController.text = element['custo_varivel'];
+        _custoFixoController.text = element['custo_fixo'];
         _margenController.text = element['margen'];
-        _custoVariavelController.text = element['custo_fixo'];
+        _custoVariavelController.text = element['custo_varivel'];
         _custoInsumosController.text = element['gastos_insumos'];
         mesSelect.value = element['mes'];
       });
@@ -296,8 +298,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       context,
                       'TOTAL OUTROS CUSTOS VARIÁVEIS.\nConsidere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
                       'Outros custos variáveis',
-                      _custoVariavelController
 
+                      _custoFixoController
                       //  _custoVariavelController
                       ),
                   const Espacamento(),
@@ -305,7 +307,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                       context,
                       'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.',
                       'Custos fixos',
-                      _custoFixoController
+                      _custoVariavelController
                     //_custoFixoController
                   ),
                   const Espacamento(),
@@ -482,14 +484,16 @@ class _DadosBasicosState extends State<DadosBasicos> {
         _quantidadeController.text,
         _faturamentoController.text,
         _gastoinsumosController.text,
-        _custoVariavelController.text,
         _custoFixoController.text,
+        _custoVariavelController.text,
         _margenController.text,
         mesSelect.value,
         _custoInsumosController.text);
   }
 
   _saveUpdate(dados, msg) {
+
+    print(dados);
     var alert = AlertSnackBar();
     bd.save(dados.toJson()).then((value) {
       alert.alertSnackBar(context, Colors.green, msg);
