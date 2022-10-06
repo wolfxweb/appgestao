@@ -98,7 +98,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                 ),
                 buildGestureDetector(
                   context,
-                  "Diaginostico",
+                  "Diagnóstico",
                   Diagnostico(),
                   const Icon(
                     Icons.currency_exchange,

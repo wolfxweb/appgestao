@@ -281,13 +281,13 @@ class _DadosBasicosState extends State<DadosBasicos> {
                   const Espacamento(),
                   buildContainerInput(
                       context,
-                      'Considere os produtos de terceiros adquiridos e comercializados no mês informado.',
+                      'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).',
                       "Gastos com insumos",
                       _custoInsumosController),
                   const Espacamento(),
                   buildContainerInput(
                       context,
-                      'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).',
+                      'Considere os produtos de terceiros adquiridos e comercializados no mês informado.',
                       "Gastos com produtos para revenda",
                       _gastoinsumosController),
 

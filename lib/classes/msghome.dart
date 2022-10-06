@@ -92,22 +92,25 @@ class _MsgDiaState extends State<MsgDia> {
 
     for (var i = 1; i <= dia; i++) {
       final diaUtil = DateTime(ano, mes, i).getWeekday;
+      print('diaUtil');
+
+      print(diaUtil);
       if (diaUtil == 6 ) {
         fimSemana = 1;
-
         continue;
       } else if(diaUtil == 7){
         fimSemana = 2;
         continue;
       }else{
         qtdDiasUteis++;
+        print('qtdDiasUteis++');
+        print(qtdDiasUteis);
       }
     }
 
-    print(diaMes);
-    print(fimSemana);
 
-    if(feriados.contains(diaMes)){
+
+   if(feriados.contains(diaMes)){
       if(fimSemana == 1 || fimSemana == 2 ){
         switch(fimSemana){
           case 1:
@@ -125,7 +128,8 @@ class _MsgDiaState extends State<MsgDia> {
     if(fimSemana == 1 || fimSemana == 2 ){
       switch(fimSemana){
         case 1:
-          qtdDiasUteis = qtdDiasUteis-1;
+
+         qtdDiasUteis = qtdDiasUteis-1;
           /*
           msgDodia ="Bom fim de sabado!";
           msgDodiaSub = "";
@@ -134,7 +138,7 @@ class _MsgDiaState extends State<MsgDia> {
            */
           break;
         case 2:
-          qtdDiasUteis = qtdDiasUteis-2;
+        //  qtdDiasUteis = qtdDiasUteis-2;
           /*
           msgDodia = "Bom dominigo";
           msgDodiaSub = "";
@@ -144,6 +148,7 @@ class _MsgDiaState extends State<MsgDia> {
           break;
       }
     }
+
     if(qtdDiasUteis <0){
       if (fimSemana == 1 || fimSemana == 2){
         qtdDiasUteis = 22;
@@ -152,6 +157,8 @@ class _MsgDiaState extends State<MsgDia> {
       }
 
     }
+
+
      switch (qtdDiasUteis) {
       case 1:
         msgDodia ="Primeiro dia do mês! Que não lhe falte o bom ânimo, equilíbrio e entusiasmo para superar os desafios, tomar algumas decisões ousadas e ter sucesso!O tempo não para, e o mercado também não! Bem informado, experiente, decidido e sempre disposto a aprender, você alcançará suas metas!";
