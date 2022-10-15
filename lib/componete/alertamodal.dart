@@ -9,7 +9,7 @@ class AlertModal {
             title: Text(
               msg,
               style: const TextStyle(fontSize: 16),
-              textAlign: TextAlign.justify,
+            //  textAlign: TextAlign.justify,
               softWrap: true,
             ),
             actions: [

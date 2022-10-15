@@ -296,7 +296,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                   const Espacamento(),
                   buildContainerInput(
                       context,
-                      'TOTAL OUTROS CUSTOS VARIÁVEIS.\nConsidere todos os custos e despesas que variam em função das vendas.Por exemplo: taxas e impostos; custo dos cartões de débito, crédito, tickets e vales;custos das eventuais antecipações de vencimento e desconto de títulos; comissões, gorjetas;estacionamento pago em função do uso por clientes; custo das entregas delivery.',
+                      'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e vales;\nCustos das eventuais antecipações de vencimento e desconto de títulos;\nComissões, gorjetas;\nEstacionamento (quando pago em função do uso por clientes);\nCusto das entregas delivery.',
                       'Outros custos variáveis',
 
                       _custoFixoController
@@ -305,7 +305,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                   const Espacamento(),
                   buildContainerInput(
                       context,
-                      'Custos e despesas que ocorrem independentemente das vendas. Ex.: Salários, encargos, benefícios; pró-labore; aluguéis; contratos de serviços: contador, Internet, TV à cabo, aluguel de leitoras de cartões, estacionamento (quando for um valor mensal fechado); água, eletricidade, gáz, materiais de limpeza e higiene.',
+                      'Custos e despesas que ocorrem independentemente das vendas.\nPor exemplo:\nSalários, encargos, provisões, benefícios e pró-labore;\nContratos de serviços: contador, Internet, TV à cabo, leitoras de cartões e estacionamento (quando for um valor mensal fechado);\nAluguéis, IPTU e taxas;\nÁgua, eletricidade, gás, materiais de limpeza e higiene.',
                       'Custos fixos',
                       _custoVariavelController
                     //_custoFixoController
