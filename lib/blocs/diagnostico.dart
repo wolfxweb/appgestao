@@ -289,10 +289,7 @@ class DignosticoBloc extends BlocBase {
     _calculoM( calculo_n );
     _calculoX();
   }
-  _calculoN(mesAtual,mesInicial,mesProximo) {
-    calculo_n = ((((mesProximo * calc_qtd) / mesAtual) * calculo_c) -((((calc_gi + calc_gas + calc_cf) / calc_fat) * (((mesProximo * calc_qtd) / mesAtual) * calculo_c)) +calc_cv)) /(((mesProximo * calc_qtd) / mesAtual) * calculo_c);
-    return calculo_n;
-  }
+
   _calculoM(_n){
     if(_n > 0.0){
       _M ="lucro";
@@ -308,6 +305,10 @@ class DignosticoBloc extends BlocBase {
    // _calculoTiketMedio();
     calculo_k = ((((mesAtual * calc_qtd) / mesInicial) * calculo_c) -((((calc_gi + calc_gas + calc_cf) / calc_fat) * (((mesProximo * calc_qtd) / mesInicial) * calculo_c)) +calc_cv)) /(((mesProximo * calc_qtd) / mesInicial) * calculo_c);
      return calculo_k;
+  }
+  _calculoN(mesAtual,mesInicial,mesProximo) {
+    calculo_n = ((((mesProximo * calc_qtd) / mesAtual) * calculo_c) -((((calc_gi + calc_gas + calc_cf) / calc_fat) * (((mesProximo * calc_qtd) / mesAtual) * calculo_c)) +calc_cv)) /(((mesProximo * calc_qtd) / mesAtual) * calculo_c);
+    return calculo_n;
   }
   _calculoG() {
     calculo_g = calc_fat / calc_cv;
