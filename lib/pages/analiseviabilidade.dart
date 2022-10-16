@@ -601,11 +601,19 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   _comentario = _venderMais;
                 } else if (text == "2. AUMENTAR O TICKET MÉDIO") {
                   var aumentarTicketMedio =
-                      "Sempre oferecer ao cliente o máximo de opções que de alguma forma complementam o objeto da compra.\nVemos muito desta prática em lojas de roupas, materiais de construção, lanchonetes (os famosos combos), etc.\n'Na compra da segunda peça você leva mais uma sem custo'; 'compras acima de R\$...., você ganha um brinde!'; 'a cada R\$... em compras você ganha x pontos!'. ";
+                      "Oferecer ao cliente o máximo de opções que de alguma forma complementem o objeto da compra.\n"
+                      "Ações do tipo:\n"
+                      "Na compra da segunda peça você leva mais uma sem custo\n"
+                      "Compre acima de R\$...., e ganhe um brinde!\n"
+                      "Para cada R\$... em compras, você ganha pontos!, etc.\n"
+                      "Sem dúvida aumentar os preços é também uma alternativa.\nPorém, sempre envolve algum risco de redução de vendas, (faça estimativas no “Simulador”).;";
                   _comentario = aumentarTicketMedio;
                 } else if (text == "3. GIRAR ESTOQUE DE PRODUTO") {
                   var girarEstoqueProduto =
-                      "Verifique a possibilidade de criar um “combo” associando a outro(s) produto(s) mais lucrativo(s) e de maior demanda.\nOutra alternativa pode ser o “cashback” (enquanto durar o estoque), em que ao comprar o cliente recebe um crédito para utilizar em compras futuras.";
+                      "Verifique a possibilidade de criar um “combo” associando produtos de baixo giro a outro(s) mais lucrativo(s) e de maior demanda;\n"
+                      "Oferta de “cashback” (enquanto durar o estoque);\n"
+                      "Vendas com desconto (utilize a “Calculadora de Preços”);\n"
+                      "Realização de promoções e/ou propaganda (use a “Análise de viabilidade”).";
 
                   _comentario = girarEstoqueProduto;
                 } else if (text == "4. FIDELIZAR CLIENTES") {
@@ -672,7 +680,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                       fontSize: 14,
                       // fontWeight: FontWeight.bold,
                     ),
-                    textAlign: TextAlign.justify,
+                 //   textAlign: TextAlign.justify,
                   ),
                 ),
               )
