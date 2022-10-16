@@ -46,6 +46,7 @@ class DignosticoBloc extends BlocBase {
   var _D;
   var _E;
   var _F;
+  var  _FNOVO;
   var _G;
   var _H;
   var _I;
@@ -124,7 +125,7 @@ class DignosticoBloc extends BlocBase {
     _text_1 =
         "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_Bnovo}%.\n"
         "O ticket médio foi de R\$ ${_C} .\nMargem de contribuição R\$ ${_D}.\nPara começar a ter lucro foi preciso vender R\$ ${_E}, "
-        "o que representa ${_F}% do total faturado no mês.\nA produtividade foi de R\$ ${_G} de faturamento para cada R\$1,00 de custo fixo.";
+        "o que representa ${_FNOVO}% do total faturado no mês.\nA produtividade foi de R\$ ${_G} de faturamento para cada R\$1,00 de custo fixo.";
 
     _text_2 =
         "O fato é que o resultado não é aquele que você gostaria.\nEntão, ${_fulano}, "
@@ -316,6 +317,7 @@ class DignosticoBloc extends BlocBase {
   _calculoF() {
     calculo_f = calculo_e / calc_fat;
     var calc = calculo_f *100;
+    _FNOVO = formatterMoeda.format(calc);
     _F = calc.toStringAsPrecision(2);
     _calculoG();
   }
