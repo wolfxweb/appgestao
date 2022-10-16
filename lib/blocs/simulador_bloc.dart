@@ -161,6 +161,13 @@ class SimuladorBloc extends BlocBase {
         calc_qtd = novaQtd;
         _vendasController.add(novaQtd.toString());
         calculoVendas(novaQtd.toString());
+        calculoPontoEquilibrio();
+        calculoMargemResultante();
+        calculoTIKETMEDIO(operacao,percentual);
+        custosINSUMOS(operacao,percentual);
+        custoPRODUTO3(percentual,operacao);
+        custoVARIAVEL(operacao,percentual);
+
         break;
       case 'Ticket médio':
             if (operacao == 1) {
@@ -190,7 +197,14 @@ class SimuladorBloc extends BlocBase {
             _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
             _calculoPontoEquilibio =(calc_cv / _margemContribuicaoCalculada) * novoTicketMedio;
             _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
-            calculoMargemResultante();
+            quantidadeVENDADS(operacao,percentual);
+          //  calculoMargemConribuicao();
+        //    calculoMargemResultante();
+          //  calculoPontoEquilibrio();
+           // calculoTIKETMEDIO(operacao,percentual);
+            custosINSUMOS(operacao,percentual);
+            custoPRODUTO3(percentual,operacao);
+            custoVARIAVEL(operacao,percentual);
         break;
     /*****************************/
       case 'Custo insumos':
@@ -213,8 +227,12 @@ class SimuladorBloc extends BlocBase {
           _custoInsumosController.add(custoInSumos);
           _margemContribuicaoCalculada = (calc_fat - (novoValorInsumos + calc_cv + calc_gas)) / calc_qtd;
           _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
-          calculoMargemResultante();
-          calculoPontoEquilibrio();
+
+        quantidadeVENDADS(operacao,percentual);
+       calculoTIKETMEDIO(operacao,percentual);
+       // custosINSUMOS(operacao,percentual);
+        custoPRODUTO3(percentual,operacao);
+        custoVARIAVEL(operacao,percentual);
         break;
         /*****************************/
       case 'Custos produtos 3º':
@@ -240,7 +258,11 @@ class SimuladorBloc extends BlocBase {
         _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
         _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_cf + novoCustoProduto)) /calc_fat) *100;
         _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} %");
-        calculoPontoEquilibrio();
+        quantidadeVENDADS(operacao,percentual);
+        calculoTIKETMEDIO(operacao,percentual);
+        custosINSUMOS(operacao,percentual);
+       // custoPRODUTO3(percentual,operacao);
+        custoVARIAVEL(operacao,percentual);
         break;
     /*****************************/
       case 'Outros custo variaveis':
@@ -267,7 +289,11 @@ class SimuladorBloc extends BlocBase {
         _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
         _calculoPontoEquilibio =(calc_cv / _margemContribuicaoCalculada) * _ticketMedio;
         _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
-        calculoMargemResultante();
+        quantidadeVENDADS(operacao,percentual);
+        calculoTIKETMEDIO(operacao,percentual);
+        custosINSUMOS(operacao,percentual);
+        custoPRODUTO3(percentual,operacao);
+       // custoVARIAVEL(operacao,percentual);
         break;
     /*****************************/
       case 'Custo fixo':
@@ -303,6 +329,108 @@ class SimuladorBloc extends BlocBase {
 
     /*****************************/
     }
+  }
+
+quantidadeVENDADS(operacao,percentual){
+  if (operacao == 1) {
+    novaQtd = calc_qtd * ((percentual / 100) + 1);
+
+  } else {
+    var qtdAUX = calc_qtd * (percentual / 100);
+    novaQtd = calc_qtd - qtdAUX;
+  }
+  calc_qtd = novaQtd;
+  _vendasController.add(novaQtd.toString());
+  calculoVendas(novaQtd.toString());
+  calculoPontoEquilibrio();
+  calculoMargemResultante();
+
+}
+
+custoVARIAVEL(operacao,percentual){
+  var custoFixoDadosBasicos =  convertMonetarioFloat(_cusf);
+  if (operacao == 1) {
+    novoCustoVariavel = calc_cf *((percentual / 100) + 1);
+  } else {
+    var qtdAUX = calc_cf *(percentual / 100);
+    novoCustoVariavel = calc_cf - qtdAUX;
+  }
+  corCustoVariavel("desabilitado");
+
+  calc_cf = novoCustoVariavel;
+  var novoCustoVariavelForm = "R\$ ${formatterMoeda.format(novoCustoVariavel)}";
+  _custoVariavelController.add(novoCustoVariavelForm);
+  _margemContribuicaoCalculada = (calc_fat - (calc_gi + novoCustoVariavel + calc_gas)) / calc_qtd;
+  _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
+  _calculoPontoEquilibio =(calc_cv / _margemContribuicaoCalculada) * _ticketMedio;
+  _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
+  calculoMargemConribuicao();
+  calculoMargemResultante();
+  calculoPontoEquilibrio();
+}
+
+custoPRODUTO3(percentual,operacao){
+  var custoDadosBasicos =  convertMonetarioFloat(_cus);
+  if (operacao == 1) {
+    novoCustoProduto = calc_gas *((percentual / 100) + 1);
+  } else {
+    var qtdAUX = calc_gas *(percentual / 100);
+    novoCustoProduto = calc_gas - qtdAUX;
+  }
+  corCustoProduto("desabilitado");
+
+  calc_gas = novoCustoProduto;
+  var custoNovoProduto = "R\$ ${formatterMoeda.format(novoCustoProduto)}";
+  _custoFixoController.add(custoNovoProduto);
+  _margemContribuicaoCalculada =(calc_fat - (calc_gi + calc_cf + novoCustoProduto)) / calc_qtd;
+  _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
+  _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_cf + novoCustoProduto)) /calc_fat) *100;
+  _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} %");
+  calculoMargemConribuicao();
+  calculoMargemResultante();
+  calculoPontoEquilibrio();
+}
+
+
+custosINSUMOS(operacao,percentual){
+  var calGi =  convertMonetarioFloat(_gi);
+  if (operacao == 1) {
+    novoValorInsumos = calc_gi *((percentual / 100) + 1);
+  } else {
+    var qtdAUX = calc_gi *(percentual / 100);
+    novoValorInsumos = calc_gi - qtdAUX;
+  }
+  corTicketMedio('desabilitado');
+  calc_gi = novoValorInsumos;
+  var custoInSumos = "R\$ ${formatterMoeda.format(novoValorInsumos)}";
+  _custoInsumosController.add(custoInSumos);
+  _margemContribuicaoCalculada = (calc_fat - (novoValorInsumos + calc_cv + calc_gas)) / calc_qtd;
+  _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
+  calculoPontoEquilibrio();
+  calculoMargemResultante();
+}
+  calculoTIKETMEDIO(operacao,percentual){
+    if (operacao == 1) {
+      novoTicketMedio = _ticketMedio *((percentual / 100) + 1);
+    } else {
+      var qtdAUX = _ticketMedio *(percentual / 100);
+      novoTicketMedio = _ticketMedio - qtdAUX;
+    }
+    _ticketMedio = novoTicketMedio;
+    corTicketMedio('desabilitado');
+
+    _ticketMedio = novoTicketMedio;
+    _tickeMedioMoeda = "R\$ ${formatterMoeda.format(_ticketMedio)}";
+    _ticketMedioController.add(_tickeMedioMoeda);
+    calc_fat = novoTicketMedio * calc_qtd;
+    _faturamentoController.add("R\$ ${formatterMoeda.format(calc_fat)}");
+    _margemContribuicaoCalculada =(calc_fat - (calc_gi + calc_cv + calc_gas)) / calc_qtd;
+    _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
+    _calculoPontoEquilibio =(calc_cv / _margemContribuicaoCalculada) * novoTicketMedio;
+    _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
+    calculoMargemConribuicao();
+    calculoMargemResultante();
+    calculoPontoEquilibrio();
   }
 /*
   calculoCustoFixo(text) {

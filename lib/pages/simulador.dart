@@ -326,7 +326,7 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         custoInsumosColor = dataCor.toString();
-                        //    print(dataCor);
+                           print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -420,7 +420,8 @@ class _SimuladorState extends State<Simulador> {
                             width: MediaQuery.of(context).size.width*0.45,
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
-                                   stream:  simuladorBloc.custoProdutoController,
+                              //     stream:  simuladorBloc.custoProdutoController,
+                                stream: simuladorBloc.custoVariavelController,
                                // stream: simuladorBloc.custoVariavelController,
                                 builder: (context, snapshot) {
                                   var data = snapshot.data;
@@ -476,7 +477,8 @@ class _SimuladorState extends State<Simulador> {
                             decoration: buildBoxDecoration(),
                             child: StreamBuilder(
                                // stream:null,
-                               stream: simuladorBloc.custoVariavelController,
+                            //   stream: simuladorBloc.custoVariavelController,
+                                stream:  simuladorBloc.custoProdutoController,
                                 builder: (context, snapshot) {
                               //    print(snapshot.data);
                                   var data = snapshot.data;
@@ -945,6 +947,8 @@ class _SimuladorState extends State<Simulador> {
       child: StreamBuilder(
           stream: stream,
           builder: (context, snapshot) {
+            print('snapshot.hasData');
+            print(snapshot.hasData);
             if(snapshot.hasData){
              var  data = snapshot.data;
               return buildContainer("$data", inputTitulo, cor, format, icone, onChanged);
