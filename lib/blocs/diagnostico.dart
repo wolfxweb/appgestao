@@ -41,6 +41,7 @@ class DignosticoBloc extends BlocBase {
   var _fulano;
   var _A;
   var _B;
+  var _Bnovo;
   var _C;
   var _D;
   var _E;
@@ -121,7 +122,7 @@ class DignosticoBloc extends BlocBase {
 
   _montaTexto() {
     _text_1 =
-        "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_B}%.\n"
+        "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_Bnovo}%.\n"
         "O ticket médio foi de R\$ ${_C} .\nMargem de contribuição R\$ ${_D}.\nPara começar a ter lucro foi preciso vender R\$ ${_E}, "
         "o que representa ${_F}% do total faturado no mês.\nA produtividade foi de R\$ ${_G} de faturamento para cada R\$1,00 de custo fixo.";
 
@@ -278,50 +279,16 @@ class DignosticoBloc extends BlocBase {
   _calculoMensal(mesDadosBasicos, mesAtual, proximoMese , textoL){
     var mesReferencia =  _calculoK(mesDadosBasicos, mesAtual,mesAtual);
     var calculo_ns =_calculoN(mesDadosBasicos,mesAtual, proximoMese);
-    print("_K");
-    print(_K);
+
     _K = formatterMoeda.format(mesReferencia*100);
-    print("_N");
-    print(_N);
+
     _N = formatterMoeda.format(calculo_ns*100);
-    print("_N");
-    print(_N);
+
     _L = textoL;
     _calculoM( calculo_n );
     _calculoX();
   }
   _calculoN(mesAtual,mesInicial,mesProximo) {
-    print("mesAtual");
-    print(mesAtual);
-    print("mesInicial");
-    print(mesInicial);
-    print("mesProximo");
-    print(mesProximo);
-
-    print("calc_qtd");
-    print(calc_qtd);
-    print("calculo_c");
-    print(calculo_c);
-    print("calc_gi");
-    print(calc_gi);
-    print("calc_gas");
-    print(calc_gas);
-    print("calc_cf");
-    print(calc_cf);
-    print("calc_fat");
-    print(calc_fat);
-    print("mesProximo");
-    print(mesProximo);
-    print("calc_qtd");
-    print(calc_qtd);
-    print("mesInicial");
-    print(mesInicial);
-    print("calculo_c");
-    print(calculo_c);
-    print("calc_cv");
-    print(calc_cv);
-
-
     calculo_n = ((((mesProximo * calc_qtd) / mesAtual) * calculo_c) -((((calc_gi + calc_gas + calc_cf) / calc_fat) * (((mesProximo * calc_qtd) / mesAtual) * calculo_c)) +calc_cv)) /(((mesProximo * calc_qtd) / mesAtual) * calculo_c);
     return calculo_n;
   }
@@ -369,6 +336,8 @@ class DignosticoBloc extends BlocBase {
   }
   _calculoMargemResultante() {
     calculo_b = (((calc_fat - (calc_gi + calc_cv + calc_cf + calc_gas)) / calc_fat) *100);
+    _Bnovo = formatterMoeda.format(calculo_b);
+
     _B = calculo_b.toStringAsPrecision(2);
     _O = _B;
     _calculoTiketMedio();
