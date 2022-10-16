@@ -42,8 +42,10 @@ class _CalculadoraState extends State<Calculadora> {
   var alerta = AlertModal();
   var header = new HeaderAppBar();
   var corFundo = Colors.grey[150];
-  var _mostrarComponentes = false;
+  var _mostrarComponentes = true;
   var _verHistorico = false;
+  var mostrarValores = true;
+  var mostraPrecoSugerido = true;
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +193,7 @@ class _CalculadoraState extends State<Calculadora> {
                                       .build(),
                                   //  keyboardType: TextInputType.number,
                                   controller: _produto,
-                                  decoration: _styleInput("Preço dos insumos e/ou produtos de 3º", "cor"),
+                                  decoration: _styleInput("Nome do produto", "cor"),
                                   onChanged: (text) {},
                                 );
                               }),
@@ -232,14 +234,14 @@ class _CalculadoraState extends State<Calculadora> {
                                           _mostrarComponentes = true;
                                           _btnStatus = true;
                                         } else {
-                                          _mostrarComponentes = false;
+                                     //     _mostrarComponentes = false;
                                           _btnStatus = false;
                                         }
                                       });
                                     } else {
                                       if (text.isEmpty) {
                                         setState(() {
-                                          _mostrarComponentes = false;
+                                       //  _mostrarComponentes = false;
                                           _btnStatus = false;
                                         });
                                       }
@@ -267,7 +269,7 @@ class _CalculadoraState extends State<Calculadora> {
                                   keyboardType: TextInputType.number,
                                   controller: _precoInsumosController,
                                   decoration: _styleInput(
-                                      "Preço dos insumos ou da mercadoria adquirida",
+                                      "Custo dos insumos e/ou mercadoria 3º",
                                       "cor"),
                                   inputFormatters: [
                                     // obrigatório
@@ -287,14 +289,17 @@ class _CalculadoraState extends State<Calculadora> {
                                             _margemDesejada.text.isNotEmpty) {
                                           _mostrarComponentes = true;
                                           _btnStatus = true;
+                                          mostrarValores = false;
                                         } else {
-                                          _mostrarComponentes = false;
+                                         // _mostrarComponentes = false;
                                           _btnStatus = false;
+                                          mostrarValores = false;
                                         }
                                       });
                                     } else if (text.isEmpty) {
                                       setState(() {
-                                        _mostrarComponentes = false;
+                                       // _mostrarComponentes = false;
+                                        mostrarValores = false;
                                         _btnStatus = false;
                                       });
                                     }
@@ -304,8 +309,8 @@ class _CalculadoraState extends State<Calculadora> {
                         )
                       : Container(),
                   const Espacamento(),
-                  !_verHistorico
-                      ? SingleChildScrollView(
+                  !_verHistorico?
+                 SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -322,14 +327,20 @@ class _CalculadoraState extends State<Calculadora> {
                                       ? StreamBuilder(
                                           stream: calBloc.outCalculoMargem,
                                           builder: (context, snapshot) {
-                                            var data = snapshot.data;
+
+                                            var sanp =snapshot.data;
+                                            var data = "$sanp %";
+
+                                            if(mostrarValores){
+                                              data ="";
+                                            }
                                             //var margemPrecoAtual = data.;
                                             return TextFormField(
                                               /// validator: ValidationBuilder().maxLength(50).required().build(),
                                               keyboardType: TextInputType.none,
                                               enabled: false,
                                               controller: TextEditingController(
-                                                  text: "$data %"),
+                                                  text: "$data"),
                                               decoration: _styleInput(
                                                   "Margem preço atual", "ops"),
                                             );
@@ -338,81 +349,43 @@ class _CalculadoraState extends State<Calculadora> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                                 child: Container(
-                                 // width: 180,
-                                  width: MediaQuery.of(context).size.width*0.50,
-                           //   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
-                               decoration: buildBoxDecoration(),
+                                  //   width: 170,
+                                  // padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                                  width: MediaQuery.of(context).size.width*0.46,
+
+                                  decoration: buildBoxDecoration(),
                                   child: StreamBuilder(
-                                      stream: null,
+                                      stream: calBloc.outMargemEmpresalControllerr,
                                       builder: (context, snapshot) {
-                                        var data = snapshot.data;
-                                        return TextFormField(
+                                        var sanp =snapshot.data;
+                                        var data = "$sanp %";
+
+                                        if(mostrarValores){
+                                          data ="";
+                                        }
+                                        return _mostrarComponentes
+                                            ? TextFormField(
                                           validator: ValidationBuilder()
-                                              .maxLength(5)
+                                              .maxLength(50)
                                               .required()
                                               .build(),
-                                          keyboardType: TextInputType.number,
-                                          controller: _margemDesejadaController,
-                                          decoration: const InputDecoration(
-                                            floatingLabelBehavior:
-                                                FloatingLabelBehavior.always,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 16, vertical: 5),
-                                            fillColor: Color.fromRGBO(159, 105, 56,0.5),
-                                            filled: true,
-                                            suffixIcon: Icon(
-                                              Icons.percent,
-                                              color: Colors.black54,
-                                              size: 20.0,
-                                            ),
-                                            /* focusedBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.orange, width: 1.0, style: BorderStyle.none),
-                                      ),*/
-                                            border: InputBorder.none,
-                                            labelText: 'Margem desejada',
-                                            labelStyle: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 13,
-                                              // backgroundColor: Colors.white,
-                                            ),
-                                          ),
-                                          onChanged: (text) {
-                                            //      print(text);
-                                            //calculadoraCusto(text)
-                                            if (text.isNotEmpty) {
-                                              calBloc.margemDesejada(text);
-                                              setState(() {
-                                                _margemDesejada.text = text;
-                                                if (_precoAtual.text.isNotEmpty &&
-                                                    _precoInsumos.text.isNotEmpty &&
-                                                    _margemDesejada
-                                                        .text.isNotEmpty) {
-                                                  _mostrarComponentes = true;
-                                                  _btnStatus = true;
-                                                } else {
-                                                  _mostrarComponentes = false;
-                                                  _btnStatus = false;
-                                                }
-                                              });
-                                            } else if (text.isEmpty) {
-                                              setState(() {
-                                                _mostrarComponentes = false;
-                                                _btnStatus = false;
-                                              });
-                                            }
-                                          },
-                                        );
+                                          keyboardType: TextInputType.none,
+                                          enabled: false,
+                                          controller: TextEditingController(
+                                              text: "$data"),
+                                          decoration: _styleInput(
+                                              "Margem da empresa",
+                                              "ops"),
+                                        )
+                                            : Container();
                                       }),
                                 ),
                               ),
                             ],
                           ),
-                      )
-                      : Container(),
+                      ):Container(),
                   const Espacamento(),
                   !_verHistorico
                       ? Container(
@@ -420,8 +393,12 @@ class _CalculadoraState extends State<Calculadora> {
                           child: StreamBuilder(
                               stream: calBloc.outMsgMargem,
                               builder: (context, snapshot) {
-                                //    print(snapshot.data);
-                                var data = snapshot.data;
+                                var sanp =snapshot.data;
+                                var data = "$sanp";
+
+                                if(mostrarValores){
+                                  data ="";
+                                }
                                 return _mostrarComponentes
                                     ? TextFormField(
                                         validator: ValidationBuilder()
@@ -447,6 +424,93 @@ class _CalculadoraState extends State<Calculadora> {
                         )
                       : Container(),
                   const Espacamento(),
+                  !_verHistorico?
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   mainAxisSize: MainAxisSize.max,
+                      //  crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                          child: Container(
+                            // width: 180,
+                            width: MediaQuery.of(context).size.width*0.50,
+                            //   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                            decoration: buildBoxDecoration(),
+                            child: StreamBuilder(
+                                stream: null,
+                                builder: (context, snapshot) {
+                                  var data = snapshot.data;
+                                  return TextFormField(
+                                    validator: ValidationBuilder()
+                                        .maxLength(5)
+                                        .required()
+                                        .build(),
+                                    keyboardType: TextInputType.number,
+                                    controller: _margemDesejadaController,
+                                    decoration: const InputDecoration(
+                                      floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                      contentPadding:
+                                      EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 5),
+                                      fillColor: Color.fromRGBO(159, 105, 56,0.5),
+                                      filled: true,
+                                      suffixIcon: Icon(
+                                        Icons.percent,
+                                        color: Colors.black54,
+                                        size: 20.0,
+                                      ),
+                                      /* focusedBorder: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                                      ),*/
+                                      border: InputBorder.none,
+                                      labelText: 'Margem desejada',
+                                      labelStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        // backgroundColor: Colors.white,
+                                      ),
+                                    ),
+                                    onChanged: (text) {
+                                      //      print(text);
+                                      //calculadoraCusto(text)
+                                      if (text.isNotEmpty) {
+                                        calBloc.margemDesejada(text);
+                                        setState(() {
+                                          _margemDesejada.text = text;
+                                          if (_precoAtual.text.isNotEmpty &&
+                                              _precoInsumos.text.isNotEmpty &&
+                                              _margemDesejada
+                                                  .text.isNotEmpty) {
+                                            _mostrarComponentes = true;
+                                            _btnStatus = true;
+                                            mostraPrecoSugerido =false;
+                                          } else {
+                                           // _mostrarComponentes = false;
+                                            _btnStatus = false;
+                                            mostraPrecoSugerido =false;
+                                          }
+                                        });
+                                      } else if (text.isEmpty) {
+                                        setState(() {
+                                         // _mostrarComponentes = false;
+                                          _btnStatus = false;
+                                          mostraPrecoSugerido =false;
+                                        });
+                                      }
+                                    },
+                                  );
+                                }),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ):Container(),
                   const Espacamento(),
                   !_verHistorico
                       ? SingleChildScrollView(
@@ -467,14 +531,21 @@ class _CalculadoraState extends State<Calculadora> {
                                   child: StreamBuilder(
                                       stream: calBloc.outCaculoPrecoSugerido,
                                       builder: (context, snapshot) {
-                                        var data = snapshot.data;
+                                      //  var data = snapshot.data;
+                                        //mostraPrecoSugerido
+                                        var sanp =snapshot.data;
+                                        var data = "R\$ $sanp";
+
+                                        if(mostraPrecoSugerido){
+                                          data ="";
+                                        }
                                         return _mostrarComponentes
                                             ? TextFormField(
                                                 //  validator: ValidationBuilder().maxLength(50).required().build(),
                                                 keyboardType: TextInputType.none,
                                                 enabled: false,
                                                 controller: TextEditingController(
-                                                    text: "R\$ $data"),
+                                                    text: "$data"),
                                                 style: const TextStyle(
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.bold),
@@ -501,7 +572,12 @@ class _CalculadoraState extends State<Calculadora> {
                                   child: StreamBuilder(
                                       stream: calBloc.outRelacaoPrecoController,
                                       builder: (context, snapshot) {
-                                        var data = snapshot.data.toString();
+                                        var sanp =snapshot.data;
+                                        var data = "$sanp %";
+
+                                        if(mostraPrecoSugerido){
+                                          data ="";
+                                        }
                                         return _mostrarComponentes
                                             ? TextFormField(
                                                 validator: ValidationBuilder()
@@ -511,7 +587,7 @@ class _CalculadoraState extends State<Calculadora> {
                                                 keyboardType: TextInputType.none,
                                                 enabled: false,
                                                 controller: TextEditingController(
-                                                    text: "$data %"),
+                                                    text: "$data"),
                                                 decoration: _styleInput(
                                                     "Relação com preço atual",
                                                     "ops"),
@@ -544,13 +620,15 @@ class _CalculadoraState extends State<Calculadora> {
                               stream: calBloc.outMsgPrecoSugerido,
                               builder: (context, snapshot) {
                                 var data = snapshot.data.toString();
+                                print('data');
+                                print(data);
                                 var obs = true;
                                 if (data.isEmpty) {
                                 //  print('obs');
                                   obs = false;
                                 }
 
-                                return _mostrarComponentes && obs
+                                return !mostraPrecoSugerido && obs
                                     ? TextFormField(
                                         validator: ValidationBuilder()
                                             .maxLength(50)
@@ -560,7 +638,7 @@ class _CalculadoraState extends State<Calculadora> {
                                         enabled: false,
                                         maxLines: 6,
                                         controller: TextEditingController(
-                                            text: "$data"),
+                                            text: snapshot.data.toString()),
                                         decoration: _styleInput("", "ops"),
                                       )
                                     : Container();
@@ -598,7 +676,7 @@ class _CalculadoraState extends State<Calculadora> {
                                           _precoInsumos.text = "";
                                           _margemDesejada.text = "";
                                           _produto.text = "";
-                                          _mostrarComponentes = false;
+                                        //  _mostrarComponentes = false;
                                           _btnStatus = false;
                                           _pesquisaController.text = "";
                                         });
@@ -741,7 +819,7 @@ class _CalculadoraState extends State<Calculadora> {
         _precoInsumos.text = "";
         _margemDesejada.text = "";
         _produto.text = "";
-        _mostrarComponentes = false;
+      //  _mostrarComponentes = false;
         _btnStatus = false;
         _pesquisaController.text = "";
       });

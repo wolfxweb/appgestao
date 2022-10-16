@@ -19,6 +19,7 @@ class CalculadoraBloc extends BlocBase {
   final _precoVendaAtualController = BehaviorSubject();
   final _custoComInsumoslController = BehaviorSubject();
   final _historicolController = BehaviorSubject();
+  final _margemEmpresalController = BehaviorSubject();
 
   Stream get outCalculoMargem => _calculoMargemController.stream;
   Stream get outMsgMargem => _msgMargemController.stream;
@@ -30,6 +31,7 @@ class CalculadoraBloc extends BlocBase {
   Stream get outPrecoVendaAtualController => _precoVendaAtualController.stream;
   Stream get outCustosComInsumosController => _custoComInsumoslController.stream;
   Stream get outHistoricoController => _historicolController.stream;
+  Stream get outMargemEmpresalControllerr => _margemEmpresalController.stream;
 
   var _custoInsumo = 200.0;
   var _margemDesejada = 0.3;
@@ -99,10 +101,17 @@ class CalculadoraBloc extends BlocBase {
         _precoVendaAtual = fat;
 
         _calculoMargemAtual();
+        _margemDaEmpresa();
       });
     });
   }
 
+  _margemDaEmpresa(){
+    //(faturamento - (gastos com insumos + gastos com produtos para revenda + outros custos variáveis + custos fixos)) /faturamento.
+
+    var margeEmpresa = ((fat-(cf+cv+gi+gas))/fat)*100;
+    _margemEmpresalController.add(formatter.format(margeEmpresa));
+  }
   _primeiroComentario() {
     /*
         =(fat-(cv+cf+gi+gas))/fat
@@ -121,8 +130,7 @@ class CalculadoraBloc extends BlocBase {
     var margeEsteProduto = ((fat - (cv + cf + gi + gas)) / fat);
     if ((_margemComPrecoAtual / 100) > margeEsteProduto &&
         (_margemComPrecoAtual / 100) <= _margemDesejada) {
-      _msgMargemController.add(
-          '$_nomeUsuario, este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!');
+      _msgMargemController.add('$_nomeUsuario, este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!');
     } else if ((_margemComPrecoAtual / 100) > margeEsteProduto &&
         (_margemComPrecoAtual / 100) > _margemDesejada) {
       _msgMargemController.add(
@@ -136,6 +144,8 @@ class CalculadoraBloc extends BlocBase {
       _msgMargemController.add(
           '$_nomeUsuario, este produto, mantendo-se o preço atual, impede que o resultado da empresa seja melhor!');
     } else if ((_margemComPrecoAtual / 100) < 0) {
+      _msgMargemController.add('$_nomeUsuario, este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!');
+    }else{
       _msgMargemController.add('$_nomeUsuario, este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!');
     }
   }
@@ -164,6 +174,7 @@ class CalculadoraBloc extends BlocBase {
     var margem = formatterPercentual.format(_margemComPrecoAtual);
     _calculoMargemController.add(margem);
     _calculoPrecodugerido();
+    _margemDaEmpresa();
   }
 
   calculoRelacaoPreco() {
@@ -181,6 +192,7 @@ class CalculadoraBloc extends BlocBase {
         .replaceAll(',', '.'));
     _custoInsumo = double.parse(_custoInsumos);
     _calculoMargemAtual();
+
   }
 
   margemDesejada(margen) {
