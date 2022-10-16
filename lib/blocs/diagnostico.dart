@@ -66,6 +66,7 @@ class DignosticoBloc extends BlocBase {
   var calculo_g;
   var calculo_k;
   var calculo_h;
+  var calculo_n;
 
 
   var _text_1;
@@ -275,15 +276,55 @@ class DignosticoBloc extends BlocBase {
 
   }
   _calculoMensal(mesDadosBasicos, mesAtual, proximoMese , textoL){
-    var mesReferencia =  _calculoK(mesDadosBasicos, mesAtual);
-    var calculo_n =_calculoK(mesDadosBasicos, proximoMese);
+    var mesReferencia =  _calculoK(mesDadosBasicos, mesAtual,mesAtual);
+    var calculo_ns =_calculoN(mesDadosBasicos,mesAtual, proximoMese);
+    print("_K");
+    print(_K);
     _K = formatterMoeda.format(mesReferencia*100);
-    _N = formatterMoeda.format(calculo_n*100);
+    print("_N");
+    print(_N);
+    _N = formatterMoeda.format(calculo_ns*100);
+    print("_N");
+    print(_N);
     _L = textoL;
     _calculoM( calculo_n );
     _calculoX();
   }
+  _calculoN(mesAtual,mesInicial,mesProximo) {
+    print("mesAtual");
+    print(mesAtual);
+    print("mesInicial");
+    print(mesInicial);
+    print("mesProximo");
+    print(mesProximo);
 
+    print("calc_qtd");
+    print(calc_qtd);
+    print("calculo_c");
+    print(calculo_c);
+    print("calc_gi");
+    print(calc_gi);
+    print("calc_gas");
+    print(calc_gas);
+    print("calc_cf");
+    print(calc_cf);
+    print("calc_fat");
+    print(calc_fat);
+    print("mesProximo");
+    print(mesProximo);
+    print("calc_qtd");
+    print(calc_qtd);
+    print("mesInicial");
+    print(mesInicial);
+    print("calculo_c");
+    print(calculo_c);
+    print("calc_cv");
+    print(calc_cv);
+
+
+    calculo_n = ((((mesProximo * calc_qtd) / mesAtual) * calculo_c) -((((calc_gi + calc_gas + calc_cf) / calc_fat) * (((mesProximo * calc_qtd) / mesAtual) * calculo_c)) +calc_cv)) /(((mesProximo * calc_qtd) / mesAtual) * calculo_c);
+    return calculo_n;
+  }
   _calculoM(_n){
     if(_n > 0.0){
       _M ="lucro";
@@ -295,9 +336,10 @@ class DignosticoBloc extends BlocBase {
   }
   // mesInicial = _jun;
   // mesProximo = _jul;
-  _calculoK(mesInicial, mesProximo) {
-    calculo_k = ((((mesProximo * calc_qtd) / mesInicial) * calculo_c) -((((calc_gi + calc_gas + calc_cf) / calc_fat) * (((mesProximo * calc_qtd) / mesInicial) * calculo_c)) +calc_cv)) /(((mesProximo * calc_qtd) / mesInicial) * calculo_c);
-    return calculo_k;
+  _calculoK(mesInicial, mesProximo,mesAtual) {
+   // _calculoTiketMedio();
+    calculo_k = ((((mesAtual * calc_qtd) / mesInicial) * calculo_c) -((((calc_gi + calc_gas + calc_cf) / calc_fat) * (((mesProximo * calc_qtd) / mesInicial) * calculo_c)) +calc_cv)) /(((mesProximo * calc_qtd) / mesInicial) * calculo_c);
+     return calculo_k;
   }
   _calculoG() {
     calculo_g = calc_fat / calc_cv;

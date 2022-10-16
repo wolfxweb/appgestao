@@ -270,8 +270,8 @@ _consultarMeses() async {
     );
 
     var bd = InportanciasMeses();
-  //  print("importancia dos meses");
- //   print(dados.toJson());
+    print("importancia dos meses");
+    print(dados.toJson());
     bd.save(dados.toJson()).then((value) {
       var alert = AlertSnackBar();
       alert.alertSnackBar(context, Colors.green, 'Importâcia dos meses atualizada com sucesso');

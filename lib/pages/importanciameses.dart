@@ -93,7 +93,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                       child: const Text(
                         "Indique a importância dos meses ",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 18,
                         ),
                       ),
                     ),
@@ -101,27 +101,13 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                       child: const Text(
                         " para suas vendas",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 18,
                         ),
                       ),
                     ),
                   ],
                 ),
 
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                  alignment: Alignment.bottomRight,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary:
-                          const Color.fromRGBO(159, 105, 56, 1), // background
-                    ),
-                    child: const Text('Atualizar'),
-                    onPressed: () {
-                      _importanciaMesesBLoc.adicionarImportanciaMeses(context);
-                    },
-                  ),
-                ),
               ],
             ),
             const Espacamento(),
@@ -493,6 +479,28 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
               ],
             ),
             const Espacamento(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 0.0,horizontal:24.0),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 20),
+                        primary: const Color.fromRGBO(159, 105, 56,1),
+                      ),
+                      onPressed: (){
+                        _importanciaMesesBLoc.adicionarImportanciaMeses(context);
+                      },
+                      child: const Text("Salvar"),
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
 
             const Espacamento(),
             Container(
