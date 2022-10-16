@@ -39,6 +39,8 @@ class _HomeAdminState extends State<HomeAdmin> {
         child: Column(
           children: [
             const Espacamento(),
+            const Espacamento(),
+
             const Logo(),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
@@ -48,6 +50,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                 textAlign: TextAlign.center,
               ),
             ),
+            const Espacamento(),
             const Espacamento(),
             Padding(
               padding:
@@ -67,6 +70,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                 child: MsgDia(),
               ),
             ),
+            const Espacamento(),
             const Espacamento(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -112,6 +116,8 @@ class _HomeAdminState extends State<HomeAdmin> {
               ],
             ),
             const Espacamento(),
+            const Espacamento(),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
