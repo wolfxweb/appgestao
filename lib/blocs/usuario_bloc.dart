@@ -82,6 +82,14 @@ class UsuarioBloc extends BlocBase {
       }
     }
   }
+  Future<void> openUrlFaleConosco()async{
+    final Uri _url = Uri.parse('https://wolfx.com.br/');
+    if( await canLaunchUrl(_url)){
+      if (await launchUrl(_url,mode: LaunchMode.externalApplication)) {
+        throw 'Could not launch $_url';
+      }
+    }
+  }
 
   @override
   void dispose() {

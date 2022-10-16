@@ -116,6 +116,18 @@ class _MenuState extends State<Menu> {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.contact_page),
+            title:   buildText("Fale conosco"),
+            trailing: const Icon(
+              Icons.arrow_forward,
+            ),
+            onTap: () {
+              _ususarioBloc.openUrlFaleConosco();
+              //   route.pushPage(context, const AnaliseViabilidade());
+              //  Navigator.pop(context);
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.rocket_launch),
             title:   buildText("Para mais,acesse nosso site"),
             trailing: const Icon(
