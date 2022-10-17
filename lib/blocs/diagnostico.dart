@@ -174,6 +174,7 @@ class DignosticoBloc extends BlocBase {
     var dadosBasicos = true;
   await bd.lista().then((data) {
       data.forEach((element) {
+
         dadosBasicos = false;
         _A = element['mes'];
         calculo_a = element['mes'];
@@ -200,6 +201,8 @@ class DignosticoBloc extends BlocBase {
 
   _consultarMeses() async {
     var dates = true;
+    var mesDadosBasicos;
+
     await bdi.lista().then((data) {
 
       data.forEach((element) {
@@ -216,47 +219,87 @@ class DignosticoBloc extends BlocBase {
         _out = (element['out'] * 100) / element['total'];
         _nov = (element['nov'] * 100) / element['total'];
         _dez = (element['dez'] * 100) / element['total'];
-        print('_A');
-        print(_A);
+
+
+        switch (_A) {
+          case 'Janeiro':
+            mesDadosBasicos = _jan;
+            break;
+          case 'Fevereiro':
+            mesDadosBasicos = _fev;
+            break;
+          case 'Março':
+            mesDadosBasicos = _mar;
+            break;
+          case 'Abril':
+            mesDadosBasicos = _abr;
+            break;
+          case 'Maio':
+            mesDadosBasicos = _mai;
+            break;
+          case 'Junho':
+            mesDadosBasicos = _jun;
+            break;
+          case 'Julho':
+            mesDadosBasicos = _jul;
+            break;
+          case 'Agosto':
+            mesDadosBasicos = _ago;
+            break;
+          case 'Setembro':
+            mesDadosBasicos = _set;
+            break;
+          case 'Outubro':
+            mesDadosBasicos = _out;
+            break;
+          case 'Novembro':
+            mesDadosBasicos = _nov;
+            break;
+          case 'Dezembro':
+            mesDadosBasicos = _dez;
+            break;
+        }
+
+
         final mesAtual = DateTime.now().month;
-        print('mesAtual');
-        print(mesAtual);
+
+
         switch (mesAtual) {
           case 1:
-            _calculoMensal(_dez, _jan, _fev , "Fevereiro");
+            _calculoMensal(mesDadosBasicos, _jan, _fev , "Fevereiro");
             break;
           case 2:
-            _calculoMensal(_jan, _fev, _mar , "Março");
+            _calculoMensal(mesDadosBasicos, _fev, _mar , "Março");
             break;
           case 3:
-            _calculoMensal(_fev, _mar, _abr , "Abril");
+            _calculoMensal(mesDadosBasicos, _mar, _abr , "Abril");
             break;
           case 4:
-            _calculoMensal(_mar, _abr, _mai , "Maio");
+            _calculoMensal(mesDadosBasicos, _abr, _mai , "Maio");
             break;
           case 5:
-            _calculoMensal(_abr, _mai, _jun , "Junho");
+            _calculoMensal(mesDadosBasicos, _mai, _jun , "Junho");
             break;
           case 6:
-            _calculoMensal(_mai, _jun, _jul , "Julho");
+            _calculoMensal(mesDadosBasicos, _jun, _jul , "Julho");
             break;
           case 7:
-            _calculoMensal(_jun, _jul, _ago , "Agosto");
+            _calculoMensal(mesDadosBasicos, _jul, _ago , "Agosto");
             break;
           case 8:
-            _calculoMensal(_jul, _ago, _set , "Setembro");
+            _calculoMensal(mesDadosBasicos, _ago, _set , "Setembro");
             break;
           case 9:
-            _calculoMensal(_ago, _set, _out , "Outubro");
+            _calculoMensal(mesDadosBasicos, _set, _out , "Outubro");
             break;
           case 10:
-            _calculoMensal(_set, _out, _nov , "Novembro");
+            _calculoMensal(mesDadosBasicos, _out, _nov , "Novembro");
             break;
           case 11:
-            _calculoMensal(_out, _nov, _dez , "Dezembro");
+            _calculoMensal(mesDadosBasicos, _nov, _dez , "Dezembro");
             break;
           case 12:
-            _calculoMensal(_nov, _dez, _jan , "Janeiro");
+            _calculoMensal(mesDadosBasicos, _dez, _jan , "Janeiro");
             break;
         }
         _montaTexto();
