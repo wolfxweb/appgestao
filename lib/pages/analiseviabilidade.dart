@@ -86,7 +86,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   ],
                   decoration: buildInputDecoration(
                       context,
-                      'Se a ação abranger mais de um produto, considere a soma de seus preços',
+                      'Se a ação abranger mais de um produto, considere a soma de seus preços.',
                       'Preço de venda atual'),
                 ),
               ),
@@ -117,7 +117,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   ],
                   decoration: buildInputDecoration(
                       context,
-                      'Se a ação abranger mais de um produto, considere a soma de seus preços',
+                      'Se a ação abranger mais de um produto, considere a soma de seus custos.',
                       'Custo dos insumos e produtos de 3º'),
                 ),
               ),

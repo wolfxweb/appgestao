@@ -58,7 +58,7 @@ class _DiagnosticoState extends State<Diagnostico> {
                       text.toString(),
                       style:const  TextStyle(
                         //  color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 16,
                         //  fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.justify,
@@ -140,10 +140,10 @@ class _DiagnosticoState extends State<Diagnostico> {
       text.toString(),
       style: const TextStyle(
         //  color: Colors.white,
-        fontSize: 20,
+        fontSize: 17,
         //  fontWeight: FontWeight.bold,
       ),
-      textAlign: TextAlign.justify,
+    //  textAlign: TextAlign.justify,
     );
   }
 }

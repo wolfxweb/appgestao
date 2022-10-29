@@ -163,7 +163,7 @@ class SimuladorBloc extends BlocBase {
         calculoVendas(novaQtd.toString());
         calculoPontoEquilibrio();
         calculoMargemResultante();
-        calculoTIKETMEDIO(operacao,percentual);
+      //  calculoTIKETMEDIO(operacao,percentual);
         custosINSUMOS(operacao,percentual);
         custoPRODUTO3(percentual,operacao);
         custoVARIAVEL(operacao,percentual);
@@ -197,11 +197,11 @@ class SimuladorBloc extends BlocBase {
             _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
             _calculoPontoEquilibio =(calc_cv / _margemContribuicaoCalculada) * novoTicketMedio;
             _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
-            quantidadeVENDADS(operacao,percentual);
-          //  calculoMargemConribuicao();
-        //    calculoMargemResultante();
-          //  calculoPontoEquilibrio();
-           // calculoTIKETMEDIO(operacao,percentual);
+         //   quantidadeVENDADS(operacao,percentual);
+           calculoMargemConribuicao();
+           calculoMargemResultante();
+            calculoPontoEquilibrio();
+            calculoTIKETMEDIO(operacao,percentual);
             custosINSUMOS(operacao,percentual);
             custoPRODUTO3(percentual,operacao);
             custoVARIAVEL(operacao,percentual);
@@ -227,12 +227,14 @@ class SimuladorBloc extends BlocBase {
           _custoInsumosController.add(custoInSumos);
           _margemContribuicaoCalculada = (calc_fat - (novoValorInsumos + calc_cv + calc_gas)) / calc_qtd;
           _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
-
-        quantidadeVENDADS(operacao,percentual);
-       calculoTIKETMEDIO(operacao,percentual);
+        calculoMargemConribuicao();
+        calculoMargemResultante();
+        calculoPontoEquilibrio();
+     //   quantidadeVENDADS(operacao,percentual);
+     //  calculoTIKETMEDIO(operacao,percentual);
        // custosINSUMOS(operacao,percentual);
-        custoPRODUTO3(percentual,operacao);
-        custoVARIAVEL(operacao,percentual);
+     //   custoPRODUTO3(percentual,operacao);
+   //     custoVARIAVEL(operacao,percentual);
         break;
         /*****************************/
       case 'Custos produtos 3º':
@@ -258,11 +260,16 @@ class SimuladorBloc extends BlocBase {
         _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
         _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_cf + novoCustoProduto)) /calc_fat) *100;
         _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} %");
-        quantidadeVENDADS(operacao,percentual);
-        calculoTIKETMEDIO(operacao,percentual);
-        custosINSUMOS(operacao,percentual);
+
+        calculoMargemConribuicao();
+        calculoMargemResultante();
+        calculoPontoEquilibrio();
+
+      //  quantidadeVENDADS(operacao,percentual);
+      //  calculoTIKETMEDIO(operacao,percentual);
+    //    custosINSUMOS(operacao,percentual);
        // custoPRODUTO3(percentual,operacao);
-        custoVARIAVEL(operacao,percentual);
+     //   custoVARIAVEL(operacao,percentual);
         break;
     /*****************************/
       case 'Outros custo variaveis':
@@ -289,10 +296,14 @@ class SimuladorBloc extends BlocBase {
         _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
         _calculoPontoEquilibio =(calc_cv / _margemContribuicaoCalculada) * _ticketMedio;
         _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
+        calculoMargemConribuicao();
+        calculoMargemResultante();
+        calculoPontoEquilibrio();
+        /*
         quantidadeVENDADS(operacao,percentual);
         calculoTIKETMEDIO(operacao,percentual);
         custosINSUMOS(operacao,percentual);
-        custoPRODUTO3(percentual,operacao);
+        custoPRODUTO3(percentual,operacao);*/
        // custoVARIAVEL(operacao,percentual);
         break;
     /*****************************/
@@ -316,7 +327,7 @@ class SimuladorBloc extends BlocBase {
         } else {
           corCustoFixo("desabilitado");
         }
-        print(novoCustoFixo);
+
          calc_cv = novoCustoFixo;
         var novoCustonovoCustoFixo = "R\$ ${formatterMoeda.format(novoCustoFixo)}";
         _custoProdutoController.add(novoCustonovoCustoFixo);
@@ -324,7 +335,9 @@ class SimuladorBloc extends BlocBase {
         _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
         _margemReultanteCalculada =((calc_fat - (calc_gi + novoCustoFixo + calc_cf + calc_gas)) /calc_fat) *100;
         _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} %");
-
+     //   calculoMargemConribuicao();
+        calculoMargemResultante();
+        calculoPontoEquilibrio();
         break;
 
     /*****************************/
