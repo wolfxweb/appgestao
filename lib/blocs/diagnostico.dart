@@ -136,10 +136,9 @@ class DignosticoBloc extends BlocBase {
 
     _text_4 = "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com ${_J} de   ${_K} %. \nEm ${_L}, com ${_M} de ${_N}%.";
 
-    _text_5 = "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou prejuízo de ${_O}%.\n"
-               "Esta é uma situação que requer providências imediatas.";
-
-    _text_6 = "1. Verifique se os DADOS BÁSICOS informados estão corretos"
+  //  _text_5 = "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou prejuízo de ${_O}%.\nEsta é uma situação que requer providências imediatas.";
+     _text_5 ="";
+     _text_6 = "1. Verifique se os DADOS BÁSICOS informados estão corretos"
               "2. Analise, no SIMULADOR, as providências prioritárias para sair do prejuízo."
               "3. Com a CALCULADORA DE PREÇOS verifique a margem de cada produto. Se você concluir que precisa vender mais, ou descontinuar algum produto, estude a VIABILIDADE DE PROMOÇÃO & PROPAGANDA"
               "4. Avalie como está sua disponibilidade de CAPITAL DE GIRO."; // Se for o caso, consulte o CHECKLIST 'O que fazer para diminuir a necessidade de capital de giro!'";
