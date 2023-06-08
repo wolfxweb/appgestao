@@ -1,4 +1,6 @@
+import 'package:appgestao/classes/model/estado.dart';
 import 'package:appgestao/classes/pushpage.dart';
+import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/logo.dart';
@@ -13,6 +15,8 @@ import 'package:flutter/services.dart';
 
 import 'package:form_validator/form_validator.dart';
 
+import 'package:appgestao/classes/util/ibge.dart';
+
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({Key? key}) : super(key: key);
 
@@ -23,6 +27,7 @@ class CadastroUsuario extends StatefulWidget {
 class _CadastroUsuarioState extends State<CadastroUsuario> {
 
 
+
   var irPagina = PushPage();
 
   final _formKey = GlobalKey<FormState>();
@@ -31,7 +36,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   final _nomeController = TextEditingController();
   final _telefoneController = TextEditingController(text: '(00)00000000');
   final _senhaController = TextEditingController();
+  var alerta = AlertModal();
 
+  var estados = ibge().getEstados().then((value) => print(value));
   @override
   Widget build(BuildContext context) {
     ValidationBuilder.setLocale('pt-br');
@@ -70,20 +77,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         validator: ValidationBuilder().email().maxLength(50).required().build(),
                         keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
-                        decoration:  buildInputDecoration("Digite seu email")
+                        decoration:  buildInputDecoration("Email")
                       ),
                     ),
-                    const Espacamento(),
-                    Container(
-                      decoration: buildBoxDecoration(),
-                      child: TextFormField(
-                        validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
-                        keyboardType: TextInputType.text,
-                        controller: _nomeController,
-                        decoration: buildInputDecoration("Digite como gostaria de ser chamado")
-                      ),
-                    ),
-                  /*  const Espacamento(),
+
+                   const Espacamento(),
                     Container(
                       decoration: buildBoxDecoration(),
                       child: TextFormField(
@@ -93,18 +91,69 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         ],
                         keyboardType: TextInputType.number,
                         controller: _telefoneController,
-                        decoration: buildInputDecoration("Digite seu telefone")
+                        decoration: buildInputDecoration("WhatsApp")
                       ),
-                    ),*/
+                    ),
                     const Espacamento(),
                     Container(
+                      decoration: buildBoxDecoration(),
+                      child: TextFormField(
+                          validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
+                          keyboardType: TextInputType.text,
+                          controller: _nomeController,
+                          decoration: buildInputDecoration("Setor de atuação")
+                      ),
+                    ),
+                    const Espacamento(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 220,
+                          decoration: buildBoxDecoration(),
+                          child: TextFormField(
+                              validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
+                              keyboardType: TextInputType.text,
+                              controller: _nomeController,
+                              decoration: buildInputDecoration("Cep")
+                          ),
+                        ),
+                        Container(
+                          width: 100,
+                          decoration: buildBoxDecoration(),
+                          child: TextFormField(
+                              validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
+                              keyboardType: TextInputType.text,
+                              controller: _nomeController,
+                              decoration: buildInputDecoration("Estado")
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Espacamento(),
+                    Container(
+
+                      decoration: buildBoxDecoration(),
+                      child: TextFormField(
+                          validator: ValidationBuilder().minLength(6).maxLength(50).required().build(),
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          controller: _senhaController,
+                          decoration: buildInputDecoration("Cidade")
+                      ),
+                    ),
+                    const Espacamento(),
+                    Container(
+
                       decoration: buildBoxDecoration(),
                       child: TextFormField(
                         validator: ValidationBuilder().minLength(6).maxLength(50).required().build(),
                         keyboardType: TextInputType.text,
                         obscureText: true,
                         controller: _senhaController,
-                        decoration: buildInputDecoration("Digite sua senha")
+                        decoration: buildInputDecoration("Senha")
                       ),
                     ),
                     const Espacamento(),
@@ -158,6 +207,23 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     );
   }
   InputDecoration buildInputDecoration(text) {
+    var iconeAjuda =null;
+    var textoAjuda ="";
+    bool mostrarAlerta = false;
+    if(text =='Cep') {
+      textoAjuda =   "Digite o seu cep e a cidade e estado são adicionado automaticamente.";
+      mostrarAlerta = true;
+    }
+
+    if(mostrarAlerta){
+      iconeAjuda = IconButton(
+        icon: const Icon(Icons.help, color: Colors.black54,),
+        color: Colors.black54,
+        onPressed: () {
+          alerta.openModal(context,textoAjuda );
+        },
+      );
+    }
     return  InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
@@ -165,6 +231,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       fillColor: const Color.fromRGBO(159, 105, 56,0.5),
       filled: true,
 
+      prefixIcon:iconeAjuda,
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
@@ -182,6 +249,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     return const BoxDecoration(
       color: Colors.transparent,
       //borderRadius: BorderRadius.circular(20),
+
+
       boxShadow: [
         BoxShadow(
           color: Colors.black12,
