@@ -41,7 +41,7 @@ class UsuarioBloc extends BlocBase {
         .snapshots()
         .forEach((element) {
       element.docs.forEach((element) {
-        if (element.data()['nome'].contains(search)) {
+        if (element.data()['telefone'].contains(search)) {
           _users.addAll({element.id: element.data()});
           _usersController.add(_users.values.toList());
         }

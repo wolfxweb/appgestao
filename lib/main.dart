@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       ],
       dependencies: const [],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'App Gestão',
         debugShowCheckedModeBanner: false,
         theme: lightThemeData,
         darkTheme: darkThemeData,

@@ -19,6 +19,7 @@ class VerificaStatusFairebase {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
+        print('statusUsuario');
         print(documentSnapshot.data());
         Map<String, dynamic> data =
             documentSnapshot.data()! as Map<String, dynamic>;

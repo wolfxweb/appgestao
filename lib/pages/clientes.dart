@@ -61,7 +61,6 @@ var textSearch ='';
 
                        ),
                        onChanged: (text) {
-                      ///   print('First text field: $text');
                          setState(() {
                            textSearch = text;
                          });
@@ -77,6 +76,7 @@ var textSearch ='';
                           if(!textSearch.isEmpty){
                             _filter(textSearch);
                           }
+                          print(data);
                           var email = data['email'];
                           var tel = data['telefone'];
                           return Card(
@@ -87,7 +87,7 @@ var textSearch ='';
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 ListTile(
-                                  title: Text( data['nome']),
+                                  title: Text( data['telefone']),
                                   subtitle: Text(" $email "),
                                   trailing: data['status']?const Icon(Icons.check,color: Colors.green):const Icon(Icons.close,color: Colors.red,),
                                   onTap: () {

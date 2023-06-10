@@ -26,10 +26,10 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
   //  FirebaseFirestore.instance.collection("usuario").doc('email').set({"texto":"teste"});
-
     FirebaseAuth.instance
         .authStateChanges()
         .listen((User? user) {
+          print(user);
       if (user == null) {
         Navigator.push(
           context,

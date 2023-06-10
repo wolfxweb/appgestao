@@ -49,7 +49,7 @@ class _clientesSearchState extends State<clientesSearch> {
                     prefixIcon: Icon(Icons.password, color: Colors.transparent),
                     suffixIcon:
                         Icon(Icons.search_rounded, color:  Color.fromRGBO(159, 105, 56,1)),
-                    hintText: 'Digite o nome do cliente para filtrar',
+                    hintText: 'Digite o numero de telefone para filtrar',
                   ),
                   onChanged: (text) {
                     _ususarioBloc.onCheangedSearch(text);
@@ -92,7 +92,7 @@ class _clientesSearchState extends State<clientesSearch> {
                       return ListView.separated(
                           itemBuilder: (context, index) {
                             String nome =
-                                snapshot.data[index]['nome'].toString();
+                                snapshot.data[index]['telefone'].toString();
                             String email =
                                 snapshot.data[index]['email'].toString();
                             String tel =

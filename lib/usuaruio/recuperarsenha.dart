@@ -3,6 +3,7 @@
 
 import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
+import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/btnCadastrese.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/logo.dart';
@@ -25,9 +26,11 @@ class RecuperarSenha extends StatefulWidget {
 class _RecuperarSenhaState extends State<RecuperarSenha> {
 
   var irPagina = PushPage();
-
+  var alerta = AlertModal();
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  bool btnEnviar = true;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +79,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                         onPrimary: Colors.white, // foreground
                       ),
                       child: Text('Enviar',style: TextStyle(color: Colors.white)),
-                      onPressed:_buildOnPressed,
+                      onPressed:btnEnviar?_buildOnPressed:null,
                     ),
                   ),
                   const Espacamento(),
@@ -147,6 +150,9 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
     try {
       final credential = await FirebaseAuth.instance.sendPasswordResetEmail(email: _emailController.text).then((value){
         print('ok');
+        _emailController.text="";
+        btnEnviar = false;
+        alerta.openModal(context,'Foi enviado para o seu email o link para criação da nova senha, caso não estaja na caixa de entrada verifique o Span.');
       });
 
 

@@ -1,4 +1,6 @@
+import 'package:appgestao/classes/model/estados.dart';
 import 'package:appgestao/classes/pushpage.dart';
+import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/logo.dart';
@@ -6,12 +8,16 @@ import 'package:appgestao/usuaruio/login.dart';
 import 'package:appgestao/usuaruio/recuperarsenha.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:form_validator/form_validator.dart';
+import 'package:simple_connection_checker/simple_connection_checker.dart';
+import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({Key? key}) : super(key: key);
@@ -22,15 +28,95 @@ class CadastroUsuario extends StatefulWidget {
 
 class _CadastroUsuarioState extends State<CadastroUsuario> {
 
-
+  var alerta = AlertModal();
+  String _selectedItem = '';
+  String _cidadesValue = '';
+  List _items = [];
+  List _uf = [];
+  List _cidades = [];
+  int _idEstado =0;
+  bool _conn = false;
+  bool _valueCheck = true;
+  String _message = '';
+  StreamSubscription? subscription;
+  final SimpleConnectionChecker _simpleConnectionChecker = SimpleConnectionChecker()..setLookUpAddress('pub.dev');
+  @override
+  void initState() {
+    super.initState();
+    _loadItems();
+    subscription = _simpleConnectionChecker.onConnectionChange.listen((connected) {
+      setState(() {
+        _message = connected? 'Connected': 'Not connected';
+      });
+    });
+    _getConection();
+  }
   var irPagina = PushPage();
 
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
   final _nomeController = TextEditingController();
-  final _telefoneController = TextEditingController(text: '(00)00000000');
+  final _telefoneController = TextEditingController(text: '');
   final _senhaController = TextEditingController();
+  var color = Color.fromRGBO(159, 105, 56,0.5);
+  final dropOpcoes = [
+    'Varejo de moda e vestuário',
+    'Supermercados e mercearias',
+    'Eletrônicos e tecnologia',
+    'Alimentos e bebidas',
+    'Automóveis e peças automotivas',
+    'Cosméticos e produtos de beleza'
+
+  ];
+  Future<void> _loadItems() async {
+    const url ="https://servicodados.ibge.gov.br/api/v1/localidades/estados";
+    try{
+       final response = await Dio().get<List>(url);
+       final listaEstados = response.data!.map((e) => estados.fromJson(e)).toList()..sort((a,b)=> a.nome!.toLowerCase().compareTo(b.nome!.toLowerCase()));
+       final List<String> estadosUFS = response.data!.map<String>((item) => item['sigla']).toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
+        setState(() {
+          if(estadosUFS.isNotEmpty){
+            _items = estadosUFS;
+            _uf = listaEstados;
+          }
+          //_cidades=[];
+        });
+      }on DioExceptionType{
+      return Future.error("Nã foi possivel obter os estados, verifique se esta conectado a internete.");
+    }
+
+  }
+  _loadCidades()async{
+
+    if(_idEstado.toString().isNotEmpty){
+      var url ="https://servicodados.ibge.gov.br/api/v1/localidades/estados/$_idEstado/distritos";
+      try{
+        final response = await Dio().get<List>(url);
+        final List<String> cidades = response.data!.map<String>((item) => item['nome']).toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
+        print(_cidades);
+        setState(() {
+          _cidades = cidades;
+        });
+
+      //  return cidades;
+      }on DioExceptionType{
+        return [];
+      }
+    }else{
+      return [];
+    }
+  }
+
+  _getConection()async{
+    bool _isConnected = await SimpleConnectionChecker.isConnectedToInternet();
+    setState(() {
+      _conn = _isConnected;
+    });
+    if(!_isConnected ){
+      alerta.openModal(context,'Sem conexão com a internet');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +129,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       body: Center(
         child:Container(
           child: Padding(
-            padding: const EdgeInsets.all(26.0),
+            padding: const EdgeInsets.all(6.0),
             child: SingleChildScrollView(
               reverse: true,
               child: Form(
@@ -77,25 +163,182 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     Container(
                       decoration: buildBoxDecoration(),
                       child: TextFormField(
-                        validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
-                        keyboardType: TextInputType.text,
-                        controller: _nomeController,
-                        decoration: buildInputDecoration("Digite como gostaria de ser chamado")
+                          validator: ValidationBuilder().required().build(),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            TelefoneInputFormatter(),
+                          ],
+                          keyboardType: TextInputType.number,
+                          controller: _telefoneController,
+                          decoration: buildInputDecoration("WhatsApp")
                       ),
                     ),
-                  /*  const Espacamento(),
-                    Container(
+                    const Espacamento(),
+                /*    Container(
                       decoration: buildBoxDecoration(),
                       child: TextFormField(
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          TelefoneInputFormatter(),
-                        ],
-                        keyboardType: TextInputType.number,
-                        controller: _telefoneController,
-                        decoration: buildInputDecoration("Digite seu telefone")
+                          validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
+                          keyboardType: TextInputType.text,
+                          controller: _nomeController,
+                          decoration: buildInputDecoration("Setor de atuação")
                       ),
                     ),*/
+                    Container(
+                    //  width: 295,
+                      decoration: buildBoxDecoration(),
+
+                      child:  DropdownButtonFormField<String>(
+                        itemHeight: null,
+                        value: null,
+                        decoration: buildInputDecoration("Setor de atuação"),
+                        onChanged: (values) {
+                          print(values);
+                          setState(() {
+                            //  _items=[];
+                            _nomeController.text =values!;
+                          });
+                        },
+                        items: dropOpcoes.map((item) {
+                          return DropdownMenuItem<String>(
+                            value: item,
+                            child:    Text(
+                              item,
+                              style:const TextStyle(
+                                // fontWeight: FontWeight.bold,
+                              //  fontSize: 13,
+                                //  color: const Color.fromRGBO(159, 105, 56,1),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    const Espacamento(),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 295,
+                          decoration: buildBoxDecoration(),
+
+                          child:  DropdownButtonFormField<String>(
+                            itemHeight: null,
+                            value: _cidadesValue.isNotEmpty?_cidadesValue:null,
+                            decoration: buildInputDecoration("Selecione o cidade"),
+                            onChanged: (values) {
+                              print(values);
+                              setState(() {
+                                //  _items=[];
+                                _cidadesValue =values!;
+                              });
+                            },
+                            items: _cidades.map((item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child:    Text(
+                                 item,
+                                  style:const TextStyle(
+                                   // fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                  //  color: const Color.fromRGBO(159, 105, 56,1),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        Container(
+                          width: 81,
+                          decoration: buildBoxDecoration(),
+                          child:  DropdownButtonFormField<String>(
+                            value:null,
+                            decoration: buildInputDecoration("Estado"),
+
+                            onChanged: (value) {
+                              setState(() {
+                                print(value);
+                                _cidadesValue ='';
+                                // _items=_items;
+                                //  _idEstado =0;
+                                _uf.forEach((element) {
+                                  if(element.sigla == value){
+                                    _idEstado =element.id;
+                                    _loadCidades();
+                                  }
+                                });
+                                _selectedItem = value!;
+                              });
+                            },
+                            items: _items.map((item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+
+                    ),
+
+
+  /*                  const Espacamento(),
+                    Container(
+                      decoration: buildBoxDecoration(),
+                    child:  DropdownButtonFormField<String>(
+                      value:null,
+                      decoration: buildInputDecoration("Selecione o estado"),
+
+                      onChanged: (value) {
+                        setState(() {
+                           print(value);
+                           _cidadesValue ='';
+                          // _items=_items;
+                        //  _idEstado =0;
+                          _uf.forEach((element) {
+                            if(element.sigla == value){
+                              _idEstado =element.id;
+                              _loadCidades();
+                            }
+                          });
+                          _selectedItem = value!;
+                        });
+                      },
+                      items: _items.map((item) {
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(item),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+
+
+                    const Espacamento(),
+                    Container(
+                      decoration: buildBoxDecoration(),
+                      child:  DropdownButtonFormField<String>(
+                        value: _cidadesValue.isNotEmpty?_cidadesValue:null,
+                        decoration: buildInputDecoration("Selecione o cidade"),
+                        onChanged: (values) {
+                          print(values);
+                          setState(() {
+                          //  _items=[];
+                            _cidadesValue =values!;
+                          });
+                        },
+                        items: _cidades.map((item) {
+                          return DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(item),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    */
                     const Espacamento(),
                     Container(
                       decoration: buildBoxDecoration(),
@@ -108,6 +351,35 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       ),
                     ),
                     const Espacamento(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 50,
+                          child:    Checkbox(value: _valueCheck,
+                              activeColor: Color.fromRGBO(159, 105, 56,0.5),
+                              onChanged:(value){
+                                setState(() {
+                                  print(value);
+                                  _valueCheck = !_valueCheck;
+                                  // checkBoxValue = newValue;
+                                });
+                               // Text('Remember me');
+                              }),
+                        ),
+                        Container(
+                          width:180,
+                          child: InkWell(
+                              child: new Text('Política de privacidade.'),
+                              onTap: () => launch('https://wolfx.com.br/')
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const Espacamento(),
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
@@ -116,7 +388,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                            // background
                           onPrimary: Colors.white, // foreground
                         ),
-                        onPressed: _buildOnPressed,
+                        onPressed:_conn? _buildOnPressed:null,
                         child: const Text('Cadastrar',
                             style: TextStyle(color: Colors.white)),
                       ),
@@ -157,6 +429,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       ),
     );
   }
+
+
   InputDecoration buildInputDecoration(text) {
     return  InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -198,29 +472,44 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     }
     var alert = AlertSnackBar();
     var data ={
-      'nome': _nomeController.text,
+      'setor_atuação': _nomeController.text,
       'telefone':_telefoneController.text,
       'email':_emailController.text,
       'status':false,
       'admin':false,
+      'cidade':_cidadesValue,
+      'estado':_selectedItem
     };
+    print(_valueCheck);
+    if(_valueCheck == false){
+      alerta.openModal(context,'Aceite da policita de privacidade para dar continuidade.');
+      return;
+    }
+    if(_selectedItem.isEmpty){
+      alerta.openModal(context,'Selecione o estado');
+      return ;
+    }
+    if(_cidadesValue.isEmpty){
+      alerta.openModal(context,'Selecione o cidade');
+      return ;
+    }
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _senhaController.text,
       );
       if(credential.additionalUserInfo != null){
-        print(credential.user!.email);
+       // print(credential.user!.email);
         FirebaseFirestore.instance.collection("usuario").doc(_emailController.text).set(data);
       }
       alert.alertSnackBar(context,Colors.green, 'Cadastro realizado com sucesso');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+       // print('The password provided is too weak.');
         alert.alertSnackBar(context,Colors.red, 'A senha fornecida é muito fraca.');
 
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+       // print('The account already exists for that email.');
         alert.alertSnackBar(context,Colors.red, 'A conta já existe para esse e-mail.');
 
       }
@@ -230,3 +519,6 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     print(data);
   }
 }
+
+
+
