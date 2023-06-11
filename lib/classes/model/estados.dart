@@ -1,14 +1,14 @@
 
 class estados {
   int? id;
-
+  String? nome;
+  String? sigla;
   @override
   String toString() {
     return 'estados{id: $id, nome: $nome, sigla: $sigla}';
   }
 
-  String? nome;
-  String? sigla;
+
 
   estados({this.id, this.nome, this.sigla});
 

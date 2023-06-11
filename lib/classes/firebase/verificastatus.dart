@@ -3,6 +3,7 @@ import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/pages/home.dart';
 import 'package:appgestao/pages/homeadmin.dart';
 import 'package:appgestao/pages/homeinativo.dart';
+import 'package:appgestao/pages/novaHome.dart';
 import 'package:appgestao/usuaruio/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,6 +27,7 @@ class VerificaStatusFairebase {
         if (data['status']) {
           if (data['admin']) {
             route.pushPage(context, const HomeAdmin());
+         //   route.pushPage(context, const novaHome());
           } else {
             route.pushPage(context, const Home());
           }

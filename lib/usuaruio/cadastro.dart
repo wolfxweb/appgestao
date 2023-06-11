@@ -1,4 +1,4 @@
-import 'package:appgestao/classes/model/estados.dart';
+
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
@@ -20,6 +20,8 @@ import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:appgestao/classes/util/ibge.dart';
+
+import 'package:appgestao/classes/model/estado.dart';
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({Key? key}) : super(key: key);
@@ -75,13 +77,14 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     const url ="https://servicodados.ibge.gov.br/api/v1/localidades/estados";
     try{
        final response = await Dio().get<List>(url);
-     //  final listaEstados = response.data!.map((e) => estados.fromJson(e)).toList()..sort((a,b)=> a.nome!.toLowerCase().compareTo(b.nome!.toLowerCase()));
-     //  final List<String> estadosUFS = response.data!.map<String>((item) => item['sigla']).toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
-       final List<String> estadosUFS =[];
+
+       final listaEstados = response.data!.map((e) => estado.fromJson(e)).toList()..sort((a,b)=> a.nome!.toLowerCase().compareTo(b.nome!.toLowerCase()));
+       final List<String> estadosUFS =  response.data!.map<String>((item) => item['sigla'])!.toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
+     //  final List<String> estadosUFS =[];
         setState(() {
           if(estadosUFS.isNotEmpty){
             _items = estadosUFS;
-          //  _uf = listaEstados;
+            _uf = listaEstados;
           }
           //_cidades=[];
         });
@@ -96,7 +99,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       var url ="https://servicodados.ibge.gov.br/api/v1/localidades/estados/$_idEstado/distritos";
       try{
         final response = await Dio().get<List>(url);
-        final List<String> cidades = response.data!.map<String>((item) => item['nome']).toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
+        final List<String> cidades = response.data!.map<String>((item) => item['nome'])!.toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
         print(_cidades);
         setState(() {
           _cidades = cidades;
@@ -225,7 +228,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          width: 295,
+                          width: MediaQuery.of(context).size.width * 0.75,
                           decoration: buildBoxDecoration(),
 
                           child:  DropdownButtonFormField<String>(
@@ -245,8 +248,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                                 child:    Text(
                                  item,
                                   style:const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                    // fontWeight: FontWeight.bold,
-                                    fontSize: 13,
+                                    fontSize: 14,
                                   //  color: const Color.fromRGBO(159, 105, 56,1),
                                   ),
                                 ),
@@ -255,7 +259,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           ),
                         ),
                         Container(
-                          width: 81,
+                          width: MediaQuery.of(context).size.width * 0.21,
                           decoration: buildBoxDecoration(),
                           child:  DropdownButtonFormField<String>(
                             value:null,
@@ -374,7 +378,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ),
                     */
 
-                    const Espacamento(),
+                 //   const Espacamento(),
                     Container(
 
                       decoration: buildBoxDecoration(),
@@ -393,7 +397,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          width: 50,
+                          width:  MediaQuery.of(context).size.width * 0.21,
                           child:    Checkbox(value: _valueCheck,
                               activeColor: Color.fromRGBO(159, 105, 56,0.5),
                               onChanged:(value){
@@ -406,9 +410,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                               }),
                         ),
                         Container(
-                          width:180,
+                          width: MediaQuery.of(context).size.width * 0.75,
                           child: InkWell(
-                              child: new Text('Política de privacidade.'),
+                              child: new Text('Conheça nossa política de privacidade.'),
                               onTap: () => launch('https://wolfx.com.br/')
                           ),
                         ),
