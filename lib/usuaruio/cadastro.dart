@@ -75,12 +75,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     const url ="https://servicodados.ibge.gov.br/api/v1/localidades/estados";
     try{
        final response = await Dio().get<List>(url);
-       final listaEstados = response.data!.map((e) => estados.fromJson(e)).toList()..sort((a,b)=> a.nome!.toLowerCase().compareTo(b.nome!.toLowerCase()));
-       final List<String> estadosUFS = response.data!.map<String>((item) => item['sigla']).toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
+     //  final listaEstados = response.data!.map((e) => estados.fromJson(e)).toList()..sort((a,b)=> a.nome!.toLowerCase().compareTo(b.nome!.toLowerCase()));
+     //  final List<String> estadosUFS = response.data!.map<String>((item) => item['sigla']).toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
+       final List<String> estadosUFS =[];
         setState(() {
           if(estadosUFS.isNotEmpty){
             _items = estadosUFS;
-            _uf = listaEstados;
+          //  _uf = listaEstados;
           }
           //_cidades=[];
         });
@@ -343,17 +344,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ),
                     */
                     const Espacamento(),
-                    Container(
-                      decoration: buildBoxDecoration(),
-                      child: TextFormField(
-                          validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
-                          keyboardType: TextInputType.text,
-                          controller: _nomeController,
-                          decoration: buildInputDecoration("Setor de atuação")
-                      ),
-                    ),
-                    const Espacamento(),
-                    Row(
+
+                 /*   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -380,18 +372,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         ),
                       ],
                     ),
-                    const Espacamento(),
-                    Container(
+                    */
 
-                      decoration: buildBoxDecoration(),
-                      child: TextFormField(
-                          validator: ValidationBuilder().minLength(6).maxLength(50).required().build(),
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          controller: _senhaController,
-                          decoration: buildInputDecoration("Cidade")
-                      ),
-                    ),
                     const Espacamento(),
                     Container(
 

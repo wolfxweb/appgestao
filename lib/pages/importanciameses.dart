@@ -6,7 +6,7 @@ import 'package:appgestao/componete/headerAppBar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+//import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../componete/menu.dart';
 
@@ -26,10 +26,10 @@ class _SalesData {
 
 class _InportanciaMesesState extends State<InportanciaMeses> {
   late ImportanciaMesesBLoc _importanciaMesesBLoc;
-  late final CrosshairBehavior _crosshairBehavior;
+  //late final CrosshairBehavior _crosshairBehavior;
   void initState() {
     _importanciaMesesBLoc = ImportanciaMesesBLoc();
-    _crosshairBehavior = CrosshairBehavior(enable: false);
+  //  _crosshairBehavior = CrosshairBehavior(enable: false);
     _importanciaMesesBLoc.inicializarBloc();
   }
 
@@ -503,7 +503,8 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
             ),
 
             const Espacamento(),
-            Container(
+
+        /*    Container(
               height: 350,
               width: 350,
               child: StreamBuilder<List?>(
@@ -551,6 +552,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                     ]);
                   }),
             ),
+            */
           ],
         ),
       )),
