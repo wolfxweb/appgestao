@@ -122,28 +122,11 @@ class _SimuladorState extends State<Simulador> {
                 const Espacamento(),
                 Container(
                   child: StreamBuilder(
-                      stream: simuladorBloc.corMargemResultateController,
+                      stream: simuladorBloc.margemResultateController,
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
-                        var cor= dataCor.toString();
-                        var margemResultateCor = Colors.grey[100];
-                        switch (cor) {
-                          case "padrao":
-                            margemResultateCor = Color.fromRGBO(159, 105, 56,0.5);
-                            break;
-                          case 'desabilitado':
-                            margemResultateCor = Colors.grey[100];
-                            break;
-                          case 'vermelho':
-                            margemResultateCor = Colors.red;
-                            break;
-                          case 'verde':
-                            margemResultateCor = Colors.green;
-                            break;
-                          case 'null':
-                            margemResultateCor = Colors.grey[100];
-                            break;
-                        }
+                        vendasColor = dataCor.toString();
+                        //     print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
                           child: Container(
@@ -175,12 +158,11 @@ class _SimuladorState extends State<Simulador> {
                                       contentPadding:
                                           const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                                       //  suffixIcon: suffixIcon,
-                                     // fillColor: Colors.grey[100],
-                                      fillColor: margemResultateCor,
+                                      fillColor: Colors.grey[100],
                                       filled: true,
 
                                       // disabledBorder: true,
-                                      focusedBorder:  const OutlineInputBorder(
+                                      focusedBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Colors.orange,
                                             width: 1.0,
@@ -298,7 +280,8 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         ticketMedioCor = dataCor.toString();
-
+                        print('ticketMedioCor');
+                          print(ticketMedioCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -343,7 +326,7 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         custoInsumosColor = dataCor.toString();
-                        //   print(dataCor);
+                           print(dataCor);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 0),
@@ -467,21 +450,14 @@ class _SimuladorState extends State<Simulador> {
                           ),
                         );
                       }),
-                  StreamBuilder(
-                      stream: simuladorBloc.corMargemContribuicaoController,
-                      builder: (context, snapshot) {
-                        var dataCor = snapshot.data;
-                        var corContribuicao = dataCor.toString();
-                        return buildStreamBuilder(
-                          simuladorBloc.margemDeContribuicaoController,
-                          "Margem de contribuição",
-                          corContribuicao,
-                          true,
-                          null,
-                          null,
-                        );
-                      })
-
+                  buildStreamBuilder(
+                    simuladorBloc.margemDeContribuicaoController,
+                    "Margem de contribuição",
+                    "desabilitado",
+                    true,
+                    null,
+                    null,
+                  ),
                 ),
                 const Espacamento(),
                 buildRow(
@@ -528,20 +504,13 @@ class _SimuladorState extends State<Simulador> {
                           ),
                         );
                       }),
-                  StreamBuilder(
-                    stream: simuladorBloc.corPontoEquilibroController,
-                    builder: (context, snapshot) {
-                      var dataCor = snapshot.data;
-                      var  corPontoEquilibrio = dataCor.toString();
-                      return buildStreamBuilder(
-                        simuladorBloc.pontoEquilibrioController,
-                        "Ponto de equilibrio",
-                        corPontoEquilibrio,
-                        true,
-                        null,
-                        null,
-                      );
-                    }
+                  buildStreamBuilder(
+                    simuladorBloc.pontoEquilibrioController,
+                    "Ponto de equilibrio",
+                    "desabilitado",
+                    true,
+                    null,
+                    null,
                   ),
                 ),
                 const Espacamento(),
@@ -893,8 +862,9 @@ class _SimuladorState extends State<Simulador> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
       child: StreamBuilder(
-          stream:  simuladorBloc.faturamentoController,
+          stream: simuladorBloc.faturamentoController,
           builder: (context, snapshot) {
+            //  print(snapshot.data);
 
             if(snapshot.hasData){
               var data = snapshot.data;
@@ -904,10 +874,8 @@ class _SimuladorState extends State<Simulador> {
                   width: MediaQuery.of(context).size.width*0.92,
                   decoration: buildBoxDecoration(),
                   child: StreamBuilder(
-                      stream: simuladorBloc.corFaturamentoController,
+                      stream: null,
                       builder: (context, snapshot) {
-                        var dataCor = snapshot.data;
-                        var corFaturametno = dataCor.toString();
                         return TextFormField(
                           enabled: false,
                           validator: ValidationBuilder()
@@ -917,7 +885,7 @@ class _SimuladorState extends State<Simulador> {
                           keyboardType: TextInputType.number,
                           controller: TextEditingController(text: "$data"),
                           decoration:
-                          _styleInput("Faturamento", corFaturametno, null),
+                          _styleInput("Faturamento", "desabilitado", null),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                             CentavosInputFormatter(moeda: true, casasDecimais: 2)
@@ -979,7 +947,8 @@ class _SimuladorState extends State<Simulador> {
       child: StreamBuilder(
           stream: stream,
           builder: (context, snapshot) {
-
+            print('snapshot.hasData');
+            print(snapshot.hasData);
             if(snapshot.hasData){
              var  data = snapshot.data;
               return buildContainer("$data", inputTitulo, cor, format, icone, onChanged);
