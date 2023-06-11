@@ -104,15 +104,16 @@ class _SimuladorState extends State<Simulador> {
                 buildRow(
                   buildStreamBuilder(
                     simuladorBloc.margemIdealController,
-                    "Margem desejada",
+                    "",
                     "desabilitado",
                     false,
                     buildIcon(),
                     null,
                   ),
+
                   buildStreamBuilder(
                     simuladorBloc.margemInformadaController,
-                    "Margem informada",
+                    "",
                     "desabilitado",
                     false,
                     buildIcon(),

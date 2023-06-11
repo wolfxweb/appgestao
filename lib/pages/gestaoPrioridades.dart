@@ -61,6 +61,7 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
   ];
   void initState() {
     simuladorBloc = SimuladorBloc();
+    simuladorBloc.getDadosBasicos();
 
     addController.text = '';
     removeController.text = '';
@@ -70,6 +71,8 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
 
   @override
   Widget build(BuildContext context) {
+    simuladorBloc.getDadosBasicos();
+
     return Scaffold(
       appBar: header.getAppBar('Home'),
       drawer: Menu(),
@@ -87,11 +90,12 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
               const Espacamento(),
               Container(
                 decoration: BoxDecoration(
-                  color: corBox,
-                  //borderRadius: BorderRadius.circular(20),
+                 // color: corBox,
+                  border: Border.all(color: color),
+                 // borderRadius: BorderRadius.circular(5),
                   boxShadow: [
                     BoxShadow(
-                      color: color,
+                      color: corBox,
                       blurRadius: 1,
                       offset: Offset(1, 3), // Shadow position
                     ),
@@ -103,14 +107,38 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Margem'),
-                    Column(
-                      children: [
-                        Text("data"),
-                        Text("data"),
-                      ],
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: Text('Margem'),
                     ),
-                    Text('data')
+                    Container(
+                      width: MediaQuery.of(context).size.width *0.45,
+                      child: Column(
+                        children: [
+                          buildStreamBuilder(
+                            simuladorBloc.margemIdealController,
+                            "Informada",
+                            "desabilitado",
+                            false,
+                            buildIcon(),
+                            null,
+                          ),
+                          SizedBox(height: 10.0),
+                          buildStreamBuilder(
+                            simuladorBloc.margemIdealController,
+                            "Calculada",
+                            "desabilitado",
+                            false,
+                            buildIcon(),
+                            null,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: Text('data'),
+                    )
                   ],
                 ),
               )
@@ -118,6 +146,122 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
           ),
         ),
       ),
+    );
+  }
+
+  Padding buildStreamBuilder(
+      stream, inputTitulo, cor, format, icone, onChanged) {
+    return Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: StreamBuilder(
+          stream: stream,
+          builder: (context, snapshot) {
+            print('snapshot.hasData');
+            print(snapshot.hasData);
+            if (snapshot.hasData) {
+              var data = snapshot.data;
+              return buildContainer(
+                  "$data", inputTitulo, cor, format, icone, onChanged);
+            } else {
+              return buildContainer(
+                  "", inputTitulo, cor, format, icone, onChanged);
+            }
+          }),
+    );
+  }
+
+  Padding buildContainer(data, inputTitulo, cor, format, icone, onChanged) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      child: Container(
+        // width: 185,
+        width: MediaQuery.of(context).size.width * 0.45,
+        decoration: buildBoxDecoration(),
+        child: StreamBuilder(
+            stream: null,
+            builder: (context, snapshot) {
+              if (format) {
+                return TextFormField(
+                  // textAlign: TextAlign.center,
+                  //textAlignVertical: TextAlignVertical.center,
+                  enabled: false,
+                  validator: ValidationBuilder().maxLength(50).required().build(),
+                  keyboardType: TextInputType.number,
+                  controller: TextEditingController(text: "$data"),
+                  decoration: _styleInput(inputTitulo, cor, icone),
+                  inputFormatters: [
+                    // FilteringTextInputFormatter.digitsOnly,
+                    //  CentavosInputFormatter(moeda: true, casasDecimais: 2)
+                  ],
+                  onChanged: onChanged,
+                );
+              } else {
+                return TextFormField(
+                  textAlign: TextAlign.center,
+                  enabled: false,
+                  validator:
+                      ValidationBuilder().maxLength(50).required().build(),
+                  keyboardType: TextInputType.number,
+                  controller: TextEditingController(text: "$data"),
+                  decoration: _styleInput(inputTitulo, cor, icone),
+                  onChanged: (text) {
+                    onChanged;
+                  },
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                );
+              }
+            }),
+      ),
+    );
+  }
+
+  _styleInput(String text, String cor, suffixIcon) {
+    switch (cor) {
+      case "padrao":
+        corFundo = Color.fromRGBO(159, 105, 56, 0.5);
+        break;
+      case 'desabilitado':
+        corFundo = Colors.grey[100];
+        break;
+      case 'vermelho':
+        corFundo = Colors.red;
+        break;
+      case 'verde':
+        corFundo = Colors.green;
+        break;
+      case 'null':
+        corFundo = Colors.grey[100];
+        break;
+    }
+
+    return InputDecoration(
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      suffixIcon: suffixIcon,
+      fillColor: corFundo,
+      filled: true,
+
+      // disabledBorder: true,
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+      ),
+      border: InputBorder.none,
+      labelText: text,
+      labelStyle: const TextStyle(
+        color: Colors.black,
+        fontSize: 13,
+        //  backgroundColor: Colors.white,
+      ),
+      // hintText: 'Quantidade de clientes atendidos',
+    );
+  }
+
+  Icon buildIcon() {
+    return const Icon(
+      Icons.percent,
+      color: Colors.black54,
+      size: 16.0,
     );
   }
 
@@ -173,6 +317,7 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
       ],
     );
   }
+
   Container buildNewRemoveAdd(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(3.0),
@@ -183,8 +328,8 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
           children: [
             Padding(
               padding: const EdgeInsets.all(3.0),
-              child:  Container(
-                width: MediaQuery.of(context).size.width*0.45,
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.45,
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
                   //borderRadius: BorderRadius.circular(20),
@@ -197,15 +342,19 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
                   ],
                 ),
                 child: TextFormField(
-                  // enabled: false,
+                    // enabled: false,
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
                     controller: addController,
                     decoration: const InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      suffixIcon: Icon(Icons.percent, color: Colors.black54,),
-                      fillColor:Color.fromRGBO(159, 105, 56,0.5),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      suffixIcon: Icon(
+                        Icons.percent,
+                        color: Colors.black54,
+                      ),
+                      fillColor: Color.fromRGBO(159, 105, 56, 0.5),
                       filled: true,
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -227,33 +376,41 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 0.0 , horizontal: 15.0),
-              width: MediaQuery.of(context).size.width*0.47,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+              width: MediaQuery.of(context).size.width * 0.47,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(3.0),
-                    child:  Column(
+                    child: Column(
                       children: [
-                        const   Text('Aumentar',style:  TextStyle(
-                          fontSize: 12,
-
-                        ),),
+                        const Text(
+                          'Aumentar',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
                         IconButton(
                           onPressed: () {
-                            if(addController.text.isEmpty){
-                              alerta.openModal(context, "Adicione o percentual.");
-                            }else{
-
-                              simuladorBloc.calculoPercentual(addController.text, 1, valorInicialTicket, 1, context);
-                              addController.text ='';
-                              FocusScope.of(context).requestFocus(new FocusNode());
+                            if (addController.text.isEmpty) {
+                              alerta.openModal(
+                                  context, "Adicione o percentual.");
+                            } else {
+                              simuladorBloc.calculoPercentual(
+                                  addController.text,
+                                  1,
+                                  valorInicialTicket,
+                                  1,
+                                  context);
+                              addController.text = '';
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
                             }
                           },
                           icon: const Icon(
                             Icons.add_circle,
-                            color: Color.fromRGBO(159, 105, 56,0.5),
+                            color: Color.fromRGBO(159, 105, 56, 0.5),
                             size: 35.0,
                           ),
                         ),
@@ -262,26 +419,34 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(3.0),
-                    child:  Column(
+                    child: Column(
                       children: [
-                        Text('Diminuir',style:  TextStyle(
-                          fontSize: 12,
-
-                        ),),
+                     const   Text(
+                          'Diminuir',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
                         IconButton(
                           onPressed: () {
-                            if(addController.text.isEmpty){
-                              alerta.openModal(context, "Adicione o percentual.");
-                            }else{
-
-                              simuladorBloc.calculoPercentual(addController.text,2, valorInicialTicket, 2, context);
-                              addController.text ='';
-                              FocusScope.of(context).requestFocus(new FocusNode());
+                            if (addController.text.isEmpty) {
+                              alerta.openModal(
+                                  context, "Adicione o percentual.");
+                            } else {
+                              simuladorBloc.calculoPercentual(
+                                  addController.text,
+                                  2,
+                                  valorInicialTicket,
+                                  2,
+                                  context);
+                              addController.text = '';
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
                             }
                           },
                           icon: const Icon(
                             Icons.remove_circle,
-                            color: Color.fromRGBO(159, 105, 56,0.5),
+                            color: Color.fromRGBO(159, 105, 56, 0.5),
                             size: 35.0,
                           ),
                         ),
@@ -302,13 +467,16 @@ BoxDecoration buildBoxDecoration() {
   return const BoxDecoration(
     color: Colors.transparent,
     //borderRadius: BorderRadius.circular(20),
+    /*
     boxShadow: [
       BoxShadow(
         color: Colors.black12,
         blurRadius: 1,
         offset: Offset(1, 3), // Shadow position
       ),
-    ],
+
+
+    ],*/
   );
 }
 
