@@ -345,7 +345,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                               style: BorderStyle.none),
                         ),
                         border: InputBorder.none,
-                        labelText: "Margem que você considera ideal",
+                        labelText: "Margen que você considera ideal",
                         labelStyle: const TextStyle(
                           color: Colors.black,
                           fontSize: 13,
