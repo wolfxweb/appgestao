@@ -197,7 +197,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       child:  DropdownButtonFormField<String>(
                         itemHeight: null,
                         value: null,
-                        decoration: buildInputDecoration("Setor de atuação"),
+                        decoration: buildInputDecoration("Atividade da empresa"),
                         onChanged: (values) {
                           print(values);
                           setState(() {
@@ -471,12 +471,21 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   }
 
 
-  InputDecoration buildInputDecoration(text) {
+  InputDecoration buildInputDecoration(text ) {
     var iconeAjuda =null;
     var textoAjuda ="";
     bool mostrarAlerta = false;
     if(text =='Cep') {
       textoAjuda =   "Digite o seu cep e a cidade e estado são adicionado automaticamente.";
+      mostrarAlerta = true;
+    }else if(text =='Atividade da empresa'){
+      textoAjuda =   "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.";
+      mostrarAlerta = true;
+    }else if(text =='WhatsApp'){
+      textoAjuda =   "O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas númenro que nos informar.";
+      mostrarAlerta = true;
+    } else if(text =='Selecione o cidade'){
+      textoAjuda =   "Para selecionar a cidade o estado deve este selecionado.";
       mostrarAlerta = true;
     }
 

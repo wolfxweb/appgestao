@@ -26,8 +26,8 @@ class VerificaStatusFairebase {
             documentSnapshot.data()! as Map<String, dynamic>;
         if (data['status']) {
           if (data['admin']) {
-            route.pushPage(context, const HomeAdmin());
-         //   route.pushPage(context, const novaHome());
+         //   route.pushPage(context, const HomeAdmin());
+            route.pushPage(context, const novaHome());
           } else {
             route.pushPage(context, const Home());
           }

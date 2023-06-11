@@ -991,9 +991,6 @@ class _SimuladorState extends State<Simulador> {
                     FilteringTextInputFormatter.digitsOnly,
                     CentavosInputFormatter(moeda: true, casasDecimais: 2)
                   ],
-
-
-
                   onChanged: onChanged,
                 );
               } else {
