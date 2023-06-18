@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
         theme: lightThemeData,
         darkTheme: darkThemeData,
         themeMode: EasyDynamicTheme.of(context).themeMode,
+
         home:SplashPage(),
         routes: <String, WidgetBuilder> {
           '/analiseViabilidae': (BuildContext context) => const AnaliseViabilidade(),

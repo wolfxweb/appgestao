@@ -29,6 +29,8 @@ class SimuladorBloc extends BlocBase {
   final _percentualAddController = BehaviorSubject();
   final _percentualRemoveController = BehaviorSubject();
 
+  final _variacaoMargemController  = BehaviorSubject();
+
   Stream get margemIdealController => _margemIdealController.stream;
   Stream get margemInformadaController => _margemInformadaController.stream;
   Stream get vendasController => _vendasController.stream;
@@ -53,6 +55,11 @@ class SimuladorBloc extends BlocBase {
 
   Stream get percentualAddController => _percentualAddController.stream;
   Stream get percentualRemoveController => _percentualRemoveController.stream;
+
+
+  /* Stream variação valor   */
+
+  Stream get varicaoMargemController => _variacaoMargemController.stream;
 
   SimuladorBloc() {
     getDadosBasicos();
@@ -257,7 +264,7 @@ class SimuladorBloc extends BlocBase {
         _margemContribuicaoCalculada =(calc_fat - (calc_gi + calc_cf + novoCustoProduto)) / calc_qtd;
         _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
         _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_cf + novoCustoProduto)) /calc_fat) *100;
-        _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} %");
+        _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
         quantidadeVENDADS(operacao,percentual);
         calculoTIKETMEDIO(operacao,percentual);
         custosINSUMOS(operacao,percentual);
@@ -676,6 +683,9 @@ custosINSUMOS(operacao,percentual){
     print(qtd.runtimeType);
 
     var qtdjust = int.parse(qtd);
+
+    //print(_margemInformadaController.value);
+
     _margemIdealController.add(marIdeal);
     _vendasController.add(qtdjust.toString());
     _faturamentoController.add(fat);
@@ -690,6 +700,8 @@ custosINSUMOS(operacao,percentual){
     calculoMargemResultante();
     _percentualAddController.add('0');
     _percentualRemoveController.add('0');
+    _variacaoMargemController.add(formatterPercentual.format(double.parse(_marIdeal)/_margemCalculada));
+
   }
 
   convertMonetarioFloat(element) {

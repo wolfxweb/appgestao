@@ -65,7 +65,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: buildText('Home'),
+            title: buildText('Nova Home'),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const novaHome());

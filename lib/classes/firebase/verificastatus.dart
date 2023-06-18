@@ -8,7 +8,7 @@ import 'package:appgestao/usuaruio/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:date_format/date_format.dart';
 class VerificaStatusFairebase {
   var route = PushPage();
   var alert = AlertSnackBar();
@@ -22,8 +22,7 @@ class VerificaStatusFairebase {
       if (documentSnapshot.exists) {
         print('statusUsuario');
         print(documentSnapshot.data());
-        Map<String, dynamic> data =
-            documentSnapshot.data()! as Map<String, dynamic>;
+        Map<String, dynamic> data =  documentSnapshot.data()! as Map<String, dynamic>;
         if (data['status']) {
           if (data['admin']) {
          //   route.pushPage(context, const HomeAdmin());
@@ -59,7 +58,6 @@ class VerificaStatusFairebase {
   isLogadoFB(context) {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
-        print('logout');
         route.pushPage(context, const Login());
       } else {
         var users = VerificaStatusFairebase();
@@ -67,4 +65,43 @@ class VerificaStatusFairebase {
       }
     });
   }
+
+  addDadosBasicos(context,dados){
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        route.pushPage(context, const Login());
+      } else {
+        FirebaseFirestore.instance
+            .collection('usuario')
+            .doc(user.email)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.exists) {
+            Map<String, dynamic> data =  documentSnapshot.data()! as Map<String, dynamic>;
+            if (data['status']) {
+              var dados_basicos ={
+                'quantidade_clientes_atendido': dados['quantidade_clientes_atendido'],
+                'faturamento_vendas':dados['faturamento_vendas'],
+                'gastos_insumos':dados['gastos_insumos'],
+                'custo_fixo':dados['custo_fixo'],
+                'custo_variavel':dados['custo_variavel'],
+                'mes_selecionado':dados['mes_selecionado'],
+                'custo insumos':dados['insumos'],
+                'magem_desejada':dados['magem_desejada'],
+                'cidade':data['cidade'],
+                'estado':data['estado'],
+                'setor_atuação':data['setor_atuação'],
+                'email':data['email'],
+                'telefone':data['telefone'],
+                'timestamp_cadastro':formatDate(DateTime.now(), [dd, '/', mm, '/', yyyy, ' ', HH, ':', nn,':',ss])
+              };
+              FirebaseFirestore.instance.collection("dados_basicos").doc().set(dados_basicos);
+            }
+          }
+        });
+
+      }
+    });
+  }
+
 }

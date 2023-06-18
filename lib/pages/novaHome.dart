@@ -9,6 +9,7 @@ import 'package:appgestao/pages/calculadora.dart';
 import 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/diagnostico.dart';
 import 'package:appgestao/pages/gestaoPrioridades.dart';
+import 'package:appgestao/pages/novodadosbasicos.dart';
 import 'package:appgestao/pages/simulador.dart';
 import 'package:flutter/material.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
@@ -23,7 +24,7 @@ class novaHome extends StatefulWidget {
 class _novaHomeState extends State<novaHome> {
   var header = new HeaderAppBar();
   var alerta = AlertModal();
-  var color =  Color.fromRGBO(159, 105, 56,1);
+  var color =  Color.fromRGBO(1, 57,44,1);
   var route = PushPage();
 
   String textAjudaDadosBasicos = "Coração e cérebro do Get Up.app.br. Quando você digitar suas informações, o aplicativo ficará customizado para o seu negócio.\ne-Book Se você está planejando iniciar seu empreendimento, ou abrir uma filial, preencha com suas estimativas e metas. ";
@@ -56,7 +57,7 @@ class _novaHomeState extends State<novaHome> {
             const Logo(),
             const Espacamento(),
             const Espacamento(),
-            buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,DadosBasicos()),
+            buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,Diagnostico()),
             buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,gestaoPrioridades()),
             buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnCalculadoraPrecos,Calculadora()),
@@ -100,7 +101,7 @@ class _novaHomeState extends State<novaHome> {
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: const Color.fromRGBO(159, 105, 56,1),
+                    primary: color,
                     // background
                     onPrimary: Colors.white, // foreground
                   ),

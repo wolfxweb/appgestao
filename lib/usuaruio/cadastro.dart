@@ -23,6 +23,7 @@ import 'package:appgestao/classes/util/ibge.dart';
 
 import 'package:appgestao/classes/model/estado.dart';
 
+
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({Key? key}) : super(key: key);
 
@@ -56,14 +57,14 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     _getConection();
   }
   var irPagina = PushPage();
-
+  String atividadeEmpresa =   "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.";
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
   final _nomeController = TextEditingController();
   final _telefoneController = TextEditingController(text: '');
   final _senhaController = TextEditingController();
-  var color = Color.fromRGBO(159, 105, 56,0.5);
+  var color =  Color(0xFFB74093);
   final dropOpcoes = [
     'Varejo de moda e vestuário',
     'Supermercados e mercearias',
@@ -136,7 +137,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       body: Center(
         child:Container(
           child: Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(3.0),
             child: SingleChildScrollView(
               reverse: true,
               child: Form(
@@ -145,79 +146,28 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Logo(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Logo(),
+                          Container(),
+                        ],
+                      ),
+                    ),
+
                     const Espacamento(),
                     const Text(
                       'Cadastre-se',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
-                        color: const Color.fromRGBO(159, 105, 56,1),
-                      ),
-                    ),
-                    const Espacamento(),
+                        fontFamily: 'Lato',
 
-                    Container(
-                      decoration: buildBoxDecoration(),
-                      child: TextFormField(
-                        validator: ValidationBuilder().email().maxLength(50).required().build(),
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailController,
-                        decoration:  buildInputDecoration("Email")
-                      ),
-                    ),
-                    const Espacamento(),
-                    Container(
-                      decoration: buildBoxDecoration(),
-                      child: TextFormField(
-                          validator: ValidationBuilder().required().build(),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            TelefoneInputFormatter(),
-                          ],
-                          keyboardType: TextInputType.number,
-                          controller: _telefoneController,
-                          decoration: buildInputDecoration("WhatsApp")
-                      ),
-                    ),
-                    const Espacamento(),
-                /*    Container(
-                      decoration: buildBoxDecoration(),
-                      child: TextFormField(
-                          validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
-                          keyboardType: TextInputType.text,
-                          controller: _nomeController,
-                          decoration: buildInputDecoration("Setor de atuação")
-                      ),
-                    ),*/
-                    Container(
-                    //  width: 295,
-                      decoration: buildBoxDecoration(),
-
-                      child:  DropdownButtonFormField<String>(
-                        itemHeight: null,
-                        value: null,
-                        decoration: buildInputDecoration("Atividade da empresa"),
-                        onChanged: (values) {
-                          print(values);
-                          setState(() {
-                            //  _items=[];
-                            _nomeController.text =values!;
-                          });
-                        },
-                        items: dropOpcoes.map((item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child:    Text(
-                              item,
-                              style:const TextStyle(
-                                // fontWeight: FontWeight.bold,
-                              //  fontSize: 13,
-                                //  color: const Color.fromRGBO(159, 105, 56,1),
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                        color: Color.fromRGBO(1, 57, 44,1),
                       ),
                     ),
                     const Espacamento(),
@@ -227,8 +177,108 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.01,
+                            child: Container()
+                        ),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.75,
+                          decoration: buildBoxDecoration(),
+                          width: MediaQuery.of(context).size.width * 0.89,
+                          child: TextFormField(
+                            validator: ValidationBuilder().email().maxLength(50).required().build(),
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _emailController,
+                            decoration:  buildInputDecoration("Email"),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Espacamento(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.08,
+                          child: IconButton(
+                            icon: const Icon(Icons.help, color: Colors.black54,),
+                            color: Colors.black54,
+                            onPressed: () {
+                              alerta.openModal(context,"O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas númenro que nos informar." );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.89,
+                            child: buildWhatsAPP()),
+                      ],
+                    ),
+                    const Espacamento(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.08,
+                          child: IconButton(
+                            icon: const Icon(Icons.help, color: Colors.black54,),
+                            color: Colors.black54,
+                            onPressed: () {
+                              alerta.openModal(context,"Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências." );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.89,
+                            child:DropdownButtonFormField<String>(
+                                itemHeight: null,
+                                value: null,
+
+                                decoration: buildInputDecoration("Atividade da empresa"),
+                                onChanged: (values) {
+                                  print(values);
+                                  setState(() {
+                                    //  _items=[];
+                                    _nomeController.text =values!;
+                                  });
+                                },
+                                items: dropOpcoes.map((item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child:    Text(
+                                      item,
+                                      style:const TextStyle(
+                                        // fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        //  color: const Color.fromRGBO(159, 105, 56,1),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                      ],
+                    ),
+                    const Espacamento(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                    SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.08,
+                        child: IconButton(
+                          icon: const Icon(Icons.help, color: Colors.black54,),
+                          color: Colors.black54,
+                          onPressed: () {
+                            alerta.openModal(context,"Para selecionar a cidade o estado deve este selecionado." );
+                          },
+                        ),
+                      ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.68,
                           decoration: buildBoxDecoration(),
 
                           child:  DropdownButtonFormField<String>(
@@ -250,7 +300,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                                   style:const TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                    // fontWeight: FontWeight.bold,
-                                    fontSize: 14,
+                                    fontSize: 12,
                                   //  color: const Color.fromRGBO(159, 105, 56,1),
                                   ),
                                 ),
@@ -259,7 +309,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           ),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.21,
+                          width: MediaQuery.of(context).size.width * 0.20,
                           decoration: buildBoxDecoration(),
                           child:  DropdownButtonFormField<String>(
                             value:null,
@@ -283,7 +333,14 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                             items: _items.map((item) {
                               return DropdownMenuItem<String>(
                                 value: item,
-                                child: Text(item),
+                                child: Text(item,
+                                  style:const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    //  color: const Color.fromRGBO(159, 105, 56,1),
+                                  ),
+                                ),
                               );
                             }).toList(),
                           ),
@@ -379,17 +436,31 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     */
 
                  //   const Espacamento(),
-                    Container(
 
-                      decoration: buildBoxDecoration(),
-                      child: TextFormField(
-                        validator: ValidationBuilder().minLength(6).maxLength(50).required().build(),
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        controller: _senhaController,
-                        decoration: buildInputDecoration("Senha")
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.01,
+                            child: Container()
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.89,
+                          decoration: buildBoxDecoration(),
+                          child: TextFormField(
+                              validator: ValidationBuilder().minLength(6).maxLength(50).required().build(),
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              controller: _senhaController,
+                              decoration: buildInputDecoration("Senha")
+                          ),
+                        ),
+                      ],
                     ),
+
                     const Espacamento(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -399,7 +470,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         Container(
                           width:  MediaQuery.of(context).size.width * 0.21,
                           child:    Checkbox(value: _valueCheck,
-                              activeColor: Color.fromRGBO(159, 105, 56,0.5),
+                              activeColor: Color.fromRGBO(1, 57, 44,1),
                               onChanged:(value){
                                 setState(() {
                                   print(value);
@@ -412,7 +483,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.75,
                           child: InkWell(
-                              child: new Text('Conheça nossa política de privacidade.'),
+                              child: new Text('Termo de uso e privacidade'),
                               onTap: () => launch('https://wolfx.com.br/')
                           ),
                         ),
@@ -421,10 +492,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
 
                     const Espacamento(),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width,
+                      width: MediaQuery.of(context).size.width * 0.50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(159, 105, 56,1),
+                          primary: const  Color.fromRGBO(60, 60,59,1),
                            // background
                           onPrimary: Colors.white, // foreground
                         ),
@@ -440,7 +511,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       children: [
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            primary: const Color.fromRGBO(159, 105, 56,1),
+                            primary: const Color.fromRGBO(60, 50, 59,1),
 
                           ),
                           child: const Text('Login'),
@@ -450,7 +521,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         ),
                         TextButton(
                           style: OutlinedButton.styleFrom(
-                            primary: const Color.fromRGBO(159, 105, 56,0.5),
+                            primary: const Color.fromRGBO(60,60, 59,1),
 
                           ),
                           child: const Text('Esqueceu a senha?'),
@@ -469,6 +540,37 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       ),
     );
   }
+
+  SizedBox buildIcone(BuildContext context, texto) {
+    return SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.01,
+                        child: IconButton(
+                                icon: const Icon(Icons.help, color: Colors.black54,),
+                        color: Colors.black54,
+                        onPressed: () {
+                          alerta.openModal(context,texto );
+                        },
+                      ),
+                  );
+  }
+
+  Container buildWhatsAPP() {
+    return Container(
+                    decoration: buildBoxDecoration(),
+                    child: TextFormField(
+                        validator: ValidationBuilder().required().build(),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          TelefoneInputFormatter(),
+                        ],
+                        keyboardType: TextInputType.number,
+                        controller: _telefoneController,
+                        decoration: buildInputDecoration("WhatsApp")
+                    ),
+                  );
+  }
+
+
 
 
   InputDecoration buildInputDecoration(text ) {
@@ -502,19 +604,25 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       //   suffixIcon: suffixIcon,
-      fillColor: const Color.fromRGBO(159, 105, 56,0.5),
+      fillColor: const Color.fromRGBO(112,111, 111,0.5),
       filled: true,
 
-      prefixIcon:iconeAjuda,
+      // prefixIcon:iconeAjuda,
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-            color: Color.fromRGBO(159, 105, 56,0.5), width: 1.0, style: BorderStyle.none),
+            color: Color.fromRGBO(159, 105, 56,1), width: 1.0, style: BorderStyle.none),
       ),
       border: InputBorder.none,
       labelText: text,
+
       labelStyle: const TextStyle(
         color: Colors.black,
+
+          fontFamily: 'Lato',
+          fontSize: 16,
+          //  color: const Color.fromRGBO(159, 105, 56,1),
+
         //  backgroundColor: Colors.white,
       ),
     );
@@ -551,7 +659,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     };
     print(_valueCheck);
     if(_valueCheck == false){
-      alerta.openModal(context,'Aceite da policita de privacidade para dar continuidade.');
+      alerta.openModal(context,'Aceite da policita de privacidade  e termo de uso para dar continuidade.');
       return;
     }
     if(_selectedItem.isEmpty){

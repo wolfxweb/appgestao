@@ -18,7 +18,7 @@ class gestaoPrioridades extends StatefulWidget {
 class _gestaoPrioridadesState extends State<gestaoPrioridades> {
   var header = new HeaderAppBar();
   var alerta = AlertModal();
-  var color = Color.fromRGBO(159, 105, 56, 1);
+  var color = const Color.fromRGBO(1, 57, 44, 1);
   var corFundo = Colors.grey[150];
   var corBox = Colors.white;
 
@@ -88,63 +88,106 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
               const Espacamento(),
               buildNewRemoveAdd(context),
               const Espacamento(),
-              Container(
-                decoration: BoxDecoration(
-                 // color: corBox,
-                  border: Border.all(color: color),
-                 // borderRadius: BorderRadius.circular(5),
-                  boxShadow: [
-                    BoxShadow(
-                      color: corBox,
-                      blurRadius: 1,
-                      offset: Offset(1, 3), // Shadow position
-                    ),
-                  ],
-                ),
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: Text('Margem'),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width *0.45,
-                      child: Column(
-                        children: [
-                          buildStreamBuilder(
-                            simuladorBloc.margemIdealController,
-                            "Informada",
-                            "desabilitado",
-                            false,
-                            buildIcon(),
-                            null,
-                          ),
-                          SizedBox(height: 10.0),
-                          buildStreamBuilder(
-                            simuladorBloc.margemIdealController,
-                            "Calculada",
-                            "desabilitado",
-                            false,
-                            buildIcon(),
-                            null,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: Text('data'),
-                    )
-                  ],
-                ),
-              )
+              buildCardCampos(
+                context,
+                "Margem",
+                simuladorBloc.margemIdealController,
+                simuladorBloc.margemResultateController,
+                simuladorBloc.varicaoMargemController,
+                "Informada",
+                "Caculada",
+                "desabilitado",
+                "desabilitado",
+                buildIcon(),
+                buildIcon(),
+                false,
+                false,
+                null,
+                null
+              ),
+              const Espacamento(),
+              buildCardCampos(
+                  context,
+                  "Margem",
+                  simuladorBloc.margemIdealController,
+                  simuladorBloc.margemResultateController,
+                  simuladorBloc.varicaoMargemController,
+                  "Informada",
+                  "Caculada",
+                  "desabilitado",
+                  "desabilitado",
+                  buildIcon(),
+                  buildIcon(),
+                  false,
+                  false,
+                  null,
+                  null
+              ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container buildCardCampos(BuildContext context, titulo, stremBadosBasico,
+      stremCalculada, stremVariacao, imputTitulo1, imputTitulo2,imputStatus1,imputStatus2,icone1, icone2, format1,format2,onChanged1,onChanged2) {
+    return Container(
+      decoration: BoxDecoration(
+        // color: corBox,
+        border: Border.all(color: color),
+        // borderRadius: BorderRadius.circular(5),
+        boxShadow: [
+          BoxShadow(
+            color: corBox,
+            blurRadius: 1,
+            offset: Offset(1, 3), // Shadow position
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.2,
+            child: Text(titulo),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.45,
+            child: Column(
+              children: [
+                buildStreamBuilder(
+                  stremBadosBasico,
+                  imputTitulo1,
+                  imputStatus1,
+                  format1,
+                  icone1,
+                  onChanged1,
+                ),
+                SizedBox(height: 10.0),
+                buildStreamBuilder(
+                  stremCalculada,
+                  imputTitulo2,
+                  imputStatus2,
+                  format2,
+                  icone2,
+                  onChanged2,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.2,
+            child: StreamBuilder(
+                stream: stremVariacao,
+                builder: (context, snapshot) {
+                  return Text("${snapshot.data.toString()} %");
+                }),
+          )
+        ],
       ),
     );
   }
@@ -156,8 +199,7 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
       child: StreamBuilder(
           stream: stream,
           builder: (context, snapshot) {
-            print('snapshot.hasData');
-            print(snapshot.hasData);
+
             if (snapshot.hasData) {
               var data = snapshot.data;
               return buildContainer(
@@ -185,7 +227,8 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
                   // textAlign: TextAlign.center,
                   //textAlignVertical: TextAlignVertical.center,
                   enabled: false,
-                  validator: ValidationBuilder().maxLength(50).required().build(),
+                  validator:
+                      ValidationBuilder().maxLength(50).required().build(),
                   keyboardType: TextInputType.number,
                   controller: TextEditingController(text: "$data"),
                   decoration: _styleInput(inputTitulo, cor, icone),
@@ -218,10 +261,10 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
   _styleInput(String text, String cor, suffixIcon) {
     switch (cor) {
       case "padrao":
-        corFundo = Color.fromRGBO(159, 105, 56, 0.5);
+        corFundo = Color.fromRGBO(112, 111, 111, 1);
         break;
       case 'desabilitado':
-        corFundo = Colors.grey[100];
+        corFundo =Color.fromRGBO(112, 111, 111, 1);
         break;
       case 'vermelho':
         corFundo = Colors.red;
@@ -244,7 +287,7 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+            color:Color.fromRGBO(112, 111, 111, 1), width: 1.0, style: BorderStyle.none),
       ),
       border: InputBorder.none,
       labelText: text,
@@ -268,7 +311,7 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
   Container builSelect() {
     return Container(
       //  width: 295,
-      decoration: buildBoxDecoration(),
+
       child: DropdownButtonFormField<String>(
         itemHeight: null,
         value: null,
@@ -302,9 +345,9 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
       children: [
         IconButton(
           iconSize: 35,
-          icon: Icon(
+          icon: const Icon(
             Icons.help,
-            color: color,
+            color: Color.fromRGBO(1, 57, 44, 1),
           ),
           onPressed: () {
             alerta.openModal(context, 'textoAjuda');
@@ -320,18 +363,18 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
 
   Container buildNewRemoveAdd(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(3.0),
+      padding: const EdgeInsets.all(0.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.all(3.0),
+              padding: const EdgeInsets.all(0.0),
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.45,
                 decoration: const BoxDecoration(
-                  color: Colors.transparent,
+
                   //borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -354,11 +397,11 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
                         Icons.percent,
                         color: Colors.black54,
                       ),
-                      fillColor: Color.fromRGBO(159, 105, 56, 0.5),
+                      fillColor: Color.fromRGBO(112, 111, 111, 1),
                       filled: true,
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                            color: Colors.orange,
+                            color: Color.fromRGBO(112, 111, 111, 1),
                             width: 1.0,
                             style: BorderStyle.none),
                       ),
@@ -376,13 +419,13 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-              width: MediaQuery.of(context).size.width * 0.47,
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 25.0),
+              width: MediaQuery.of(context).size.width * 0.50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(3.0),
+                    padding: const EdgeInsets.all(0.0),
                     child: Column(
                       children: [
                         const Text(
@@ -418,10 +461,10 @@ class _gestaoPrioridadesState extends State<gestaoPrioridades> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(3.0),
+                    padding: const EdgeInsets.all(0.0),
                     child: Column(
                       children: [
-                     const   Text(
+                        const Text(
                           'Diminuir',
                           style: TextStyle(
                             fontSize: 12,
