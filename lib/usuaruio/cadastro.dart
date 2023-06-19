@@ -1,4 +1,3 @@
-
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
@@ -23,7 +22,6 @@ import 'package:appgestao/classes/util/ibge.dart';
 
 import 'package:appgestao/classes/model/estado.dart';
 
-
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({Key? key}) : super(key: key);
 
@@ -32,39 +30,42 @@ class CadastroUsuario extends StatefulWidget {
 }
 
 class _CadastroUsuarioState extends State<CadastroUsuario> {
-
   var alerta = AlertModal();
   String _selectedItem = '';
   String _cidadesValue = '';
   List _items = [];
   List _uf = [];
   List _cidades = [];
-  int _idEstado =0;
+  int _idEstado = 0;
   bool _conn = false;
   bool _valueCheck = true;
   String _message = '';
   StreamSubscription? subscription;
-  final SimpleConnectionChecker _simpleConnectionChecker = SimpleConnectionChecker()..setLookUpAddress('pub.dev');
+  final SimpleConnectionChecker _simpleConnectionChecker =
+      SimpleConnectionChecker()..setLookUpAddress('pub.dev');
   @override
   void initState() {
     super.initState();
     _loadItems();
-    subscription = _simpleConnectionChecker.onConnectionChange.listen((connected) {
+    subscription =
+        _simpleConnectionChecker.onConnectionChange.listen((connected) {
       setState(() {
-        _message = connected? 'Connected': 'Not connected';
+        _message = connected ? 'Connected' : 'Not connected';
       });
     });
     _getConection();
   }
+
   var irPagina = PushPage();
-  String atividadeEmpresa =   "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.";
+  String atividadeEmpresa =
+      "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.";
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
   final _nomeController = TextEditingController();
   final _telefoneController = TextEditingController(text: '');
   final _senhaController = TextEditingController();
-  var color =  Color(0xFFB74093);
+  var color = const Color.fromRGBO(105, 105, 105, 1);
   final dropOpcoes = [
     'Varejo de moda e vestuário',
     'Supermercados e mercearias',
@@ -72,56 +73,66 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Alimentos e bebidas',
     'Automóveis e peças automotivas',
     'Cosméticos e produtos de beleza'
-
   ];
   Future<void> _loadItems() async {
-    const url ="https://servicodados.ibge.gov.br/api/v1/localidades/estados";
-    try{
-       final response = await Dio().get<List>(url);
+    const url = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
+    try {
+      final response = await Dio().get<List>(url);
 
-       final listaEstados = response.data!.map((e) => estado.fromJson(e)).toList()..sort((a,b)=> a.nome!.toLowerCase().compareTo(b.nome!.toLowerCase()));
-       final List<String> estadosUFS =  response.data!.map<String>((item) => item['sigla'])!.toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
-     //  final List<String> estadosUFS =[];
-        setState(() {
-          if(estadosUFS.isNotEmpty){
-            _items = estadosUFS;
-            _uf = listaEstados;
-          }
-          //_cidades=[];
-        });
-      }on DioExceptionType{
-      return Future.error("Nã foi possivel obter os estados, verifique se esta conectado a internete.");
+      final listaEstados = response.data!
+          .map((e) => estado.fromJson(e))
+          .toList()
+        ..sort(
+            (a, b) => a.nome!.toLowerCase().compareTo(b.nome!.toLowerCase()));
+      final List<String> estadosUFS = response.data!
+          .map<String>((item) => item['sigla'])!
+          .toList()
+        ..sort((a, b) => a!.toLowerCase().compareTo(b!.toLowerCase()));
+      //  final List<String> estadosUFS =[];
+      setState(() {
+        if (estadosUFS.isNotEmpty) {
+          _items = estadosUFS;
+          _uf = listaEstados;
+        }
+        //_cidades=[];
+      });
+    } on DioExceptionType {
+      return Future.error(
+          "Nã foi possivel obter os estados, verifique se esta conectado a internete.");
     }
-
   }
-  _loadCidades()async{
 
-    if(_idEstado.toString().isNotEmpty){
-      var url ="https://servicodados.ibge.gov.br/api/v1/localidades/estados/$_idEstado/distritos";
-      try{
+  _loadCidades() async {
+    if (_idEstado.toString().isNotEmpty) {
+      var url =
+          "https://servicodados.ibge.gov.br/api/v1/localidades/estados/$_idEstado/distritos";
+      try {
         final response = await Dio().get<List>(url);
-        final List<String> cidades = response.data!.map<String>((item) => item['nome'])!.toList()..sort((a,b)=> a!.toLowerCase().compareTo(b!.toLowerCase()));
+        final List<String> cidades = response.data!
+            .map<String>((item) => item['nome'])!
+            .toList()
+          ..sort((a, b) => a!.toLowerCase().compareTo(b!.toLowerCase()));
         print(_cidades);
         setState(() {
           _cidades = cidades;
         });
 
-      //  return cidades;
-      }on DioExceptionType{
+        //  return cidades;
+      } on DioExceptionType {
         return [];
       }
-    }else{
+    } else {
       return [];
     }
   }
 
-  _getConection()async{
+  _getConection() async {
     bool _isConnected = await SimpleConnectionChecker.isConnectedToInternet();
     setState(() {
       _conn = _isConnected;
     });
-    if(!_isConnected ){
-      alerta.openModal(context,'Sem conexão com a internet');
+    if (!_isConnected) {
+      alerta.openModal(context, 'Sem conexão com a internet');
     }
   }
 
@@ -135,7 +146,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
         title: Text("Cadastre-se"),
       ),*/
       body: Center(
-        child:Container(
+        child: Container(
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: SingleChildScrollView(
@@ -166,8 +177,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
                         fontFamily: 'Lato',
-
-                        color: Color.fromRGBO(1, 57, 44,1),
+                        color: Color.fromRGBO(105, 105, 105, 1),
                       ),
                     ),
                     const Espacamento(),
@@ -179,86 +189,115 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       children: [
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.01,
-                            child: Container()
+                            child: Container()),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildTextoInput('Email'),
+                            Container(
+                              decoration: buildBoxDecoration(),
+                              width: MediaQuery.of(context).size.width * 0.89,
+                              child: TextFormField(
+                                validator: ValidationBuilder()
+                                    .email()
+                                    .maxLength(50)
+                                    .required()
+                                    .build(),
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _emailController,
+                                decoration: buildInputDecoration(""),
+                              ),
+                            ),
+                          ],
                         ),
-                        Container(
-                          decoration: buildBoxDecoration(),
+                      ],
+                    ),
+                    const Espacamento(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.08,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.help,
+                              color: Colors.black54,
+                            ),
+                            color: Colors.black54,
+                            onPressed: () {
+                              alerta.openModal(context,
+                                  "O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas númenro que nos informar.");
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.89,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                buildTextoInput('WhatsApp'),
+                                buildWhatsAPP(),
+                              ],
+                            )),
+                      ],
+                    ),
+                    const Espacamento(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.08,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.help,
+                              color: Colors.black54,
+                            ),
+                            color: Colors.black54,
+                            onPressed: () {
+                              alerta.openModal(context,
+                                  "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.");
+                            },
+                          ),
+                        ),
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.89,
-                          child: TextFormField(
-                            validator: ValidationBuilder().email().maxLength(50).required().build(),
-                            keyboardType: TextInputType.emailAddress,
-                            controller: _emailController,
-                            decoration:  buildInputDecoration("Email"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Espacamento(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.08,
-                          child: IconButton(
-                            icon: const Icon(Icons.help, color: Colors.black54,),
-                            color: Colors.black54,
-                            onPressed: () {
-                              alerta.openModal(context,"O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas númenro que nos informar." );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.89,
-                            child: buildWhatsAPP()),
-                      ],
-                    ),
-                    const Espacamento(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.08,
-                          child: IconButton(
-                            icon: const Icon(Icons.help, color: Colors.black54,),
-                            color: Colors.black54,
-                            onPressed: () {
-                              alerta.openModal(context,"Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências." );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.89,
-                            child:DropdownButtonFormField<String>(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              buildTextoInput('Atividade da empresa'),
+                              DropdownButtonFormField<String>(
                                 itemHeight: null,
                                 value: null,
-
-                                decoration: buildInputDecoration("Atividade da empresa"),
+                                decoration:
+                                    buildInputDecoration(""),
                                 onChanged: (values) {
                                   print(values);
                                   setState(() {
                                     //  _items=[];
-                                    _nomeController.text =values!;
+                                    _nomeController.text = values!;
                                   });
                                 },
                                 items: dropOpcoes.map((item) {
                                   return DropdownMenuItem<String>(
                                     value: item,
-                                    child:    Text(
+                                    child: Text(
                                       item,
-                                      style:const TextStyle(
+                                      style: const TextStyle(
                                         // fontWeight: FontWeight.bold,
-                                          fontSize: 14,
+                                        fontSize: 14,
                                         //  color: const Color.fromRGBO(159, 105, 56,1),
                                       ),
                                     ),
                                   );
                                 }).toList(),
                               ),
-                            ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                     const Espacamento(),
@@ -267,90 +306,106 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                    SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.08,
-                        child: IconButton(
-                          icon: const Icon(Icons.help, color: Colors.black54,),
-                          color: Colors.black54,
-                          onPressed: () {
-                            alerta.openModal(context,"Para selecionar a cidade o estado deve este selecionado." );
-                          },
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.08,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.help,
+                              color: Colors.black54,
+                            ),
+                            color: Colors.black54,
+                            onPressed: () {
+                              alerta.openModal(context,
+                                  "Para selecionar a cidade o estado deve este selecionado.");
+                            },
+                          ),
                         ),
-                      ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.68,
                           decoration: buildBoxDecoration(),
 
-                          child:  DropdownButtonFormField<String>(
-                            itemHeight: null,
-                            value: _cidadesValue.isNotEmpty?_cidadesValue:null,
-                            decoration: buildInputDecoration("Selecione o cidade"),
-                            onChanged: (values) {
-                              print(values);
-                              setState(() {
-                                //  _items=[];
-                                _cidadesValue =values!;
-                              });
-                            },
-                            items: _cidades.map((item) {
-                              return DropdownMenuItem<String>(
-                                value: item,
-                                child:    Text(
-                                 item,
-                                  style:const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                   // fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  //  color: const Color.fromRGBO(159, 105, 56,1),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              buildTextoInput('Cidade'),
+                              DropdownButtonFormField<String>(
+                                itemHeight: null,
+                                value:
+                                    _cidadesValue.isNotEmpty ? _cidadesValue : null,
+                                decoration:
+                                    buildInputDecoration(""),
+                                onChanged: (values) {
+                                  print(values);
+                                  setState(() {
+                                    //  _items=[];
+                                    _cidadesValue = values!;
+                                  });
+                                },
+                                items: _cidades.map((item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        // fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                        //  color: const Color.fromRGBO(159, 105, 56,1),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
                           ),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.20,
                           decoration: buildBoxDecoration(),
-                          child:  DropdownButtonFormField<String>(
-                            value:null,
-                            decoration: buildInputDecoration("Estado"),
-
-                            onChanged: (value) {
-                              setState(() {
-                                print(value);
-                                _cidadesValue ='';
-                                // _items=_items;
-                                //  _idEstado =0;
-                                _uf.forEach((element) {
-                                  if(element.sigla == value){
-                                    _idEstado =element.id;
-                                    _loadCidades();
-                                  }
-                                });
-                                _selectedItem = value!;
-                              });
-                            },
-                            items: _items.map((item) {
-                              return DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(item,
-                                  style:const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    // fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                    //  color: const Color.fromRGBO(159, 105, 56,1),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              buildTextoInput('Estado'),
+                              DropdownButtonFormField<String>(
+                                value: null,
+                                decoration: buildInputDecoration(""),
+                                onChanged: (value) {
+                                  setState(() {
+                                    print(value);
+                                    _cidadesValue = '';
+                                    // _items=_items;
+                                    //  _idEstado =0;
+                                    _uf.forEach((element) {
+                                      if (element.sigla == value) {
+                                        _idEstado = element.id;
+                                        _loadCidades();
+                                      }
+                                    });
+                                    _selectedItem = value!;
+                                  });
+                                },
+                                items: _items.map((item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        // fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                        //  color: const Color.fromRGBO(159, 105, 56,1),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
                           ),
                         ),
                       ],
-
                     ),
 
-
-  /*                  const Espacamento(),
+                    /*                  const Espacamento(),
                     Container(
                       decoration: buildBoxDecoration(),
                     child:  DropdownButtonFormField<String>(
@@ -406,7 +461,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     */
                     const Espacamento(),
 
-                 /*   Row(
+                    /*   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -435,32 +490,38 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ),
                     */
 
-                 //   const Espacamento(),
+                    //   const Espacamento(),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.01,
-                            child: Container()
-                        ),
+                            child: Container()),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.89,
                           decoration: buildBoxDecoration(),
-                          child: TextFormField(
-                              validator: ValidationBuilder().minLength(6).maxLength(50).required().build(),
-                              keyboardType: TextInputType.text,
-                              obscureText: true,
-                              controller: _senhaController,
-                              decoration: buildInputDecoration("Senha")
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              buildTextoInput('Senha'),
+                              TextFormField(
+                                  validator: ValidationBuilder()
+                                      .minLength(6)
+                                      .maxLength(50)
+                                      .required()
+                                      .build(),
+                                  keyboardType: TextInputType.text,
+                                  obscureText: true,
+                                  controller: _senhaController,
+                                  decoration: buildInputDecoration("")),
+                            ],
                           ),
                         ),
                       ],
                     ),
-
                     const Espacamento(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -468,24 +529,24 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          width:  MediaQuery.of(context).size.width * 0.21,
-                          child:    Checkbox(value: _valueCheck,
-                              activeColor: Color.fromRGBO(1, 57, 44,1),
-                              onChanged:(value){
+                          width: MediaQuery.of(context).size.width * 0.21,
+                          child: Checkbox(
+                              value: _valueCheck,
+                              activeColor: Color.fromRGBO(1, 57, 44, 1),
+                              onChanged: (value) {
                                 setState(() {
                                   print(value);
                                   _valueCheck = !_valueCheck;
                                   // checkBoxValue = newValue;
                                 });
-                               // Text('Remember me');
+                                // Text('Remember me');
                               }),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.75,
                           child: InkWell(
                               child: new Text('Termo de uso e privacidade'),
-                              onTap: () => launch('https://wolfx.com.br/')
-                          ),
+                              onTap: () => launch('https://wolfx.com.br/')),
                         ),
                       ],
                     ),
@@ -495,11 +556,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       width: MediaQuery.of(context).size.width * 0.50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: const  Color.fromRGBO(60, 60,59,1),
-                           // background
+                          primary: const Color.fromRGBO(60, 60, 59, 1),
+                          // background
                           onPrimary: Colors.white, // foreground
                         ),
-                        onPressed:_conn? _buildOnPressed:null,
+                        onPressed: _conn ? _buildOnPressed : null,
                         child: const Text('Cadastrar',
                             style: TextStyle(color: Colors.white)),
                       ),
@@ -511,8 +572,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       children: [
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            primary: const Color.fromRGBO(60, 50, 59,1),
-
+                            primary: const Color.fromRGBO(60, 50, 59, 1),
                           ),
                           child: const Text('Login'),
                           onPressed: () {
@@ -521,8 +581,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         ),
                         TextButton(
                           style: OutlinedButton.styleFrom(
-                            primary: const Color.fromRGBO(60,60, 59,1),
-
+                            primary: const Color.fromRGBO(60, 60, 59, 1),
                           ),
                           child: const Text('Esqueceu a senha?'),
                           onPressed: () {
@@ -541,154 +600,184 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     );
   }
 
+  Text buildTextoInput(titulo) {
+    return Text(
+      titulo,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+        color: Color.fromRGBO(105, 105, 105, 1),
+      ),
+    );
+  }
+
   SizedBox buildIcone(BuildContext context, texto) {
     return SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.01,
-                        child: IconButton(
-                                icon: const Icon(Icons.help, color: Colors.black54,),
-                        color: Colors.black54,
-                        onPressed: () {
-                          alerta.openModal(context,texto );
-                        },
-                      ),
-                  );
+      width: MediaQuery.of(context).size.width * 0.01,
+      child: IconButton(
+        icon: const Icon(
+          Icons.help,
+          color: Colors.black54,
+        ),
+        color: Colors.black54,
+        onPressed: () {
+          alerta.openModal(context, texto);
+        },
+      ),
+    );
   }
 
   Container buildWhatsAPP() {
     return Container(
-                    decoration: buildBoxDecoration(),
-                    child: TextFormField(
-                        validator: ValidationBuilder().required().build(),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          TelefoneInputFormatter(),
-                        ],
-                        keyboardType: TextInputType.number,
-                        controller: _telefoneController,
-                        decoration: buildInputDecoration("WhatsApp")
-                    ),
-                  );
+      decoration: buildBoxDecoration(),
+      child: TextFormField(
+          validator: ValidationBuilder().required().build(),
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            TelefoneInputFormatter(),
+          ],
+          keyboardType: TextInputType.number,
+          controller: _telefoneController,
+          decoration: buildInputDecoration("")),
+    );
   }
 
-
-
-
-  InputDecoration buildInputDecoration(text ) {
-    var iconeAjuda =null;
-    var textoAjuda ="";
+  InputDecoration buildInputDecoration(text) {
+    var iconeAjuda = null;
+    var textoAjuda = "";
     bool mostrarAlerta = false;
-    if(text =='Cep') {
-      textoAjuda =   "Digite o seu cep e a cidade e estado são adicionado automaticamente.";
+    if (text == 'Cep') {
+      textoAjuda =
+          "Digite o seu cep e a cidade e estado são adicionado automaticamente.";
       mostrarAlerta = true;
-    }else if(text =='Atividade da empresa'){
-      textoAjuda =   "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.";
+    } else if (text == 'Atividade da empresa') {
+      textoAjuda =
+          "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.";
       mostrarAlerta = true;
-    }else if(text =='WhatsApp'){
-      textoAjuda =   "O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas númenro que nos informar.";
+    } else if (text == 'WhatsApp') {
+      textoAjuda =
+          "O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas númenro que nos informar.";
       mostrarAlerta = true;
-    } else if(text =='Selecione o cidade'){
-      textoAjuda =   "Para selecionar a cidade o estado deve este selecionado.";
+    } else if (text == 'Selecione o cidade') {
+      textoAjuda = "Para selecionar a cidade o estado deve este selecionado.";
       mostrarAlerta = true;
     }
 
-    if(mostrarAlerta){
+    if (mostrarAlerta) {
       iconeAjuda = IconButton(
-        icon: const Icon(Icons.help, color: Colors.black54,),
+        icon: const Icon(
+          Icons.help,
+          color: Colors.black54,
+        ),
         color: Colors.black54,
         onPressed: () {
-          alerta.openModal(context,textoAjuda );
+          alerta.openModal(context, textoAjuda);
         },
       );
     }
-    return  InputDecoration(
+    return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       //   suffixIcon: suffixIcon,
-      fillColor: const Color.fromRGBO(112,111, 111,0.5),
+      fillColor: const Color.fromRGBO(245, 245, 245, 1),
       filled: true,
+      // border:InputBorder,
 
       // prefixIcon:iconeAjuda,
-      // disabledBorder: true,
+      //  disabledBorder: false,
+
       focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(
-            color: Color.fromRGBO(159, 105, 56,1), width: 1.0, style: BorderStyle.none),
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:
+            BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
       ),
-      border: InputBorder.none,
+      border: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:
+            BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+      ),
       labelText: text,
 
       labelStyle: const TextStyle(
         color: Colors.black,
 
-          fontFamily: 'Lato',
-          fontSize: 16,
-          //  color: const Color.fromRGBO(159, 105, 56,1),
+        fontFamily: 'Lato',
+        fontSize: 16,
+        //  color: const Color.fromRGBO(159, 105, 56,1),
 
-        //  backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
       ),
     );
   }
+
   BoxDecoration buildBoxDecoration() {
     return const BoxDecoration(
       color: Colors.transparent,
       //borderRadius: BorderRadius.circular(20),
 
-
       boxShadow: [
         BoxShadow(
-          color: Colors.black12,
-          blurRadius: 1,
-          offset: Offset(1, 3), // Shadow position
+          color: Colors.white,
+          //   blurRadius: 1,
+          //  offset: Offset(1, 3), // Shadow position
         ),
       ],
     );
   }
-  _buildOnPressed()async {
+
+  _buildOnPressed() async {
     final isValid = _formKey.currentState!.validate();
-    if(!isValid){
+    if (!isValid) {
       return;
     }
     var alert = AlertSnackBar();
-    var data ={
+    var data = {
       'setor_atuação': _nomeController.text,
-      'telefone':_telefoneController.text,
-      'email':_emailController.text,
-      'status':false,
-      'admin':false,
-      'cidade':_cidadesValue,
-      'estado':_selectedItem
+      'telefone': _telefoneController.text,
+      'email': _emailController.text,
+      'status': false,
+      'admin': false,
+      'cidade': _cidadesValue,
+      'estado': _selectedItem
     };
     print(_valueCheck);
-    if(_valueCheck == false){
-      alerta.openModal(context,'Aceite da policita de privacidade  e termo de uso para dar continuidade.');
+    if (_valueCheck == false) {
+      alerta.openModal(context,
+          'Aceite da policita de privacidade  e termo de uso para dar continuidade.');
       return;
     }
-    if(_selectedItem.isEmpty){
-      alerta.openModal(context,'Selecione o estado');
-      return ;
+    if (_selectedItem.isEmpty) {
+      alerta.openModal(context, 'Selecione o estado');
+      return;
     }
-    if(_cidadesValue.isEmpty){
-      alerta.openModal(context,'Selecione o cidade');
-      return ;
+    if (_cidadesValue.isEmpty) {
+      alerta.openModal(context, 'Selecione o cidade');
+      return;
     }
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _senhaController.text,
       );
-      if(credential.additionalUserInfo != null){
-       // print(credential.user!.email);
-        FirebaseFirestore.instance.collection("usuario").doc(_emailController.text).set(data);
+      if (credential.additionalUserInfo != null) {
+        // print(credential.user!.email);
+        FirebaseFirestore.instance
+            .collection("usuario")
+            .doc(_emailController.text)
+            .set(data);
       }
-      alert.alertSnackBar(context,Colors.green, 'Cadastro realizado com sucesso');
+      alert.alertSnackBar(
+          context, Colors.green, 'Cadastro realizado com sucesso');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-       // print('The password provided is too weak.');
-        alert.alertSnackBar(context,Colors.red, 'A senha fornecida é muito fraca.');
-
+        // print('The password provided is too weak.');
+        alert.alertSnackBar(
+            context, Colors.red, 'A senha fornecida é muito fraca.');
       } else if (e.code == 'email-already-in-use') {
-       // print('The account already exists for that email.');
-        alert.alertSnackBar(context,Colors.red, 'A conta já existe para esse e-mail.');
-
+        // print('The account already exists for that email.');
+        alert.alertSnackBar(
+            context, Colors.red, 'A conta já existe para esse e-mail.');
       }
     } catch (e) {
       print(e);
@@ -696,6 +785,3 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     print(data);
   }
 }
-
-
-
