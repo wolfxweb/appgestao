@@ -1,6 +1,3 @@
-
-
-
 import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertamodal.dart';
@@ -24,7 +21,6 @@ class RecuperarSenha extends StatefulWidget {
 }
 
 class _RecuperarSenhaState extends State<RecuperarSenha> {
-
   var irPagina = PushPage();
   var alerta = AlertModal();
   final _emailController = TextEditingController();
@@ -35,8 +31,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-     /* appBar: AppBar(
+      /* appBar: AppBar(
         title: Text("Esqueceu a senha"),
       ),*/
       body: Center(
@@ -56,30 +51,48 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
-                      color: const Color.fromRGBO(159, 105, 56,1),
+                      color:  Color.fromRGBO(1, 57, 44, 1),
                     ),
                   ),
                   const Espacamento(),
-
-                  Container(
-                    decoration: buildBoxDecoration(),
-                    child: TextFormField(
-                      validator: ValidationBuilder().email().maxLength(50).required().build(),
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailController,
-                      decoration: buildInputDecoration("Digite o seu email")
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Digite o seu email",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: Color.fromRGBO(105, 105, 105, 1),
+                        ),
+                      ),
+                      Container(
+                        decoration: buildBoxDecoration(),
+                        child: TextFormField(
+                            validator: ValidationBuilder()
+                                .email()
+                                .maxLength(50)
+                                .required()
+                                .build(),
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _emailController,
+                            decoration: buildInputDecoration("")),
+                      ),
+                    ],
                   ),
                   const Espacamento(),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton (
+                      width: MediaQuery.of(context).size.width*0.70,
+                    child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: const Color.fromRGBO(159, 105, 56,1), // background
+                        primary:
+                            const Color.fromRGBO(1, 57, 44, 1), // background
                         onPrimary: Colors.white, // foreground
                       ),
-                      child: Text('Enviar',style: TextStyle(color: Colors.white)),
-                      onPressed:btnEnviar?_buildOnPressed:null,
+                      child:
+                          Text('Enviar', style: TextStyle(color: Colors.white)),
+                      onPressed: btnEnviar ? _buildOnPressed : null,
                     ),
                   ),
                   const Espacamento(),
@@ -87,15 +100,19 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                    BtnCadastreSe(),
-                    TextButton(
-                        style: OutlinedButton.styleFrom(
-                          primary: const Color.fromRGBO(159, 105, 56,1), // background
+                      BtnCadastreSe(),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width*0.35,
+                        child: TextButton(
+                          style: OutlinedButton.styleFrom(
+                            primary:
+                                const Color.fromRGBO(1, 57, 44, 1), // background
+                          ),
+                          child: const Text('Login'),
+                          onPressed: () {
+                            irPagina.pushPage(context, const Login());
+                          },
                         ),
-                        child: const Text('Login'),
-                        onPressed:(){
-                          irPagina.pushPage(context, const Login());
-                        },
                       ),
                     ],
                   ),
@@ -107,20 +124,29 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
       ),
     );
   }
+
   InputDecoration buildInputDecoration(text) {
-    return  InputDecoration(
+    return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       //   suffixIcon: suffixIcon,
-      fillColor: const Color.fromRGBO(159, 105, 56,0.5),
+      fillColor: const Color.fromRGBO(245, 245, 245, 1),
       filled: true,
+      // border:InputBorder,
 
-      // disabledBorder: true,
+      // prefixIcon:iconeAjuda,
+      //  disabledBorder: false,
+
       focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(
-            color: const Color.fromRGBO(159, 105, 56,1), width: 1.0, style: BorderStyle.none),
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:
+        BorderSide(color:Color.fromRGBO(1, 57, 44, 1), width: 1.0),
       ),
-      border: InputBorder.none,
+      border: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:
+        BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+      ),
       labelText: text,
       labelStyle: const TextStyle(
         color: Colors.black,
@@ -128,34 +154,37 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
       ),
     );
   }
+
   BoxDecoration buildBoxDecoration() {
     return const BoxDecoration(
       color: Colors.transparent,
       //borderRadius: BorderRadius.circular(20),
       boxShadow: [
         BoxShadow(
-          color: Colors.black12,
-          blurRadius: 1,
-          offset: Offset(1, 3), // Shadow position
+          color: Colors.white,
+          //blurRadius: 1,
+        //  offset: Offset(1, 3), // Shadow position
         ),
       ],
     );
   }
-  _buildOnPressed()async{
+
+  _buildOnPressed() async {
     final isValid = _formKey.currentState!.validate();
-    if(!isValid){
+    if (!isValid) {
       return;
     }
     print(_emailController.text);
     try {
-      final credential = await FirebaseAuth.instance.sendPasswordResetEmail(email: _emailController.text).then((value){
+      final credential = await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: _emailController.text)
+          .then((value) {
         print('ok');
-        _emailController.text="";
+        _emailController.text = "";
         btnEnviar = false;
-        alerta.openModal(context,'Foi enviado para o seu email o link para criação da nova senha, caso não estaja na caixa de entrada verifique o Span.');
+        alerta.openModal(context,
+            'Foi enviado para o seu email o link para criação da nova senha, caso não estaja na caixa de entrada verifique o Span.');
       });
-
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

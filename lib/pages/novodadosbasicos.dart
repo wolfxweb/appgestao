@@ -33,7 +33,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   var mesBloc = DadosBasicosBloc();
   var bd = DadosBasicosSqlite();
   var importanciaMesesBLoc = ImportanciaMesesBLoc();
-  var color = Color.fromRGBO(112, 111, 111, 0.7);
+  var color = Color.fromRGBO(105, 105, 105, 1);
   var id = 0;
 
   var fatVendas = 100.0;
@@ -59,7 +59,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
 
   var mesSelect = ValueNotifier('');
 
-  NumberFormat formatterPercentual = NumberFormat("0");
+  NumberFormat formatterPercentual = NumberFormat("0.00");
   bool _conn = false;
   String _message = '';
   StreamSubscription? subscription;
@@ -112,12 +112,12 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
             (double.parse(custo_fixoTemp).truncateToDouble() / fatVendas) * 100;
       });
     });
-    percentualVendas.text = "100 %";
+    percentualVendas.text = "100,00";
     percentualGastosInsumos.text =
-        '${formatterPercentual.format(gastosInsumos)} %';
+        formatterPercentual.format(gastosInsumos);
     percentualOutrosCustos.text =
-        '${formatterPercentual.format(outrosCustos)} %';
-    percentualCustoFixo.text = '${formatterPercentual.format(custoFixo)} %';
+        formatterPercentual.format(outrosCustos);
+    percentualCustoFixo.text = formatterPercentual.format(custoFixo);
   }
 
   @override
@@ -377,26 +377,34 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   Container inputPercentual(BuildContext context, contoler) {
     return Container(
       decoration: buildBuildBoxDecoration(),
-      width: MediaQuery.of(context).size.width * 0.20,
+      width: MediaQuery.of(context).size.width * 0.25,
       child: StreamBuilder(
           stream: null,
           builder: (context, snapshot) {
             return TextFormField(
-              enabled: false,
-              keyboardType: TextInputType.number,
+             // enabled: false,
+           //   keyboardType: TextInputType.number,
               controller: contoler,
               // controller: null,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.always,
-                contentPadding:   const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                fillColor: color,
-                filled: true,
-                // disabledBorder: true,
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: color, width: 1.0, style: BorderStyle.none),
+                contentPadding:    EdgeInsets.symmetric(horizontal: 5, vertical:0),
+                fillColor:  Color.fromRGBO(105, 105, 105, 1),
+               // filled: true,
+                suffixIcon: Icon(
+                  Icons.percent,
+                  color: Colors.black54,
+                  size: 20,
                 ),
-
+                // disabledBorder: true,
+                 focusedBorder:  OutlineInputBorder(
+                // borderSide: BorderSide(color: Color(0xFFffd600)),
+                 borderSide:    BorderSide(color: Color.fromRGBO(1, 57, 44, 1), width: 1.0),
+               ),
+                border:  OutlineInputBorder(
+                  // borderSide: BorderSide(color: Color(0xFFffd600)),
+                  borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+                ),
                 // hintText: 'Quantidade de clientes atendidos',
               ),
             );
@@ -417,10 +425,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
           //  CentavosInputFormatter(moeda: true, casasDecimais: 2)
         ],
         // decoration: buildInputDecoration(context,'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).'),
-        decoration: InputDecoration(
+        decoration:const InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
           /*    prefixIcon: IconButton(
                         icon: const Icon(Icons.help, color: Colors.black54,),
                         color: Colors.black54,
@@ -428,22 +435,27 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                           alerta.openModal(context, 'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
                         },
                       ),*/
+
           suffixIcon: Icon(
+
             Icons.percent,
             color: Colors.black54,
+            size: 20,
           ),
-          fillColor: color,
+          fillColor:  Color.fromRGBO(245, 245, 245, 1),
           filled: true,
           // disabledBorder: true,
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-                color: const Color.fromRGBO(159, 105, 56, 1),
-                width: 1.0,
-                style: BorderStyle.none),
+          /*  focusedBorder: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:    BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+      ),*/
+          border:  OutlineInputBorder(
+            // borderSide: BorderSide(color: Color(0xFFffd600)),
+            borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
           ),
-          border: InputBorder.none,
+
           labelText: "Margen que você considera ideal",
-          labelStyle: const TextStyle(
+          labelStyle:  TextStyle(
             color: Colors.black,
             fontSize: 13,
             //  backgroundColor: Colors.white,
@@ -462,31 +474,22 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         validator: ValidationBuilder().maxLength(50).required().build(),
         keyboardType: TextInputType.number,
         controller: _quantidadeController,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-          // prefixIcon: IconButton(
-          //   icon: const Icon(
-          //     Icons.help,
-          //   ),
-          //   color: Colors.transparent,
-          //   onPressed: () {
-          //     //  alerta.openModal(context, text);
-          //   },
-          // ),
-          fillColor: color,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+          fillColor: const Color.fromRGBO(245, 245, 245, 1),
           filled: true,
           // disabledBorder: true,
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromRGBO(159, 105, 56, 1),
-                width: 1.0,
-                style: BorderStyle.none),
+            focusedBorder:  OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:    BorderSide(color: Color.fromRGBO(1, 57, 44, 1), width: 1.0),
+      ),
+          border:  OutlineInputBorder(
+            // borderSide: BorderSide(color: Color(0xFFffd600)),
+            borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
           ),
-          border: InputBorder.none,
           labelText: "Quantidade de clientes atendidos",
-          labelStyle: const TextStyle(
+          labelStyle:  TextStyle(
             color: Colors.black54,
             fontSize: 13,
             //  backgroundColor: Colors.white,
@@ -547,7 +550,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
 
   IconButton buildIconeMsg(BuildContext context, msgAlertaMes) {
     return IconButton(
-      iconSize: 35,
+     // iconSize: 35,
       icon: Icon(
         Icons.help,
         color: color,
@@ -567,32 +570,23 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
           builder: (BuildContext context, String value, _) {
             return SizedBox(
               child: DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
+                  decoration:const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                    /*         prefixIcon: IconButton(
-                                  icon: const  Icon(
-                                    Icons.help,
-                                    color: Colors.black54,
-                                  ),
-                                  // color: Colors.transparent,
-                                  onPressed: () {
-                                    alerta.openModal(context,msgAlertaMes);
-                                  },
-                                ),*/
-                    fillColor: color,
+                         EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    fillColor:  Color.fromRGBO(245, 245, 245, 1),
                     filled: true,
                     // disabledBorder: true,
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(159, 105, 56, 1),
-                          width: 1.0,
-                          style: BorderStyle.none),
+                      focusedBorder:  OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:    BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+      ),
+                    border:  OutlineInputBorder(
+                      // borderSide: BorderSide(color: Color(0xFFffd600)),
+                      borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
                     ),
-                    border: InputBorder.none,
                     labelText: "Selecione o mês",
-                    labelStyle: const TextStyle(
+                    labelStyle:  TextStyle(
                       color: Colors.black54,
                       fontSize: 13,
                       //  backgroundColor: Colors.white,
@@ -626,7 +620,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   Container buildContainerInput(
       BuildContext context, text, titulo, controllerInformado, nomeCampo) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.65,
+      width: MediaQuery.of(context).size.width * 0.60,
       decoration: buildBuildBoxDecoration(),
       child: TextFormField(
         onTap: () {
@@ -654,13 +648,13 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
           }
 
           setState(() {
-            percentualVendas.text = "100 %";
+            percentualVendas.text = "100,00";
             percentualGastosInsumos.text =
-                '${formatterPercentual.format(gastosInsumos)} %';
+                '${formatterPercentual.format(gastosInsumos)} ';
             percentualOutrosCustos.text =
-                '${formatterPercentual.format(outrosCustos)} %';
+                '${formatterPercentual.format(outrosCustos)} ';
             percentualCustoFixo.text =
-                '${formatterPercentual.format(custoFixo)} %';
+                '${formatterPercentual.format(custoFixo)} ';
           });
         },
         validator: ValidationBuilder().maxLength(50).required().build(),
@@ -709,13 +703,13 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
 
   buildBuildBoxDecoration() {
     return const BoxDecoration(
-      color: Colors.transparent,
+    //  color: Colors.transparent,
       //borderRadius: BorderRadius.circular(20),
       boxShadow: [
         BoxShadow(
-          color: Colors.black12,
-          blurRadius: 1,
-          offset: Offset(1, 3), // Shadow position
+          color: Colors.white,
+       //   blurRadius: 1,
+        //  offset: Offset(1, 3), // Shadow position
         ),
       ],
     );
@@ -732,14 +726,20 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
           alerta.openModal(context, text);
         },
       ),*/
-      fillColor: color,
+
+      //   suffixIcon: suffixIcon,
+      fillColor: const Color.fromRGBO(245, 245, 245, 1),
       filled: true,
       // disabledBorder: true,
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(
-            color: Colors.orange, width: 1.0, style: BorderStyle.none),
+        focusedBorder: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:    BorderSide(color: Color.fromRGBO(1, 57, 44, 1), width: 1.0),
       ),
-      border: InputBorder.none,
+      border: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+      ),
+
       labelText: titulo,
       labelStyle: const TextStyle(
         color: Colors.black,

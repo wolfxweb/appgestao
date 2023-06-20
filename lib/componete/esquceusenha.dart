@@ -11,14 +11,17 @@ class EsqueceuSenha extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var irPagina = PushPage();
-    return TextButton(
-      style: OutlinedButton.styleFrom(
-        primary: const Color.fromRGBO(159, 105, 56,1), // background
+    return SizedBox(
+      width: MediaQuery.of(context).size.width*0.35,
+      child: TextButton(
+        style: OutlinedButton.styleFrom(
+          primary: const Color.fromRGBO(1, 57, 44, 1), // background
+        ),
+        child: const Text('Esqueceu a senha?'),
+        onPressed:(){
+          irPagina.pushPage(context, RecuperarSenha());
+        },
       ),
-      child: const Text('Esqueceu a senha?'),
-      onPressed:(){
-        irPagina.pushPage(context, RecuperarSenha());
-      },
     );
   }
 }

@@ -148,7 +148,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       body: Center(
         child: Container(
           child: Padding(
-            padding: const EdgeInsets.all(3.0),
+            padding: const EdgeInsets.all(15.0),
             child: SingleChildScrollView(
               reverse: true,
               child: Form(
@@ -158,7 +158,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(0.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
@@ -177,7 +177,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
                         fontFamily: 'Lato',
-                        color: Color.fromRGBO(105, 105, 105, 1),
+                        color: const Color.fromRGBO(1, 57, 44, 1),
                       ),
                     ),
                     const Espacamento(),
@@ -196,7 +196,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                             buildTextoInput('Email'),
                             Container(
                               decoration: buildBoxDecoration(),
-                              width: MediaQuery.of(context).size.width * 0.89,
+                              width: MediaQuery.of(context).size.width * 0.82,
                               child: TextFormField(
                                 validator: ValidationBuilder()
                                     .email()
@@ -233,7 +233,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           ),
                         ),
                         SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.89,
+                            width: MediaQuery.of(context).size.width * 0.82,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -264,7 +264,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           ),
                         ),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.89,
+                          width: MediaQuery.of(context).size.width * 0.82,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -272,6 +272,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                               DropdownButtonFormField<String>(
                                 itemHeight: null,
                                 value: null,
+                                isExpanded: true,
                                 decoration:
                                     buildInputDecoration(""),
                                 onChanged: (values) {
@@ -284,11 +285,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                                 items: dropOpcoes.map((item) {
                                   return DropdownMenuItem<String>(
                                     value: item,
+
                                     child: Text(
                                       item,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         // fontWeight: FontWeight.bold,
-                                        fontSize: 14,
+                                       // fontSize: 14,
                                         //  color: const Color.fromRGBO(159, 105, 56,1),
                                       ),
                                     ),
@@ -321,7 +324,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           ),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.68,
+                          width: MediaQuery.of(context).size.width * 0.62,
                           decoration: buildBoxDecoration(),
 
                           child: Column(
@@ -330,6 +333,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                               buildTextoInput('Cidade'),
                               DropdownButtonFormField<String>(
                                 itemHeight: null,
+                                isExpanded: true,
+
                                 value:
                                     _cidadesValue.isNotEmpty ? _cidadesValue : null,
                                 decoration:
@@ -344,13 +349,16 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                                 items: _cidades.map((item) {
                                   return DropdownMenuItem<String>(
                                     value: item,
-                                    child: Text(
-                                      item,
-                                      style: const TextStyle(
+                                    child: SizedBox(
+                                      width: 200.0,
+                                      child: Text(
+                                        item,
                                         overflow: TextOverflow.ellipsis,
-                                        // fontWeight: FontWeight.bold,
-                                        fontSize: 12,
-                                        //  color: const Color.fromRGBO(159, 105, 56,1),
+                                        style: const  TextStyle(
+                                          // fontWeight: FontWeight.bold,
+                                        //  fontSize: 14,
+                                          //  color: const Color.fromRGBO(159, 105, 56,1),
+                                        ),
                                       ),
                                     ),
                                   );
@@ -368,13 +376,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                               buildTextoInput('Estado'),
                               DropdownButtonFormField<String>(
                                 value: null,
+                                isExpanded: true,
                                 decoration: buildInputDecoration(""),
                                 onChanged: (value) {
                                   setState(() {
                                     print(value);
                                     _cidadesValue = '';
-                                    // _items=_items;
-                                    //  _idEstado =0;
                                     _uf.forEach((element) {
                                       if (element.sigla == value) {
                                         _idEstado = element.id;
@@ -489,9 +496,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       ],
                     ),
                     */
-
                     //   const Espacamento(),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
@@ -501,7 +506,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                             width: MediaQuery.of(context).size.width * 0.01,
                             child: Container()),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.89,
+                          width: MediaQuery.of(context).size.width * 0.82,
                           decoration: buildBoxDecoration(),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -543,7 +548,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                               }),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.75,
+                          width: MediaQuery.of(context).size.width * 0.68,
                           child: InkWell(
                               child: new Text('Termo de uso e privacidade'),
                               onTap: () => launch('https://wolfx.com.br/')),
@@ -552,44 +557,23 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ),
 
                     const Espacamento(),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(60, 60, 59, 1),
-                          // background
-                          onPrimary: Colors.white, // foreground
-                        ),
-                        onPressed: _conn ? _buildOnPressed : null,
-                        child: const Text('Cadastrar',
-                            style: TextStyle(color: Colors.white)),
-                      ),
-                    ),
-                    const Espacamento(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            primary: const Color.fromRGBO(60, 50, 59, 1),
-                          ),
-                          child: const Text('Login'),
-                          onPressed: () {
-                            irPagina.pushPage(context, const Login());
-                          },
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width*0.10,
+                          child: Container(),
                         ),
-                        TextButton(
-                          style: OutlinedButton.styleFrom(
-                            primary: const Color.fromRGBO(60, 60, 59, 1),
-                          ),
-                          child: const Text('Esqueceu a senha?'),
-                          onPressed: () {
-                            irPagina.pushPage(context, const RecuperarSenha());
-                          },
+                        buildBtns(context),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width*0.10,
+                          child: Container(),
                         ),
                       ],
                     ),
+
                   ],
                 ),
               ),
@@ -598,6 +582,60 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
         ),
       ),
     );
+  }
+
+  Column buildBtns(BuildContext context) {
+    return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.70,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: const Color.fromRGBO(1, 57, 44, 1),
+                            // background
+                            onPrimary: Colors.white, // foreground
+                          ),
+                          onPressed: _conn ? _buildOnPressed : null,
+                          child: const Text('Cadastrar',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                      const Espacamento(),
+                      Row(
+                     //   mainAxisAlignment: MainAxisAlignment.center,
+                     //   crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                primary: const Color.fromRGBO(1, 57, 44, 1),
+                              ),
+                              child: const Text('Login'),
+                              onPressed: () {
+                                irPagina.pushPage(context, const Login());
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: TextButton(
+                              style: OutlinedButton.styleFrom(
+                                primary: const Color.fromRGBO(1, 57, 44, 1),
+                              ),
+                              child: const Text('Esqueceu a senha?'),
+                              onPressed: () {
+                                irPagina.pushPage(context, const RecuperarSenha());
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
   }
 
   Text buildTextoInput(titulo) {
@@ -689,7 +727,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       focusedBorder: const OutlineInputBorder(
         // borderSide: BorderSide(color: Color(0xFFffd600)),
         borderSide:
-            BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+            BorderSide(color: Color.fromRGBO(1, 57, 44, 1), width: 1.0),
       ),
       border: const OutlineInputBorder(
         // borderSide: BorderSide(color: Color(0xFFffd600)),

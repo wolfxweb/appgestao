@@ -44,67 +44,105 @@ class _LoginState extends State<Login> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(26.0),
+            padding: const EdgeInsets.all(15.0),
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+
                 children: [
                   const Logo(),
                   const Espacamento(),
                   const Espacamento(),
                   const Espacamento(),
-                  Container(
-                    decoration: buildBoxDecoration(),
-                    child: TextFormField(
-                      validator: ValidationBuilder()
-                          .email()
-                          .maxLength(50)
-                          .required()
-                          .build(),
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailController,
-                      decoration:buildInputDecoration('Digite o seu email'),
 
-                    ),
-                  ),
-                  const Espacamento(),
-                  Container(
-                    decoration: buildBoxDecoration(),
-                    child: TextFormField(
-                      validator: ValidationBuilder()
-                          .minLength(6)
-                          .maxLength(50)
-                          .required()
-                          .build(),
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      controller: _senhaController,
-                      decoration: buildInputDecoration('Digite sua senha'),
-                    ),
-                  ),
-                  const Espacamento(),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color.fromRGBO(159, 105, 56,1),
-                         // background
-                        onPrimary: Colors.white, // foreground
-                      ),
-                      child: Text('Entrar', style: TextStyle(color: Colors.white)),
-                      onPressed: _buildOnPressed,
-                    ),
-                  ),
-                  const Espacamento(),
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      BtnCadastreSe(),
-                      EsqueceuSenha(),
+                    children: [
+                      buildTextoInput('Digite o seu email'),
+                      Container(
+                        decoration: buildBoxDecoration(),
+                        child: TextFormField(
+                          validator: ValidationBuilder()
+                              .email()
+                              .maxLength(50)
+                              .required()
+                              .build(),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          decoration:buildInputDecoration(''),
+
+                        ),
+                      ),
                     ],
                   ),
+                  const Espacamento(),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildTextoInput('Digite sua senha'),
+                      Container(
+                        decoration: buildBoxDecoration(),
+                        child: TextFormField(
+                          validator: ValidationBuilder()
+                              .minLength(6)
+                              .maxLength(50)
+                              .required()
+                              .build(),
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          controller: _senhaController,
+                          decoration: buildInputDecoration(''),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Espacamento(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width*0.10,
+                            child: Container(),
+                          ),
+                          SizedBox(
+                             width: MediaQuery.of(context).size.width*0.70,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color.fromRGBO(1, 57, 44, 1),
+                                 // background
+                                onPrimary: Colors.white, // foreground
+                              ),
+                              child: Text('Entrar', style: TextStyle(color: Colors.white)),
+                              onPressed: _buildOnPressed,
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width*0.10,
+                            child: Container(),
+                          ),
+                        ],
+                      ),
+                      const Espacamento(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          BtnCadastreSe(),
+                          EsqueceuSenha(),
+                        ],
+                      ),
+                    ],
+                  ),
+
                   const Espacamento(),
                  // const BtnDarkLight(),
                 ],
@@ -115,25 +153,41 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
+  Text buildTextoInput(titulo) {
+    return Text(
+      titulo,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+        color: Color.fromRGBO(105, 105, 105, 1),
+      ),
+    );
+  }
   InputDecoration buildInputDecoration(text) {
     return  InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-   //   suffixIcon: suffixIcon,
-      fillColor: const Color.fromRGBO(159, 105, 56,0.5),
+      //   suffixIcon: suffixIcon,
+      fillColor: const Color.fromRGBO(245, 245, 245, 1),
       filled: true,
-
       // disabledBorder: true,
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(
-            color:  Color.fromRGBO(159, 105, 56,0.5), width: 1.0, style: BorderStyle.none),
+    focusedBorder: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:    BorderSide(color: Color.fromRGBO(1, 57, 44, 1), width: 1.0),
       ),
-      border: InputBorder.none,
+      border: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+      ),
+
       labelText: text,
       labelStyle: const TextStyle(
         color: Colors.black,
-        //  backgroundColor: Colors.white,
+
+        fontFamily: 'Lato',
+        fontSize: 16,
+        //  color: const Color.fromRGBO(159, 105, 56,1),
+        backgroundColor: Colors.white,
       ),
     );
   }
@@ -143,9 +197,9 @@ class _LoginState extends State<Login> {
       //borderRadius: BorderRadius.circular(20),
       boxShadow: [
         BoxShadow(
-          color: Colors.black12,
-          blurRadius: 1,
-          offset: Offset(1, 3), // Shadow position
+          color: Colors.white,
+        //  blurRadius: 1,
+         // offset: Offset(1, 3), // Shadow position
         ),
       ],
     );
