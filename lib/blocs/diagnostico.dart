@@ -122,8 +122,9 @@ class DignosticoBloc extends BlocBase {
   }
 
   _montaTexto() {
+  //  ${_fulano}
     _text_1 =
-        "${_fulano} as informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_Bnovo}%.\n"
+        "As informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_Bnovo}%.\n"
         "O ticket médio foi de R\$ ${_C} .\nMargem de contribuição R\$ ${_D}.\nPara começar a ter lucro foi preciso vender R\$ ${_E}, "
         "o que representa ${_FNOVO}% do total faturado no mês.\nA produtividade foi de R\$ ${_G} de faturamento para cada R\$1,00 de custo fixo.";
 

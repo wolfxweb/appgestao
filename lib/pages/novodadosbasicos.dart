@@ -176,7 +176,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(0.0),
+              padding: const EdgeInsets.all(10.0),
               child: Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -188,68 +188,95 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     'Todos os dados devem compreender o mesmo período.',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 13,
+                      fontSize: 16,
                     ),
                     textAlign: TextAlign.center,
                   ),
                   const Espacamento(),
 
                   const Espacamento(),
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildIconeMsg(context, msgAlertaMes),
-                      buildSelecioneMes(dropOpcoes),
+                      buildTituloInput(context,'Selecione o mês'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          buildIconeMsg(context, msgAlertaMes),
+                          buildSelecioneMes(dropOpcoes),
+                        ],
+                      ),
                     ],
                   ),
                   const Espacamento(),
                   containerMsgMesSelecionado(),
                   const Espacamento(),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    // mainAxisSize: MainAxisSize.max,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.14,
-                        child: Container(),
+                      buildTituloInput(context,'Quantidade de clientes atendidos'),
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        // mainAxisSize: MainAxisSize.max,
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.14,
+                            child: Container(),
+                          ),
+                          quantidadClientesAtendido(),
+                        ],
                       ),
-                      quantidadClientesAtendido(),
                     ],
                   ),
                   const Espacamento(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildIconeMsg(context,
-                          'Valor bruto apurado com as vendas realizadas (valor pago pelos clientes).'),
-                      buildContainerInput(
-                        context,
-                        'Valor bruto apurado com as vendas realizadas (valor pago pelos clientes).',
-                        "Faturamento com vendas",
-                        _faturamentoController,
-                        'Faturamento',
+                      buildTituloInput(context,'Faturamento com vendas'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          buildIconeMsg(context,
+                              'Valor bruto apurado com as vendas realizadas (valor pago pelos clientes).'),
+                          buildContainerInput(
+                            context,
+                            'Valor bruto apurado com as vendas realizadas (valor pago pelos clientes).',
+                            "",
+                            _faturamentoController,
+                            'Faturamento',
+                          ),
+                          inputPercentual(context, percentualVendas)
+                        ],
                       ),
-                      inputPercentual(context, percentualVendas)
                     ],
                   ),
                   const Espacamento(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildIconeMsg(context,
-                          'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).'),
-                      buildContainerInput(
-                        context,
-                        'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).',
-                        "Gastos com insumos",
-                        _custoInsumosController,
-                        'Gastos com insumos',
+                      buildTituloInput(context,'Gastos com insumos'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          buildIconeMsg(context,
+                              'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).'),
+                          buildContainerInput(
+                            context,
+                            'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).',
+                            "",
+                            _custoInsumosController,
+                            'Gastos com insumos',
+                          ),
+                          inputPercentual(context, percentualGastosInsumos)
+                        ],
                       ),
-                      inputPercentual(context, percentualGastosInsumos)
                     ],
                   ),
                   const Espacamento(),
@@ -264,53 +291,71 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     ],
                   ),
                   const Espacamento(),*/
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildIconeMsg(context,
-                          'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e vales;\nCustos das eventuais antecipações de vencimento e desconto de títulos;\nComissões, gorjetas;\nEstacionamento (quando pago em função do uso por clientes);\nCusto das entregas delivery.'),
-                      buildContainerInput(
-                          context,
-                          'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e vales;\nCustos das eventuais antecipações de vencimento e desconto de títulos;\nComissões, gorjetas;\nEstacionamento (quando pago em função do uso por clientes);\nCusto das entregas delivery.',
-                          'Outros custos variáveis',
-                          _custoFixoController,
-                          'Outros custos variáveis'
-                          //  _custoVariavelController
-                          ),
-                      inputPercentual(context, percentualOutrosCustos)
+                      buildTituloInput(context,'Outros custos variáveis'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          buildIconeMsg(context,
+                              'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e vales;\nCustos das eventuais antecipações de vencimento e desconto de títulos;\nComissões, gorjetas;\nEstacionamento (quando pago em função do uso por clientes);\nCusto das entregas delivery.'),
+                          buildContainerInput(
+                              context,
+                              'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e vales;\nCustos das eventuais antecipações de vencimento e desconto de títulos;\nComissões, gorjetas;\nEstacionamento (quando pago em função do uso por clientes);\nCusto das entregas delivery.',
+                              '',
+                              _custoFixoController,
+                              'Outros custos variáveis'
+                              //  _custoVariavelController
+                              ),
+                          inputPercentual(context, percentualOutrosCustos)
+                        ],
+                      ),
                     ],
                   ),
 
                   const Espacamento(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildIconeMsg(context,
-                          'Custos e despesas que ocorrem independentemente das vendas.\nPor exemplo:\nSalários, encargos, provisões, benefícios e pró-labore;\nContratos de serviços: contador, Internet, TV à cabo, leitoras de cartões e estacionamento (quando for um valor mensal fechado);\nAluguéis, IPTU e taxas;\nÁgua, eletricidade, gás, materiais de limpeza e higiene.'),
-                      buildContainerInput(
-                          context,
-                          'Custos e despesas que ocorrem independentemente das vendas.\nPor exemplo:\nSalários, encargos, provisões, benefícios e pró-labore;\nContratos de serviços: contador, Internet, TV à cabo, leitoras de cartões e estacionamento (quando for um valor mensal fechado);\nAluguéis, IPTU e taxas;\nÁgua, eletricidade, gás, materiais de limpeza e higiene.',
-                          'Custos fixos',
-                          _custoVariavelController,
-                          'Custos fixos'
-                          //_custoFixoController
-                          ),
-                      inputPercentual(context, percentualCustoFixo)
+                      buildTituloInput(context,'Custos fixos'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          buildIconeMsg(context,
+                              'Custos e despesas que ocorrem independentemente das vendas.\nPor exemplo:\nSalários, encargos, provisões, benefícios e pró-labore;\nContratos de serviços: contador, Internet, TV à cabo, leitoras de cartões e estacionamento (quando for um valor mensal fechado);\nAluguéis, IPTU e taxas;\nÁgua, eletricidade, gás, materiais de limpeza e higiene.'),
+                          buildContainerInput(
+                              context,
+                              'Custos e despesas que ocorrem independentemente das vendas.\nPor exemplo:\nSalários, encargos, provisões, benefícios e pró-labore;\nContratos de serviços: contador, Internet, TV à cabo, leitoras de cartões e estacionamento (quando for um valor mensal fechado);\nAluguéis, IPTU e taxas;\nÁgua, eletricidade, gás, materiais de limpeza e higiene.',
+                              '',
+                              _custoVariavelController,
+                              'Custos fixos'
+                              //_custoFixoController
+                              ),
+                          inputPercentual(context, percentualCustoFixo)
+                        ],
+                      ),
                     ],
                   ),
                   const Espacamento(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildIconeMsg(context,
-                          'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.'),
-                      margemDesejada(context),
+                      buildTituloInput(context,'Margen que você considera ideal'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          buildIconeMsg(context,
+                              'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.'),
+                          margemDesejada(context),
+                        ],
+                      ),
                     ],
                   ),
                   const Espacamento(),
@@ -320,7 +365,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.10,
+                        width: MediaQuery.of(context).size.width * 0.13,
                         child: Container(),
                       ),
                       SizedBox(
@@ -374,10 +419,25 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     );
   }
 
+  Row buildTituloInput(BuildContext context, titulo) {
+    return Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      // mainAxisSize: MainAxisSize.max,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.14,
+                          child: Container(),
+                        ),
+                       Text(titulo)
+                      ],
+                    );
+  }
+
   Container inputPercentual(BuildContext context, contoler) {
     return Container(
       decoration: buildBuildBoxDecoration(),
-      width: MediaQuery.of(context).size.width * 0.25,
+      width: MediaQuery.of(context).size.width * 0.28,
       child: StreamBuilder(
           stream: null,
           builder: (context, snapshot) {
@@ -389,7 +449,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
               decoration: const InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 contentPadding:    EdgeInsets.symmetric(horizontal: 5, vertical:0),
-                fillColor:  Color.fromRGBO(105, 105, 105, 1),
+                fillColor:  Color.fromRGBO(245, 245, 245, 1),
+                filled: true,
                // filled: true,
                 suffixIcon: Icon(
                   Icons.percent,
@@ -414,7 +475,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
 
   Container margemDesejada(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.86,
+      width: MediaQuery.of(context).size.width * 0.80,
       decoration: buildBuildBoxDecoration(),
       child: TextFormField(
         validator: ValidationBuilder().maxLength(50).required().build(),
@@ -454,7 +515,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
             borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
           ),
 
-          labelText: "Margen que você considera ideal",
+          labelText: "",
           labelStyle:  TextStyle(
             color: Colors.black,
             fontSize: 13,
@@ -468,7 +529,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
 
   Container quantidadClientesAtendido() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.85,
+      width: MediaQuery.of(context).size.width * 0.80,
       decoration: buildBuildBoxDecoration(),
       child: TextFormField(
         validator: ValidationBuilder().maxLength(50).required().build(),
@@ -488,7 +549,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
             // borderSide: BorderSide(color: Color(0xFFffd600)),
             borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
           ),
-          labelText: "Quantidade de clientes atendidos",
+          labelText: "",
           labelStyle:  TextStyle(
             color: Colors.black54,
             fontSize: 13,
@@ -563,7 +624,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
 
   Container buildSelecioneMes(List<String> dropOpcoes) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.86,
+      width: MediaQuery.of(context).size.width * 0.80,
       decoration: buildBuildBoxDecoration(),
       child: ValueListenableBuilder(
           valueListenable: mesSelect,
@@ -585,7 +646,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                       // borderSide: BorderSide(color: Color(0xFFffd600)),
                       borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
                     ),
-                    labelText: "Selecione o mês",
+                    labelText: "",
                     labelStyle:  TextStyle(
                       color: Colors.black54,
                       fontSize: 13,
@@ -620,31 +681,33 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   Container buildContainerInput(
       BuildContext context, text, titulo, controllerInformado, nomeCampo) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.60,
+      width: MediaQuery.of(context).size.width * 0.51,
       decoration: buildBuildBoxDecoration(),
       child: TextFormField(
         onTap: () {
           //  FocusScope.of(context).unfocus(); // Fecha o teclado ao tocar fora do campo de text
         },
         onChanged: (value) {
+          print(nomeCampo);
+          print(value);
           if ('Faturamento' == nomeCampo) {
             calculoPercentual(value, _custoFixoController.text,
-                _custoVariavelController.text, _custoInsumosController.text);
+                _custoVariavelController.text, _custoInsumosController.text,nomeCampo);
           }
           if ('Gastos com insumos' == nomeCampo) {
             calculoPercentual(
                 _faturamentoController.text,
                 _custoFixoController.text,
                 _custoVariavelController.text,
-                value);
+                value,nomeCampo);
           }
           if ('Outros custos variáveis' == nomeCampo) {
             calculoPercentual(_faturamentoController.text, value,
-                _custoVariavelController.text, _custoInsumosController.text);
+                _custoVariavelController.text, _custoInsumosController.text,nomeCampo);
           }
           if ('Custos fixos' == nomeCampo) {
             calculoPercentual(_faturamentoController.text,
-                _custoFixoController.text, value, _custoInsumosController.text);
+                _custoFixoController.text, value, _custoInsumosController.text,nomeCampo);
           }
 
           setState(() {
@@ -671,7 +734,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     );
   }
 
-  calculoPercentual(faturamento, gastos, custo, insumos) {
+  calculoPercentual(faturamento, gastos, custo, insumos,nomeCampo) {
     var faturamentoTemp = (faturamento
         .toString()
         .replaceAll("R\$", "")
@@ -692,13 +755,19 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         .replaceAll("R\$", "")
         .replaceAll('.', '')
         .replaceAll(',', '.'));
-    fatVendas = double.parse(faturamentoTemp).truncateToDouble();
-    gastosInsumos =
-        (double.parse(gastosIsumosTemp).truncateToDouble() / fatVendas) * 100;
-    outrosCustos =
-        (double.parse(gastosTemp).truncateToDouble() / fatVendas) * 100;
-    custoFixo =
-        (double.parse(custo_fixoTemp).truncateToDouble() / fatVendas) * 100;
+
+    if ('Faturamento' == nomeCampo) {
+      fatVendas = double.parse(faturamentoTemp).truncateToDouble();
+    }
+    if ('Gastos com insumos' == nomeCampo) {
+      gastosInsumos = (double.parse(gastosIsumosTemp).truncateToDouble() / fatVendas) * 100;
+    }
+    if ('Outros custos variáveis' == nomeCampo) {
+      outrosCustos = (double.parse(gastosTemp).truncateToDouble() / fatVendas) * 100;
+    }
+    if ('Custos fixos' == nomeCampo) {
+      custoFixo = (double.parse(custo_fixoTemp).truncateToDouble() / fatVendas) * 100;
+    }
   }
 
   buildBuildBoxDecoration() {
