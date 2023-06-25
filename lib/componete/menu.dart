@@ -54,7 +54,7 @@ class _MenuState extends State<Menu> {
             child: Image.asset("assets/img/Logo.png"),
           ),
 
-          ListTile(
+      /*    ListTile(
             leading: const Icon(Icons.home),
             title: buildText('Home'),
             trailing: const Icon(Icons.arrow_forward),
@@ -62,10 +62,10 @@ class _MenuState extends State<Menu> {
               route.pushPage(context, const HomeAdmin());
               //  Navigator.pop(context);
             },
-          ),
+          ),*/
           ListTile(
             leading: const Icon(Icons.home),
-            title: buildText('Nova Home'),
+            title: buildText('Home'),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const novaHome());

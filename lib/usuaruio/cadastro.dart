@@ -47,8 +47,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   void initState() {
     super.initState();
     _loadItems();
-    subscription =
-        _simpleConnectionChecker.onConnectionChange.listen((connected) {
+    subscription =    _simpleConnectionChecker.onConnectionChange.listen((connected) {
       setState(() {
         _message = connected ? 'Connected' : 'Not connected';
       });
@@ -65,7 +64,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   final _nomeController = TextEditingController();
   final _telefoneController = TextEditingController(text: '');
   final _senhaController = TextEditingController();
-  var color = const Color.fromRGBO(105, 105, 105, 1);
+  var color = const Color.fromRGBO(1, 57, 44, 1);
   final dropOpcoes = [
     'Varejo de moda e vestuário',
     'Supermercados e mercearias',
@@ -644,7 +643,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       style: const TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 12,
-        color: Color.fromRGBO(105, 105, 105, 1),
+        color:  Color.fromRGBO(1, 57, 44, 1),
       ),
     );
   }
@@ -655,9 +654,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       child: IconButton(
         icon: const Icon(
           Icons.help,
-          color: Colors.black54,
+          color: Color.fromRGBO(1, 57, 44, 1),
         ),
-        color: Colors.black54,
+        color:  Color.fromRGBO(1, 57, 44, 1),
         onPressed: () {
           alerta.openModal(context, texto);
         },
@@ -705,9 +704,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       iconeAjuda = IconButton(
         icon: const Icon(
           Icons.help,
-          color: Colors.black54,
+          color:  Color.fromRGBO(1, 57, 44, 1),
         ),
-        color: Colors.black54,
+        color:Color.fromRGBO(1, 57, 44, 1),
         onPressed: () {
           alerta.openModal(context, textoAjuda);
         },
@@ -820,6 +819,6 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     } catch (e) {
       print(e);
     }
-    print(data);
+
   }
 }

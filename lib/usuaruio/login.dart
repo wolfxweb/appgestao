@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
@@ -16,7 +18,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:form_validator/form_validator.dart';
-
+import 'package:simple_connection_checker/simple_connection_checker.dart';
+import 'package:appgestao/componete/alertamodal.dart';
 import '../main.dart';
 
 class Login extends StatefulWidget {
@@ -27,12 +30,27 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  void initState() {}
+  var alerta = AlertModal();
   var irPagina = PushPage();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool status = true;
+  StreamSubscription? subscription;
+  final SimpleConnectionChecker _simpleConnectionChecker =  SimpleConnectionChecker()..setLookUpAddress('pub.dev');
+  String _message = '';
+  bool _conn = false;
+  @override
+  void initState() {
+    super.initState();
+
+    subscription =    _simpleConnectionChecker.onConnectionChange.listen((connected) {
+      setState(() {
+        _message = connected ? 'Connected' : 'Not connected';
+      });
+    });
+    _getConection();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -204,12 +222,21 @@ class _LoginState extends State<Login> {
       ],
     );
   }
-
+  _getConection() async {
+    bool _isConnected = await SimpleConnectionChecker.isConnectedToInternet();
+    setState(() {
+      _conn = _isConnected;
+    });
+    if (!_isConnected) {
+      alerta.openModal(context, 'Sem conexão com a internet');
+    }
+  }
   _buildOnPressed() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
     }
+    _getConection();
     var alert = AlertSnackBar();
     try {
       final credential = await FirebaseAuth.instance

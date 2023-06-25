@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class CalculadoraBloc extends BlocBase {
   var bd = DadosBasicosSqlite();
@@ -57,8 +58,8 @@ class CalculadoraBloc extends BlocBase {
   }
   //NumberFormat formatter = NumberFormat.simpleCurrency();
   NumberFormat formatter = NumberFormat("0.00");
-  NumberFormat formatterPercentual = NumberFormat("0.0");
-  NumberFormat formatterPercentual2 = NumberFormat("0");
+  NumberFormat formatterPercentual = NumberFormat("0.00");
+  NumberFormat formatterPercentual2 = NumberFormat("0.00");
   _getDadosBasicos() async {
     await bd.lista().then((data) {
       data.forEach((element) {
@@ -130,7 +131,8 @@ class CalculadoraBloc extends BlocBase {
     var margeEsteProduto = ((fat - (cv + cf + gi + gas)) / fat);
     if ((_margemComPrecoAtual / 100) > margeEsteProduto &&
         (_margemComPrecoAtual / 100) <= _margemDesejada) {
-      _msgMargemController.add('$_nomeUsuario, este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!');
+      _msgMargemController.add('Este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!');
+    //  _msgMargemController.add('$_nomeUsuario, este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!');
     } else if ((_margemComPrecoAtual / 100) > margeEsteProduto &&
         (_margemComPrecoAtual / 100) > _margemDesejada) {
       _msgMargemController.add(
@@ -142,11 +144,11 @@ class CalculadoraBloc extends BlocBase {
     } else if ((_margemComPrecoAtual / 100) > 0 &&
         (_margemComPrecoAtual / 100) < margeEsteProduto) {
       _msgMargemController.add(
-          '$_nomeUsuario, este produto, mantendo-se o preço atual, impede que o resultado da empresa seja melhor!');
+          'Este produto, mantendo-se o preço atual, impede que o resultado da empresa seja melhor!');
     } else if ((_margemComPrecoAtual / 100) < 0) {
-      _msgMargemController.add('$_nomeUsuario, este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!');
+      _msgMargemController.add('Este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!');
     }else{
-      _msgMargemController.add('$_nomeUsuario, este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!');
+      _msgMargemController.add('Este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!');
     }
   }
 
@@ -251,6 +253,7 @@ class CalculadoraBloc extends BlocBase {
   }
 
   savarCalculo(produto) {
+    initializeDateFormatting();
     var _db = CalculadoraSqlite();
     /*
           Informações par historico da calculadora
@@ -271,11 +274,9 @@ class CalculadoraBloc extends BlocBase {
     var _mg = _margemDesejada * 100;
     var mgFomatado = formatterPercentual2.format(_mg);
     var _marDesejada = "$mgFomatado  %";
-    var pSugerigidoFormatado =
-        formatter.format(_calculoPrecoSuregirdo);
+    var pSugerigidoFormatado = formatter.format(_calculoPrecoSuregirdo);
     var pSugerigido = "R\$ $pSugerigidoFormatado";
-    var mgComPrecoAtualFomatada =
-        formatterPercentual.format(_margemComPrecoAtual);
+    var mgComPrecoAtualFomatada = formatterPercentual.format(_margemComPrecoAtual);
     var mgComPrecoAtual = "$mgComPrecoAtualFomatada %";
 
     var dados = calculadoraHistorico(
@@ -286,8 +287,9 @@ class CalculadoraBloc extends BlocBase {
         pSugerigido.toString(),
         _marDesejada,
         mgComPrecoAtual.toString());
-    return _db.save(dados
-        .toJson()); /*
+
+    print(dados);
+    return _db.save(dados.toJson()); /*
    _db.save(dados.toJson()).then((value) {
       print("save value");
       print(value);

@@ -39,7 +39,8 @@ class _novaHomeState extends State<novaHome> {
   String textBtnDadosBasicos = "Dados Básicos";
   String textBtnDiganostico = "Diagnóstico";
   String textBtnCalculadoraPrecos = "Calculadora Precos";
-  String textBtnGestaoPrioridades = "Gestão de  Prioridades";
+  //String textBtnGestaoPrioridades = "Gestão de  Prioridades";
+  String textBtnGestaoPrioridades = "Simulador";
   String textBtnInportanciaMeses = "Inportância dos meses";
   String textBtnSimuladorProximosMeses = "Simulador Próximos meses";
   String textBtnCalculadoraViabilidade = "Calculadora Viabilidade e P&P";
@@ -58,10 +59,10 @@ class _novaHomeState extends State<novaHome> {
             const Espacamento(),
             const Espacamento(),
             buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,DadosBasicos()),
-            buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
+         //   buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,Diagnostico()),
-            buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,Simulador()),
-            buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,gestaoPrioridades()),
+            buildRowBtn(context,'Simulador',textBtnGestaoPrioridades,Simulador()),
+         //   buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,gestaoPrioridades()),
             buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnCalculadoraPrecos,Calculadora()),
           // buildRowBtn(context,textAjudaInportanciaMeses,textBtnInportanciaMeses,null),
           // buildRowBtn(context,textAjudaSimuladorProximosMeses,textBtnSimuladorProximosMeses,null),

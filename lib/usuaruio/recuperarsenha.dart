@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertamodal.dart';
@@ -10,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:simple_connection_checker/simple_connection_checker.dart';
 
 import 'cadastro.dart';
 
@@ -27,7 +30,22 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
   final _formKey = GlobalKey<FormState>();
 
   bool btnEnviar = true;
-
+  bool _conn = false;
+  bool _valueCheck = true;
+  String _message = '';
+  StreamSubscription? subscription;
+  final SimpleConnectionChecker _simpleConnectionChecker =
+  SimpleConnectionChecker()..setLookUpAddress('pub.dev');
+  @override
+  void initState() {
+    super.initState();
+    subscription =    _simpleConnectionChecker.onConnectionChange.listen((connected) {
+      setState(() {
+        _message = connected ? 'Connected' : 'Not connected';
+      });
+    });
+    _getConection();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,12 +192,12 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
     if (!isValid) {
       return;
     }
-    print(_emailController.text);
+    _getConection();
     try {
       final credential = await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _emailController.text)
           .then((value) {
-        print('ok');
+
         _emailController.text = "";
         btnEnviar = false;
         alerta.openModal(context,
@@ -191,6 +209,15 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
       }
+    }
+  }
+  _getConection() async {
+    bool _isConnected = await SimpleConnectionChecker.isConnectedToInternet();
+    setState(() {
+      _conn = _isConnected;
+    });
+    if (!_isConnected) {
+      alerta.openModal(context, 'Sem conexão com a internet');
     }
   }
 }
