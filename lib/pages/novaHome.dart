@@ -1,5 +1,6 @@
 
 
+import 'package:appgestao/blocs/importancia_meses_bloc.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/espasamento.dart';
@@ -9,10 +10,12 @@ import 'package:appgestao/pages/calculadora.dart';
 import 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/diagnostico.dart';
 import 'package:appgestao/pages/gestaoPrioridades.dart';
+
 import 'package:appgestao/pages/novodadosbasicos.dart';
 import 'package:appgestao/pages/simulador.dart';
 import 'package:flutter/material.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
+
 
 class novaHome extends StatefulWidget {
   const novaHome({Key? key}) : super(key: key);
@@ -59,11 +62,12 @@ class _novaHomeState extends State<novaHome> {
             const Espacamento(),
             const Espacamento(),
             buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,DadosBasicos()),
-         //   buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
+            buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,Diagnostico()),
             buildRowBtn(context,'Simulador',textBtnGestaoPrioridades,Simulador()),
-         //   buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,gestaoPrioridades()),
+           // buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,gestaoPrioridades()),
             buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnCalculadoraPrecos,Calculadora()),
+            buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,GestaoPrioridade())
           // buildRowBtn(context,textAjudaInportanciaMeses,textBtnInportanciaMeses,null),
           // buildRowBtn(context,textAjudaSimuladorProximosMeses,textBtnSimuladorProximosMeses,null),
           // buildRowBtn(context,textAjudaCalculadoraViabilidade,textBtnCalculadoraViabilidade,null),

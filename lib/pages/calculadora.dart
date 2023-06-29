@@ -306,8 +306,7 @@ class _CalculadoraState extends State<Calculadora> {
 
             return !mostraPrecoSugerido && obs
                 ? TextFormField(
-                    validator:
-                        ValidationBuilder().maxLength(50).required().build(),
+                    validator: ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.none,
                     enabled: false,
                     maxLines: 6,
@@ -433,14 +432,15 @@ class _CalculadoraState extends State<Calculadora> {
                     builder: (context, snapshot) {
                       var data = snapshot.data;
                       return TextFormField(
-                        validator:
-                            ValidationBuilder().maxLength(5).required().build(),
+                        validator:  ValidationBuilder().maxLength(5).required().build(),
                         keyboardType: TextInputType.number,
                         controller: _margemDesejadaController,
                         decoration: decoretorNovo(''),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CentavosInputFormatter(casasDecimais: 2),
+                        ],
                         onChanged: (text) {
-                          //      print(text);
-                          //calculadoraCusto(text)
                           if (text.isNotEmpty) {
                             calBloc.margemDesejada(text);
                             setState(() {

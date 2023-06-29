@@ -45,6 +45,7 @@ class DadosBasicosBloc extends BlocBase {
           if (documentSnapshot.exists) {
             Map<String, dynamic> data =  documentSnapshot.data()! as Map<String, dynamic>;
             final hora = DateTime.now().hour;
+
             _fulanoController.add(data['nome']);
             if (hora.toInt() < 13 && hora.toInt()>6) {
               // bom dia

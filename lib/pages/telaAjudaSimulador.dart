@@ -22,16 +22,16 @@ class TelaAjudaSimulador extends StatelessWidget {
               stream: mesBloc.fulanoController,
               builder: (context, snapshot) {
                 // var data  =snapshot.data.toString();
-                if (!snapshot.hasData) {
+             /*   if (!snapshot.hasData) {
                   return const Center(
                       child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
                   ));
-                }
+                }*/
 
                 if (snapshot.data.toString().isNotEmpty) {
                   texto1 =
-                      "${snapshot.data.toString().isNotEmpty ? snapshot.data.toString() : 'Esta'}, após escolher qual o item que pretende alterar, você deverá digitar o percentual e apertar + (se quiser aumentar), ou, - (se quiser diminuir).\n\nPode alterar um ou mais itens e ver o que acontece com a Margem resultante, além de poder comparar com a Margem desejada (ideal), e com a informada (em função dos Dados Básicos).\n\nAssim você vai saber quais as providências que deve priorizar.  " ;
+                      "${snapshot.data.toString().isNotEmpty ? 'Esta' : 'Esta'}, após escolher qual o item que pretende alterar, você deverá digitar o percentual e apertar + (se quiser aumentar), ou, - (se quiser diminuir).\n\nPode alterar um ou mais itens e ver o que acontece com a Margem resultante, além de poder comparar com a Margem desejada (ideal), e com a informada (em função dos Dados Básicos).\n\nAssim você vai saber quais as providências que deve priorizar.  " ;
 
                 }
                 return Center(

@@ -232,7 +232,8 @@ class _SimuladorState extends State<Simulador> {
                             Icons.arrow_drop_down,
                             color: Colors.white,
                             size: 26,
-                          )),
+                          )
+                      ),
                       dropdownHeight: 350,
                     ),
                   ),
