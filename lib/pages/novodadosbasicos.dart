@@ -612,9 +612,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   IconButton buildIconeMsg(BuildContext context, msgAlertaMes) {
     return IconButton(
      // iconSize: 35,
-      icon: Icon(
+      icon:const Icon(
         Icons.help,
-        color: color,
+        color: Color.fromRGBO(1, 57, 44, 1),
       ),
       onPressed: () {
         alerta.openModal(context, msgAlertaMes);

@@ -58,113 +58,113 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         title: Text("oapap"),
       ),*/
-      body: Center(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: SingleChildScrollView(
+            child: Column(
+           //   crossAxisAlignment: CrossAxisAlignment.center,
+             // mainAxisAlignment: MainAxisAlignment.center,
 
-                children: [
-                  const Logo(),
-                  const Espacamento(),
-                  const Espacamento(),
-                  const Espacamento(),
+              children: [
+                const SizedBox(
+                  height: 100.0,
+                ),
+                const Logo(),
+                const SizedBox(
+                  height: 100.0,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildTextoInput('Digite o seu email'),
+                    Container(
+                      decoration: buildBoxDecoration(),
+                      child: TextFormField(
+                        validator: ValidationBuilder()
+                            .email()
+                            .maxLength(50)
+                            .required()
+                            .build(),
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
+                        decoration:buildInputDecoration(''),
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      buildTextoInput('Digite o seu email'),
-                      Container(
-                        decoration: buildBoxDecoration(),
-                        child: TextFormField(
-                          validator: ValidationBuilder()
-                              .email()
-                              .maxLength(50)
-                              .required()
-                              .build(),
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          decoration:buildInputDecoration(''),
-
-                        ),
                       ),
-                    ],
-                  ),
-                  const Espacamento(),
+                    ),
+                  ],
+                ),
+                const Espacamento(),
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      buildTextoInput('Digite sua senha'),
-                      Container(
-                        decoration: buildBoxDecoration(),
-                        child: TextFormField(
-                          validator: ValidationBuilder()
-                              .minLength(6)
-                              .maxLength(50)
-                              .required()
-                              .build(),
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          controller: _senhaController,
-                          decoration: buildInputDecoration(''),
-                        ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildTextoInput('Digite sua senha'),
+                    Container(
+                      decoration: buildBoxDecoration(),
+                      child: TextFormField(
+                        validator: ValidationBuilder()
+                            .minLength(6)
+                            .maxLength(50)
+                            .required()
+                            .build(),
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                        controller: _senhaController,
+                        decoration: buildInputDecoration(''),
                       ),
-                    ],
-                  ),
-                  const Espacamento(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width*0.10,
-                            child: Container(),
-                          ),
-                          SizedBox(
-                             width: MediaQuery.of(context).size.width*0.70,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: const Color.fromRGBO(1, 57, 44, 1),
-                                 // background
-                                onPrimary: Colors.white, // foreground
-                              ),
-                              child: Text('Entrar', style: TextStyle(color: Colors.white)),
-                              onPressed: _buildOnPressed,
+                    ),
+                  ],
+                ),
+                const Espacamento(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width*0.10,
+                          child: Container(),
+                        ),
+                        SizedBox(
+                           width: MediaQuery.of(context).size.width*0.70,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(1, 57, 44, 1),
+                               // background
+                              onPrimary: Colors.white, // foreground
                             ),
+                            child: Text('Entrar', style: TextStyle(color: Colors.white)),
+                            onPressed: _buildOnPressed,
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width*0.10,
-                            child: Container(),
-                          ),
-                        ],
-                      ),
-                      const Espacamento(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          BtnCadastreSe(),
-                          EsqueceuSenha(),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width*0.10,
+                          child: Container(),
+                        ),
+                      ],
+                    ),
+                    const Espacamento(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        BtnCadastreSe(),
+                        EsqueceuSenha(),
+                      ],
+                    ),
+                  ],
+                ),
 
-                  const Espacamento(),
-                 // const BtnDarkLight(),
-                ],
-              ),
+                const Espacamento(),
+               // const BtnDarkLight(),
+              ],
             ),
           ),
         ),

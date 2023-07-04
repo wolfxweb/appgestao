@@ -52,90 +52,93 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
       /* appBar: AppBar(
         title: Text("Esqueceu a senha"),
       ),*/
-      body: Center(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Logo(),
-                  const Espacamento(),
-                  const Text(
-                    'Recuperar senha',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color:  Color.fromRGBO(1, 57, 44, 1),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+            //  mainAxisAlignment: MainAxisAlignment.center,
+            //  crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 150.0,
+                ),
+                const Logo(),
+                const SizedBox(
+                  height: 100.0,
+                ),
+                const Text(
+                  'Recuperar senha',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color:  Color.fromRGBO(1, 57, 44, 1),
+                  ),
+                ),
+                const Espacamento(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Digite o seu email",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        color: Color.fromRGBO(105, 105, 105, 1),
+                      ),
                     ),
-                  ),
-                  const Espacamento(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Digite o seu email",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: Color.fromRGBO(105, 105, 105, 1),
-                        ),
-                      ),
-                      Container(
-                        decoration: buildBoxDecoration(),
-                        child: TextFormField(
-                            validator: ValidationBuilder()
-                                .email()
-                                .maxLength(50)
-                                .required()
-                                .build(),
-                            keyboardType: TextInputType.emailAddress,
-                            controller: _emailController,
-                            decoration: buildInputDecoration("")),
-                      ),
-                    ],
-                  ),
-                  const Espacamento(),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width*0.70,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary:
-                            const Color.fromRGBO(1, 57, 44, 1), // background
-                        onPrimary: Colors.white, // foreground
-                      ),
-                      child:
-                          Text('Enviar', style: TextStyle(color: Colors.white)),
-                      onPressed: btnEnviar ? _buildOnPressed : null,
+                    Container(
+                      decoration: buildBoxDecoration(),
+                      child: TextFormField(
+                          validator: ValidationBuilder()
+                              .email()
+                              .maxLength(50)
+                              .required()
+                              .build(),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          decoration: buildInputDecoration("")),
                     ),
+                  ],
+                ),
+                const Espacamento(),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width*0.70,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary:
+                          const Color.fromRGBO(1, 57, 44, 1), // background
+                      onPrimary: Colors.white, // foreground
+                    ),
+                    child:
+                        Text('Enviar', style: TextStyle(color: Colors.white)),
+                    onPressed: btnEnviar ? _buildOnPressed : null,
                   ),
-                  const Espacamento(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      BtnCadastreSe(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width*0.35,
-                        child: TextButton(
-                          style: OutlinedButton.styleFrom(
-                            primary:
-                                const Color.fromRGBO(1, 57, 44, 1), // background
-                          ),
-                          child: const Text('Login'),
-                          onPressed: () {
-                            irPagina.pushPage(context, const Login());
-                          },
+                ),
+                const Espacamento(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    BtnCadastreSe(),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width*0.35,
+                      child: TextButton(
+                        style: OutlinedButton.styleFrom(
+                          primary:
+                              const Color.fromRGBO(1, 57, 44, 1), // background
                         ),
+                        child: const Text('Login'),
+                        onPressed: () {
+                          irPagina.pushPage(context, const Login());
+                        },
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

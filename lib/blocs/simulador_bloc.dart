@@ -31,6 +31,8 @@ class SimuladorBloc extends BlocBase {
 
   final _variacaoMargemController  = BehaviorSubject();
 
+  final _ticketDadosBasicos = BehaviorSubject();
+
   Stream get margemIdealController => _margemIdealController.stream;
   Stream get margemInformadaController => _margemInformadaController.stream;
   Stream get vendasController => _vendasController.stream;
@@ -56,6 +58,8 @@ class SimuladorBloc extends BlocBase {
   Stream get percentualAddController => _percentualAddController.stream;
   Stream get percentualRemoveController => _percentualRemoveController.stream;
 
+
+  Stream get ticketDadosBasicos => _ticketDadosBasicos.stream;
 
   /* Stream variação valor   */
 
@@ -96,6 +100,8 @@ class SimuladorBloc extends BlocBase {
   var novoTicketMedio;
   var novoValorInsumos;
   var novoCustoProduto;
+
+  var ticketBool = true;
 
   NumberFormat formatterPercentual = NumberFormat("0.0");
   NumberFormat formatterMoeda = NumberFormat("#,##0.00", "pt_BR");
@@ -212,6 +218,10 @@ class SimuladorBloc extends BlocBase {
             custosINSUMOS(operacao,percentual);
             custoPRODUTO3(percentual,operacao);
             custoVARIAVEL(operacao,percentual);
+            if(ticketBool) {
+              ticketBool = false;
+              _ticketDadosBasicos.add(_tickeMedioMoeda);
+            }
         break;
     /*****************************/
       case 'Custo insumos':
@@ -438,7 +448,13 @@ custosINSUMOS(operacao,percentual){
     calculoMargemConribuicao();
     calculoMargemResultante();
     calculoPontoEquilibrio();
+    if(ticketBool) {
+      ticketBool = false;
+      _ticketDadosBasicos.add(_tickeMedioMoeda);
+    }
   }
+
+
 /*
   calculoCustoFixo(text) {
     var novoCustoFixo = convertMonetarioFloat(text);
@@ -668,6 +684,10 @@ custosINSUMOS(operacao,percentual){
     _ticketMedio = calc_fat / double.parse(_qtd).truncateToDouble();
     _tickeMedioMoeda = "R\$ ${formatterMoeda.format(_ticketMedio)}";
     _ticketMedioController.add(_tickeMedioMoeda);
+    if(ticketBool) {
+      ticketBool = false;
+      _ticketDadosBasicos.add(_tickeMedioMoeda);
+    }
   }
 
   calTiketMedio() async {

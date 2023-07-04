@@ -257,12 +257,10 @@ class _SimuladorState extends State<Simulador> {
                             child: StreamBuilder(
                                 stream: simuladorBloc.vendasController,
                                 builder: (context, snapshot) {
-
                                   var data = snapshot.data;
                                   if(!snapshot.hasData){
                                     data ="";
                                   }
-
                                   return TextFormField(
                                       //   enabled: false,
                                       keyboardType: TextInputType.number,
@@ -282,11 +280,8 @@ class _SimuladorState extends State<Simulador> {
                       builder: (context, snapshot) {
                         var dataCor = snapshot.data;
                         ticketMedioCor = dataCor.toString();
-                        print('ticketMedioCor');
-                          print(ticketMedioCor);
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 4, vertical: 0),
+                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
                           child: Container(
                           //  width: 185,
                             width: MediaQuery.of(context).size.width*0.45,
@@ -301,10 +296,8 @@ class _SimuladorState extends State<Simulador> {
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: ticketMedioController =
-                                          TextEditingController(text: '$data'),
-                                      decoration: _styleInput(
-                                          'Ticket Médio', ticketMedioCor, null),
+                                      controller: ticketMedioController = TextEditingController(text: '$data'),
+                                      decoration: _styleInput( 'Ticket Médio', ticketMedioCor, null),
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly,
                                         CentavosInputFormatter(
@@ -317,7 +310,8 @@ class _SimuladorState extends State<Simulador> {
                                 }),
                           ),
                         );
-                      }),
+                      },
+                  ),
                 ),
                 const Espacamento(),
                 buildContainerFaturamento(),

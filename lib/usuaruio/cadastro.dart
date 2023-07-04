@@ -144,296 +144,313 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       appBar: AppBar(
         title: Text("Cadastre-se"),
       ),*/
-      body: Center(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: SingleChildScrollView(
-              reverse: true,
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 50.0,
+                  ),
+                  const Logo(),
+                  const SizedBox(
+                    height: 50.0,
+                  ),
+
+                  const Espacamento(),
+                  const Text(
+                    'Cadastre-se',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      fontFamily: 'Lato',
+                      color: const Color.fromRGBO(1, 57, 44, 1),
+                    ),
+                  ),
+                  const Espacamento(),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.01,
+                          child: Container()),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Logo(),
-                          Container(),
+                          buildTextoInput('Email'),
+                          Container(
+                            decoration: buildBoxDecoration(),
+                            width: MediaQuery.of(context).size.width * 0.82,
+                            child: TextFormField(
+                              validator: ValidationBuilder()
+                                  .email()
+                                  .maxLength(50)
+                                  .required()
+                                  .build(),
+                              keyboardType: TextInputType.emailAddress,
+                              controller: _emailController,
+                              decoration: buildInputDecoration(""),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-
-                    const Espacamento(),
-                    const Text(
-                      'Cadastre-se',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        fontFamily: 'Lato',
-                        color: const Color.fromRGBO(1, 57, 44, 1),
+                    ],
+                  ),
+                  const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.08,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.help,
+                            color: Color.fromRGBO(1, 57, 44, 1),
+                          ),
+                          color: Colors.black54,
+                          onPressed: () {
+                            alerta.openModal(context,
+                                "O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas númenro que nos informar.");
+                          },
+                        ),
                       ),
-                    ),
-                    const Espacamento(),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.01,
-                            child: Container()),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            buildTextoInput('Email'),
-                            Container(
-                              decoration: buildBoxDecoration(),
-                              width: MediaQuery.of(context).size.width * 0.82,
-                              child: TextFormField(
-                                validator: ValidationBuilder()
-                                    .email()
-                                    .maxLength(50)
-                                    .required()
-                                    .build(),
-                                keyboardType: TextInputType.emailAddress,
-                                controller: _emailController,
-                                decoration: buildInputDecoration(""),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const Espacamento(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.08,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.help,
-                              color: Colors.black54,
-                            ),
-                            color: Colors.black54,
-                            onPressed: () {
-                              alerta.openModal(context,
-                                  "O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas númenro que nos informar.");
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.82,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                buildTextoInput('WhatsApp'),
-                                buildWhatsAPP(),
-                              ],
-                            )),
-                      ],
-                    ),
-                    const Espacamento(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.08,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.help,
-                              color: Colors.black54,
-                            ),
-                            color: Colors.black54,
-                            onPressed: () {
-                              alerta.openModal(context,
-                                  "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.");
-                            },
-                          ),
-                        ),
-                        SizedBox(
+                      SizedBox(
                           width: MediaQuery.of(context).size.width * 0.82,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              buildTextoInput('Atividade da empresa'),
-                              DropdownButtonFormField<String>(
-                                itemHeight: null,
-                                value: null,
-                                isExpanded: true,
-                                decoration:
-                                    buildInputDecoration(""),
-                                onChanged: (values) {
-                                  print(values);
-                                  setState(() {
-                                    //  _items=[];
-                                    _nomeController.text = values!;
-                                  });
-                                },
-                                items: dropOpcoes.map((item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item,
+                              buildTextoInput('WhatsApp'),
+                              buildWhatsAPP(),
+                            ],
+                          )),
+                    ],
+                  ),
+                  const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.08,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.help,
+                            color: Color.fromRGBO(1, 57, 44, 1),
+                          ),
+                          color: Colors.black54,
+                          onPressed: () {
+                            alerta.openModal(context,
+                                "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.");
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.82,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildTextoInput('Atividade da empresa'),
+                            DropdownButtonFormField<String>(
+                              itemHeight: null,
+                              value: null,
+                              isExpanded: true,
+                              decoration:
+                                  buildInputDecoration(""),
+                              onChanged: (values) {
+                                print(values);
+                                setState(() {
+                                  //  _items=[];
+                                  _nomeController.text = values!;
+                                });
+                              },
+                              items: dropOpcoes.map((item) {
+                                return DropdownMenuItem<String>(
+                                  value: item,
 
+                                  child: Text(
+                                    item,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                     // fontSize: 14,
+                                      //  color: const Color.fromRGBO(159, 105, 56,1),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.08,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.help,
+                            color:  Color.fromRGBO(1, 57, 44, 1)
+                          ),
+                          color: Colors.black54,
+                          onPressed: () {
+                            alerta.openModal(context,
+                                "Para selecionar a cidade o estado deve este selecionado.");
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.62,
+                        decoration: buildBoxDecoration(),
+
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildTextoInput('Cidade'),
+                            DropdownButtonFormField<String>(
+                              itemHeight: null,
+                              isExpanded: true,
+
+                              value:
+                                  _cidadesValue.isNotEmpty ? _cidadesValue : null,
+                              decoration:
+                                  buildInputDecoration(""),
+                              onChanged: (values) {
+                                print(values);
+                                setState(() {
+                                  //  _items=[];
+                                  _cidadesValue = values!;
+                                });
+                              },
+                              items: _cidades.map((item) {
+                                return DropdownMenuItem<String>(
+                                  value: item,
+                                  child: SizedBox(
+                                    width: 200.0,
                                     child: Text(
                                       item,
                                       overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
+                                      style: const  TextStyle(
                                         // fontWeight: FontWeight.bold,
-                                       // fontSize: 14,
+                                      //  fontSize: 14,
                                         //  color: const Color.fromRGBO(159, 105, 56,1),
                                       ),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Espacamento(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.08,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.help,
-                              color: Colors.black54,
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                            color: Colors.black54,
-                            onPressed: () {
-                              alerta.openModal(context,
-                                  "Para selecionar a cidade o estado deve este selecionado.");
-                            },
-                          ),
+                          ],
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.62,
-                          decoration: buildBoxDecoration(),
-
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              buildTextoInput('Cidade'),
-                              DropdownButtonFormField<String>(
-                                itemHeight: null,
-                                isExpanded: true,
-
-                                value:
-                                    _cidadesValue.isNotEmpty ? _cidadesValue : null,
-                                decoration:
-                                    buildInputDecoration(""),
-                                onChanged: (values) {
-                                  print(values);
-                                  setState(() {
-                                    //  _items=[];
-                                    _cidadesValue = values!;
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.20,
+                        decoration: buildBoxDecoration(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildTextoInput('Estado'),
+                            DropdownButtonFormField<String>(
+                              value: null,
+                              isExpanded: true,
+                              decoration: buildInputDecoration(""),
+                              onChanged: (value) {
+                                setState(() {
+                                  print(value);
+                                  _cidadesValue = '';
+                                  _uf.forEach((element) {
+                                    if (element.sigla == value) {
+                                      _idEstado = element.id;
+                                      _loadCidades();
+                                    }
                                   });
-                                },
-                                items: _cidades.map((item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item,
-                                    child: SizedBox(
-                                      width: 200.0,
-                                      child: Text(
-                                        item,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const  TextStyle(
-                                          // fontWeight: FontWeight.bold,
-                                        //  fontSize: 14,
-                                          //  color: const Color.fromRGBO(159, 105, 56,1),
-                                        ),
-                                      ),
+                                  _selectedItem = value!;
+                                });
+                              },
+                              items: _items.map((item) {
+                                return DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      //  color: const Color.fromRGBO(159, 105, 56,1),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.20,
-                          decoration: buildBoxDecoration(),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              buildTextoInput('Estado'),
-                              DropdownButtonFormField<String>(
-                                value: null,
-                                isExpanded: true,
-                                decoration: buildInputDecoration(""),
-                                onChanged: (value) {
-                                  setState(() {
-                                    print(value);
-                                    _cidadesValue = '';
-                                    _uf.forEach((element) {
-                                      if (element.sigla == value) {
-                                        _idEstado = element.id;
-                                        _loadCidades();
-                                      }
-                                    });
-                                    _selectedItem = value!;
-                                  });
-                                },
-                                items: _items.map((item) {
-                                  return DropdownMenuItem<String>(
-                                    value: item,
-                                    child: Text(
-                                      item,
-                                      style: const TextStyle(
-                                        overflow: TextOverflow.ellipsis,
-                                        // fontWeight: FontWeight.bold,
-                                        fontSize: 12,
-                                        //  color: const Color.fromRGBO(159, 105, 56,1),
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
 
-                    /*                  const Espacamento(),
-                    Container(
-                      decoration: buildBoxDecoration(),
+                  /*                  const Espacamento(),
+                  Container(
+                    decoration: buildBoxDecoration(),
+                  child:  DropdownButtonFormField<String>(
+                    value:null,
+                    decoration: buildInputDecoration("Selecione o estado"),
+
+                    onChanged: (value) {
+                      setState(() {
+                         print(value);
+                         _cidadesValue ='';
+                        // _items=_items;
+                      //  _idEstado =0;
+                        _uf.forEach((element) {
+                          if(element.sigla == value){
+                            _idEstado =element.id;
+                            _loadCidades();
+                          }
+                        });
+                        _selectedItem = value!;
+                      });
+                    },
+                    items: _items.map((item) {
+                      return DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(item),
+                      );
+                    }).toList(),
+                  ),
+                ),
+
+
+                  const Espacamento(),
+                  Container(
+                    decoration: buildBoxDecoration(),
                     child:  DropdownButtonFormField<String>(
-                      value:null,
-                      decoration: buildInputDecoration("Selecione o estado"),
-
-                      onChanged: (value) {
+                      value: _cidadesValue.isNotEmpty?_cidadesValue:null,
+                      decoration: buildInputDecoration("Selecione o cidade"),
+                      onChanged: (values) {
+                        print(values);
                         setState(() {
-                           print(value);
-                           _cidadesValue ='';
-                          // _items=_items;
-                        //  _idEstado =0;
-                          _uf.forEach((element) {
-                            if(element.sigla == value){
-                              _idEstado =element.id;
-                              _loadCidades();
-                            }
-                          });
-                          _selectedItem = value!;
+                        //  _items=[];
+                          _cidadesValue =values!;
                         });
                       },
-                      items: _items.map((item) {
+                      items: _cidades.map((item) {
                         return DropdownMenuItem<String>(
                           value: item,
                           child: Text(item),
@@ -441,140 +458,116 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       }).toList(),
                     ),
                   ),
+                  */
+                  const Espacamento(),
 
-
-                    const Espacamento(),
-                    Container(
-                      decoration: buildBoxDecoration(),
-                      child:  DropdownButtonFormField<String>(
-                        value: _cidadesValue.isNotEmpty?_cidadesValue:null,
-                        decoration: buildInputDecoration("Selecione o cidade"),
-                        onChanged: (values) {
-                          print(values);
-                          setState(() {
-                          //  _items=[];
-                            _cidadesValue =values!;
-                          });
-                        },
-                        items: _cidades.map((item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(item),
-                          );
-                        }).toList(),
+                  /*   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 220,
+                        decoration: buildBoxDecoration(),
+                        child: TextFormField(
+                            validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
+                            keyboardType: TextInputType.text,
+                            controller: _nomeController,
+                            decoration: buildInputDecoration("Cep")
+                        ),
                       ),
-                    ),
-                    */
-                    const Espacamento(),
+                      Container(
+                        width: 100,
+                        decoration: buildBoxDecoration(),
+                        child: TextFormField(
+                            validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
+                            keyboardType: TextInputType.text,
+                            controller: _nomeController,
+                            decoration: buildInputDecoration("Estado")
+                        ),
+                      ),
+                    ],
+                  ),
+                  */
+                  //   const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.01,
+                          child: Container()),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.82,
+                        decoration: buildBoxDecoration(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildTextoInput('Senha'),
+                            TextFormField(
+                                validator: ValidationBuilder()
+                                    .minLength(6)
+                                    .maxLength(50)
+                                    .required()
+                                    .build(),
+                                keyboardType: TextInputType.text,
+                                obscureText: true,
+                                controller: _senhaController,
+                                decoration: buildInputDecoration("")),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.21,
+                        child: Checkbox(
+                            value: _valueCheck,
+                            activeColor: Color.fromRGBO(1, 57, 44, 1),
+                            onChanged: (value) {
+                              setState(() {
+                                print(value);
+                                _valueCheck = !_valueCheck;
+                                // checkBoxValue = newValue;
+                              });
+                              // Text('Remember me');
+                            }),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.68,
+                        child: InkWell(
+                            child: new Text('Termo de uso e privacidade'),
+                            onTap: () => launch('https://wolfx.com.br/')),
+                      ),
+                    ],
+                  ),
 
-                    /*   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 220,
-                          decoration: buildBoxDecoration(),
-                          child: TextFormField(
-                              validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
-                              keyboardType: TextInputType.text,
-                              controller: _nomeController,
-                              decoration: buildInputDecoration("Cep")
-                          ),
-                        ),
-                        Container(
-                          width: 100,
-                          decoration: buildBoxDecoration(),
-                          child: TextFormField(
-                              validator: ValidationBuilder().minLength(3).maxLength(50).required().build(),
-                              keyboardType: TextInputType.text,
-                              controller: _nomeController,
-                              decoration: buildInputDecoration("Estado")
-                          ),
-                        ),
-                      ],
-                    ),
-                    */
-                    //   const Espacamento(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.01,
-                            child: Container()),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.82,
-                          decoration: buildBoxDecoration(),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              buildTextoInput('Senha'),
-                              TextFormField(
-                                  validator: ValidationBuilder()
-                                      .minLength(6)
-                                      .maxLength(50)
-                                      .required()
-                                      .build(),
-                                  keyboardType: TextInputType.text,
-                                  obscureText: true,
-                                  controller: _senhaController,
-                                  decoration: buildInputDecoration("")),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Espacamento(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.21,
-                          child: Checkbox(
-                              value: _valueCheck,
-                              activeColor: Color.fromRGBO(1, 57, 44, 1),
-                              onChanged: (value) {
-                                setState(() {
-                                  print(value);
-                                  _valueCheck = !_valueCheck;
-                                  // checkBoxValue = newValue;
-                                });
-                                // Text('Remember me');
-                              }),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.68,
-                          child: InkWell(
-                              child: new Text('Termo de uso e privacidade'),
-                              onTap: () => launch('https://wolfx.com.br/')),
-                        ),
-                      ],
-                    ),
+                  const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width*0.10,
+                        child: Container(),
+                      ),
+                      buildBtns(context),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width*0.10,
+                        child: Container(),
+                      ),
+                    ],
+                  ),
 
-                    const Espacamento(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width*0.10,
-                          child: Container(),
-                        ),
-                        buildBtns(context),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width*0.10,
-                          child: Container(),
-                        ),
-                      ],
-                    ),
-
-                  ],
-                ),
+                ],
               ),
             ),
           ),
@@ -643,7 +636,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       style: const TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 12,
-        color:  Color.fromRGBO(1, 57, 44, 1),
+      //  color:   Color.fromRGBO(245, 245, 245, 1),
       ),
     );
   }
@@ -651,16 +644,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   SizedBox buildIcone(BuildContext context, texto) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.01,
-      child: IconButton(
-        icon: const Icon(
-          Icons.help,
-          color: Color.fromRGBO(1, 57, 44, 1),
-        ),
-        color:  Color.fromRGBO(1, 57, 44, 1),
-        onPressed: () {
-          alerta.openModal(context, texto);
-        },
-      ),
+      child: Text("p"),
     );
   }
 
@@ -701,16 +685,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     }
 
     if (mostrarAlerta) {
-      iconeAjuda = IconButton(
-        icon: const Icon(
-          Icons.help,
-          color:  Color.fromRGBO(1, 57, 44, 1),
-        ),
-        color:Color.fromRGBO(1, 57, 44, 1),
-        onPressed: () {
-          alerta.openModal(context, textoAjuda);
-        },
-      );
+      iconeAjuda = Text("P");
     }
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -731,7 +706,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       border: const OutlineInputBorder(
         // borderSide: BorderSide(color: Color(0xFFffd600)),
         borderSide:
-            BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+            BorderSide(color:  Color.fromRGBO(245, 245, 245, 1), width: 1.0),
       ),
       labelText: text,
 

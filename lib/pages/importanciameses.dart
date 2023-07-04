@@ -489,7 +489,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
-                        primary: const Color.fromRGBO(159, 105, 56,1),
+                        primary: const  Color.fromRGBO(1, 57, 44, 1),
                       ),
                       onPressed: (){
                         _importanciaMesesBLoc.adicionarImportanciaMeses(context);
@@ -563,7 +563,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-      fillColor: const Color.fromRGBO(159, 105, 56, 0.5),
+      fillColor: const Color.fromRGBO(245, 245, 245, 1),
       filled: true,
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
