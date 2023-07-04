@@ -499,7 +499,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           width: MediaQuery.of(context).size.width * 0.01,
                           child: Container()),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.82,
+                        width: MediaQuery.of(context).size.width * 0.83,
                         decoration: buildBoxDecoration(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

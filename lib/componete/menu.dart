@@ -13,6 +13,7 @@ import 'package:appgestao/pages/diagnostico.dart';
 import 'package:appgestao/pages/homeadmin.dart';
 import 'package:appgestao/pages/importanciameses.dart';
 import 'package:appgestao/pages/novaHome.dart';
+import 'package:appgestao/pages/novodadosbasicos.dart';
 import 'package:appgestao/pages/simulador.dart';
 import 'package:flutter/material.dart';
 
@@ -73,20 +74,11 @@ class _MenuState extends State<Menu> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.calendar_month),
-            title: buildText("Importância dos meses"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, const InportanciaMeses());
-              //  Navigator.pop(context);
-            },
-          ),
-          ListTile(
             leading: const Icon(Icons.description),
             title: buildText("Dados Básicos"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
-              route.pushPage(context, DadosBasicos());
+              route.pushPage(context, NovoDadosBasicos());
               //  Navigator.pop(context);
             },
           ),
@@ -101,7 +93,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.data_exploration),
-            title: buildText("Simulador"),
+            title: buildText("Simulador -> Gestão prioridade"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const Simulador());
@@ -117,6 +109,19 @@ class _MenuState extends State<Menu> {
               //  Navigator.pop(context);
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.calendar_month),
+            title: buildText("Importância dos meses"),
+            trailing: const Icon(Icons.arrow_forward),
+            onTap: () {
+              route.pushPage(context, const InportanciaMeses());
+              //  Navigator.pop(context);
+            },
+          ),
+
+
+
+
           ListTile(
             leading: const Icon(Icons.insights),
             title:  buildText("Análise de viabilidade"),

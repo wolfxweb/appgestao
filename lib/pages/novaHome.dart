@@ -6,6 +6,7 @@ import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/logo.dart';
 import 'package:appgestao/componete/menu.dart';
+import 'package:appgestao/pages/analiseviabilidade.dart';
 import 'package:appgestao/pages/calculadora.dart';
 import 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/diagnostico.dart';
@@ -39,6 +40,7 @@ class _novaHomeState extends State<novaHome> {
   String textAjudaSimuladorProximosMeses = "Simulador Próximos meses";
   String textAjudaCalculadoraViabilidade = "Calculadora Viabilidade e P&P";
   String textAjudaCalculadoraCapitalGiro = "Calculadora Capital Giro";
+  String textAjudaAnalizeVibilidade ="Analíse de viabilidade";
 
   String textBtnDadosBasicos = "Dados Básicos";
   String textBtnDiganostico = "Diagnóstico";
@@ -49,6 +51,7 @@ class _novaHomeState extends State<novaHome> {
   String textBtnSimuladorProximosMeses = "Simulador Próximos meses";
   String textBtnCalculadoraViabilidade = "Calculadora Viabilidade e P&P";
   String textBtnCalculadoraCapitalGiro = "Calculadora Capital Giro";
+  String textBtnAnalizeVibilidade ="Analíse de viabilidade";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,12 +66,18 @@ class _novaHomeState extends State<novaHome> {
             const Espacamento(),
             const Espacamento(),
          //   buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,DadosBasicos()),
-            buildRowBtn(context,textAjudaInportanciaMeses,textBtnInportanciaMeses,InportanciaMeses()),
             buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,Diagnostico()),
-            buildRowBtn(context,'Simulador',textBtnGestaoPrioridades,Simulador()),
             buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,GestaoPrioridade()),
-           buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnCalculadoraPrecos,Calculadora()),
+            buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnCalculadoraPrecos,Calculadora()),
+            buildRowBtn(context,textAjudaInportanciaMeses,textBtnInportanciaMeses,InportanciaMeses()),
+            buildRowBtn(context,textAjudaAnalizeVibilidade,textBtnAnalizeVibilidade,AnaliseViabilidade()),
+
+
+
+            buildRowBtn(context,'Simulador',textBtnGestaoPrioridades,Simulador()),
+
+
         //   buildRowBtn(context,textAjudaCalculadoraViabilidade,textBtnCalculadoraViabilidade,null),
         //  buildRowBtn(context,textAjudaSimuladorProximosMeses,textBtnSimuladorProximosMeses,null),
         //   buildRowBtn(context,textAjudaCalculadoraCapitalGiro,textBtnCalculadoraCapitalGiro,null)

@@ -26,12 +26,12 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
   var _investimentoComAcaoController = TextEditingController();
   var _objetivoVendaController = TextEditingController();
 
-  var color = const Color.fromRGBO(159, 105, 56,0.5);
+  var color = const Color.fromRGBO(245, 245, 245, 1);
   var alerta = AlertModal();
-  var corFundo = Colors.grey[100];
+  var corFundo = Color.fromRGBO(245, 245, 245, 1);
   var _comentario = "";
   var _mostrarComentario = false;
-  var dataCor = Colors.grey[100];
+  var dataCor =Color.fromRGBO(245, 245, 245, 1);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,9 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                 child: buildContainerPromocaoPropaganda(context),
               ),
               const Espacamento(),
-              buildAcaoObjetiva(),
+              const Espacamento(),
+              const Espacamento(),
+            //  buildAcaoObjetiva(),
               Container(
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
@@ -145,12 +147,12 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                         enabled: false,
                         keyboardType: TextInputType.none,
                         controller: TextEditingController(text: data.toString()),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                          fillColor: Colors.grey[100],
+                          contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          fillColor: Color.fromRGBO(245, 245, 245, 1),
                           filled: true,
-                          focusedBorder: const OutlineInputBorder(
+                          focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color.fromRGBO(159, 105, 56,1),
                                 width: 1.0,
@@ -158,7 +160,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                           ),
                           border: InputBorder.none,
                           labelText: 'Desconto máximo para vender sem prejuizo',
-                          labelStyle: const TextStyle(
+                          labelStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 13,
                           ),
@@ -199,17 +201,17 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                             controller: _descontoPromocionalController,
                             validator:ValidationBuilder().maxLength(50).required().build(),
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                              fillColor: color,
+                              contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                              fillColor: Color.fromRGBO(245, 245, 245, 1),
                               filled: true,
-                              suffixIcon:const Icon(
+                              suffixIcon:Icon(
                                 Icons.percent,
                                 color: Colors.black,
                                 size: 14,
                               ),
-                              focusedBorder: const OutlineInputBorder(
+                              focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Color.fromRGBO(159, 105, 56,1),
                                     width: 1.0,
@@ -217,7 +219,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                               ),
                               border: InputBorder.none,
                               labelText: 'Desconto Promocional',
-                              labelStyle: const TextStyle(
+                              labelStyle: TextStyle(
                                 color: Colors.black,
                                 fontSize: 13,
                               ),
@@ -253,14 +255,14 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                                 keyboardType: TextInputType.none,
                                 controller: TextEditingController(text: data),
                                 enabled: false,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                                   // suffixIcon: const Icon(Icons.percent, color: Colors.grey,),
-                                  fillColor: Colors.grey[100],
+                                  fillColor:Color.fromRGBO(245, 245, 245, 1),
                                   filled: true,
                                   // disabledBorder: true,
-                                  focusedBorder: const OutlineInputBorder(
+                                  focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color:Color.fromRGBO(159, 105, 56,1),
                                         width: 1.0,
@@ -268,7 +270,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                                   ),
                                   border: InputBorder.none,
                                   labelText: 'Preço promocional',
-                                  labelStyle: const TextStyle(
+                                  labelStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize: 13,
                                   ),
@@ -308,13 +310,13 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                     FilteringTextInputFormatter.digitsOnly,
                     CentavosInputFormatter(moeda: true, casasDecimais: 2)
                   ],
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    contentPadding:const EdgeInsets.symmetric(horizontal: 5, vertical: 5,),
-                    fillColor: color,
+                    contentPadding:EdgeInsets.symmetric(horizontal: 5, vertical: 5,),
+                    fillColor: Color.fromRGBO(245, 245, 245, 1),
                     filled: true,
                     // disabledBorder: true,
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                           color: Color.fromRGBO(159, 105, 56,1),
                           width: 1.0,
@@ -322,7 +324,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                     ),
                     border: InputBorder.none,
                     labelText: 'Investimetno com a ação',
-                    labelStyle: const TextStyle(
+                    labelStyle: TextStyle(
                       color: Colors.black,
                       fontSize: 13,
                     ),
@@ -413,12 +415,12 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                                 .required()
                                 .build(),
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.always,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                              fillColor: color,
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                              fillColor: Color.fromRGBO(245, 245, 245, 1),
                               filled: true,
-                              focusedBorder: const OutlineInputBorder(
+                              focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Color.fromRGBO(159, 105, 56,1),
                                     width: 1.0,
@@ -426,7 +428,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                               ),
                               border: InputBorder.none,
                               labelText: 'Obejetivo de vendas',
-                              labelStyle: const TextStyle(
+                              labelStyle: TextStyle(
                                 color: Colors.black,
                                 fontSize: 13,
                                 //  backgroundColor: Colors.white,
@@ -448,7 +450,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                             }else if('lucro' ==snapshot.data.toString()){
                               dataCor = Colors.green;
                             }else{
-                              dataCor = Colors.grey[100];
+                              dataCor = Color.fromRGBO(245, 245, 245, 1);
                             }
                           }
                           return Padding(
@@ -519,7 +521,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   //  width: MediaQuery.of(context).size.width*0.45,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(159, 105, 56,1), // background
+                      primary: Color.fromRGBO(1, 57, 44, 1), // background
                       onPrimary: Colors.white, // foreground
                     ),
                     child: const Text('Limpar Análise',style: TextStyle(color: Colors.white)),
@@ -551,7 +553,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
           alerta.openModal(context, text);
         },
       ),
-      fillColor: color,
+      fillColor: Color.fromRGBO(245, 245, 245, 1),
       filled: true,
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
@@ -573,11 +575,11 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
       children: [
         Container(
           decoration:  const BoxDecoration(
-            color: Colors.transparent,
+            color: Colors.white,
             //borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black12,
+                color: Colors.white,
                 blurRadius: 1,
                 offset: Offset(1, 3), // Shadow position
               ),
@@ -660,11 +662,11 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
         const Espacamento(),
         _mostrarComentario
             ? Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
+                decoration: const BoxDecoration(
+                 // color:Color.fromRGBO(245, 245, 245, 1),
                   // fillColor: Colors.grey[100],
                   //borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 1,
@@ -692,11 +694,11 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
 
   Container buildContainerPromocaoPropaganda(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
+      decoration: const BoxDecoration(
+        color:  Color.fromRGBO(245, 245, 245, 1),
         // fillColor: Colors.grey[100],
         //borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 1,
@@ -716,7 +718,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                     alerta.openModal(context,
                         'Promoção: oferta/divulgação de benefício concreto, por um período específico de tempo. Tudo muito bem explicado Propaganda: assunto para profissionais (o que divulgar, como, onde, quando, por quanto tempo).IMPORTANTE: certifique-se de que sua promoção e/ou propaganda é relevante para o seu público-alvo; garanta que ao serem motivados, os clientes não se decepcionem; evite repetições frequentes e durações longas. Observe o que seus concorrentes estão fazendo. Encontre um diferencial mais atrativo. Crie uma forma de acompanhar e controlar resultados.');
                   },
-                  icon: const Icon(Icons.help)),
+                  icon: const Icon(Icons.help,color: Colors.black54,)),
             ),
             Column(
               children:  [
@@ -742,7 +744,7 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
         corFundo = Color.fromRGBO(159, 105, 56,0.5);
         break;
       case 'desabilitado':
-        corFundo = Colors.grey[100];
+        corFundo =Color.fromRGBO(245, 245, 245, 1);
         break;
       case 'vermelho':
         corFundo = Colors.red;
