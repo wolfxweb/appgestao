@@ -12,6 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:form_validator/form_validator.dart';
+import 'dart:async';
+
+import 'package:intl/intl.dart';
 
 class GestaoPrioridade extends StatefulWidget {
   const GestaoPrioridade({Key? key}) : super(key: key);
@@ -20,15 +23,21 @@ class GestaoPrioridade extends StatefulWidget {
   State<GestaoPrioridade> createState() => _GestaoPrioridadeState();
 }
 
+/*
+* Esta tela e uma alteração da tela  simulador  como o cleinte esta alterando algumas formulas  a tela simulador pode não calcular corretamente
+*
+* */
+
 class _GestaoPrioridadeState extends State<GestaoPrioridade> {
   var alerta = AlertModal();
-  var header = new HeaderAppBar();
+  var header = HeaderAppBar();
   var info = AlertSnackBar();
   var route = PushPage();
 
+  NumberFormat formatterPercentual = NumberFormat("0.00");
   //var corFundo = Colors.grey[150];
-  var corFundo = Color.fromRGBO(159, 105, 56,0.5);
-
+  var corFundo = Color.fromRGBO(159, 105, 56, 0.5);
+  var corFundos =Color.fromRGBO(159, 105, 56, 0.5);
   var clientesAtendidosVariacao = TextEditingController();
 
   var vendasController = TextEditingController();
@@ -39,8 +48,8 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
   var custoFixoController = TextEditingController();
   var addController = TextEditingController();
   var removeController = TextEditingController();
-  var ticketMedioDadosBasicoController =TextEditingController();
-  var tickerMedioVariacao =TextEditingController();
+  var ticketMedioDadosBasicoController = TextEditingController();
+
 
   var selectController = "";
 
@@ -58,7 +67,14 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
   var addRemoveInput = false;
   //**//
 
-  var ticketMedioDadosBasico ="";
+  var clientesAtendidoDadosBasico = TextEditingController();
+  var clientesAtendido = TextEditingController();
+  var clientesVariacao = TextEditingController();
+
+  var tickerMedioVariacao = TextEditingController();
+  var tickerMedioInicial = TextEditingController();
+  var faturamentoVariacao= TextEditingController();
+  var ticketMedioDadosBasico = "";
 
   //**//
   final _formKey = GlobalKey<FormState>();
@@ -72,7 +88,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
 
     super.initState();
     setState(() {
-      clientesAtendidosVariacao.text = "100";
+      clientesAtendidosVariacao.text = "";
     });
   }
 
@@ -100,325 +116,436 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                       buildNewRemoveAdd(context),
                     ],
                   ),
-                  buildClientesAtendidos(context),
+                  const Espacamento(),
+                  builtItulo("Margem"),
+                  buildInputs(
+                      context,
+                      simuladorBloc.margemInicial,
+                      null,
+                      simuladorBloc.margemResultateController,
+                      simuladorBloc.margemVariacao,
+                      null,
+                      null,
+                      null,
+                      "Margem",
+                      null),
                   const Espacamento(),
                   const Espacamento(),
-                  const Text("Preparado para vender mais, com qualidade?"),
+                  builtItulo("Clientes atendidos"),
+                  buildInputs(
+                      context,
+                      simuladorBloc.clientesAtendidoDadosBasico,
+                      null,
+                      simuladorBloc.clientesAtendidoCalculado,
+                      simuladorBloc.clientesAtendidoVaricacao,
+                      null,
+                      null,
+                      null,
+                      'Clientes atendidos',
+                      null
+                  ),
                   const Espacamento(),
+                  builtItulo("Preço médio das vendas"),
+                  buildInputs(context,null,null, null, null, null, null, null, "Preço médio das vendas",null),
                   const Espacamento(),
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(
-                          color: color,
-                          width: 1.0,
-                          style: BorderStyle.solid,
-                        )),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.25,
-                              child: const Text("Ticket Médio"),
-                            ),
-                            Column(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.35,
-                                  child: Column(
-                                    children: [
-                                  Padding(  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
-                                          child: Container(
-                                            //  width: 185,
-                                            width: MediaQuery.of(context).size.width*0.45,
-                                            //  decoration: buildBoxDecoration(),
-                                            child: StreamBuilder(
-                                              stream: simuladorBloc.ticketDadosBasicos,
-                                              builder: (context, snapshot) {
-                                                var data = snapshot.data;
-                                                if(!snapshot.hasData){
-                                                  data ="";
-                                                }
-                                                return TextFormField(
-                                                    enabled: false,
-                                                    keyboardType: TextInputType.number,
-                                                    controller: ticketMedioDadosBasicoController = TextEditingController(text: '$data'),
-                                                   // decoration:       TextAlignVertical.center,
-                                                    style :const  TextStyle( color: Colors.white),
-                                                    decoration: const InputDecoration(
-                                                      floatingLabelBehavior:
-                                                      FloatingLabelBehavior.always,
-                                                      contentPadding: EdgeInsets.symmetric( horizontal: 5, vertical: 0),
-                                                      fillColor: Color.fromRGBO(1, 57, 44, 1),
-                                                      // fillColor:  Color.fromRGBO(245, 245, 245, 1),
-                                                      filled: true,
-                                                      border: InputBorder.none,
-                                                      // labelStyle: TextStyle(color: Colors.white, fontSize: 16.0),
-                                                      // filled: true,
-                                                      // disabledBorder: true,
+               /*   const Text(
+                    "Preparado para vender mais, com qualidade?",
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                  *
+                */
+                //  const Espacamento(),
+                  builtItulo("Ticket médio"),
+                  buildInputs(
+                      context,
+                      simuladorBloc.tickeMedioInicial,
+                      simuladorBloc.corTicketMediolController,
+                      simuladorBloc.ticketMedioController,
+                      simuladorBloc.variacaoTicketMedio,
+                      tickerMedioInicial,
+                      ticketMedioController,
+                      tickerMedioVariacao,
+                      'Ticket Médio',
+                      ticketMedioCor
+                  ),
+                  const Espacamento(),
+                  builtItulo("Faturamento"),
+                  buildInputs(
+                      context,
+                      simuladorBloc.faturamentoInicial,
+                      null,
+                      simuladorBloc.faturamentoController,
+                      simuladorBloc.faturamentoVariacao,
+                      null,
+                      null,
+                      faturamentoVariacao,
+                      'Faturamento',
+                      "desabilitado"
+                  ),
+                  const Espacamento(),
+                  builtItulo("Custo das Vendas"),
+                  buildInputs(context,null,null, null, null, null, null, null, "Custo das Vendas",null),
+                  const Espacamento(),
+                  builtItulo("Custo dos insumos e mercadorias de 3°"),
+                  buildInputs(
+                    // nome esta difenrente pois cliente quis alterar o nome do campo
+                      context,
+                      simuladorBloc.custoInsumosMercadoria3,
+                      simuladorBloc.corCustoProdutolController,
+                      simuladorBloc.custoFixoController,
+                      null,
+                      null,
+                      null,
+                      faturamentoVariacao,
+                      'Custos dos insumos e mercadoris de 3°',
+                      "desabilitado"
+                  ),
 
-                                                      focusedBorder: OutlineInputBorder(
-                                                        // borderSide: BorderSide(color: Color(0xFFffd600)),
-                                                        borderSide: BorderSide(
-                                                            color: Color.fromRGBO(  1, 57, 44, 1), width: 1.0),
-                                                      ),
-                                                      /*   border:  OutlineInputBorder(
-                                                         borderSide: BorderSide(color: Colors.white),
-                                                      //  borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
-                                                      ),*/
-                                                      // hintText: 'Quantidade de clientes atendidos',
-                                                    ),
-                                                    inputFormatters: [
-                                                      FilteringTextInputFormatter.digitsOnly,
-                                                      CentavosInputFormatter(
-                                                          moeda: true, casasDecimais: 2)
-                                                    ],
-                                                    onChanged: (text) { simuladorBloc
-                                                          .calculoTicketMedioInput(text);
-                                                    });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      StreamBuilder(
-                                        stream: simuladorBloc.corTicketMediolController,
-                                        builder: (context, snapshot) {
-                                          var dataCor = snapshot.data;
-                                          ticketMedioCor = dataCor.toString();
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
-                                            child: Container(
-                                              //  width: 185,
-                                             // width: MediaQuery.of(context).size.width*0.45,
-                                            //  decoration: buildBoxDecoration(),
-                                              child: StreamBuilder(
-                                                  stream: simuladorBloc.ticketMedioController,
-                                                  builder: (context, snapshot) {
-                                                    var data = snapshot.data;
-                                                    if(!snapshot.hasData){
-                                                      data ="";
-                                                    }
-                                                    return TextFormField(
-                                                     //   enabled: false,
-                                                        keyboardType: TextInputType.number,
-                                                        controller: ticketMedioController = TextEditingController(text: '$data'),
-                                                        decoration: _styleInput( 'Ticket Médio', ticketMedioCor, null),
-                                                        inputFormatters: [
-                                                          FilteringTextInputFormatter.digitsOnly,
-                                                          CentavosInputFormatter(
-                                                              moeda: true, casasDecimais: 2)
-                                                        ],
-                                                        onChanged: (text) {
-                                                          //simuladorBloc.calculoTicketMedioInput(text);
-                                                          var ticketTemp = (text
-                                                              .toString()
-                                                              .replaceAll("R\$", "")
-                                                              .replaceAll('.', '')
-                                                              .replaceAll(',', '.'));
-                                                          var ticketTempBasico = (ticketMedioDadosBasicoController.text
-                                                              .toString()
-                                                              .replaceAll("R\$", "")
-                                                              .replaceAll('.', '')
-                                                              .replaceAll(',', '.'));
-
-                                                         var tkmd = double.parse(ticketTempBasico).truncateToDouble();
-                                                         var tkMedio = (double.parse(ticketTemp).truncateToDouble() /double.parse(ticketTemp).truncateToDouble() ) * 100;
-                                                          tickerMedioVariacao.text =tkMedio.toString();
-                                                        });
-                                                  },
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  )
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.28,
-                              child: inputPercentual(context, tickerMedioVariacao),
-                            ),
-                          ],
-                        )
-                      ],
+                  const Espacamento(),
+                  builtItulo("Custos Fixos"),
+                  buildInputs(context,null,null, null, null, null, null, null, "Custos Fixos",null),
+                  const Espacamento(),
+             /*     builtItulo("Margem"),
+                  buildInputs(context,null,null, null, null, null, null, null, "Custos Fixos",null),
+                  const Espacamento(),
+                  const Espacamento(),
+                  const Text('Vender mais sem aumentar custo fixo?',
+                      style: TextStyle(fontSize: 16.0)),
+                  const Espacamento(),
+                  const Text('Trabalha com capacidade ociosa?',
+                      style: TextStyle(fontSize: 16.0)),
+                      */
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 20),
+                        primary: const Color.fromRGBO(1, 57, 44, 1),
+                      ),
+                      onPressed: () {},
+                      child: const Text("Limpar"),
                     ),
-                  )
+                  ),
+                  const Espacamento(),
+                  const Espacamento(),
+                  const Espacamento(),
+                  const Espacamento(),
                 ],
               ),
             ),
           ),
         ));
   }
+
+  Align builtItulo(titulo) {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Text(titulo),
+    );
+  }
+
   _styleInput(String text, String cor, suffixIcon) {
     switch (cor) {
       case "padrao":
-        corFundo =  Colors.white10;
+        corFundos = Colors.white10;
         break;
       case 'desabilitado':
-        corFundo = Colors.green;
+        corFundos = Colors.green;
         break;
       case 'vermelho':
-        corFundo = Colors.red;
+        corFundos = Colors.red;
         break;
       case 'verde':
-        corFundo = Colors.green;
+        corFundos = Colors.green;
         break;
       case 'null':
-        corFundo = Color.fromRGBO(245, 245, 245, 1);
+        corFundos = Color.fromRGBO(245, 245, 245, 1);
         break;
     }
 
-    return  InputDecoration(
+    return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
-      contentPadding: EdgeInsets.symmetric( horizontal: 5, vertical: 0),
-      fillColor: corFundo,
-    //  fillColor:  Color.fromRGBO(245, 245, 245, 1),
+      contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+      fillColor: corFundos,
+      //  fillColor:  Color.fromRGBO(245, 245, 245, 1),
       filled: true,
       border: InputBorder.none,
-      labelStyle:new TextStyle(color: Colors.white, fontSize: 16.0),
+      labelStyle: new TextStyle(color: Colors.white, fontSize: 16.0),
       // hintText: 'Quantidade de clientes atendidos',
     );
   }
 
-  Container buildClientesAtendidos(BuildContext context) {
+  Container buildInputs(BuildContext context, stream1, stream2, stream3, stream4,
+      controller1, controller2, controller3,campo, corCampo) {
     return Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(
-                        color: color,
-                        width: 1.0,
-                        style: BorderStyle.solid,
-                      )),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.30,
-                          child: const Text("Clientes Atendidos"),
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.38,
-                            child: Container(
-                              child: StreamBuilder(
-                                  stream: null,
-                                  builder: (context, snapshot) {
-                                    return TextFormField(
-                                      // enabled: false,
-                                      //   keyboardType: TextInputType.number,
-                                      controller: null,
-                                      // controller: null,
-                                      textAlignVertical:
-                                      TextAlignVertical.center,
-                                      style :const  TextStyle( color: Colors.white),
-                                      decoration: const InputDecoration(
-                                        floatingLabelBehavior:
-                                        FloatingLabelBehavior.always,
-                                        contentPadding: EdgeInsets.symmetric( horizontal: 5, vertical: 0),
-                                        fillColor: Color.fromRGBO(1, 57, 44, 1),
-                                       // fillColor:  Color.fromRGBO(245, 245, 245, 1),
-                                        filled: true,
-                                        border: InputBorder.none,
-                                       // labelStyle: TextStyle(color: Colors.white, fontSize: 16.0),
-                                        // filled: true,
-                                        // disabledBorder: true,
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: color,
+            width: 1.0,
+            style: BorderStyle.solid,
+          )),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  child: StreamBuilder(
+                      stream: stream1,
+                      builder: (context, snapshot) {
+                        var data = snapshot.data;
+                      //  print(data);
+                        if (snapshot.data == null) {
+                          data = "";
+                        }
+                        return TextFormField(
+                          enabled: false,
+                          controller: controller1 = TextEditingController(text: '$data'), //controller1,
+                          textAlignVertical: TextAlignVertical.center,
+                          decoration: const InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 0),
+                            fillColor: Color.fromRGBO(211, 211, 211, 1),
+                            filled: true,
+                            suffixIcon: Icon(
+                              Icons.percent,
+                              color: Color.fromRGBO(211, 211, 211, 1),
+                              size: 20,
+                            ),
+                            border: InputBorder.none,
+                            focusedBorder: OutlineInputBorder(
+                              // borderSide: BorderSide(color: Color(0xFFffd600)),
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(1, 57, 44, 1),
+                                  width: 1.0),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  child:  StreamBuilder(
+                    stream: stream2,
+                    builder: (context, snapshot) {
+                      var dataCor = snapshot.data;
+                      corCampo = dataCor.toString();
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                        child: Container(
+                          //  width: 185,
+                          width: MediaQuery.of(context).size.width*0.45,
+                         // decoration: buildBoxDecoration(),
+                          child: StreamBuilder(
+                              stream: stream3,
+                              builder: (context, snapshot) {
+                                var data = snapshot.data;
+                                if(!snapshot.hasData){
+                                  data ="";
+                                }
 
-                                        focusedBorder: OutlineInputBorder(
-                                          // borderSide: BorderSide(color: Color(0xFFffd600)),
-                                          borderSide: BorderSide(
-                                              color: Color.fromRGBO(  1, 57, 44, 1), width: 1.0),
-                                        ),
-                                        /*   border:  OutlineInputBorder(
-                                             borderSide: BorderSide(color: Colors.white),
-                                          //  borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
-                                          ),*/
-                                        // hintText: 'Quantidade de clientes atendidos',
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.38,
-                            child: Container(
-                              child: StreamBuilder(
-                                  stream: null,
-                                  builder: (context, snapshot) {
-                                    return TextFormField(
-                                      // enabled: false,
-                                      //   keyboardType: TextInputType.number,
-                                      controller: null,
-                                      // controller: null,
-                                      textAlignVertical:
-                                          TextAlignVertical.center,
-                                      decoration: const InputDecoration(
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.always,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 5, vertical: 0),
-                                        //fillColor:Color.fromRGBO(1, 57, 44, 1),
-                                          fillColor:  Color.fromRGBO(245, 245, 245, 1),
-                                        filled: true,
-                                        border: InputBorder.none,
-                                        // filled: true,
-                                        // disabledBorder: true,
-                                        focusedBorder: OutlineInputBorder(
-                                          // borderSide: BorderSide(color: Color(0xFFffd600)),
-                                          borderSide: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  1, 57, 44, 1),
-                                              width: 1.0),
-                                        ),
-                                        /*   border:  OutlineInputBorder(
-                                             borderSide: BorderSide(color: Colors.white),
-                                          //  borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
-                                          ),*/
-                                        // hintText: 'Quantidade de clientes atendidos',
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.23,
-                          child: inputPercentual(context, clientesAtendidosVariacao),
-                      ),
-                    ],
+                                return TextFormField(
+                                    enabled: false,
+                                    keyboardType: TextInputType.number,
+                                    controller: controller2 = TextEditingController(text: '$data'),
+                                    decoration: _styleInput( campo, corCampo, null),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      CentavosInputFormatter(
+                                          moeda: true, casasDecimais: 2)
+                                    ],
+                                    onChanged: (text) {
+
+                                     if( campo == 'Ticket Médio'){
+                                       simuladorBloc.calculoTicketMedioInput(text);
+                                     }
+                                    },
+                                );
+                              }),
+                        ),
+                      );
+                    },
                   ),
-                );
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.31,
+            child: inputPercentual(context, stream4, controller3),
+          ),
+        ],
+      ),
+    );
   }
 
-  Container inputPercentual(BuildContext context, contoler) {
+  Container buildClientesAtendidos(BuildContext context, stream1, stream2,
+      stream3, controller1, controller2, controller3) {
     return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: color,
+            width: 1.0,
+            style: BorderStyle.solid,
+          )),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  child: StreamBuilder(
+                      stream: stream1,
+                      builder: (context, snapshot) {
+                        var data = snapshot.data;
+                        if (snapshot.data == null) {
+                          data = "";
+                        }
+                        return TextFormField(
+                          enabled: false,
+                          controller: controller1 = TextEditingController(
+                              text: '$data'), //controller1,
+                          textAlignVertical: TextAlignVertical.center,
+                          decoration: const InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 0),
+                            fillColor: Color.fromRGBO(211, 211, 211, 1),
+                            filled: true,
+                            suffixIcon: Icon(
+                              Icons.percent,
+                              color: Color.fromRGBO(211, 211, 211, 1),
+                              size: 20,
+                            ),
+                            border: InputBorder.none,
+                            focusedBorder: OutlineInputBorder(
+                              // borderSide: BorderSide(color: Color(0xFFffd600)),
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(1, 57, 44, 1),
+                                  width: 1.0),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  child: StreamBuilder(
+                      stream: stream2,
+                      builder: (context, snapshot) {
+                        return TextFormField(
+                            // enabled: false,
+                            keyboardType: TextInputType.number,
+                            controller: controller2,
+                            // controller: null,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: const InputDecoration(
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 0),
+                              //fillColor:Color.fromRGBO(1, 57, 44, 1),
+                              fillColor: Color.fromRGBO(245, 245, 245, 1),
+                              filled: true,
+                              border: InputBorder.none,
+
+                              focusedBorder: OutlineInputBorder(
+                                // borderSide: BorderSide(color: Color(0xFFffd600)),
+                                borderSide: BorderSide(
+                                    color: Color.fromRGBO(1, 57, 44, 1),
+                                    width: 1.0),
+                              ),
+                              /*   border:  OutlineInputBorder(
+                                             borderSide: BorderSide(color: Colors.white),
+                                          //  borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+                                          ),*/
+                              // hintText: 'Quantidade de clientes atendidos',
+                            ),
+                            onChanged: (value) {
+                              var controllerValeu = (controller1.text
+                                  .toString()
+                                  .replaceAll("R\$", "")
+                                  .replaceAll('.', '')
+                                  .replaceAll(',', '.'));
+                              setState(() {
+                                if (value.isNotEmpty) {
+                                  var calc = (double.parse(value) /
+                                          double.parse(controllerValeu)) *
+                                      100;
+                                  controller3.text = formatterPercentual
+                                      .format(calc)
+                                      .toString();
+                                } else {
+                                  controller3.text = "";
+                                }
+                              });
+                            });
+                      }),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.31,
+            child: inputPercentual(context, stream3, controller3),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container inputPercentual(BuildContext context, stream3, controller3) {
+    return Container(
+      // height: 100,
       // decoration: buildBuildBoxDecoration(),
       padding: const EdgeInsets.all(2),
-      width: MediaQuery.of(context).size.width * 0.28,
+      width: MediaQuery.of(context).size.width * 0.40,
+      // height: MediaQuery.of(context).size.width * 0.88,
       child: StreamBuilder(
-          stream: null,
+          stream: stream3,
           builder: (context, snapshot) {
+            var data = snapshot.data;
+          //  print(data);
+          //  print('data');
+            if (snapshot.data == null) {
+              data = "";
+            }
             return TextFormField(
-              // enabled: false,
+              enabled: false,
               //   keyboardType: TextInputType.number,
+              // maxLines: 5,
               inputFormatters: [
                 // obrigatório
                 FilteringTextInputFormatter.digitsOnly,
                 CentavosInputFormatter(moeda: true, casasDecimais: 2)
               ],
-              controller: contoler,
+              controller: controller3 = TextEditingController(text: '$data'),
               // controller: null,
               textAlignVertical: TextAlignVertical.center,
               decoration: const InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.always,
-                contentPadding:                    EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-               fillColor: Color.fromRGBO(245, 245, 245, 1),
-               // fillColor:  Color.fromRGBO(105, 105, 105, 1),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                //      contentPadding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                fillColor: Color.fromRGBO(211, 211, 211, 1),
+                // fillColor:  Color.fromRGBO(105, 105, 105, 1),
                 filled: true,
                 border: InputBorder.none,
                 // filled: true,
@@ -452,6 +579,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            const Espacamento(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -531,6 +659,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                                   alerta.openModal(
                                       context, "Adicione o percentual.");
                                 } else {
+
                                   simuladorBloc.calculoPercentual(
                                       addController.text,
                                       2,
@@ -575,14 +704,16 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
         });
       },
       options: const [
-        "Quantidade de vendas",
+        "Quantidade clientes atendidos",
+      //  "Quantidade de vendas",
+        "Preços",
         "Ticket médio",
-        "Custo insumos",
-        "Custos produtos 3º",
-        "Outros custo variaveis",
+        "Custo das vendas",
+        "Custos dos insumos e mercadorias de 3°",
+      //  "Outros custo variaveis",
         "Custo fixo"
       ],
-      decoration: buildInputDecoration( const Icon(
+      decoration: buildInputDecoration(const Icon(
         Icons.arrow_drop_down,
         color: Color.fromRGBO(1, 57, 44, 1),
         size: 26,
@@ -633,12 +764,12 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
             hintText: 'Para você definir prioridades',
             prefixIcon: Icon(
               Icons.help,
-              color: Colors.black54,
-              size: 20,
+              color: Color.fromRGBO(1, 57, 44, 1),
+              size: 25,
             ),
             hintStyle: TextStyle(
               color: Colors.black,
-              fontSize: 18,
+              fontSize: 20,
             ),
             border: InputBorder.none,
           ),

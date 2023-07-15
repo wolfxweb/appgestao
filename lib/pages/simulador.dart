@@ -37,6 +37,9 @@ class _SimuladorState extends State<Simulador> {
   var removeController = TextEditingController();
   var selectController = "";
 
+
+
+
   var dataVendas;
   var vendasColor = 'desabilitado';
   var ticketMedioCor = 'desabilitado';
@@ -380,8 +383,7 @@ class _SimuladorState extends State<Simulador> {
                                   return TextFormField(
                                       enabled: false,
                                       keyboardType: TextInputType.number,
-                                      controller: custoProdutoController =
-                                          TextEditingController(text: '$data'),
+                                      controller: custoProdutoController = TextEditingController(text: '$data'),
                                       decoration: _styleInput(
                                           'Custo produto 3º',
                                           custoProdutoColor,

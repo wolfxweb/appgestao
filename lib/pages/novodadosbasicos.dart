@@ -259,7 +259,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildTituloInput(context,'Gastos com insumos'),
+                      buildTituloInput(context,'Gastos com vendas'),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisSize: MainAxisSize.max,
@@ -294,7 +294,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildTituloInput(context,'Outros custos variáveis'),
+                      buildTituloInput(context,'Gastos com insumos e produtos de 3°'),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisSize: MainAxisSize.max,
@@ -712,12 +712,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
 
           setState(() {
             percentualVendas.text = "100,00";
-            percentualGastosInsumos.text =
-                '${formatterPercentual.format(gastosInsumos)} ';
-            percentualOutrosCustos.text =
-                '${formatterPercentual.format(outrosCustos)} ';
-            percentualCustoFixo.text =
-                '${formatterPercentual.format(custoFixo)} ';
+            percentualGastosInsumos.text =  '${formatterPercentual.format(gastosInsumos)} ';
+            percentualOutrosCustos.text =  '${formatterPercentual.format(outrosCustos)} ';
+            percentualCustoFixo.text =         '${formatterPercentual.format(custoFixo)} ';
           });
         },
         validator: ValidationBuilder().maxLength(50).required().build(),
