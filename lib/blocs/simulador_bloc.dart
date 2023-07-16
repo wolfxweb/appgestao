@@ -194,6 +194,8 @@ class SimuladorBloc extends BlocBase {
          gastoComInsumosDadosBasicos =  convertMonetarioFloat(element["gastos"]);
          quantidadeDeClientesAtendidoDadosBasicos = element["qtd"];
          quantidadeDeClientesAtendidoCalculada  = element["qtd"];
+         quantidadeDeClientesAtendido =element["qtd"];
+
          updateStream(_marIdeal, _qtd, _fat, _gpv, _cusf, _cus, _marIdeal, _element);
 
       });
@@ -337,11 +339,7 @@ class SimuladorBloc extends BlocBase {
 
             _ticketMedioController.add(_tickeMedioMoeda);
             print('_tickeMedioMoeda');
-            print(_tickeMedioMoeda);
-            print('novoTicketMedio');
-            print(novoTicketMedio);
-            print('calc_qtd');
-            print(calc_qtd);
+
             calc_fat = novoTicketMedio * calc_qtd;
 
           //  _faturamentoController.add("R\$ ${formatterMoeda.format(calc_fat)}");
@@ -355,7 +353,7 @@ class SimuladorBloc extends BlocBase {
            //calculoPontoEquilibrio();
            //calculoTIKETMEDIO(operacao,percentual);
             custosINSUMOS(operacao,percentual);
-            custoPRODUTO3(percentual,operacao);
+          //  custoPRODUTO3(percentual,operacao);
             custoVARIAVEL(operacao,percentual);
            // var _tickeMI = calc_fat / double.parse(_qtd).truncateToDouble();
             var _tickeMIV =((_ticketMedio/percoOriginal)-1)*100;
@@ -363,7 +361,26 @@ class SimuladorBloc extends BlocBase {
             calc_fat = novoTicketMedio * calc_qtd;
            // var fats= convertMonetarioFloat(_fat);
             variacaoFaturamento();
+            var custoDadosBasicos =  convertMonetarioFloat(_cusf);
 
+            if (operacao == 1) {
+              novoCustoProduto = calc_cf *((percentual / 100) + 1);
+            } else {
+              var qtdAUX = calc_cf *(percentual / 100);
+              novoCustoProduto = calc_cf - qtdAUX;
+            }
+
+            if (novoCustoProduto > custoDadosBasicos) {
+              corCustoProduto('vermelho');
+            } else if (novoCustoProduto < custoDadosBasicos) {
+              corCustoProduto('verde');
+            } else {
+              corCustoProduto("desabilitado");
+            }
+            calc_gas = novoCustoProduto;
+            var custoNovoProduto = "R\$ ${formatterMoeda.format(novoCustoProduto)}";
+            _custoFixoController.add(custoNovoProduto);
+            varicaoCusto3();
 
 
 
@@ -519,7 +536,8 @@ class SimuladorBloc extends BlocBase {
 
     }
 
-    var faturamento = novoPrecoMedio * calc_qtd;
+    var faturamento = novoPrecoMedio * quantidadeDeClientesAtendido;
+
     var _tickeMIV =((novoPrecoMedio/precoInicial)-1)*100;
     _variacaoTicketMedio.add(" ${formatterPercentual.format(_tickeMIV)} ");
     _precoMedioCalculado.add("R\$ ${formatterMoeda.format(novoPrecoMedio)}");
@@ -644,6 +662,8 @@ custoVARIAVEL(operacao,percentual){
 }
 
 custoPRODUTO3(percentual,operacao){
+
+
   var custoDadosBasicos =  convertMonetarioFloat(_cus);
   if (operacao == 1) {
     novoCustoProduto = calc_cf *((percentual / 100) + 1);
@@ -661,8 +681,15 @@ custoPRODUTO3(percentual,operacao){
     corCustoProduto("desabilitado");
   }
 
-  calc_gas = novoCustoProduto;
+  calc_cf = novoCustoProduto;
   var custoNovoProduto = "R\$ ${formatterMoeda.format(novoCustoProduto)}";
+  print('novoCustoProduto');
+  print(novoCustoProduto);
+  print('calc_gas');
+  print(calc_gas);
+  print('custoNovoProduto');
+  print(custoNovoProduto);
+
   _custoFixoController.add(custoNovoProduto);
   _margemContribuicaoCalculada =(calc_fat - (calc_gi + calc_cf + novoCustoProduto)) / calc_qtd;
   _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
@@ -672,12 +699,7 @@ custoPRODUTO3(percentual,operacao){
   calculoMargemResultante();
   calculoPontoEquilibrio();
 
-  print('custoInsumosTerceirosDadosBasicos');
-  print(custoInsumosTerceirosDadosBasicos);
-  print('calc_gas');
-  print(calc_gas);
-  print('novoCustoProduto');
-  print(novoCustoProduto);
+
 
 
   var varicaoDeCustos = ((calc_gas/custoInsumosTerceirosDadosBasicos)-1)*100;
@@ -783,14 +805,6 @@ custosINSUMOS(operacao,percentual){
     calculoMargemResultante();
     calculoPontoEquilibrio();
   }
-/*
-  getVendas() async {
-    getDadosBasicos();
-    _corVendaController.add('desabilitado');
-    var vendas = await bd.lista();
-    return vendas;
-  }
-*/
 
   calculoMargemResultante() {
  //print( 'calculoMargemResultante()');
@@ -890,6 +904,8 @@ custosINSUMOS(operacao,percentual){
     _custoFixoController.add(element['custo_fixo']);
     _custoInicialVendas.add(element['gastos_insumos']);
     _custoFixoInicialDadosBasicos.add(element['custo_varivel']);
+    _precoMedioCalculado.add(_tickeMIF);
+
   }
 
 
