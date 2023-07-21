@@ -238,8 +238,7 @@ class SimuladorBloc extends BlocBase {
       _percentualAddController.add('');
       _percentualRemoveController.add(percentual.toStringAsPrecision(2));
     }
-    print('opção selecionada');
-    print(select);
+
     switch (select) {
 
       case 'Preço médio de vendas':
@@ -262,6 +261,10 @@ class SimuladorBloc extends BlocBase {
           var custoInSumos = "R\$ ${formatterMoeda.format(custoVendasCalculada)}";
           _custoInsumosController.add(custoInSumos);
           variacaoCustoFixo();
+          _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_gas )) /calc_fat) *100;
+          _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
+          variacaoMargem();
+
 
         break;
       case 'Quantidade clientes atendidos':
@@ -294,7 +297,7 @@ class SimuladorBloc extends BlocBase {
          novoCalculoCusto3(operacao,percentual);
 
           variacaoFaturamento();
-          calculoMargemResultante();
+        //  calculoMargemResultante();
 
         break;
       case 'Quantidade de vendas':
@@ -310,7 +313,7 @@ class SimuladorBloc extends BlocBase {
         _vendasController.add(novaQtd.toString());
         calculoVendas(novaQtd.toString());
         calculoPontoEquilibrio();
-        calculoMargemResultante();
+   //     calculoMargemResultante();
         calculoTIKETMEDIO(operacao,percentual);
         custosINSUMOS(operacao,percentual);
         custoPRODUTO3(percentual,operacao);
@@ -352,7 +355,7 @@ class SimuladorBloc extends BlocBase {
            //calculoMargemResultante();
            //calculoPontoEquilibrio();
            //calculoTIKETMEDIO(operacao,percentual);
-            custosINSUMOS(operacao,percentual);
+         //   custosINSUMOS(operacao,percentual);
           //  custoPRODUTO3(percentual,operacao);
             custoVARIAVEL(operacao,percentual);
            // var _tickeMI = calc_fat / double.parse(_qtd).truncateToDouble();
@@ -381,6 +384,11 @@ class SimuladorBloc extends BlocBase {
             var custoNovoProduto = "R\$ ${formatterMoeda.format(novoCustoProduto)}";
             _custoFixoController.add(custoNovoProduto);
             varicaoCusto3();
+            _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_gas )) /calc_fat) *100;
+            _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
+            variacaoMargem();
+
+
 
 
 
@@ -433,19 +441,32 @@ class SimuladorBloc extends BlocBase {
           corCustoProduto("desabilitado");
         }
          calc_gas = novoCustoProduto;
-        var custoNovoProduto = "R\$ ${formatterMoeda.format(novoCustoProduto)}";
-        _custoFixoController.add(custoNovoProduto);
-        _margemContribuicaoCalculada =(calc_fat - (calc_gi + calc_cf + novoCustoProduto)) / calc_qtd;
-        _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
-        _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_cf + novoCustoProduto)) /calc_fat) *100;
-        _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
+        calc_cf = novoCustoProduto ;
 
-       // quantidadeVENDADS(operacao,percentual);
-      //  calculoTIKETMEDIO(operacao,percentual);
-     //   custosINSUMOS(operacao,percentual);
+        var custoNovoProduto = "R\$ ${formatterMoeda.format(novoCustoProduto)}";
+        print('custoNovoProduto');
+        print(custoNovoProduto);
+        _custoFixoController.add(custoNovoProduto);
         custoPRODUTO3(percentual,operacao);
         custoVARIAVEL(operacao,percentual);
+        _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_gas )) /calc_fat) *100;
+        _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
+
+
+        variacaoMargem();
+        //_faturamentoController.sink
+        print('calc_fat ok');
+        print(calc_fat);
+        print('calc_gi ok gasto com vendas');
+        print(calc_gi);
+        print('calc_cv ok custo fixo');
+        print(calc_cv);
+        print('calc_gas');
+        print(calc_gas);
+        print('custoNovoProduto');
+        print(custoNovoProduto);
         varicaoCusto3();
+
         break;
     /*****************************/
       case 'Outros custo variaveis':
@@ -505,8 +526,12 @@ class SimuladorBloc extends BlocBase {
         _custoProdutoController.add(novoCustonovoCustoFixo);
         _calculoPontoEquilibio =(novoCustoFixo / _margemContribuicaoCalculada) * _ticketMedio;
         _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
-        _margemReultanteCalculada =((calc_fat - (calc_gi + novoCustoFixo + calc_cf + calc_gas)) /calc_fat) *100;
-        _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)}");
+
+       _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_gas )) /calc_fat) *100;
+       _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
+
+
+       variacaoMargem();
 
        var variacaoCusto =((calc_cv/custoFixoDadosBasicos)-1)*100;
        _custoFixosVariacao.add("${formatterPercentual.format(variacaoCusto)}");
@@ -516,6 +541,7 @@ class SimuladorBloc extends BlocBase {
   }
 
   precoMedioCalculo(operacao,percentual){
+
     var novoPrecoMedio ;
     if (operacao == 1) {
       novoPrecoMedio = ticketMedioInicialValor *((percentual / 100) + 1);
@@ -525,15 +551,11 @@ class SimuladorBloc extends BlocBase {
     }
 
     if (ticketMedioInicialValor < novoPrecoMedio) {
-     // corTicketMedio('verde');
       _corPrecoMedioVendas.add('verde');
     } else if (ticketMedioInicialValor > novoPrecoMedio) {
-    //  corTicketMedio('vermelho');
       _corPrecoMedioVendas.add('vermelho');
     } else {
-    //  corTicketMedio('desabilitado');
       _corPrecoMedioVendas.add('desabilitado');
-
     }
 
     var faturamento = novoPrecoMedio * quantidadeDeClientesAtendido;
@@ -564,6 +586,12 @@ class SimuladorBloc extends BlocBase {
     _variacaoPrecoMedioVendas.add('${formatterPercentual.format(precoMedioVariacaoCalculado)}');
     _ticketMedio =novoPrecoMedio;
 
+     calc_fat = faturamento;
+    _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_gas )) /calc_fat) *100;
+    _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
+     variacaoMargem();
+
+
   }
   varicaoCusto3() {
     var varicaoDeCusto = ((calc_gas/custoInsumosTerceirosDadosBasicos)-1)*100;
@@ -592,8 +620,12 @@ class SimuladorBloc extends BlocBase {
    _custoFixoController.add(custoNovoProduto);
    _margemContribuicaoCalculada =(calc_fat - (calc_gi + calc_cf + novoCustoProduto)) / calc_qtd;
    _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
-   _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_cf + novoCustoProduto)) /calc_fat) *100;
+   calculoMargemResultante();
+   _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_gas )) /calc_fat) *100;
    _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
+   variacaoMargem();
+
+
    varicaoCusto3();
  }
 
@@ -635,7 +667,7 @@ quantidadeVENDADS(operacao,percentual){
   _vendasController.add(novaQtd.toString());
   calculoVendas(novaQtd.toString());
   calculoPontoEquilibrio();
-  calculoMargemResultante();
+ // calculoMargemResultante();
 
 }
 
@@ -657,7 +689,7 @@ custoVARIAVEL(operacao,percentual){
   _calculoPontoEquilibio =(calc_cv / _margemContribuicaoCalculada) * _ticketMedio;
   _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
   calculoMargemConribuicao();
-  calculoMargemResultante();
+ // calculoMargemResultante();
   calculoPontoEquilibrio();
 }
 
@@ -683,20 +715,15 @@ custoPRODUTO3(percentual,operacao){
 
   calc_cf = novoCustoProduto;
   var custoNovoProduto = "R\$ ${formatterMoeda.format(novoCustoProduto)}";
-  print('novoCustoProduto');
-  print(novoCustoProduto);
-  print('calc_gas');
-  print(calc_gas);
-  print('custoNovoProduto');
-  print(custoNovoProduto);
+
 
   _custoFixoController.add(custoNovoProduto);
   _margemContribuicaoCalculada =(calc_fat - (calc_gi + calc_cf + novoCustoProduto)) / calc_qtd;
   _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
-  _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_cf + novoCustoProduto)) /calc_fat) *100;
+  _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_cf )) /calc_fat) *100;
   _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
   calculoMargemConribuicao();
-  calculoMargemResultante();
+ // calculoMargemResultante();
   calculoPontoEquilibrio();
 
 
@@ -724,7 +751,7 @@ custosINSUMOS(operacao,percentual){
   _margemContribuicaoCalculada = (calc_fat - (novoValorInsumos + calc_cv + calc_gas)) / calc_qtd;
   _margemDeContribuicaoController.add("R\$ ${formatterMoeda.format(_margemContribuicaoCalculada)}");
   calculoPontoEquilibrio();
-  calculoMargemResultante();
+//  calculoMargemResultante();
 }
   calculoTIKETMEDIO(operacao,percentual){
 
@@ -757,7 +784,7 @@ custosINSUMOS(operacao,percentual){
     _pontoEquilibrioController.add("R\$ ${formatterMoeda.format(_calculoPontoEquilibio)}");
 
     calculoMargemConribuicao();
-    calculoMargemResultante();
+   /// calculoMargemResultante();
     calculoPontoEquilibrio();
     variacaoFaturamento();
     var _tickeMIV =((_ticketMedio/precoInicial)-1)*100;
@@ -802,16 +829,13 @@ custosINSUMOS(operacao,percentual){
     _vendasController.add(qtdVenda);
     _faturamentoController.add("R\$ ${formatterMoeda.format(calc_fat)}");
     calculoMargemConribuicao();
-    calculoMargemResultante();
+   // calculoMargemResultante();
     calculoPontoEquilibrio();
   }
 
   calculoMargemResultante() {
- //print( 'calculoMargemResultante()');
-    _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_cf + calc_gas)) / calc_fat) * 100;
-    print(_margemReultanteCalculada);
+    _margemReultanteCalculada =((calc_fat - (calc_gi + calc_cv + calc_gas )) /calc_fat) *100;
     _margemResultateController.add(" ${formatterPercentual.format(_margemReultanteCalculada)} ");
-    variacaoMargem();
   }
 
   variacaoMargem(){
@@ -821,7 +845,10 @@ custosINSUMOS(operacao,percentual){
     var margemVariacao =  calculoVariacao(margemInicalCalculada, _margemReultanteCalculada);
     if(margemVariacao!=1 && margemVariacao != 0.0) {
       _margemVariacao.add('${formatterPercentual.format(margemVariacao)}');
+
     }
+    calculoMargemResultante();
+
   }
   calculoVariacao(valorDadosBasicos, valorCalculado){
     /* centralizado pois o cleinte deve querer alterar o calculo novamente. */
@@ -881,13 +908,13 @@ custosINSUMOS(operacao,percentual){
     _faturamentoController.add(fat);
     _custoInsumosController.add(element['gastos_insumos']);
     _custoVariavelController.add(element['custo_fixo']);
-   // _custoFixoController.add(cusf);
+    _custoFixoController.add(cusf);
     _custoProdutoController.add(gi);
     calculoMargen(element);
     calculoTiketMedio();
     calculoMargemConribuicao();
     calculoPontoEquilibrio();
-    calculoMargemResultante();
+   // calculoMargemResultante();
     _percentualAddController.add('0');
     _percentualRemoveController.add('0');
     _variacaoMargemController.add(formatterPercentual.format(double.parse(_marIdeal)/_margemCalculada));
@@ -913,6 +940,7 @@ custosINSUMOS(operacao,percentual){
 
      margemInicalCalculada = ((faturamentoDadosBasicos -(custoVendasDadosBasicos +custoFixoDadosBasicos + custoInsumosTerceirosDadosBasicos))/faturamentoDadosBasicos)*100;
     _margemInicial.add('${formatterPercentual.format(margemInicalCalculada)}');
+     _margemResultateController.add(" ${formatterPercentual.format(margemInicalCalculada)} ");
   }
 
   convertMonetarioFloat(element) {

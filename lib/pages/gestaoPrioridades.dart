@@ -1,3 +1,4 @@
+import 'package:appgestao/blocs/gestao_prioridade_bloc.dart';
 import 'package:appgestao/blocs/simulador_bloc.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertamodal.dart';
@@ -75,13 +76,14 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
   var tickerMedioInicial = TextEditingController();
   var faturamentoVariacao= TextEditingController();
   var ticketMedioDadosBasico = "";
-
+   var bloc;
   //**//
   final _formKey = GlobalKey<FormState>();
   var color = const Color.fromRGBO(1, 57, 44, 1);
   @override
   void initState() {
     simuladorBloc = SimuladorBloc();
+    bloc = gestao_prioridade_bloc();
 
     addController.text = '';
     removeController.text = '';
@@ -120,10 +122,10 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   builtItulo("Margem"),
                   buildInputs(
                       context,
-                      simuladorBloc.margemInicial,
-                      null,
-                      simuladorBloc.margemResultateController,
-                      simuladorBloc.margemVariacao,
+                      bloc.margemInicial,
+                      bloc.corMargem,
+                      bloc.margemCalculada,
+                      bloc.margemVariacao,
                       null,
                       null,
                       null,
@@ -134,10 +136,10 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   builtItulo("Clientes atendidos"),
                   buildInputs(
                       context,
-                      simuladorBloc.clientesAtendidoDadosBasico,
-                      simuladorBloc.corClientesAtendido,
-                      simuladorBloc.clientesAtendidoCalculado,
-                      simuladorBloc.clientesAtendidoVaricacao,
+                      bloc.clientesAtendidoDadosBasico,
+                      bloc.corClientesAtendido,
+                      bloc.clientesAtendidoCalculado,
+                      bloc.clientesAtendidoVaricacao,
                       null,
                       null,
                       null,
@@ -147,10 +149,10 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   const Espacamento(),
                   builtItulo("Preço médio das vendas"),
                   buildInputs(context,
-                      simuladorBloc.tickeMedioInicial,
-                      simuladorBloc.corPrecoMedioVendas,
-                      simuladorBloc.precoMedioCalculado,
-                      simuladorBloc.variacaoPrecoMedioVendas,
+                      bloc.precoInicial,
+                      bloc.corPrecoMedioVendas,
+                      bloc.precoMedioCalculado,
+                      bloc.variacaoPrecoMedioVendas,
                       null,
                       null,
                       null,
@@ -167,10 +169,10 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   builtItulo("Ticket médio"),
                   buildInputs(
                       context,
-                      simuladorBloc.tickeMedioInicial,
-                      simuladorBloc.corTicketMediolController,
-                      simuladorBloc.ticketMedioController,
-                      simuladorBloc.variacaoTicketMedio,
+                      bloc.tickeMedioInicial,
+                      bloc.corTicketMedio,
+                      bloc.ticketMedioCalculado,
+                      bloc.variacaoTicketMedio,
                       tickerMedioInicial,
                       ticketMedioController,
                       tickerMedioVariacao,
@@ -181,10 +183,10 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   builtItulo("Faturamento"),
                   buildInputs(
                       context,
-                      simuladorBloc.faturamentoInicial,
-                      simuladorBloc.corfaturamento,
-                      simuladorBloc.faturamentoController,
-                      simuladorBloc.faturamentoVariacao,
+                      bloc.faturamentoInicial,
+                      bloc.corfaturamento,
+                      bloc.faturamentoCalculado,
+                      bloc.faturamentoVariacao,
                       null,
                       null,
                       faturamentoVariacao,
@@ -195,10 +197,10 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   builtItulo("Custo das Vendas"),
                   buildInputs(
                       context,
-                      simuladorBloc.custoInicialVendas,
-                      simuladorBloc.corCustoInsumoslController,
-                      simuladorBloc.custoInsumosController,
-                      simuladorBloc.custoFixoVariacao,
+                      bloc.custoInicialVendas,
+                      bloc.corCustoInsumos,
+                      bloc.custoInsumosCalculado,
+                      bloc.custoFixoVariacao,
                       null,
                       null,
                       null,
@@ -209,10 +211,10 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   buildInputs(
                     // nome esta difenrente pois cliente quis alterar o nome do campo
                       context,
-                      simuladorBloc.custoInsumosMercadoria3,
-                      simuladorBloc.corCustoProdutolController,
-                      simuladorBloc.custoFixoController,
-                      simuladorBloc.variacaoCusto3,
+                      bloc.custoInsumosMercadoria3,
+                      bloc.corCustoProduto,
+                      bloc.custoTreceirosCalculado,
+                      bloc.variacaoCustoDe3,
                       null,
                       null,
                       faturamentoVariacao,
@@ -224,10 +226,10 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   builtItulo("Custos Fixos"),
                   buildInputs(
                       context,
-                      simuladorBloc.custoFixoInicialDadosBasicos,
-                      simuladorBloc.corCustoFixoController,
-                      simuladorBloc.custoProdutoController,
-                      simuladorBloc.custoFixosVariacao,
+                      bloc.custoFixoInicialDadosBasicos,
+                      bloc.corCustoFixo,
+                      bloc.custoFixoCalculado,
+                      bloc.custoFixosVariacao,
                       null,
                       null,
                       null,
@@ -652,7 +654,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                                   alerta.openModal(
                                       context, "Adicione o percentual.");
                                 } else {
-                                  simuladorBloc.calculoPercentual(
+                                  bloc.calculoPercentual(
                                       addController.text,
                                       1,
                                       valorInicialTicket,
@@ -689,7 +691,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                                       context, "Adicione o percentual.");
                                 } else {
 
-                                  simuladorBloc.calculoPercentual(
+                                  bloc.calculoPercentual(
                                       addController.text,
                                       2,
                                       valorInicialTicket,
