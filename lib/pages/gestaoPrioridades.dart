@@ -253,7 +253,10 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                         textStyle: const TextStyle(fontSize: 20),
                         primary: const Color.fromRGBO(1, 57, 44, 1),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+
+                        route.pushPage(context, GestaoPrioridade());
+                      },
                       child: const Text("Limpar"),
                     ),
                   ),
