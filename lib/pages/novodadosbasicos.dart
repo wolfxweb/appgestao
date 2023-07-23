@@ -847,10 +847,11 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       'faturamento_vendas': _faturamentoController.text,
       'gastos_insumos': _gastoinsumosController.text,
       'custo_fixo': _custoFixoController.text,
-      'custo_variavel': _custoVariavelController.text,
+      'custo_insumos_terceiros': _custoVariavelController.text,
       'mes_selecionado': mesSelect.value,
       'custo insumos': _custoInsumosController.text,
-      'magem_desejada': _margenController.text
+      'magem_desejada': _margenController.text,
+      'gasto_com_vendas': _custoInsumosController.text,
     };
 
     var users = VerificaStatusFairebase();

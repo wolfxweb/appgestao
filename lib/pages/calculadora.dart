@@ -398,7 +398,7 @@ class _CalculadoraState extends State<Calculadora> {
                               keyboardType: TextInputType.none,
                               enabled: false,
                               controller: TextEditingController(text: "$data"),
-                              decoration: _styleInput("", "ops"),
+                              decoration:  decoretorNovo(''),
                             )
                           : Container();
                     }),

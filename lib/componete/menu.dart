@@ -95,7 +95,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.data_exploration),
-            title: buildText("Gestão prioridade"),
+            title: buildText("Gestão prioridades"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
               route.pushPage(context, const GestaoPrioridade());
@@ -147,7 +147,7 @@ class _MenuState extends State<Menu> {
           ),
           ListTile(
             leading: const Icon(Icons.rocket_launch),
-            title:   buildText("Para mais,acesse nosso site"),
+            title:   buildText("Nosso site"),
             trailing: const Icon(
               Icons.arrow_forward,
             ),

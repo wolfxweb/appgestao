@@ -71,12 +71,12 @@ class _novaHomeState extends State<novaHome> {
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,telaDiagnostico()),
             buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,GestaoPrioridade()),
             buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnCalculadoraPrecos,Calculadora()),
-            buildRowBtn(context,textAjudaInportanciaMeses,textBtnInportanciaMeses,InportanciaMeses()),
-            buildRowBtn(context,textAjudaAnalizeVibilidade,textBtnAnalizeVibilidade,AnaliseViabilidade()),
+         //   buildRowBtn(context,textAjudaInportanciaMeses,textBtnInportanciaMeses,InportanciaMeses()),
+         //   buildRowBtn(context,textAjudaAnalizeVibilidade,textBtnAnalizeVibilidade,AnaliseViabilidade()),
 
 
 
-            buildRowBtn(context,'Simulador',textBtnGestaoPrioridades,Simulador()),
+        //    buildRowBtn(context,'Simulador',textBtnGestaoPrioridades,Simulador()),
 
 
         //   buildRowBtn(context,textAjudaCalculadoraViabilidade,textBtnCalculadoraViabilidade,null),

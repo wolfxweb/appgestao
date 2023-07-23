@@ -67,6 +67,7 @@ class VerificaStatusFairebase {
   }
 
   addDadosBasicos(context,dados){
+    print(dados);
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
         route.pushPage(context, const Login());
@@ -80,13 +81,12 @@ class VerificaStatusFairebase {
             Map<String, dynamic> data =  documentSnapshot.data()! as Map<String, dynamic>;
             if (data['status']) {
               var dados_basicos ={
+                'mes_selecionado':dados['mes_selecionado'],
                 'quantidade_clientes_atendido': dados['quantidade_clientes_atendido'],
                 'faturamento_vendas':dados['faturamento_vendas'],
-                'gastos_insumos':dados['gastos_insumos'],
-                'custo_fixo':dados['custo_fixo'],
-                'custo_variavel':dados['custo_variavel'],
-                'mes_selecionado':dados['mes_selecionado'],
-                'custo insumos':dados['insumos'],
+                'gasto_com_vendas':dados['gasto_com_vendas'],
+                'custo_insumos_terceiros':dados['custo_fixo'],
+                'custo_fixo':dados['custo_insumos_terceiros'],
                 'magem_desejada':dados['magem_desejada'],
                 'cidade':data['cidade'],
                 'estado':data['estado'],
