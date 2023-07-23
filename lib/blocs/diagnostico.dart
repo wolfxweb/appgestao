@@ -21,13 +21,28 @@ class DignosticoBloc extends BlocBase {
   final _textLucro_2_Controller = BehaviorSubject();
   final _textLucro_3_Controller = BehaviorSubject();
 
+  final _card1 = BehaviorSubject();
+  final _card2 = BehaviorSubject();
+  final _card3 = BehaviorSubject();
+  final _card4 = BehaviorSubject();
+  final _card5 = BehaviorSubject();
+
   Stream get textDiagnosticoController => _textDiagnosticoController.stream;
   Stream get textPrejuisoController => _textPrejuisoController.stream;
   Stream get textLucro_1_Controller => _textLucro_1_Controller.stream;
   Stream get textLucro_2_Controller => _textLucro_2_Controller.stream;
   Stream get textLucro_3_Controller => _textLucro_3_Controller.stream;
 
+  Stream get card1 => _card1.stream;
+  Stream get card2 => _card2.stream;
+  Stream get card3 => _card3.stream;
+  Stream get card4 => _card4.stream;
+  Stream get card5 => _card5.stream;
+
+  var margemDadosBasicos;
+  var custoFixoDadosBasicos;
   var qualTextoMostrar;
+  var faturamentoDadosBasicos;
   //var _marInformada;
   var calc_qtd;
   var calc_fat;
@@ -46,7 +61,7 @@ class DignosticoBloc extends BlocBase {
   var _D;
   var _E;
   var _F;
-  var  _FNOVO;
+  var _FNOVO;
   var _G;
   var _H;
   var _I;
@@ -58,7 +73,6 @@ class DignosticoBloc extends BlocBase {
   var _O;
   var _X;
 
-
   var calculo_a;
   var calculo_b;
   var calculo_c;
@@ -69,7 +83,6 @@ class DignosticoBloc extends BlocBase {
   var calculo_k;
   var calculo_h;
   var calculo_n;
-
 
   var _text_1;
   var _text_2;
@@ -94,11 +107,12 @@ class DignosticoBloc extends BlocBase {
   var _totalMeses = 0;
 
   DignosticoBloc() {
-   // _textPrejuisoController.add('');
-  //  _textDiagnosticoController.add('');
+    // _textPrejuisoController.add('');
+    //  _textDiagnosticoController.add('');
     _fulanoLogado();
   }
   NumberFormat formatterMoeda = NumberFormat("#,##0.00", "pt_BR");
+  NumberFormat formatterPercentual = NumberFormat("0.00");
   _fulanoLogado() async {
     await FirebaseAuth.instance.authStateChanges().listen((User? user) {
       var email = user!.email;
@@ -122,33 +136,82 @@ class DignosticoBloc extends BlocBase {
   }
 
   _montaTexto() {
-  //  ${_fulano}
+    //  ${_fulano}
     _text_1 =
         "As informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_Bnovo}%.\n"
         "O ticket médio foi de R\$ ${_C} .\nMargem de contribuição R\$ ${_D}.\nPara começar a ter lucro foi preciso vender R\$ ${_E}, "
         "o que representa ${_FNOVO}% do total faturado no mês.\nA produtividade foi de R\$ ${_G} de faturamento para cada R\$1,00 de custo fixo.";
 
-    _text_2 =
-        "O fato é que o resultado não é aquele que você gostaria.\n "
+    _text_2 = "O fato é que o resultado não é aquele que você gostaria.\n "
         "Use o SIMULADOR para ver o que pode ser feito! Com a ajuda da CALCULADORA DE PREÇOS verifique, "
-        "a margem dos seus produtos que mais vendem.\n";//Com um aumento de ${_X}% na produtividade você alcançaria os ${_H}% que considera ideal!";
+        "a margem dos seus produtos que mais vendem.\n"; //Com um aumento de ${_X}% na produtividade você alcançaria os ${_H}% que considera ideal!";
 
-    _text_3 = "Parabéns! Você certamente está satisfeito com a lucratividade do negócio.\nMesmo assim dê uma analisada com a ajuda do SIMULADOR para ver se poderia ser ainda melhor.";
+    _text_3 =
+        "Parabéns! Você certamente está satisfeito com a lucratividade do negócio.\nMesmo assim dê uma analisada com a ajuda do SIMULADOR para ver se poderia ser ainda melhor.";
 
-    _text_4 = "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com ${_J} de   ${_K} %. \nEm ${_L}, com ${_M} de ${_N}%.";
+    _text_4 =
+        "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com ${_J} de   ${_K} %. \nEm ${_L}, com ${_M} de ${_N}%.";
 
-    _text_5 = "As informações relativas ao mês de ${_A} indicam que o seu negócio apresentou prejuízo de ${_O}%.\n"
-               "Esta é uma situação que requer providências imediatas.";
+    _text_5 =
+        "As informações relativas ao mês de ${_A} indicam que o seu negócio apresentou prejuízo de ${_O}%.\n"
+        "Esta é uma situação que requer providências imediatas.";
 
     _text_6 = "1. Verifique se os DADOS BÁSICOS informados estão corretos"
-              "2. Analise, no SIMULADOR, as providências prioritárias para sair do prejuízo."
-              "3. Com a CALCULADORA DE PREÇOS verifique a margem de cada produto. Se você concluir que precisa vender mais, ou descontinuar algum produto, estude a VIABILIDADE DE PROMOÇÃO & PROPAGANDA"
-              "4. Avalie como está sua disponibilidade de CAPITAL DE GIRO."; // Se for o caso, consulte o CHECKLIST 'O que fazer para diminuir a necessidade de capital de giro!'";
+        "2. Analise, no SIMULADOR, as providências prioritárias para sair do prejuízo."
+        "3. Com a CALCULADORA DE PREÇOS verifique a margem de cada produto. Se você concluir que precisa vender mais, ou descontinuar algum produto, estude a VIABILIDADE DE PROMOÇÃO & PROPAGANDA"
+        "4. Avalie como está sua disponibilidade de CAPITAL DE GIRO."; // Se for o caso, consulte o CHECKLIST 'O que fazer para diminuir a necessidade de capital de giro!'";
 
     var _b = double.parse(_B).truncateToDouble();
     var _h = double.parse(_H).truncateToDouble();
 
+    var ticket = (_C
+        .toString()
+        .replaceAll("R\$", "")
+        .replaceAll('.', '')
+        .replaceAll(',', '.'));
+    var margemcontribucao = (_D
+        .toString()
+        .replaceAll("R\$", "")
+        .replaceAll('.', '')
+        .replaceAll(',', '.'));
 
+    var variacaoTicketMedioMargemContribuicao = (double.parse(margemcontribucao).truncateToDouble()/double.parse(ticket).truncateToDouble())*100;
+    var margem95 = _h * 0.95;
+    var margem105 = _h * 1.05;
+    var margemCalculada = _b;
+    var margemDadosBasicos = _h;
+    var qtdAtendimento =formatterPercentual.format(custoFixoDadosBasicos/double.parse(margemcontribucao));
+    var faturamento =(custoFixoDadosBasicos/double.parse(margemcontribucao))*double.parse(ticket);
+    var variacaoPercentualFaturamento =formatterPercentual.format( (faturamento/faturamentoDadosBasicos)*100);
+    var produtividade =formatterMoeda.format( faturamentoDadosBasicos/custoFixoDadosBasicos);
+
+
+    var textoCard1txt1 = "O lucro ${_Bnovo}% é menor do que aquele que você gostaria.\nUtilize a CALCULADORA DE PREÇOS para verificar a margem dos itens que comercializa.\nEm seguida analise possíveis providências em GESTÃO DE PRIORIDADES.";
+    var textoCard1txt2 = "O lucro ${_Bnovo}%  supera suas expectativas. Previna-se para enfrentar possíveis alterações dos custos.\nAnalise possíveis providências em GESTÃO DE PRIORIDADES e use a CALCULADORA DE PREÇOS.";
+    var textoCard1txt3 = "O lucro ${_Bnovo}% está muito próximo daquele que você considera ideal.\nVerifique em GESTÃO DE PRIORIDADES e também na CALCULADORA DE PREÇOS o que poderia fazer para melhorar ainda mais.";
+    var textoCard1txt4 = "O lucro ${_Bnovo}% NÃO PERCA TEMPO! Vamos ajuda-lo a transformar suas dúvidas em DECISÕES PODEROSAS! \nConsulte o e-Book! AGORA!!!";
+    var textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ ${_C}.\nQuanto maior melhor!";
+    var textoCard3txt1 = "Margem de contribuição: R\$ ${_D}\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)} para cobrir os custos fixos e gerar margem.\nQuanto maior for este índice, melhor!";
+    var textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio), foi preciso atender ${qtdAtendimento} clientes, faturando R\$ ${formatterMoeda.format(faturamento)} ou seja: ${variacaoPercentualFaturamento}%";
+    var textoCard5txt1 = "A produtividade foi de R\$ ${produtividade} de faturamento para cada R\$1,00 de custo fixo.\nQuanto maior for a produtividade, melhor!";
+
+//custo fixo
+
+    if (margemCalculada > 0 && margemCalculada < margem95) {
+      _card1.add(textoCard1txt1);
+    } else if (margemCalculada > 0 && margemCalculada > margem105) {
+      _card1.add(textoCard1txt2);
+    } else if (margemCalculada > 0 &&   margemCalculada < margem105 && margemCalculada > margem95) {
+      _card1.add(textoCard1txt3);
+    } else if (margemCalculada < 0) {
+      _card1.add(textoCard1txt4);
+    }
+    _card2.add(textoCard2txt1);
+    _card3.add(textoCard3txt1);
+    _card4.add(textoCard4txt1);
+    _card5.add(textoCard5txt1);
+
+    /* regra da tela antiga*/
     if (_b > 0.0) {
       if (_b < _h) {
         _textDiagnosticoController.add("Lucro");
@@ -165,28 +228,40 @@ class DignosticoBloc extends BlocBase {
       _textPrejuisoController.add(_text_5);
       _textDiagnosticoController.add("prejuízo");
     }
-
-
-
-
   }
 
   _getDadosBasicos() async {
     var dadosBasicos = true;
-  await bd.lista().then((data) {
+    await bd.lista().then((data) {
       data.forEach((element) {
+     //   print(element);
         dadosBasicos = false;
         _A = element['mes'];
         calculo_a = element['mes'];
         _H = (element['margen']);
         calculo_h = element['margen'];
         _convertFoat(element);
+        margemDadosBasicos = double.parse(element['margen']).truncateToDouble();
+        custoFixoDadosBasicos = double.parse(
+          (element['custo_varivel']
+              .toString()
+              .replaceAll("R\$", "")
+              .replaceAll('.', '')
+              .replaceAll(',', '.')),
+        );
+        faturamentoDadosBasicos= double.parse(
+          (element['faturamento']
+              .toString()
+              .replaceAll("R\$", "")
+              .replaceAll('.', '')
+              .replaceAll(',', '.')),
+        );
       });
     });
 
-   if(dadosBasicos){
-     _textDiagnosticoController.add("dadosbssiconull");
-   }
+    if (dadosBasicos) {
+      _textDiagnosticoController.add("dadosbssiconull");
+    }
   }
 
   _lucroOuPrejuiso() {
@@ -202,7 +277,6 @@ class DignosticoBloc extends BlocBase {
   _consultarMeses() async {
     var dates = true;
     await bdi.lista().then((data) {
-
       data.forEach((element) {
         dates = false;
         _jan = (element['jan'] * 100) / element['total'];
@@ -213,139 +287,161 @@ class DignosticoBloc extends BlocBase {
         _jun = (element['jun'] * 100) / element['total'];
         _jul = (element['jul'] * 100) / element['total'];
         _ago = (element['ago'] * 100) / element['total'];
-        _set = (element['setb']*100)/element['total'];
+        _set = (element['setb'] * 100) / element['total'];
         _out = (element['out'] * 100) / element['total'];
         _nov = (element['nov'] * 100) / element['total'];
         _dez = (element['dez'] * 100) / element['total'];
-        print('_A');
-        print(_A);
+        //    print('_A');
+        //    print(_A);
         final mesAtual = DateTime.now().month;
-        print('mesAtual');
-        print(mesAtual);
+        //   print('mesAtual');
+        //   print(mesAtual);
         switch (mesAtual) {
           case 1:
-            _calculoMensal(_dez, _jan, _fev , "Fevereiro");
+            _calculoMensal(_dez, _jan, _fev, "Fevereiro");
             break;
           case 2:
-            _calculoMensal(_jan, _fev, _mar , "Março");
+            _calculoMensal(_jan, _fev, _mar, "Março");
             break;
           case 3:
-            _calculoMensal(_fev, _mar, _abr , "Abril");
+            _calculoMensal(_fev, _mar, _abr, "Abril");
             break;
           case 4:
-            _calculoMensal(_mar, _abr, _mai , "Maio");
+            _calculoMensal(_mar, _abr, _mai, "Maio");
             break;
           case 5:
-            _calculoMensal(_abr, _mai, _jun , "Junho");
+            _calculoMensal(_abr, _mai, _jun, "Junho");
             break;
           case 6:
-            _calculoMensal(_mai, _jun, _jul , "Julho");
+            _calculoMensal(_mai, _jun, _jul, "Julho");
             break;
           case 7:
-            _calculoMensal(_jun, _jul, _ago , "Agosto");
+            _calculoMensal(_jun, _jul, _ago, "Agosto");
             break;
           case 8:
-            _calculoMensal(_jul, _ago, _set , "Setembro");
+            _calculoMensal(_jul, _ago, _set, "Setembro");
             break;
           case 9:
-            _calculoMensal(_ago, _set, _out , "Outubro");
+            _calculoMensal(_ago, _set, _out, "Outubro");
             break;
           case 10:
-            _calculoMensal(_set, _out, _nov , "Novembro");
+            _calculoMensal(_set, _out, _nov, "Novembro");
             break;
           case 11:
-            _calculoMensal(_out, _nov, _dez , "Dezembro");
+            _calculoMensal(_out, _nov, _dez, "Dezembro");
             break;
           case 12:
-            _calculoMensal(_nov, _dez, _jan , "Janeiro");
+            _calculoMensal(_nov, _dez, _jan, "Janeiro");
             break;
         }
         _montaTexto();
       });
-
     });
-   if(dates){
-     _textDiagnosticoController.add("inportanciamesesNULL");
-   }
+    if (dates) {
+      _textDiagnosticoController.add("inportanciamesesNULL");
+    }
   }
 
-  _calculoX(){
+  _calculoX() {
     //  var calculoX=(((24000.0+((((24000.0*25)-(7.1*24000.0))/13.0)*48.0))/4800.00)/(24000.00/4800.00));
     // print('calculoX');
     //  print(calculoX);
     var _h = double.parse(calculo_h);
-    var calculoX=(((calc_fat+((((calc_fat*_h)-(calculo_b*calc_fat))/calculo_d)*calculo_c))/calc_cf)/(calc_fat/calc_cf));
-    _X  =calculoX.toStringAsPrecision(4);
-
+    var calculoX = (((calc_fat +
+                ((((calc_fat * _h) - (calculo_b * calc_fat)) / calculo_d) *
+                    calculo_c)) /
+            calc_cf) /
+        (calc_fat / calc_cf));
+    _X = calculoX.toStringAsPrecision(4);
   }
-  _calculoMensal(mesDadosBasicos, mesAtual, proximoMese , textoL){
-    var mesReferencia =  _calculoK(mesDadosBasicos, mesAtual,mesAtual);
-    var calculo_ns =_calculoN(mesDadosBasicos,mesAtual, proximoMese);
 
-    _K = formatterMoeda.format(mesReferencia*100);
+  _calculoMensal(mesDadosBasicos, mesAtual, proximoMese, textoL) {
+    var mesReferencia = _calculoK(mesDadosBasicos, mesAtual, mesAtual);
+    var calculo_ns = _calculoN(mesDadosBasicos, mesAtual, proximoMese);
 
-    _N = formatterMoeda.format(calculo_ns*100);
+    _K = formatterMoeda.format(mesReferencia * 100);
+
+    _N = formatterMoeda.format(calculo_ns * 100);
 
     _L = textoL;
-    _calculoM( calculo_n );
+    _calculoM(calculo_n);
     _calculoX();
   }
 
-  _calculoM(_n){
-    if(_n > 0.0){
-      _M ="lucro";
-    }else{
+  _calculoM(_n) {
+    if (_n > 0.0) {
+      _M = "lucro";
+    } else {
       _M = "prejuízo";
     }
 
     _montaTexto();
   }
+
   // mesInicial = _jun;
   // mesProximo = _jul;
-  _calculoK(mesInicial, mesProximo,mesAtual) {
-   // _calculoTiketMedio();
-    calculo_k = ((((mesAtual * calc_qtd) / mesInicial) * calculo_c) -((((calc_gi + calc_gas + calc_cf) / calc_fat) * (((mesProximo * calc_qtd) / mesInicial) * calculo_c)) +calc_cv)) /(((mesProximo * calc_qtd) / mesInicial) * calculo_c);
-     return calculo_k;
+  _calculoK(mesInicial, mesProximo, mesAtual) {
+    // _calculoTiketMedio();
+    calculo_k = ((((mesAtual * calc_qtd) / mesInicial) * calculo_c) -
+            ((((calc_gi + calc_gas + calc_cf) / calc_fat) *
+                    (((mesProximo * calc_qtd) / mesInicial) * calculo_c)) +
+                calc_cv)) /
+        (((mesProximo * calc_qtd) / mesInicial) * calculo_c);
+    return calculo_k;
   }
-  _calculoN(mesAtual,mesInicial,mesProximo) {
-    calculo_n = ((((mesProximo * calc_qtd) / mesAtual) * calculo_c) -((((calc_gi + calc_gas + calc_cf) / calc_fat) * (((mesProximo * calc_qtd) / mesAtual) * calculo_c)) +calc_cv)) /(((mesProximo * calc_qtd) / mesAtual) * calculo_c);
+
+  _calculoN(mesAtual, mesInicial, mesProximo) {
+    calculo_n = ((((mesProximo * calc_qtd) / mesAtual) * calculo_c) -
+            ((((calc_gi + calc_gas + calc_cf) / calc_fat) *
+                    (((mesProximo * calc_qtd) / mesAtual) * calculo_c)) +
+                calc_cv)) /
+        (((mesProximo * calc_qtd) / mesAtual) * calculo_c);
     return calculo_n;
   }
+
   _calculoG() {
     calculo_g = calc_fat / calc_cv;
     _G = formatterMoeda.format(calculo_g);
     _lucroOuPrejuiso();
   }
+
   _calculoF() {
     calculo_f = calculo_e / calc_fat;
-    var calc = calculo_f *100;
+    var calc = calculo_f * 100;
     _FNOVO = formatterMoeda.format(calc);
     _F = calc.toStringAsPrecision(2);
     _calculoG();
   }
+
   _calculoPontoEquilibrio() {
     calculo_e = (calc_cv / calculo_d) * calculo_c;
     _E = formatterMoeda.format(calculo_e);
     _calculoF();
   }
+
   _calculoMargemConribuicao() {
     calculo_d = (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
     _D = formatterMoeda.format(calculo_d);
     _calculoPontoEquilibrio();
   }
+
   _calculoTiketMedio() {
     calculo_c = calc_fat / calc_qtd;
     _C = formatterMoeda.format(calculo_c);
     _calculoMargemConribuicao();
   }
+
   _calculoMargemResultante() {
-    calculo_b = (((calc_fat - (calc_gi + calc_cv + calc_cf + calc_gas)) / calc_fat) *100);
+    calculo_b =
+        (((calc_fat - (calc_gi + calc_cv + calc_cf + calc_gas)) / calc_fat) *
+            100);
     _Bnovo = formatterMoeda.format(calculo_b);
 
     _B = calculo_b.toStringAsPrecision(2);
     _O = _B;
     _calculoTiketMedio();
   }
+
   _convertFoat(element) {
     var faturamento = (element['faturamento']
         .toString()

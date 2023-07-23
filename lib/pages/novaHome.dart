@@ -12,6 +12,7 @@ import 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/diagnostico.dart';
 import 'package:appgestao/pages/gestaoPrioridades.dart';
 import 'package:appgestao/pages/importanciameses.dart';
+import 'package:appgestao/pages/novaTelaDiagnostico.dart';
 
 import 'package:appgestao/pages/novodadosbasicos.dart';
 import 'package:appgestao/pages/simulador.dart';
@@ -67,7 +68,7 @@ class _novaHomeState extends State<novaHome> {
             const Espacamento(),
          //   buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,DadosBasicos()),
             buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
-            buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,Diagnostico()),
+            buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,telaDiagnostico()),
             buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,GestaoPrioridade()),
             buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnCalculadoraPrecos,Calculadora()),
             buildRowBtn(context,textAjudaInportanciaMeses,textBtnInportanciaMeses,InportanciaMeses()),

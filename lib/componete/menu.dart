@@ -10,9 +10,11 @@ import 'package:appgestao/pages/clientes.dart';
 import 'package:appgestao/pages/clientesSearch.dart';
 import 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/diagnostico.dart';
+import 'package:appgestao/pages/gestaoPrioridades.dart';
 import 'package:appgestao/pages/homeadmin.dart';
 import 'package:appgestao/pages/importanciameses.dart';
 import 'package:appgestao/pages/novaHome.dart';
+import 'package:appgestao/pages/novaTelaDiagnostico.dart';
 import 'package:appgestao/pages/novodadosbasicos.dart';
 import 'package:appgestao/pages/simulador.dart';
 import 'package:flutter/material.dart';
@@ -87,16 +89,16 @@ class _MenuState extends State<Menu> {
             title: buildText("Diagnóstico"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
-              route.pushPage(context, const Diagnostico());
+              route.pushPage(context, const telaDiagnostico());
               //  Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.data_exploration),
-            title: buildText("Simulador -> Gestão prioridade"),
+            title: buildText("Gestão prioridade"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
-              route.pushPage(context, const Simulador());
+              route.pushPage(context, const GestaoPrioridade());
               //  Navigator.pop(context);
             },
           ),
