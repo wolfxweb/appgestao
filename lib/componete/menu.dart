@@ -54,7 +54,7 @@ class _MenuState extends State<Menu> {
           SizedBox(
             width: 100,
             height: 80,
-            child: Image.asset("assets/img/Logo.png"),
+            child: Image.asset("assets/img/Logo.jpg"),
           ),
 
       /*    ListTile(

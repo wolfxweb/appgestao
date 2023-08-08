@@ -37,8 +37,14 @@ class _telaDiagnosticoState extends State<telaDiagnostico> {
 
   Container buildCard(strean) {
     return Container(
-            padding:  EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(0.0),
             child: Card(
+              shape: RoundedRectangleBorder(
+                side:const BorderSide(
+                  color:Color.fromRGBO(1, 57, 44, 1), //<-- SEE HERE
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: StreamBuilder(
@@ -52,7 +58,7 @@ class _telaDiagnosticoState extends State<telaDiagnostico> {
                       return  Text(text,
                         style:const TextStyle(
                           //  color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 16,
                           //  fontWeight: FontWeight.bold,
                         ),
                       //  textAlign: TextAlign.justify,

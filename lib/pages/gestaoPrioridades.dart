@@ -578,8 +578,9 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 5, vertical: 0),
                 //      contentPadding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                fillColor: Color.fromRGBO(211, 211, 211, 1),
-                // fillColor:  Color.fromRGBO(105, 105, 105, 1),
+              //  fillColor: Color.fromRGBO(211, 211, 211, 1),
+              //   fillColor:  Colors.white,
+                fillColor: Color.fromRGBO(245, 245, 245, 0.1),
                 filled: true,
                 border: InputBorder.none,
                 // filled: true,

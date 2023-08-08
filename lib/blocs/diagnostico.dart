@@ -113,6 +113,7 @@ class DignosticoBloc extends BlocBase {
   }
   NumberFormat formatterMoeda = NumberFormat("#,##0.00", "pt_BR");
   NumberFormat formatterPercentual = NumberFormat("0.00");
+  NumberFormat formatterQuantidade = NumberFormat("0");
   _fulanoLogado() async {
     await FirebaseAuth.instance.authStateChanges().listen((User? user) {
       var email = user!.email;
@@ -191,8 +192,8 @@ class DignosticoBloc extends BlocBase {
     var textoCard1txt3 = "O lucro ${_Bnovo}% está muito próximo daquele que você considera ideal.\nVerifique em GESTÃO DE PRIORIDADES e também na CALCULADORA DE PREÇOS o que poderia fazer para melhorar ainda mais.";
     var textoCard1txt4 = "O lucro ${_Bnovo}% NÃO PERCA TEMPO! Vamos ajuda-lo a transformar suas dúvidas em DECISÕES PODEROSAS! \nConsulte o e-Book! AGORA!!!";
     var textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ ${_C}.\nQuanto maior melhor!";
-    var textoCard3txt1 = "Margem de contribuição: R\$ ${_D}\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)} para cobrir os custos fixos e gerar margem.\nQuanto maior for este índice, melhor!";
-    var textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio), foi preciso atender ${qtdAtendimento} clientes, faturando R\$ ${formatterMoeda.format(faturamento)} ou seja: ${variacaoPercentualFaturamento}%";
+    var textoCard3txt1 = "Margem de contribuição: R\$ ${_D}\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% para cobrir os custos fixos e gerar margem.\nQuanto maior for este índice, melhor!";
+    var textoCard4txt1 = "Para começar a ter lucro R\$ ${_E} (ponto de equilíbrio),seria preciso atender ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))} clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: ${variacaoPercentualFaturamento}%";
     var textoCard5txt1 = "A produtividade foi de R\$ ${produtividade} de faturamento para cada R\$1,00 de custo fixo.\nQuanto maior for a produtividade, melhor!";
 
 //custo fixo

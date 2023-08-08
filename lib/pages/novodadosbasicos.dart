@@ -250,7 +250,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                             _faturamentoController,
                             'Faturamento',
                           ),
-                          inputPercentual(context, percentualVendas)
+                        //  inputPercentual(context, percentualVendas)
                         ],
                       ),
                     ],
@@ -266,7 +266,14 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           buildIconeMsg(context,
-                              'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).'),
+                              'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e '
+                                  'vales;\nCustos das eventuais antecipações de vencimento e desconto de títulos;\nComissões, gorjetas;\nEstacionamento (quando pago em função do uso por clientes);\nCusto'
+                                  ' das entregas delivery.'),
+                       /*   buildIconeMsg(context,
+                              'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas '
+                                  '(inclusive perdas ocorridas).'),
+
+                        */
                           buildContainerInput(
                             context,
                             'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas (inclusive perdas ocorridas).',
@@ -274,7 +281,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                             _custoInsumosController,
                             'Gastos com insumos',
                           ),
-                          inputPercentual(context, percentualGastosInsumos)
+                        //  inputPercentual(context, percentualGastosInsumos)
                         ],
                       ),
                     ],
@@ -301,7 +308,14 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           buildIconeMsg(context,
-                              'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e vales;\nCustos das eventuais antecipações de vencimento e desconto de títulos;\nComissões, gorjetas;\nEstacionamento (quando pago em função do uso por clientes);\nCusto das entregas delivery.'),
+                              'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas '
+                                  '(inclusive perdas ocorridas).'),
+                       /*   buildIconeMsg(context,
+                              'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e '
+                                  'vales;\nCustos das eventuais antecipações de vencimento e desconto de títulos;\nComissões, gorjetas;\nEstacionamento (quando pago em função do uso por clientes);\nCusto'
+                                  ' das entregas delivery.'),
+
+                        */
                           buildContainerInput(
                               context,
                               'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e vales;\nCustos das eventuais antecipações de vencimento e desconto de títulos;\nComissões, gorjetas;\nEstacionamento (quando pago em função do uso por clientes);\nCusto das entregas delivery.',
@@ -310,7 +324,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                               'Outros custos variáveis'
                               //  _custoVariavelController
                               ),
-                          inputPercentual(context, percentualOutrosCustos)
+                         // inputPercentual(context, percentualOutrosCustos)
                         ],
                       ),
                     ],
@@ -336,7 +350,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                               'Custos fixos'
                               //_custoFixoController
                               ),
-                          inputPercentual(context, percentualCustoFixo)
+                       //   inputPercentual(context, percentualCustoFixo)
                         ],
                       ),
                     ],
@@ -681,7 +695,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   Container buildContainerInput(
       BuildContext context, text, titulo, controllerInformado, nomeCampo) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.51,
+      width: MediaQuery.of(context).size.width * 0.81,
       decoration: buildBuildBoxDecoration(),
       child: TextFormField(
         onTap: () {

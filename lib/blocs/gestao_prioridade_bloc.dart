@@ -118,7 +118,7 @@ class gestao_prioridade_bloc extends BlocBase{
   var custosTerceirosAtual;
   var custoFixoAtual;
   var calculoFaturamento;
-
+  var custoTercerirosReferencia;
 
 
 
@@ -185,6 +185,7 @@ class gestao_prioridade_bloc extends BlocBase{
         break;
       case 'Preço médio de vendas':
 
+        custoTercerirosReferencia = custosTerceirosAtual;
         if (operacao == 1) {
           percoMedioVendasAtual = percoMedioVendasAtual *((percentual / 100) + 1);
           ticketMedioAtual = ticketMedioAtual *((percentual / 100) + 1);
@@ -202,8 +203,8 @@ class gestao_prioridade_bloc extends BlocBase{
         }
 
         _custoTreceirosCalculado.add(valorFormatadoReal(custosTerceirosAtual));
-        _variacaoCustoDe3.add(formatterPercentual.format(calculoCampoVariacao(custoInsumosTerceirosDadosBasicos, custosTerceirosAtual)));
-        corCustoTerceiros();
+    //    _variacaoCustoDe3.add(formatterPercentual.format(calculoCampoVariacao(custoInsumosTerceirosDadosBasicos, custosTerceirosAtual)));
+       // corCustoTerceiros();
         calculoPrecoMedio();
         calculoTicketMedio();
         calculoFaturamentos();
@@ -211,6 +212,7 @@ class gestao_prioridade_bloc extends BlocBase{
         calculoMargemAtual();
         break;
       case 'Ticket médio':
+        custoTercerirosReferencia = custosTerceirosAtual;
         if (operacao == 1) {
           ticketMedioAtual = ticketMedioAtual *((percentual / 100) + 1);
         } else {
@@ -292,10 +294,19 @@ calculoTicketMedio(){
      qtdClienteAtual = double.parse(qtdClienteAtual);
    }
    faturamentoAtual = ticketMedioAtual * qtdClienteAtual;
+
    custosTerceirosAtual =(faturamentoAtual-((percoMedioVendasAtual-ticketMedioInicialValor)*qtdClienteAtual))*(custoInsumosTerceirosDadosBasicos/faturamentoDadosBasicos);
+  var custoTerceiros =calculoCampoVariacao(custoInsumosTerceirosDadosBasicos, custosTerceirosAtual);
    _custoTreceirosCalculado.add(valorFormatadoReal(custosTerceirosAtual));
-   _variacaoCustoDe3.add(formatterPercentual.format(calculoCampoVariacao(custoInsumosTerceirosDadosBasicos, custosTerceirosAtual)));
-   corCustoTerceiros();
+
+   print('custosTerceirosAtual');
+   print(custosTerceirosAtual);
+   print(custoTercerirosReferencia);
+   print(custoTerceiros);
+    if(custoTercerirosReferencia != custosTerceirosAtual) {
+      _variacaoCustoDe3.add(formatterPercentual.format(custoTerceiros));
+      corCustoTerceiros();
+    }
  }
  calculoFaturamentos(){
    if(qtdClienteAtual is String){

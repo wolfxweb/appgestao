@@ -33,7 +33,7 @@ class _novaHomeState extends State<novaHome> {
   var color =  Color.fromRGBO(1, 57,44,1);
   var route = PushPage();
 
-  String textAjudaDadosBasicos = "Coração e cérebro do Get Up.app.br. Quando você digitar suas informações, o aplicativo ficará customizado para o seu negócio.\ne-Book Se você está planejando iniciar seu empreendimento, ou abrir uma filial, preencha com suas estimativas e metas. ";
+  String textAjudaDadosBasicos = "Coração e cérebro do Get Up. Quando você digitar suas informações, o aplicativo ficará customizado para o seu negócio.\nSe você está planejando iniciar seu empreendimento, ou abrir uma filial, preencha com suas estimativas e metas. ";
   String textAjudaDiganostico = "Como está a saúde da empresa: lucratividade, valor médio das vendas, contribuição de cada venda para cobrir custos fixos e gerar lucro, faturamento necessário para começar a lucrar, produtividade.\nE-Book";
   String textAjudaCalculadoraPrecos = "Como aumentos ou diminuições nas vendas, nos preços, no valor médio das compras, ou nos custos, impactam a lucratividade de sua empresa?\nQuais as prioridades para lucrar mais? E-Book";
   String textAjudaGestaoPrioridades = "Por quanto vender! Qual a margem obtida com o preço atual!\nEste produto contribui para o resultado da empresa?\nQual o preço para atingir determinada margem! e-Book";
@@ -45,8 +45,8 @@ class _novaHomeState extends State<novaHome> {
 
   String textBtnDadosBasicos = "Dados Básicos";
   String textBtnDiganostico = "Diagnóstico";
-  String textBtnCalculadoraPrecos = "Calculadora Precos";
-  String textBtnGestaoPrioridades = "Gestão de  Prioridades";
+  String textBtnCalculadoraPrecos = "Calculadora de Preços";
+  String textBtnGestaoPrioridades = "Gestão de prioridades";
   //String textBtnGestaoPrioridades = "Simulador";
   String textBtnInportanciaMeses = "Inportância dos meses";
   String textBtnSimuladorProximosMeses = "Simulador Próximos meses";
@@ -63,7 +63,15 @@ class _novaHomeState extends State<novaHome> {
           children: [
             const Espacamento(),
             const Espacamento(),
+            const Espacamento(),
+            const Espacamento(),
+            const Espacamento(),
+            const Espacamento(),
             const Logo(),
+            const Espacamento(),
+            const Espacamento(),
+            const Espacamento(),
+            const Espacamento(),
             const Espacamento(),
             const Espacamento(),
          //   buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,DadosBasicos()),

@@ -303,6 +303,62 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.01,
+                          child: Container()),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.82,
+                        decoration: buildBoxDecoration(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildTextoInput('Estado'),
+                            DropdownButtonFormField<String>(
+                              value: null,
+                              isExpanded: true,
+                              decoration: buildInputDecoration(""),
+                              onChanged: (value) {
+                                setState(() {
+                                  print(value);
+                                  _cidadesValue = '';
+                                  _uf.forEach((element) {
+                                    if (element.sigla == value) {
+                                      _idEstado = element.id;
+                                      _loadCidades();
+                                    }
+                                  });
+                                  _selectedItem = value!;
+                                });
+                              },
+                              items: _items.map((item) {
+                                return DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      //  color: const Color.fromRGBO(159, 105, 56,1),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.01,
+                          child: Container()),
+                 /*     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.08,
                         child: IconButton(
                           icon: const Icon(
@@ -316,8 +372,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           },
                         ),
                       ),
+
+                  */
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.62,
+                        width: MediaQuery.of(context).size.width * 0.82,
                         decoration: buildBoxDecoration(),
 
                         child: Column(
@@ -360,48 +418,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           ],
                         ),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.20,
-                        decoration: buildBoxDecoration(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            buildTextoInput('Estado'),
-                            DropdownButtonFormField<String>(
-                              value: null,
-                              isExpanded: true,
-                              decoration: buildInputDecoration(""),
-                              onChanged: (value) {
-                                setState(() {
-                                  print(value);
-                                  _cidadesValue = '';
-                                  _uf.forEach((element) {
-                                    if (element.sigla == value) {
-                                      _idEstado = element.id;
-                                      _loadCidades();
-                                    }
-                                  });
-                                  _selectedItem = value!;
-                                });
-                              },
-                              items: _items.map((item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      // fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                      //  color: const Color.fromRGBO(159, 105, 56,1),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        ),
-                      ),
+
                     ],
                   ),
 
@@ -499,7 +516,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           width: MediaQuery.of(context).size.width * 0.01,
                           child: Container()),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.83,
+                        width: MediaQuery.of(context).size.width * 0.82,
                         decoration: buildBoxDecoration(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

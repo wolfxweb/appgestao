@@ -135,12 +135,12 @@ class CalculadoraBloc extends BlocBase {
     //  _msgMargemController.add('$_nomeUsuario, este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!');
     } else if ((_margemComPrecoAtual / 100) > margeEsteProduto &&
         (_margemComPrecoAtual / 100) > _margemDesejada) {
-      _msgMargemController.add(
-          '$_nomeUsuario, este produto contribui muito positivamente para o resultado da empresa!');
+     // _msgMargemController.add('$_nomeUsuario, este produto contribui muito positivamente para o resultado da empresa!');
+      _msgMargemController.add('Este produto contribui muito positivamente para o resultado da empresa!');
     } else if ((_margemComPrecoAtual / 100) > 0 &&
         (_margemComPrecoAtual / 100) <= margeEsteProduto) {
-      _msgMargemController.add(
-          '$_nomeUsuario, este produto, com o preço atual, prejudica o resultado da empresa!');
+     // _msgMargemController.add(          '$_nomeUsuario, este produto, com o preço atual, prejudica o resultado da empresa!');
+      _msgMargemController.add('Este produto, com o preço atual, prejudica o resultado da empresa!');
     } else if ((_margemComPrecoAtual / 100) > 0 &&
         (_margemComPrecoAtual / 100) < margeEsteProduto) {
       _msgMargemController.add(

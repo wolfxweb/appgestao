@@ -58,7 +58,7 @@ class _DiagnosticoState extends State<Diagnostico> {
                       text.toString(),
                       style:const  TextStyle(
                         //  color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 14,
                         //  fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.justify,
@@ -99,7 +99,7 @@ class _DiagnosticoState extends State<Diagnostico> {
 
   Container buildContainerPrejuiso() {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(6.0),
       child: Column(
         children: [
           StreamBuilder(
@@ -134,16 +134,24 @@ class _DiagnosticoState extends State<Diagnostico> {
       ),
     );
   }
+  /*Text(
+  'Todos os dados devem compreender o mesmo período.',
+  style: TextStyle(
+  color: Colors.black,
+  fontSize: 16,
+  ),
+  textAlign: TextAlign.center,
+  ),
+  */
 
   Text buildText(text) {
     return Text(
       text.toString(),
-      style: const TextStyle(
-        //  color: Colors.white,
-        fontSize: 20,
-        //  fontWeight: FontWeight.bold,
+      style:const TextStyle(
+        color: Colors.black,
+        fontSize: 10,
       ),
-      textAlign: TextAlign.justify,
+    //  textAlign: TextAlign.justify,
     );
   }
 }

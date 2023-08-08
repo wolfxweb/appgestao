@@ -51,7 +51,7 @@ class _CalculadoraState extends State<Calculadora> {
   Widget build(BuildContext context) {
     // print(historico);
     return Scaffold(
-      appBar: header.getAppBar('Calculadora preços'),
+      appBar: header.getAppBar('Calculadora de Preços'),
       drawer: Menu(),
       body: Form(
         key: _formKey,
@@ -551,7 +551,7 @@ class _CalculadoraState extends State<Calculadora> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Margem preço atual"),
+            const Text("Margem da empresa"),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
               child: Container(
