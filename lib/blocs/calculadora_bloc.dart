@@ -222,14 +222,7 @@ class CalculadoraBloc extends BlocBase {
     //(1/1-((((total outros custos variaveis + custos fixo)/faturamento vendas)+margem desejada)/(1)))*custo insumos
     //(1/(1-((((B10+B11)/B7)+F15)/1)))*F10
     // _calculoPrecoSuregirdo =(1 / (1 - ((((gi + cv) / fat) + _margemDesejada) / 1))) * _custoInsumo;
-    print(gi);
-    print(cv);
-    print(fat);
-    print(_margemDesejada*100);
-    print(_custoInsumo);
     var calTemp1 =1/(1-((((gi + cv) / fat)+ (_margemDesejada))-1)-1);
-    print(calTemp1);
-
     _calculoPrecoSuregirdo =calTemp1*_custoInsumo;
     _calcluloSugeridoController.add(formatter.format(_calculoPrecoSuregirdo));
     calculoRelacaoPreco();
