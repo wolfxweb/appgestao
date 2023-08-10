@@ -111,7 +111,7 @@ class _MenuState extends State<Menu> {
               //  Navigator.pop(context);
             },
           ),
-          ListTile(
+     /*     ListTile(
             leading: const Icon(Icons.calendar_month),
             title: buildText("Importância dos meses"),
             trailing: const Icon(Icons.arrow_forward),
@@ -120,10 +120,6 @@ class _MenuState extends State<Menu> {
               //  Navigator.pop(context);
             },
           ),
-
-
-
-
           ListTile(
             leading: const Icon(Icons.insights),
             title:  buildText("Análise de viabilidade"),
@@ -132,7 +128,7 @@ class _MenuState extends State<Menu> {
               route.pushPage(context, const AnaliseViabilidade());
               //  Navigator.pop(context);
             },
-          ),
+          ),*/
           ListTile(
             leading: const Icon(Icons.contact_page),
             title:   buildText("Fale conosco"),

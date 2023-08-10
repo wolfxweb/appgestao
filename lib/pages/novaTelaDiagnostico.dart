@@ -43,7 +43,7 @@ class _telaDiagnosticoState extends State<telaDiagnostico> {
                 side:const BorderSide(
                   color:Color.fromRGBO(1, 57, 44, 1), //<-- SEE HERE
                 ),
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(5.0),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(15.0),

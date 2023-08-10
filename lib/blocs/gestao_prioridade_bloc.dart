@@ -228,10 +228,14 @@ class gestao_prioridade_bloc extends BlocBase{
         break;
       case 'Custo das vendas':
         if (operacao == 1) {
-          custoVendasAtual = custoVendasDadosBasicos * ((percentual/100)+1);
+          custoVendasAtual = (faturamentoAtual*(custoVendasDadosBasicos/faturamentoDadosBasicos)) * ((percentual/100)+1);
+        //  custoVendasAtual = custoVendasDadosBasicos* ((percentual/100)+1);
         } else {
-          var quantidadeDeClientesAtendidoAx = (custoVendasDadosBasicos * (percentual/100));
-          custoVendasAtual = custoVendasDadosBasicos - quantidadeDeClientesAtendidoAx;
+          var custoTemp = custoVendasAtual;
+          var calculoCustoTemp = (faturamentoAtual*(custoVendasDadosBasicos/faturamentoDadosBasicos)) * (percentual/100);
+          custoVendasAtual =custoTemp -calculoCustoTemp;
+        //  var quantidadeDeClientesAtendidoAx = (custoVendasDadosBasicos * (percentual/100));
+        //  custoVendasAtual = custoVendasDadosBasicos - quantidadeDeClientesAtendidoAx;
         }
         calculoCustoVendasAtual();
         calculoMargemAtual();
