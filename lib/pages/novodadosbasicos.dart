@@ -250,7 +250,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                             _faturamentoController,
                             'Faturamento',
                           ),
-                        //  inputPercentual(context, percentualVendas)
+                          inputPercentual(context, percentualVendas)
                         ],
                       ),
                     ],
@@ -281,7 +281,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                             _custoInsumosController,
                             'Gastos com insumos',
                           ),
-                        //  inputPercentual(context, percentualGastosInsumos)
+                          inputPercentual(context, percentualGastosInsumos)
                         ],
                       ),
                     ],
@@ -324,7 +324,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                               'Outros custos variáveis'
                               //  _custoVariavelController
                               ),
-                         // inputPercentual(context, percentualOutrosCustos)
+                           inputPercentual(context, percentualOutrosCustos)
                         ],
                       ),
                     ],
@@ -350,7 +350,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                               'Custos fixos'
                               //_custoFixoController
                               ),
-                       //   inputPercentual(context, percentualCustoFixo)
+                          inputPercentual(context, percentualCustoFixo)
                         ],
                       ),
                     ],
@@ -695,7 +695,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   Container buildContainerInput(
       BuildContext context, text, titulo, controllerInformado, nomeCampo) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.81,
+      width: MediaQuery.of(context).size.width * 0.52,
       decoration: buildBuildBoxDecoration(),
       child: TextFormField(
         onTap: () {
