@@ -63,7 +63,7 @@ class CalculadoraBloc extends BlocBase {
   _getDadosBasicos() async {
     await bd.lista().then((data) {
       data.forEach((element) {
-        //    print(element);
+            print(element);
         var faturamento = (element['faturamento']
             .toString()
             .replaceAll("R\$", "")
@@ -169,10 +169,7 @@ class CalculadoraBloc extends BlocBase {
     // print(_precoVendaAtual);
     /***------------------------calculadora ------------------------ * ---------------------------Dados básicos------------------------- * ----------------Calculardora----------------****/
     // ((preco atual de vendas calculadora-(preço insumos calculadora+((( total outros custos variaveis + custos fixo)/ faturamento vendas)*preço atual vendas)))/preco atual de vendas))
-    _margemComPrecoAtual = ((_precoVendaAtual -
-                (_custoInsumo + (((cv + cf) / fat) * _precoVendaAtual))) /
-            _precoVendaAtual) *
-        100;
+    _margemComPrecoAtual = ((_precoVendaAtual -(_custoInsumo + (((gi +cv ) / fat) * _precoVendaAtual))) / _precoVendaAtual) * 100;
     var margem = formatterPercentual.format(_margemComPrecoAtual);
     _calculoMargemController.add(margem);
     _calculoPrecodugerido();
@@ -224,8 +221,16 @@ class CalculadoraBloc extends BlocBase {
   _calculoPrecodugerido() {
     //(1/1-((((total outros custos variaveis + custos fixo)/faturamento vendas)+margem desejada)/(1)))*custo insumos
     //(1/(1-((((B10+B11)/B7)+F15)/1)))*F10
-    _calculoPrecoSuregirdo =
-        (1 / (1 - ((((cf + cv) / fat) + _margemDesejada) / 1))) * _custoInsumo;
+    // _calculoPrecoSuregirdo =(1 / (1 - ((((gi + cv) / fat) + _margemDesejada) / 1))) * _custoInsumo;
+    print(gi);
+    print(cv);
+    print(fat);
+    print(_margemDesejada*100);
+    print(_custoInsumo);
+    var calTemp1 =1/(1-((((gi + cv) / fat)+ (_margemDesejada))-1)-1);
+    print(calTemp1);
+
+    _calculoPrecoSuregirdo =calTemp1*_custoInsumo;
     _calcluloSugeridoController.add(formatter.format(_calculoPrecoSuregirdo));
     calculoRelacaoPreco();
   }
