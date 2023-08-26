@@ -51,11 +51,11 @@ class _CalculadoraState extends State<Calculadora> {
   Widget build(BuildContext context) {
     // print(historico);
     return Scaffold(
-      appBar: header.getAppBar('Calculadora de Preços'),
+      appBar: header.getAppBar('Calculadora de Preços '),
       drawer: Menu(),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(

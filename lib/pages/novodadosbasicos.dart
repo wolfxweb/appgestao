@@ -451,7 +451,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   Container inputPercentual(BuildContext context, contoler) {
     return Container(
       decoration: buildBuildBoxDecoration(),
-      width: MediaQuery.of(context).size.width * 0.28,
+      width: MediaQuery.of(context).size.width * 0.30,
       child: StreamBuilder(
           stream: null,
           builder: (context, snapshot) {
@@ -695,7 +695,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   Container buildContainerInput(
       BuildContext context, text, titulo, controllerInformado, nomeCampo) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.52,
+      width: MediaQuery.of(context).size.width * 0.50,
       decoration: buildBuildBoxDecoration(),
       child: TextFormField(
         onTap: () {

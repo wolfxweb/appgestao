@@ -139,9 +139,9 @@ class DignosticoBloc extends BlocBase {
   _montaTexto() {
     //  ${_fulano}
     _text_1 =
-        "As informações relativas ao mês de ${_A} indicam que o seu negócio apresentou lucro de ${_Bnovo}%.\n"
-        "O ticket médio foi de R\$ ${_C} .\nMargem de contribuição R\$ ${_D}.\nPara começar a ter lucro foi preciso vender R\$ ${_E}, "
-        "o que representa ${_FNOVO}% do total faturado no mês.\nA produtividade foi de R\$ ${_G} de faturamento para cada R\$1,00 de custo fixo.";
+        "As informações relativas ao mês de $_A indicam que o seu negócio apresentou lucro de $_Bnovo%.\n"
+        "O ticket médio foi de R\$ $_C .\nMargem de contribuição R\$ $_D.\nPara começar a ter lucro foi preciso vender R\$ $_E, "
+        "o que representa $_FNOVO% do total faturado no mês.\nA produtividade foi de R\$ $_G de faturamento para cada R\$1,00 de custo fixo.";
 
     _text_2 = "O fato é que o resultado não é aquele que você gostaria.\n "
         "Use o SIMULADOR para ver o que pode ser feito! Com a ajuda da CALCULADORA DE PREÇOS verifique, "
@@ -151,10 +151,10 @@ class DignosticoBloc extends BlocBase {
         "Parabéns! Você certamente está satisfeito com a lucratividade do negócio.\nMesmo assim dê uma analisada com a ajuda do SIMULADOR para ver se poderia ser ainda melhor.";
 
     _text_4 =
-        "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com ${_J} de   ${_K} %. \nEm ${_L}, com ${_M} de ${_N}%.";
+        "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com $_J de   $_K %. \nEm $_L, com $_M de $_N%.";
 
     _text_5 =
-        "As informações relativas ao mês de ${_A} indicam que o seu negócio apresentou prejuízo de ${_O}%.\n"
+        "As informações relativas ao mês de $_A indicam que o seu negócio apresentou prejuízo de $_O%.\n"
         "Esta é uma situação que requer providências imediatas.";
 
     _text_6 = "1. Verifique se os DADOS BÁSICOS informados estão corretos"
@@ -186,15 +186,27 @@ class DignosticoBloc extends BlocBase {
     var variacaoPercentualFaturamento =formatterPercentual.format( (faturamento/faturamentoDadosBasicos)*100);
     var produtividade =formatterMoeda.format( faturamentoDadosBasicos/custoFixoDadosBasicos);
 
+    var textoPositivoP1 = 'O lucro de ';
+    if(calculo_b < 0.0){
+       textoPositivoP1 = 'O prejuízo de ';
+    }else if(calculo_b == 0){
+      textoPositivoP1 = 'A margem de ';
+    }
 
-    var textoCard1txt1 = "O lucro ${_Bnovo}% é menor do que aquele que você gostaria.\nUtilize a CALCULADORA DE PREÇOS para verificar a margem dos itens que comercializa.\nEm seguida analise possíveis providências em GESTÃO DE PRIORIDADES.";
-    var textoCard1txt2 = "O lucro ${_Bnovo}%  supera suas expectativas. Previna-se para enfrentar possíveis alterações dos custos.\nAnalise possíveis providências em GESTÃO DE PRIORIDADES e use a CALCULADORA DE PREÇOS.";
-    var textoCard1txt3 = "O lucro ${_Bnovo}% está muito próximo daquele que você considera ideal.\nVerifique em GESTÃO DE PRIORIDADES e também na CALCULADORA DE PREÇOS o que poderia fazer para melhorar ainda mais.";
-    var textoCard1txt4 = "O lucro ${_Bnovo}% NÃO PERCA TEMPO! Vamos ajuda-lo a transformar suas dúvidas em DECISÕES PODEROSAS! \nConsulte o e-Book! AGORA!!!";
-    var textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ ${_C}.\nQuanto maior melhor!";
-    var textoCard3txt1 = "Margem de contribuição: R\$ ${_D}\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% para cobrir os custos fixos e gerar margem.\nQuanto maior for este índice, melhor!";
-    var textoCard4txt1 = "Para começar a ter lucro R\$ ${_E} (ponto de equilíbrio),seria preciso atender ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))} clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: ${variacaoPercentualFaturamento}%";
-    var textoCard5txt1 = "A produtividade foi de R\$ ${produtividade} de faturamento para cada R\$1,00 de custo fixo.\nQuanto maior for a produtividade, melhor!";
+    var caculoVariacaoCard3 =(faturamento/faturamentoDadosBasicos)*100;
+    var textoPositivoCad3 = 'foi preciso atender';
+    if(caculoVariacaoCard3 < 0){
+      textoPositivoCad3 = 'será preciso atender';
+    }
+    print(caculoVariacaoCard3);
+    var textoCard1txt1 = "$textoPositivoP1 $_Bnovo% é menor do que aquele que você gostaria.\nUtilize a CALCULADORA DE PREÇOS para verificar a margem dos itens que comercializa.\nEm seguida analise possíveis providências em GESTÃO DE PRIORIDADES.";
+    var textoCard1txt2 = "$textoPositivoP1  $_Bnovo%  supera suas expectativas. Previna-se para enfrentar possíveis alterações dos custos.\nAnalise possíveis providências em GESTÃO DE PRIORIDADES e use a CALCULADORA DE PREÇOS.";
+    var textoCard1txt3 = "$textoPositivoP1  $_Bnovo% está muito próximo daquele que você considera ideal.\nVerifique em GESTÃO DE PRIORIDADES e também na CALCULADORA DE PREÇOS o que poderia fazer para melhorar ainda mais.";
+    var textoCard1txt4 = "$textoPositivoP1  $_Bnovo% NÃO PERCA TEMPO! Vamos ajuda-lo a transformar suas dúvidas em DECISÕES PODEROSAS! \nConsulte o e-Book! AGORA!!!";
+    var textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!";
+    var textoCard3txt1 = "Margem de contribuição: R\$ $_D\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% para cobrir os custos fixos e gerar margem.\nQuanto maior for este índice, melhor!";
+    var textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))} clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%";
+    var textoCard5txt1 = "A produtividade foi de R\$ $produtividade de faturamento para cada R\$1,00 de custo fixo.\nQuanto maior for a produtividade, melhor!";
 
 //custo fixo
 

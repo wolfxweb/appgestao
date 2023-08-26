@@ -34,6 +34,8 @@ class UsuarioBloc extends BlocBase {
     });
   }
 
+
+
   void onCheangedSearch(String search) {
     _users.clear();
     FirebaseFirestore.instance

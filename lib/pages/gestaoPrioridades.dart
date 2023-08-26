@@ -623,13 +623,15 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   width: MediaQuery.of(context).size.width * 0.45,
                   child: TextFormField(
                       // enabled: false,
+                    
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.number,
                       controller: addController,
-                      decoration: buildInputDecoration(null),
+                      decoration: buildInputDecoration(const Icon(Icons.percent, color: Color.fromRGBO(1, 57, 44, 1),size: 18)),
                       onChanged: (text) {
                         // simuladorBloc.calculoPercentual(text,1,valorInicialTicket,2,context);
                       }),
+
                 ),
               ],
             ),
@@ -781,6 +783,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
         //  backgroundColor: Colors.white,
       ),
       suffixIcon: suffixIcon,
+
       // hintText: 'Quantidade de clientes atendidos',
     );
   }

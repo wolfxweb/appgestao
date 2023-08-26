@@ -125,6 +125,7 @@ class gestao_prioridade_bloc extends BlocBase{
   gestao_prioridade_bloc(){
     getDadosBasicos();
   }
+  NumberFormat formatterFornecedor = NumberFormat("0");
   NumberFormat formatterPercentual = NumberFormat("0.00");
   NumberFormat formatterMoeda = NumberFormat("#,##0.00", "pt_BR");
   getDadosBasicos() async {
@@ -182,6 +183,7 @@ class gestao_prioridade_bloc extends BlocBase{
         calculoClientesAtendidos();
         calculoCustoTerceiros();
         calculoMargemAtual();
+        calculoCustoVendaParaDemaisOpcoes();
         break;
       case 'Preço médio de vendas':
 
@@ -210,6 +212,7 @@ class gestao_prioridade_bloc extends BlocBase{
         calculoFaturamentos();
         calculoCustoTerceiros();
         calculoMargemAtual();
+        calculoCustoVendaParaDemaisOpcoes();
         break;
       case 'Ticket médio':
         custoTercerirosReferencia = custosTerceirosAtual;
@@ -225,9 +228,11 @@ class gestao_prioridade_bloc extends BlocBase{
         calculoCustoTerceiros();
         corTicketMedioAtual();
         calculoMargemAtual();
+        calculoCustoVendaParaDemaisOpcoes();
         break;
       case 'Custo das vendas':
         if (operacao == 1) {
+          // faturamento calculado*(custo dados basicos/faturamento dadios basico)* pelo percentual digitado
           custoVendasAtual = (faturamentoAtual*(custoVendasDadosBasicos/faturamentoDadosBasicos)) * ((percentual/100)+1);
         //  custoVendasAtual = custoVendasDadosBasicos* ((percentual/100)+1);
         } else {
@@ -239,6 +244,7 @@ class gestao_prioridade_bloc extends BlocBase{
         }
         calculoCustoVendasAtual();
         calculoMargemAtual();
+
         break;
       case 'Custos dos insumos e mercadorias de 3°':
 
@@ -252,6 +258,7 @@ class gestao_prioridade_bloc extends BlocBase{
         _variacaoCustoDe3.add(formatterPercentual.format(calculoCampoVariacao(custoInsumosTerceirosDadosBasicos, custosTerceirosAtual)));
         corCustoTerceiros();
         calculoMargemAtual();
+        calculoCustoVendaParaDemaisOpcoes();
         break;
       case 'Custo fixo':
 
@@ -266,11 +273,16 @@ class gestao_prioridade_bloc extends BlocBase{
         _custoFixosVariacao.add(formatterPercentual.format(calculoCampoVariacao(custoFixoDadosBasicos, custoFixoAtual)));
         corCustoFixoAtual();
         calculoMargemAtual();
+        calculoCustoVendaParaDemaisOpcoes();
 
         break;
     }
   }
 
+calculoCustoVendaParaDemaisOpcoes(){
+  custoVendasAtual = (faturamentoAtual*(custoVendasDadosBasicos/faturamentoDadosBasicos));
+  calculoCustoVendasAtual();
+}
 calculoCustoVendasAtual(){
   _custoInsumosCalculado.add(valorFormatadoReal(custoVendasAtual));
   _custoFixoVariacao.add(formatterPercentual.format(calculoCampoVariacao(custoVendasDadosBasicos, custoVendasAtual)));
@@ -323,8 +335,8 @@ calculoTicketMedio(){
  }
 
  calculoClientesAtendidos(){
-   _clientesAtendidoCalculado.add(formatterPercentual.format(quantidadeDeClientesAtendido));
-   _clientesAtendidoVaricacao.add(formatterPercentual.format(calculoCampoVariacao(double.parse(quantidadeDeClientesAtendidoDadosBasicos), quantidadeDeClientesAtendido)));
+   _clientesAtendidoCalculado.add(formatterFornecedor.format(quantidadeDeClientesAtendido));
+   _clientesAtendidoVaricacao.add(formatterFornecedor.format(calculoCampoVariacao(double.parse(quantidadeDeClientesAtendidoDadosBasicos), quantidadeDeClientesAtendido)));
    corClientesAtendidos();
  }
 
@@ -404,8 +416,8 @@ calculoTicketMedio(){
   }
 
   valoresIniciais(){
-    _clientesAtendidoDadosBasico.add(formatterPercentual.format(double.parse(quantidadeDeClientesAtendidoDadosBasicos)));
-    _clientesAtendidoCalculado.add(formatterPercentual.format(double.parse(quantidadeDeClientesAtendidoDadosBasicos)));
+    _clientesAtendidoDadosBasico.add(formatterFornecedor.format(double.parse(quantidadeDeClientesAtendidoDadosBasicos)));
+    _clientesAtendidoCalculado.add(formatterFornecedor.format(double.parse(quantidadeDeClientesAtendidoDadosBasicos)));
      margemInicalCalculada = ((faturamentoDadosBasicos -(custoVendasDadosBasicos +custoFixoDadosBasicos + custoInsumosTerceirosDadosBasicos))/faturamentoDadosBasicos)*100;
     _margemInicial.add('${formatterPercentual.format(margemInicalCalculada)}');
     _margemCalculada.add('${formatterPercentual.format(margemInicalCalculada)}');
