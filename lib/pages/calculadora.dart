@@ -438,7 +438,7 @@ class _CalculadoraState extends State<Calculadora> {
                         decoration: decoretorNovo(''),
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          CentavosInputFormatter(casasDecimais: 2),
+                          //CentavosInputFormatter(casasDecimais: 0),
                         ],
                         onChanged: (text) {
                           if (text.isNotEmpty) {
