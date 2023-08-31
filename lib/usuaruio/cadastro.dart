@@ -66,6 +66,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   final _telefoneController = TextEditingController(text: '');
   final _senhaController = TextEditingController();
   var color = const Color.fromRGBO(1, 57, 44, 1);
+  List<String> restricoesLimpezaLista = ['Outra',];
  final dropOpcoesEspecialidade =[];
   final dropOpcoes = [
     'AMBULANTE',
@@ -91,7 +92,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Artesanato',
     'Balas, bombons e chocolates',
     'Barraca de pastel',
-    'Bebidas',
+    'Bebidas e refresco',
     'Bijuterias',
     'Cachorro-quente',
     'Calçados',
@@ -113,7 +114,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Sorvete',
     'Souvenirs temáticos e lembranças',
     'Tapioca',
-    'Outra'
+    'Outra area ambulante'
   ];
   final ATACADO = [
     'Acessórios para aparelhos celulares',
@@ -126,11 +127,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Bebidas',
     'Bolsas, carteiras, cintos, malas, etc.',
     'Brinquedos e jogos',
-    'Calçados',
+    'Calçados atacado',
     'Cama, mesa e banho',
     'Cereais',
-    'Doces',
-    'Eletrodomésticos',
+    'Doces atacado',
+    'Eletrodomésticos atacado',
     'Eletro-eletrônicos e informática',
     'Equipamentos de sinalização e segurança',
     'Equipamentos e acessórios para a área da saúde',
@@ -148,9 +149,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Produtos e implementos de jardinagem',
     'Roupas',
     'Sorvetes',
-    'Uniformes',
+    'Uniformes atacado',
     'Vestuário',
-    'Outra'
+    'Outra área atacado'
   ];
   final AUTOMOTORES = [
     'Automóveis e utilitários',
@@ -169,7 +170,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Motocicletas',
     'Ônibus e vans',
     'Pneus',
-    'Outra'
+    'Outra área automotores'
   ];
   final VAREJOAlimentacaoForaDoLar = [
     'Bar/Boteco',
@@ -240,13 +241,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Sucos',
     'Tapiocaria',
     'Temakeria',
-    'Outra'
+    'Outra área varejo alimentação'
   ];
   final VarejoAnimaisDomesticos = [
     'Medicamentos veterinários',
     'Pet shop',
     'Rações',
-    'Outra'
+    'Outra área animais domesticos'
   ];
   final VarejoArteDecoracaoUtilidades = [
     'Antiquário',
@@ -274,7 +275,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Presentes e artigos de decoração',
     'Quadros e molduras',
     'Tapetes',
-    'Outra'
+    'Outra área varejo utilizadades e decoração'
   ];
 
   final VarejoBebidasProdutosAlimenticios = [
@@ -284,22 +285,21 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Embalagens',
     'Frutaria',
     'Minimercado',
-    'Padaria',
+    'Padarias',
     'Peixaria',
     'Quitanda',
     'Supermercado',
-    'Outra'
+    'Outra área varejo alimenticío'
   ];
 
   final VarejCopaCozinha = [
-    'Embalagens',
     'Equipamentos de refrigeração',
     'Máquinas e equipamentos',
     'Materiais de limpeza e higiene',
     'Mobiliário',
-    'Uniformes',
+    'Uniformes para cozinha',
     'Utensílios, louças, talheres e acessórios',
-    'Outra'
+    'Outra área varejo copa cozinha'
   ];
   final VarejoEletroeletronicosInformatica = [
     'Acessórios para celulares',
@@ -308,7 +308,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Equipamentos e materiais de Informática',
     'Materiais de informática',
     'Telefones celulares e tablets',
-    'Outra'
+    'Outra área eletronicos e imformática'
   ];
 
   final VarejoFestasLeituraMusicaEsporteLazer = [
@@ -322,15 +322,15 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Equipamentos para esportes',
     'Esportes náuticos',
     'Esportes radicais',
-    'Fantasias',
-    'Instrumentos musicais',
+    'Fantasias para festas',
+    'Instrumentos musicais para festas',
     'Livraria',
     'Loja de roupas e acessórios para surfistas',
     'Moda praia',
     'Piano',
     'Roupas, uniformes e calçados esportivos',
     'Suplementos nutricionais e vitaminas',
-    'Outra'
+    'Outra área varejo festas'
   ];
 
   final VarejoJardinagem = [
@@ -341,7 +341,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Plantas ornamentais',
     'Sementes e mudas',
     'Viveiro de mudas',
-    'Outra'
+    'Outra área varejo jardinagem'
   ];
 
   final VarejoMateriaisConstrucao = [
@@ -350,7 +350,6 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Brita',
     'Carpintaria',
     'Cimento',
-    'Embalagens',
     'Equipamentos de segurança',
     'Esquadrias',
     'Exploração e comércio de areia',
@@ -373,18 +372,17 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     'Telhas e tijolos',
     'Tintas e materias para pintura',
     'Vidraçaria',
-    'Outra'
+    'Outra área varejo materiais construcao'
   ];
 
   final VarejoPapeisUtilidadesEscritorios=[
-    'Embalagens'
-    ,'Materiais de escritório'
+     'Materiais de escritório'
     ,'Papelaria'
-    ,'Outra'
+    ,'Outra área varejo utilidades escritório'
   ];
 
   final VarejoSaudeBemestar =[
-    'Aparelhos auditivos'
+     'Aparelhos auditivos'
     ,'Aparelhos ortopédicos'
     ,'Drogaria'
     ,'Ervas medicinais e homeopatia'
@@ -393,7 +391,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     ,'Ótica'
     ,'Produtos fitness'
     ,'Produtos naturais'
-    ,'Outra'
+    ,'Outra área varejo saúde e bem estar'
   ];
   final VarejoVestuarioCalcadosComplementos=[
     'Armarinho'
@@ -421,7 +419,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     ,'Tecidos'
     ,'Uniformes'
     ,'Vestidos de noiva'
-    ,'Outra'
+    ,'Outra área vestuário e calçados'
   ];
   Future<void> _loadItems() async {
     const url = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
@@ -587,7 +585,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ],
                   ),
                   const Espacamento(),
-                  buildAtividadeEmpresa(context),
+                  GestureDetector(
+                      onTap: (){
+                        dropOpcoesEspecialidade.clear();
+                     //  _especialidadeController.text ='';
+                      },
+                      child: buildAtividadeEmpresa(context),
+                  ),
                   const Espacamento(),
                   buildAtividade(context),
                   const Espacamento(),
@@ -819,7 +823,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
               buildTextoInput('Área/Especialidade'),
               DropdownButtonFormField<String>(
                 itemHeight: null,
-                value: null,
+                value: _especialidadeController.text.isNotEmpty?_especialidadeController.text:null,
                 isExpanded: true,
                 decoration:
                 buildInputDecoration(""),
@@ -883,79 +887,26 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           buildTextoInput('Atividade da empresa'),
                           DropdownButtonFormField<String>(
                             itemHeight: null,
-                            value: null,
+                            value:null,
                             isExpanded: true,
                             decoration:
                             buildInputDecoration(""),
                             onChanged: (values) {
                               print(values);
-                              dropOpcoesEspecialidade.clear();
-                              setState(() {
-                                _especialidadeController.text =_especialidadeController.text;
-                              //dropOpcoesEspecialidade.add(_especialidadeController.text);
-                               if(values == 'AMBULANTE'){
-                                 AMBULANTE.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "ATACADO"){
-                                 ATACADO.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "AUTOMOTORES"){
-                                 AUTOMOTORES.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "VAREJO - Alimentação fora do Lar"){
-                                 VAREJOAlimentacaoForaDoLar.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Animais domésticos"){
-                                 VarejoAnimaisDomesticos.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Arte, decoração e utilidades para o Lar"){
-                                 VarejoArteDecoracaoUtilidades.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Bebidas e produtos alimentícios"){
-                                 VarejoBebidasProdutosAlimenticios.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Copa e cozinha"){
-                                 VarejCopaCozinha.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Eletroeletrônicos e informática"){
-                                 VarejoEletroeletronicosInformatica.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Festas, leitura, música, esporte e lazer"){
-                                 VarejoFestasLeituraMusicaEsporteLazer.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Jardinagem"){
-                                 VarejoJardinagem.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Materiais de construção"){
-                                 VarejoMateriaisConstrucao.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Papéis e utilidades para escritórios"){
-                                 VarejoPapeisUtilidadesEscritorios.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Saúde e bem-estar"){
-                                 VarejoSaudeBemestar.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }else if(values == "Varejo - Vestuário,calçados e complementos"){
-                                 VarejoVestuarioCalcadosComplementos.forEach((element) {
-                                   dropOpcoesEspecialidade.add(element);
-                                 });
-                               }
 
+                              setState(() {
+                               // _especialidadeController.text =_especialidadeController.text;
                                 _nomeController.text = values!;
+                              //dropOpcoesEspecialidade.add(_especialidadeController.text);
+                                print("especialisa");
+                                print(_especialidadeController.text);
+                                if(!restricoesLimpezaLista.contains(_especialidadeController.text)) {
+                                  dropOpcoesEspecialidade.retainWhere((titulo) => titulo == _especialidadeController.text );
+
+                                }else{
+                                  dropOpcoesEspecialidade.clear();
+                                }
+                               addLista(values);
                               });
                             },
                             items: dropOpcoes.map((item) {
@@ -978,6 +929,73 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ),
                   ],
                 );
+  }
+
+  void addLista(String values) {
+
+
+    _especialidadeController.text="";
+     if(values == 'AMBULANTE'){
+      AMBULANTE.forEach((element) {
+        dropOpcoesEspecialidade.add(element!);
+      });
+    }else if(values == "ATACADO"){
+      ATACADO.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "AUTOMOTORES"){
+      AUTOMOTORES.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "VAREJO - Alimentação fora do Lar"){
+      VAREJOAlimentacaoForaDoLar.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Animais domésticos"){
+      VarejoAnimaisDomesticos.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Arte, decoração e utilidades para o Lar"){
+      VarejoArteDecoracaoUtilidades.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Bebidas e produtos alimentícios"){
+      VarejoBebidasProdutosAlimenticios.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Copa e cozinha"){
+      VarejCopaCozinha.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Eletroeletrônicos e informática"){
+      VarejoEletroeletronicosInformatica.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Festas, leitura, música, esporte e lazer"){
+      VarejoFestasLeituraMusicaEsporteLazer.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Jardinagem"){
+      VarejoJardinagem.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Materiais de construção"){
+      VarejoMateriaisConstrucao.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Papéis e utilidades para escritórios"){
+      VarejoPapeisUtilidadesEscritorios.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Saúde e bem-estar"){
+      VarejoSaudeBemestar.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }else if(values == "Varejo - Vestuário,calçados e complementos"){
+      VarejoVestuarioCalcadosComplementos.forEach((element) {
+        dropOpcoesEspecialidade.add(element);
+      });
+    }
   }
 
   Column buildBtns(BuildContext context) {
