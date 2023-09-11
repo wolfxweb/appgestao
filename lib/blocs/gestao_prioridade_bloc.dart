@@ -301,7 +301,22 @@ calculoTicketMedio(){
  calculoMargemAtual(){
     margemAtual =(faturamentoAtual -(custoVendasAtual+custosTerceirosAtual+custoFixoAtual))/faturamentoAtual;
    _margemCalculada.add(formatterPercentual.format(margemAtual*100));
-   _margemVariacao.add(formatterPercentual.format(calculoCampoVariacao(margemInicalCalculada, margemAtual*100)));
+    var txt = "";
+    print('margemAtual');
+    print(margenDadosBasicos.toInt());
+    print(margemInicalCalculada.toInt());
+    print(margemAtual.toInt());
+    if(margemInicalCalculada.toInt()<0 && margemAtual<0){
+      _margemVariacao.add("ELIMINE PREJUÍZO");
+    }else   if(margemInicalCalculada.toInt()<0 && margemAtual>0 && margemAtual < margenDadosBasicos.toInt()){
+      _margemVariacao.add("MELHORE MAIS");
+    }else   if(margemInicalCalculada.toInt()<0 && margemAtual>0 && margemAtual < margenDadosBasicos.toInt()){
+      _margemVariacao.add("ÓTIMO");
+    }else   if(margemInicalCalculada.toInt() > 0 && margemAtual>0 ){
+      _margemVariacao.add(formatterPercentual.format(calculoCampoVariacao(margemInicalCalculada, margemAtual*100)));
+    }
+
+  // _margemVariacao.add(formatterPercentual.format(calculoCampoVariacao(margemInicalCalculada, margemAtual*100)));
    corMargemCalculada();
  }
  calculoCustoTerceiros(){
@@ -315,10 +330,7 @@ calculoTicketMedio(){
   var custoTerceiros =calculoCampoVariacao(custoInsumosTerceirosDadosBasicos, custosTerceirosAtual);
    _custoTreceirosCalculado.add(valorFormatadoReal(custosTerceirosAtual));
 
-   print('custosTerceirosAtual');
-   print(custosTerceirosAtual);
-   print(custoTercerirosReferencia);
-   print(custoTerceiros);
+
     if(custoTercerirosReferencia != custosTerceirosAtual) {
       _variacaoCustoDe3.add(formatterPercentual.format(custoTerceiros));
       corCustoTerceiros();
@@ -330,6 +342,7 @@ calculoTicketMedio(){
    }
      faturamentoAtual = ticketMedioAtual * qtdClienteAtual;
     _faturamentoCalculado.add(valorFormatadoReal(faturamentoAtual));
+
     _faturamentoVariacao.add(formatterPercentual.format(calculoCampoVariacao(faturamentoDadosBasicos, faturamentoAtual)));
    corFaturamento();
  }
@@ -350,9 +363,9 @@ calculoTicketMedio(){
    }
  }
   corCustoVendasAtual(){
-    if (custoVendasDadosBasicos > custoVendasAtual) {
+    if (custoVendasDadosBasicos.toInt() > custoVendasAtual.toInt()) {
       _corCustoInsumos.add('verde');
-    } else if (custoVendasDadosBasicos < custoVendasAtual) {
+    } else if (custoVendasDadosBasicos.toInt() < custoVendasAtual.toInt()) {
       _corCustoInsumos.add('vermelho');
     } else {
       _corCustoInsumos.add('desabilitado');

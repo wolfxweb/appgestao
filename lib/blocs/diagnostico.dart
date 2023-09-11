@@ -188,17 +188,17 @@ class DignosticoBloc extends BlocBase {
 
     var textoPositivoP1 = 'O lucro de ';
     if(calculo_b < 0.0){
-       textoPositivoP1 = 'O prejuízo de ';
+       textoPositivoP1 = 'prejuízo de ';
     }else if(calculo_b == 0){
       textoPositivoP1 = 'A margem de ';
     }
 
     var caculoVariacaoCard3 =(faturamento/faturamentoDadosBasicos)*100;
     var textoPositivoCad3 = 'foi preciso atender';
-    if(caculoVariacaoCard3 < 0){
+    if(calculo_b < 0){
       textoPositivoCad3 = 'será preciso atender';
     }
-    print(caculoVariacaoCard3);
+
     var textoCard1txt1 = "$textoPositivoP1 $_Bnovo% é menor do que aquele que você gostaria.\nUtilize a CALCULADORA DE PREÇOS para verificar a margem dos itens que comercializa.\nEm seguida analise possíveis providências em GESTÃO DE PRIORIDADES.";
     var textoCard1txt2 = "$textoPositivoP1  $_Bnovo%  supera suas expectativas. Previna-se para enfrentar possíveis alterações dos custos.\nAnalise possíveis providências em GESTÃO DE PRIORIDADES e use a CALCULADORA DE PREÇOS.";
     var textoCard1txt3 = "$textoPositivoP1  $_Bnovo% está muito próximo daquele que você considera ideal.\nVerifique em GESTÃO DE PRIORIDADES e também na CALCULADORA DE PREÇOS o que poderia fazer para melhorar ainda mais.";

@@ -14,7 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:form_validator/form_validator.dart';
 import 'dart:async';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:intl/intl.dart';
 
 class GestaoPrioridade extends StatefulWidget {
@@ -520,9 +520,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                                   .replaceAll(',', '.'));
                               setState(() {
                                 if (value.isNotEmpty) {
-                                  var calc = (double.parse(value) /
-                                          double.parse(controllerValeu)) *
-                                      100;
+                                  var calc = (double.parse(value)/double.parse(controllerValeu)) *100;
                                   controller3.text = formatterPercentual
                                       .format(calc)
                                       .toString();
@@ -563,6 +561,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
             }
             return TextFormField(
               enabled: false,
+            //  maxLines: null,
               //   keyboardType: TextInputType.number,
               // maxLines: 5,
               inputFormatters: [
