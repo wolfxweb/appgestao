@@ -43,6 +43,12 @@ class DignosticoBloc extends BlocBase {
   var custoFixoDadosBasicos;
   var qualTextoMostrar;
   var faturamentoDadosBasicos;
+  var gastoVendasDadosBasicos;
+  var gastoInsumos3DadosBasics;
+  var quantidadeVendasDadosBasicos;
+  var custoVendas;
+
+
   //var _marInformada;
   var calc_qtd;
   var calc_fat;
@@ -141,21 +147,26 @@ class DignosticoBloc extends BlocBase {
     _text_1 =
         "As informações relativas ao mês de $_A indicam que o seu negócio apresentou lucro de $_Bnovo%.\n"
         "O ticket médio foi de R\$ $_C .\nMargem de contribuição R\$ $_D.\nPara começar a ter lucro foi preciso vender R\$ $_E, "
-        "o que representa $_FNOVO% do total faturado no mês.\nA produtividade foi de R\$ $_G de faturamento para cada R\$1,00 de custo fixo.";
+        "o que representa $_FNOVO% do total faturado no mês.\nA produtividade foi de R\$ $_G de faturamento para cada R\$1,00 de custo fixo.\n"
+        "Principalmente se alcançar R\$ X ou se Y clientes forem atendidos. ";
 
     _text_2 = "O fato é que o resultado não é aquele que você gostaria.\n "
         "Use o SIMULADOR para ver o que pode ser feito! Com a ajuda da CALCULADORA DE PREÇOS verifique, "
         "a margem dos seus produtos que mais vendem.\n"; //Com um aumento de ${_X}% na produtividade você alcançaria os ${_H}% que considera ideal!";
 
     _text_3 =
-        "Parabéns! Você certamente está satisfeito com a lucratividade do negócio.\nMesmo assim dê uma analisada com a ajuda do SIMULADOR para ver se poderia ser ainda melhor.";
+        "Parabéns! Você certamente está satisfeito com a lucratividade do negócio.\n"
+        "Mesmo assim dê uma analisada com a ajuda do SIMULADOR para ver se poderia ser ainda melhor.\n"
+        "O resultado será um percentual 0%";
 
     _text_4 =
-        "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com $_J de   $_K %. \nEm $_L, com $_M de $_N%.";
+        "Sua previsão de vendas para o corrente mês indica que possivelmente ele se encerrará com $_J de   $_K %. \nEm $_L, com $_M de $_N%.\n"
+        "O resultado spe um percentual 0%";
 
     _text_5 =
         "As informações relativas ao mês de $_A indicam que o seu negócio apresentou prejuízo de $_O%.\n"
-        "Esta é uma situação que requer providências imediatas.";
+        "Esta é uma situação que requer providências imediatas.\n"
+            "Principalmente se ela chegar s R\$ x;";
 
     _text_6 = "1. Verifique se os DADOS BÁSICOS informados estão corretos"
         "2. Analise, no SIMULADOR, as providências prioritárias para sair do prejuízo."
@@ -193,20 +204,57 @@ class DignosticoBloc extends BlocBase {
       textoPositivoP1 = 'A margem de ';
     }
 
+
     var caculoVariacaoCard3 =(faturamento/faturamentoDadosBasicos)*100;
     var textoPositivoCad3 = 'foi preciso atender';
     if(calculo_b < 0){
       textoPositivoCad3 = 'será preciso atender';
     }
 
+    var x_clientes;
+    var y_clientes;
+    var faturamento_maior;
+    var diminucao_custo;
+    var chegar_valor;
+  //  =((1/((100% - ((C.VENDAS DADOS BÁSICOS * (100% + (MARGEM IDEAL DADOS BÁSICOS – MARGEM ATUAL 1º. PARÁGRAFO DIAGNÓSTICO ))) +
+    //  CUSTOS FIXOS DADOS BÁSICOS + MARGEM IDEAL DADOS BÁSICOS)) /100%)) * CUSTO DOS INSUMOS DADOS BÁSICOS)
+    var margemIdealMenosDadosBasico = ((margemDadosBasicos-margemCalculada));
+    var custoDadosBasicoMenosInsumos = ((custoFixoDadosBasicos+margemIdealMenosDadosBasico));
+    var diminucao_custo_variacao;
+
+    var formulaPadrao = (quantidadeVendasDadosBasicos * (margemIdealMenosDadosBasico+margemDadosBasicos));
+
+    diminucao_custo_variacao = ((faturamentoDadosBasicos-(faturamentoDadosBasicos*margemCalculada))/(gastoVendasDadosBasicos+gastoVendasDadosBasicos+gastoInsumos3DadosBasics)/100);
+    diminucao_custo =  (formulaPadrao/faturamentoDadosBasicos);
+    chegar_valor =(formulaPadrao/custoFixoDadosBasicos);
+    print(gastoVendasDadosBasicos);
+    print(gastoInsumos3DadosBasics);
+    print('------------');
+    print(diminucao_custo);
+
+
+  //  print(margemIdealMenosDadosBasico);
+    x_clientes =formatterQuantidade.format(formulaPadrao/quantidadeVendasDadosBasicos);
+    y_clientes = formatterQuantidade.format(formulaPadrao/(faturamentoDadosBasicos/quantidadeVendasDadosBasicos));
+
+
+
+
     var textoCard1txt1 = "$textoPositivoP1 $_Bnovo% é menor do que aquele que você gostaria.\nUtilize a CALCULADORA DE PREÇOS para verificar a margem dos itens que comercializa.\nEm seguida analise possíveis providências em GESTÃO DE PRIORIDADES.";
     var textoCard1txt2 = "$textoPositivoP1  $_Bnovo%  supera suas expectativas. Previna-se para enfrentar possíveis alterações dos custos.\nAnalise possíveis providências em GESTÃO DE PRIORIDADES e use a CALCULADORA DE PREÇOS.";
     var textoCard1txt3 = "$textoPositivoP1  $_Bnovo% está muito próximo daquele que você considera ideal.\nVerifique em GESTÃO DE PRIORIDADES e também na CALCULADORA DE PREÇOS o que poderia fazer para melhorar ainda mais.";
     var textoCard1txt4 = "$textoPositivoP1  $_Bnovo% NÃO PERCA TEMPO! Vamos ajuda-lo a transformar suas dúvidas em DECISÕES PODEROSAS! \nConsulte o e-Book! AGORA!!!";
-    var textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!";
-    var textoCard3txt1 = "Margem de contribuição: R\$ $_D\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% para cobrir os custos fixos e gerar margem.\nQuanto maior for este índice, melhor!";
-    var textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))} clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%";
-    var textoCard5txt1 = "A produtividade foi de R\$ $produtividade de faturamento para cada R\$1,00 de custo fixo.\nQuanto maior for a produtividade, melhor!";
+    var textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!\nPrincipalmente se alcançar R\$ ${x_clientes} ou se ${y_clientes} clientes forem atendidos";
+    var textoCard3txt1 = "Margem de contribuição: R\$ $_D\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% para cobrir os custos fixos e gerar margem."
+        "\nQuanto maior for este índice, melhor!\nPara atingir a margem ideal  ${margemDadosBasicos}%; "
+        "com faturamento atual, os custos precisariam diminuir ${formatterPercentual.format(diminucao_custo_variacao)}%";
+    var textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),"
+        "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
+        " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%\n"
+        "Para atingir a margem ideal ${margemDadosBasicos}%;com"
+        " o faturamento atual, o faturamente precisa ser ${faturamento_maior}% maior.";
+    var textoCard5txt1 = "A produtividade foi de R\$ $produtividade de faturamento para cada R\$1,00 de custo fixo.\n"
+        "Quanto maior for a produtividade, melhor!\nPrincipalmente se ela chegar a R\$ ${chegar_valor}";
 
 //custo fixo
 
@@ -264,6 +312,27 @@ class DignosticoBloc extends BlocBase {
         );
         faturamentoDadosBasicos= double.parse(
           (element['faturamento']
+              .toString()
+              .replaceAll("R\$", "")
+              .replaceAll('.', '')
+              .replaceAll(',', '.')),
+        );
+        gastoVendasDadosBasicos = double.parse(
+          (element['gastos_insumos']
+              .toString()
+              .replaceAll("R\$", "")
+              .replaceAll('.', '')
+              .replaceAll(',', '.')),
+        );
+        gastoInsumos3DadosBasics = double.parse(
+          (element['custo_fixo']
+              .toString()
+              .replaceAll("R\$", "")
+              .replaceAll('.', '')
+              .replaceAll(',', '.')),
+        );
+        quantidadeVendasDadosBasicos= double.parse(
+          (element['qtd']
               .toString()
               .replaceAll("R\$", "")
               .replaceAll('.', '')
@@ -493,6 +562,7 @@ class DignosticoBloc extends BlocBase {
     calc_cv = double.parse(custo_varivel).truncateToDouble();
     calc_gi = double.parse(gastos_insumos).truncateToDouble();
     calc_gas = double.parse(gastos).truncateToDouble();
+    print(element);
     _calculoMargemResultante();
   }
 }
