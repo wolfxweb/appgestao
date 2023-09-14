@@ -222,37 +222,47 @@ class DignosticoBloc extends BlocBase {
     var custoDadosBasicoMenosInsumos = ((custoFixoDadosBasicos+margemIdealMenosDadosBasico));
     var diminucao_custo_variacao;
 
-    var formulaPadrao = (quantidadeVendasDadosBasicos * (margemIdealMenosDadosBasico+margemDadosBasicos));
+    //=SE(H7>"";(C8+C9+C10)/(100%-C11))
+    // =SE(H7>"";(Gastos com vendas+Gastos com insumos+Custos Fixos)/(100%-Custos Fixos))
+    // =SE(H7>"";(gastoVendasDadosBasicos + gastoInsumos3DadosBasics + custoFixoDadosBasicos)/(1-custoFixoDadosBasicos))
+    var soma_custos =gastoVendasDadosBasicos + gastoInsumos3DadosBasics + custoFixoDadosBasicos;
 
-    diminucao_custo_variacao = ((faturamentoDadosBasicos-(faturamentoDadosBasicos*margemCalculada))/(gastoVendasDadosBasicos+gastoVendasDadosBasicos+gastoInsumos3DadosBasics)/100);
+    var formulaPadrao =((soma_custos)/(1-(margemDadosBasicos/100)));
+
+   //=SE(L15>"";((C7-(C7*C11))/(C8+C9+C10)-100%)*(-1);"")
+    //=SE(L15>"";((faturamentoDadosBasicos -(faturamentoDadosBasicos * margemDadosBasicos))/(gastoVendasDadosBasicos + gastoInsumos3DadosBasics + custoFixoDadosBasicos)-1)*(-1);"")
+
+    var percentualMargemDadosBasicos =margemDadosBasicos/100;
+
+    var parte1DiminuicaoCusto =faturamentoDadosBasicos-(faturamentoDadosBasicos*percentualMargemDadosBasicos);
+    diminucao_custo_variacao = 100 -(((parte1DiminuicaoCusto)/(soma_custos))*100);
     diminucao_custo =  (formulaPadrao/faturamentoDadosBasicos);
     chegar_valor =(formulaPadrao/custoFixoDadosBasicos);
-    print(gastoVendasDadosBasicos);
-    print(gastoInsumos3DadosBasics);
-    print('------------');
-    print(diminucao_custo);
+  
 
+    faturamento_maior =  ((formulaPadrao)/(faturamentoDadosBasicos/10));
 
-  //  print(margemIdealMenosDadosBasico);
-    x_clientes =formatterQuantidade.format(formulaPadrao/quantidadeVendasDadosBasicos);
+    x_clientes = formatterMoeda.format(formulaPadrao/quantidadeVendasDadosBasicos);
     y_clientes = formatterQuantidade.format(formulaPadrao/(faturamentoDadosBasicos/quantidadeVendasDadosBasicos));
 
 
 
+    chegar_valor = formatterMoeda.format(formulaPadrao/custoFixoDadosBasicos);
 
     var textoCard1txt1 = "$textoPositivoP1 $_Bnovo% é menor do que aquele que você gostaria.\nUtilize a CALCULADORA DE PREÇOS para verificar a margem dos itens que comercializa.\nEm seguida analise possíveis providências em GESTÃO DE PRIORIDADES.";
     var textoCard1txt2 = "$textoPositivoP1  $_Bnovo%  supera suas expectativas. Previna-se para enfrentar possíveis alterações dos custos.\nAnalise possíveis providências em GESTÃO DE PRIORIDADES e use a CALCULADORA DE PREÇOS.";
     var textoCard1txt3 = "$textoPositivoP1  $_Bnovo% está muito próximo daquele que você considera ideal.\nVerifique em GESTÃO DE PRIORIDADES e também na CALCULADORA DE PREÇOS o que poderia fazer para melhorar ainda mais.";
     var textoCard1txt4 = "$textoPositivoP1  $_Bnovo% NÃO PERCA TEMPO! Vamos ajuda-lo a transformar suas dúvidas em DECISÕES PODEROSAS! \nConsulte o e-Book! AGORA!!!";
-    var textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!\nPrincipalmente se alcançar R\$ ${x_clientes} ou se ${y_clientes} clientes forem atendidos";
+    var textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!"
+        "\nPrincipalmente se alcançar R\$ ${x_clientes} ou se ${y_clientes} clientes forem atendidos";
     var textoCard3txt1 = "Margem de contribuição: R\$ $_D\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% para cobrir os custos fixos e gerar margem."
-        "\nQuanto maior for este índice, melhor!\nPara atingir a margem ideal  ${margemDadosBasicos}%; "
+        "\nQuanto maior for este índice, melhor!\nPara atingir a margem ideal  ${formatterQuantidade.format(margemDadosBasicos)}%, "
         "com faturamento atual, os custos precisariam diminuir ${formatterPercentual.format(diminucao_custo_variacao)}%";
     var textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),"
         "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
         " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%\n"
-        "Para atingir a margem ideal ${margemDadosBasicos}%;com"
-        " o faturamento atual, o faturamente precisa ser ${faturamento_maior}% maior.";
+        "Para atingir a margem ideal ${formatterQuantidade.format(margemDadosBasicos)}%, com"
+        " o faturamento atual, o faturamente precisa ser ${formatterPercentual.format(faturamento_maior)}% maior.";
     var textoCard5txt1 = "A produtividade foi de R\$ $produtividade de faturamento para cada R\$1,00 de custo fixo.\n"
         "Quanto maior for a produtividade, melhor!\nPrincipalmente se ela chegar a R\$ ${chegar_valor}";
 
