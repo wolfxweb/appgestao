@@ -302,10 +302,6 @@ calculoTicketMedio(){
     margemAtual =(faturamentoAtual -(custoVendasAtual+custosTerceirosAtual+custoFixoAtual))/faturamentoAtual;
    _margemCalculada.add(formatterPercentual.format(margemAtual*100));
     var txt = "";
-    print('margemAtual');
-    print(margenDadosBasicos.toInt());
-    print(margemInicalCalculada.toInt());
-    print(margemAtual.toInt());
     if(margemInicalCalculada.toInt()<0 && margemAtual<0){
       _margemVariacao.add("ELIMINE PREJUÍZO");
     }else   if(margemInicalCalculada.toInt()<0 && margemAtual>0 && margemAtual < margenDadosBasicos.toInt()){
@@ -315,7 +311,6 @@ calculoTicketMedio(){
     }else   if(margemInicalCalculada.toInt() > 0 && margemAtual>0 ){
       _margemVariacao.add(formatterPercentual.format(calculoCampoVariacao(margemInicalCalculada, margemAtual*100)));
     }
-
   // _margemVariacao.add(formatterPercentual.format(calculoCampoVariacao(margemInicalCalculada, margemAtual*100)));
    corMargemCalculada();
  }
