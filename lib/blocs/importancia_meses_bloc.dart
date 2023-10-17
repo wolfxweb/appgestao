@@ -59,10 +59,7 @@ class ImportanciaMesesBLoc extends BlocBase {
   }
   msgInfoMesSelecionado(value){
     final mes = DateTime.now().month;
-    print("msgInfoMesSelecionado");
-    print(value);
-    print("hora");
-    print(mes);
+
     switch (value){
       case "Janeiro":
         _msgMesSelecionado(mes, 1);

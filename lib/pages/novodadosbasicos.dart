@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:appgestao/blocs/dados_basico_bloc.dart';
 import 'package:appgestao/blocs/importancia_meses_bloc.dart';
 import 'package:appgestao/classes/dadosbasicossqlite.dart';
+import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
@@ -32,6 +33,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   DropdownEditingController<String>? mesController;
   var mesBloc = DadosBasicosBloc();
   var bd = DadosBasicosSqlite();
+  var route = PushPage();
   var importanciaMesesBLoc = ImportanciaMesesBLoc();
   var color = Color.fromRGBO(105, 105, 105, 1);
   var id = 0;
@@ -113,10 +115,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       });
     });
     percentualVendas.text = "100,00";
-    percentualGastosInsumos.text =
-        formatterPercentual.format(gastosInsumos);
-    percentualOutrosCustos.text =
-        formatterPercentual.format(outrosCustos);
+    percentualGastosInsumos.text =  formatterPercentual.format(gastosInsumos);
+    percentualOutrosCustos.text = formatterPercentual.format(outrosCustos);
     percentualCustoFixo.text = formatterPercentual.format(custoFixo);
   }
 
@@ -390,6 +390,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                             primary: const Color.fromRGBO(1, 57, 44, 1),
                           ),
                           onPressed: () {
+                           // route.pushPage(context, NovoDadosBasicos());
+
                             _faturamentoController.text = "";
                             _quantidadeController.text = "";
                             _gastoinsumosController.text = "";
@@ -403,6 +405,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                             percentualGastosInsumos.text = "";
                             percentualOutrosCustos.text = "";
                             percentualCustoFixo.text = "";
+
+
                           },
                           child: const Text("Limpar"),
                         ),
@@ -685,6 +689,11 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     _quantidadeController.text = "";
                     _margenController.text = "";
                     _custoVariavelController.text = "";
+                    percentualVendas.text = "";
+                    percentualGastosInsumos.text = "";
+                    percentualOutrosCustos.text = "";
+                    percentualCustoFixo.text = "";
+
                     mesSelect.value = onChanged.toString();
                   }),
             );
@@ -705,8 +714,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
           print(nomeCampo);
           print(value);
           if ('Faturamento' == nomeCampo) {
-            calculoPercentual(value, _custoFixoController.text,
-                _custoVariavelController.text, _custoInsumosController.text,nomeCampo);
+            calculoPercentual(value, _custoFixoController.text,_custoVariavelController.text, _custoInsumosController.text,nomeCampo);
           }
           if ('Gastos com insumos' == nomeCampo) {
             calculoPercentual(
@@ -720,15 +728,34 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                 _custoVariavelController.text, _custoInsumosController.text,nomeCampo);
           }
           if ('Custos fixos' == nomeCampo) {
-            calculoPercentual(_faturamentoController.text,
-                _custoFixoController.text, value, _custoInsumosController.text,nomeCampo);
+            calculoPercentual(_faturamentoController.text, _custoFixoController.text, value, _custoInsumosController.text,nomeCampo);
           }
 
           setState(() {
             percentualVendas.text = "100,00";
-            percentualGastosInsumos.text =  '${formatterPercentual.format(gastosInsumos)} ';
-            percentualOutrosCustos.text =  '${formatterPercentual.format(outrosCustos)} ';
-            percentualCustoFixo.text =         '${formatterPercentual.format(custoFixo)} ';
+            if ('Faturamento' == nomeCampo) {
+              calculoPercentual(value, _custoFixoController.text,_custoVariavelController.text, _custoInsumosController.text,nomeCampo);
+
+            }
+            if ('Gastos com insumos' == nomeCampo) {
+              calculoPercentual(
+                  _faturamentoController.text,
+                  _custoFixoController.text,
+                  _custoVariavelController.text,
+                  value,nomeCampo);
+              percentualGastosInsumos.text =  '${formatterPercentual.format(gastosInsumos)} ';
+            }
+            if ('Outros custos variáveis' == nomeCampo) {
+              calculoPercentual(_faturamentoController.text, value,                  _custoVariavelController.text, _custoInsumosController.text,nomeCampo);
+              percentualOutrosCustos.text =  '${formatterPercentual.format(outrosCustos)} ';
+            }
+            if ('Custos fixos' == nomeCampo) {
+              calculoPercentual(_faturamentoController.text, _custoFixoController.text, value, _custoInsumosController.text,nomeCampo);
+              percentualCustoFixo.text =         '${formatterPercentual.format(custoFixo)} ';
+            }
+
+
+
           });
         },
         validator: ValidationBuilder().maxLength(50).required().build(),

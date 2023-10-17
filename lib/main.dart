@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder> {
           '/analiseViabilidae': (BuildContext context) => const AnaliseViabilidade(),
           '/calculadora': (BuildContext context) => const Calculadora(),
+         // '/dadosBasicos': (BuildContext context) => const NovoDadosBasicos(),
 
         },
       ),
