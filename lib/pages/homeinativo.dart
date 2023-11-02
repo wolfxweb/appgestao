@@ -50,7 +50,7 @@ class _HomeInativoState extends State<HomeInativo> {
                    const  Espacamento(),
                    const Logo(),
                    const  Espacamento(),
-                   Container(
+      /*             Container(
                      alignment: Alignment.bottomLeft,
                      child: StreamBuilder(
                          stream: mesBloc.nomeOutUsuario,
@@ -65,7 +65,7 @@ class _HomeInativoState extends State<HomeInativo> {
                            );
                          }
                      ),
-                   ),
+                   ),*/
                    const Espacamento(),
                    const Text("Seu cadastro ainda não está ativo entre em contato com suporte para ativar sua conta.",
                      style: TextStyle(fontSize: 20),
