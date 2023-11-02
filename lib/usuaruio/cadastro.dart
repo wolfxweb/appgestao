@@ -773,7 +773,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.68,
                         child: InkWell(
-                            child: new Text('Termo de uso e privacidade'),
+                            child: const Text(
+                              'Termo de uso e privacidade',
+                              style: TextStyle(
+                                color: Colors.blue, // Define a cor do texto como azul
+                              ),
+                            ),
                             onTap: () => launch('https://wolfx.com.br/')),
                       ),
                     ],

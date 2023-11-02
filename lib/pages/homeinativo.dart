@@ -11,7 +11,7 @@ import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:appgestao/componete/logo.dart';
 import 'package:appgestao/usuaruio/login.dart';
 import 'package:flutter/material.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class HomeInativo extends StatefulWidget {
   const HomeInativo({Key? key}) : super(key: key);
 
@@ -49,6 +49,8 @@ class _HomeInativoState extends State<HomeInativo> {
                  children:  [
                    const  Espacamento(),
                    const Logo(),
+                   const Espacamento(),
+                   const Espacamento(),
                    const  Espacamento(),
       /*             Container(
                      alignment: Alignment.bottomLeft,
@@ -71,20 +73,59 @@ class _HomeInativoState extends State<HomeInativo> {
                      style: TextStyle(fontSize: 20),
                     textAlign: TextAlign.justify,
                    ),
-                   const Espacamento(),
+                  /* const Espacamento(),
                    const Text("Contato email: xx@gmail.com",
                      style: TextStyle(fontSize: 20),
                      textAlign: TextAlign.center,
+                   ),*/
+                   const Espacamento(),
+                   const Espacamento(),
+                   SizedBox(
+                     width: MediaQuery.of(context).size.width * 0.70,
+                     child: ElevatedButton(
+                       style: ElevatedButton.styleFrom(
+                         primary: const Color.fromRGBO(1, 57, 44, 1),
+                         // background
+                         onPrimary: Colors.white, // foreground
+                       ),
+                       onPressed: () {
+                         _launchEmail(); // Função para abrir o link do WhatsApp
+                       },
+                       child: const Text('Contato por Email',
+                           style: TextStyle(color: Colors.white)),
+                     ),
                    ),
                    const Espacamento(),
-                   OutlinedButton(
-                     style: OutlinedButton.styleFrom(
-                       primary: const Color.fromRGBO(159, 105, 56,1),
+                   SizedBox(
+                     width: MediaQuery.of(context).size.width * 0.70,
+                     child: ElevatedButton(
+                       style: ElevatedButton.styleFrom(
+                         primary: const Color.fromRGBO(1, 57, 44, 1),
+                         // background
+                         onPrimary: Colors.white, // foreground
+                       ),
+                       onPressed: () {
+                         _launchWhatsApp(); // Função para abrir o link do WhatsApp
+                       },
+                       child: const Text('Contato pelo WhatsApp',
+                           style: TextStyle(color: Colors.white)),
                      ),
-                     child: const Text('Login'),
-                     onPressed: () {
-                       irPagina.pushPage(context, const Login());
-                     },
+                   ),
+                   const Espacamento(),
+                   SizedBox(
+                     width: MediaQuery.of(context).size.width * 0.70,
+                     child: ElevatedButton(
+                       style: ElevatedButton.styleFrom(
+                         primary: const Color.fromRGBO(1, 57, 44, 1),
+                         // background
+                         onPrimary: Colors.white, // foreground
+                       ),
+                       onPressed: () {
+                         irPagina.pushPage(context, const Login());
+                       },
+                       child: const Text('Login',
+                           style: TextStyle(color: Colors.white)),
+                     ),
                    ),
                  ],
                ),
@@ -92,6 +133,31 @@ class _HomeInativoState extends State<HomeInativo> {
         ),
       ),
     );
+  }
+  _launchWhatsApp() async {
+    final phone = '+55419993185577'; // Substitua pelo número de telefone desejado
+    final message = ''; // Mensagem opcional
+
+    final url = 'https://wa.me/$phone/?text=${Uri.encodeComponent(message)}';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Não foi possível abrir o WhatsApp.';
+    }
+  }
+  _launchEmail() async {
+    final email = 'contato@getup.app.br'; // Substitua pelo endereço de e-mail desejado
+    final subject = ''; // Assunto do e-mail (opcional)
+    final body = ''; // Corpo do e-mail (opcional)
+
+    final url = 'mailto:$email?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Não foi possível abrir o cliente de e-mail.';
+    }
   }
 }
 

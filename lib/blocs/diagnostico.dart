@@ -266,29 +266,44 @@ class DignosticoBloc extends BlocBase {
     }else if(double.parse(calculo_b.toStringAsFixed(2)) > 0 && double.parse(calculo_b.toStringAsFixed(2)) < margemDadosBasicos ) {
       textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!\nPrincipalmente se alcançar R\$ ${x_clientes} ou se ${y_clientes} clientes forem atendidos";
     }
-    if(double.parse(calculo_b.toStringAsFixed(2))!=0 &&double.parse(calculo_b.toStringAsFixed(2)) < margemDadosBasicos ){
+    if(double.parse(calculo_b.toStringAsFixed(2))!=0 && double.parse(calculo_b.toStringAsFixed(2)) < margemDadosBasicos ){
       textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),"
           "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
           " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%";
-    }else if(double.parse(calculo_b.toStringAsFixed(2)) > margemDadosBasicos){
+    }else if(double.parse(calculo_b.toStringAsFixed(2)) > 0  && double.parse(calculo_b.toStringAsFixed(2)) > margemDadosBasicos){
       textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),"
           "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
           " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%\n"
           "Para atingir a margem ideal ${formatterQuantidade.format(margemDadosBasicos)}%, com"
           " com os custos atuais, os preços deveriam aumentar ${formatterPercentual.format(faturamento_maior)}%.";
-
+    }else{
+      textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),"
+          "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
+          " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%";
     }
+    print(double.parse(calculo_b.toStringAsFixed(2)));
+    print(margemDadosBasicos);
+
     if(double.parse(calculo_b.toStringAsFixed(2))!=0 &&double.parse(calculo_b.toStringAsFixed(2)) < margemDadosBasicos ){
       textoCard5txt1 = "A produtividade foi de R\$ $produtividade de faturamento para cada R\$1,00 de custo fixo.\n"
           "Quanto maior for a produtividade, melhor!\nPrincipalmente se ela chegar a R\$ ${chegar_valor}";
     }else{
       textoCard5txt1 = "A produtividade foi de R\$ $produtividade de faturamento para cada R\$1,00 de custo fixo.";
     }
+    var textoCard3txt1 ="";
+    if(double.parse(calculo_b.toStringAsFixed(2))!=0 && double.parse(calculo_b.toStringAsFixed(2)) < margemDadosBasicos ){
+      textoCard3txt1 = "Margem de contribuição: R\$ $_D\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% "
+          "para cobrir os custos fixos e gerar margem.";
+    }else if(double.parse(calculo_b.toStringAsFixed(2)) > 0  && double.parse(calculo_b.toStringAsFixed(2)) > margemDadosBasicos){
+      textoCard3txt1 = "Margem de contribuição: R\$ $_D\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% "
+          "para cobrir os custos fixos e gerar margem."
+          "\nQuanto maior for este índice, melhor!\nPara atingir a margem ideal  ${formatterQuantidade.format(margemDadosBasicos)}%, "
+          "com faturamento atual, os custos precisariam diminuir ${formatterPercentual.format(diminucao_custo_variacao)}%";
+    }else{
+      textoCard3txt1 = "Margem de contribuição: R\$ $_D\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% "
+          "para cobrir os custos fixos e gerar margem.";
+    }
 
-    var textoCard3txt1 = "Margem de contribuição: R\$ $_D\nOu seja: da receita média gerada por cliente, restaram ${formatterPercentual.format(variacaoTicketMedioMargemContribuicao)}% "
-        "para cobrir os custos fixos e gerar margem."
-        "\nQuanto maior for este índice, melhor!\nPara atingir a margem ideal  ${formatterQuantidade.format(margemDadosBasicos)}%, "
-        "com faturamento atual, os custos precisariam diminuir ${formatterPercentual.format(diminucao_custo_variacao)}%";
 
 
   /*  var textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),"
