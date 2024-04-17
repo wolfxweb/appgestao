@@ -569,7 +569,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           color: Colors.black54,
                           onPressed: () {
                             alerta.openModal(context,
-                                "O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas númenro que nos informar.");
+                                "O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas o número que nos informar.");
                           },
                         ),
                       ),
@@ -880,7 +880,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                         color: Colors.black54,
                         onPressed: () {
                           alerta.openModal(context,
-                              "Pedimos que informe a atividade, cidade e Estado para que, ao somar os dados de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.");
+                              "Pedimos que informe a atividade, cidade e Estado para que, ao somar os Dados Básicos de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.");
                         },
                       ),
                     ),
@@ -897,7 +897,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                             decoration:
                             buildInputDecoration(""),
                             onChanged: (values) {
-                              print(values);
+                            //  print(values);
 
                               setState(() {
                                // _especialidadeController.text =_especialidadeController.text;
@@ -1207,6 +1207,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
             .doc(_emailController.text)
             .set(data);
       }
+      // ignore: use_build_context_synchronously
       alert.alertSnackBar(
           context, Colors.green, 'Cadastro realizado com sucesso');
     } on FirebaseAuthException catch (e) {

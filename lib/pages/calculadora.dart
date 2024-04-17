@@ -437,8 +437,9 @@ class _CalculadoraState extends State<Calculadora> {
                         controller: _margemDesejadaController,
                         decoration: decoretorNovo(''),
                         inputFormatters: [
+                          // obrigatório
                           FilteringTextInputFormatter.digitsOnly,
-                          //CentavosInputFormatter(casasDecimais: 0),
+                          CentavosInputFormatter(moeda: false, casasDecimais: 2)
                         ],
                         onChanged: (text) {
                           if (text.isNotEmpty) {

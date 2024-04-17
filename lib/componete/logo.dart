@@ -10,8 +10,8 @@ class Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  SizedBox(
-        width: 250,
-        child: Image.asset("assets/img/Logo.jpg"),
+        width: 350,
+        child: Image.asset("assets/img/Logos.png"),
     );
   }
 }

@@ -8,7 +8,7 @@ import 'package:appgestao/componete/btnDarkLight.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/esquceusenha.dart';
 import 'package:appgestao/componete/logo.dart';
-import 'package:appgestao/pages/home.dart';
+
 import 'package:appgestao/pages/homeinativo.dart';
 import 'package:appgestao/usuaruio/cadastro.dart';
 import 'package:appgestao/usuaruio/recuperarsenha.dart';

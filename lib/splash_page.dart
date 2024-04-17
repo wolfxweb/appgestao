@@ -3,7 +3,7 @@
 import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/classes/usuarioExtraCadastro.dart';
-import 'package:appgestao/pages/home.dart';
+
 import 'package:appgestao/pages/homeinativo.dart';
 import 'package:appgestao/usuaruio/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
     FirebaseAuth.instance
         .authStateChanges()
         .listen((User? user) {
-          print(user);
+
       if (user == null) {
         Navigator.push(
           context,
@@ -45,7 +45,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return  const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),)
+        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.green),)
       ),
 
     );

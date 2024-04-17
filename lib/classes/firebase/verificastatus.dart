@@ -1,7 +1,6 @@
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
-import 'package:appgestao/pages/home.dart';
-import 'package:appgestao/pages/homeadmin.dart';
+
 import 'package:appgestao/pages/homeinativo.dart';
 import 'package:appgestao/pages/novaHome.dart';
 import 'package:appgestao/usuaruio/login.dart';
@@ -25,10 +24,9 @@ class VerificaStatusFairebase {
         Map<String, dynamic> data =  documentSnapshot.data()! as Map<String, dynamic>;
         if (data['status']) {
           if (data['admin']) {
-         //   route.pushPage(context, const HomeAdmin());
             route.pushPage(context, const novaHome());
           } else {
-            route.pushPage(context, const Home());
+            route.pushPage(context, const novaHome());
           }
         } else {
           route.pushPage(context, const HomeInativo());

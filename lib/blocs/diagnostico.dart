@@ -257,20 +257,32 @@ class DignosticoBloc extends BlocBase {
     var textoCard4txt1 = "";
     var textoCard5txt1 ="";
 
-    if(double.parse(calculo_b.toStringAsFixed(2)) > margemDadosBasicos) {
-       textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!\n";
 
-    }else if(double.parse(calculo_b.toStringAsFixed(2)) < 0) {
+    print('faturamento');
+    print(faturamentoDadosBasicos);
+
+    var fatGastosVendasEinsumos = (faturamentoDadosBasicos -(gastoVendasDadosBasicos +gastoInsumos3DadosBasics ));
+    print('calculo_b');
+    print(calculo_b);
+  //  fatGastosVendasEinsumos = -1;
+    var margem = double.parse(calculo_b.toStringAsFixed(2));
+    if(fatGastosVendasEinsumos<= 0){
+      textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nReveja seus preços e/ou custo das vendas e com insumos e mercadorias de 3os. Aumentar vendas não é solução!\n";
+    }else if(margem < 0) {
       textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!\nSeria preciso alcançar R\$ ${x_clientes} ou se ${y_clientes} clientes forem atendidos";
 
-    }else if(double.parse(calculo_b.toStringAsFixed(2)) > 0 && double.parse(calculo_b.toStringAsFixed(2)) < margemDadosBasicos ) {
+    }else if(margem > 0 && margem < margemDadosBasicos ) {
       textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!\nPrincipalmente se alcançar R\$ ${x_clientes} ou se ${y_clientes} clientes forem atendidos";
+    }else {
+      textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nQuanto maior melhor!\n";
     }
-    if(double.parse(calculo_b.toStringAsFixed(2))!=0 && double.parse(calculo_b.toStringAsFixed(2)) < margemDadosBasicos ){
+
+
+    if(margem!=0 && margem < margemDadosBasicos ){
       textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),"
           "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
           " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%";
-    }else if(double.parse(calculo_b.toStringAsFixed(2)) > 0  && double.parse(calculo_b.toStringAsFixed(2)) > margemDadosBasicos){
+    }else if(margem> 0  && margem > margemDadosBasicos){
       textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),"
           "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
           " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%\n"

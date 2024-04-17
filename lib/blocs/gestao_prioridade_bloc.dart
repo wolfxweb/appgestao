@@ -303,7 +303,7 @@ calculoTicketMedio(){
    _margemCalculada.add(formatterPercentual.format(margemAtual*100));
     var txt = "";
     if(margemInicalCalculada.toInt()<0 && margemAtual<0){
-      _margemVariacao.add("ELIMINE PREJUÍZO");
+      _margemVariacao.add("");
     }else   if(margemInicalCalculada.toInt()<0 && margemAtual>0 && margemAtual < margenDadosBasicos.toInt()){
       _margemVariacao.add("MELHORE MAIS");
     }else   if(margemInicalCalculada.toInt()<0 && margemAtual>0 && margemAtual < margenDadosBasicos.toInt()){

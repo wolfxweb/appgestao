@@ -308,7 +308,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           buildIconeMsg(context,
-                              'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa. \nIMPORTANTE: somente os utilizados para realizar as vendas '
+                              'Considere o custo de todos os insumos empregados na produção ou preparo dos itens que comercializa,bem como dos produtos adquiridos de terceiros para revender.\nIMPORTANTE: somente os utilizados para realizar as vendas '
                                   '(inclusive perdas ocorridas).'),
                        /*   buildIconeMsg(context,
                               'Considere todos os custos e despesas que variam em função das vendas.\nPor exemplo:\nTaxas e impostos;\nCusto dos cartões de débito, crédito, tickets e '
