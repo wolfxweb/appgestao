@@ -10,16 +10,18 @@ class DadosBasicosSqlite{
 
   Future<Database?> get db => DatabaseHelper.getInstance().db;
   Future<int> save(dados) async {
-    print(dados);
-    var dbClient = await db;
+   // print(dados);
+   var dbClient = await db;
    var id = await dbClient!.insert('dados_basiscos', dados, conflictAlgorithm: ConflictAlgorithm.replace);
-   print('id: $id');
+   //print('id: $id');
+   // print(dados);
     return 1;
   }
 
   Future<List<dynamic>> lista() async {
     final dbClient = await db;
-    final list = await dbClient!.rawQuery('SELECT * FROM dados_basiscos');
+    final list = await dbClient!.rawQuery('SELECT * FROM dados_basiscos where dados_basicos_atual ="S" ');
+   // print(list);
     return list;
   }
 

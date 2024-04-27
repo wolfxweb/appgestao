@@ -58,6 +58,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   final percentualGastosInsumos = TextEditingController();
   final percentualOutrosCustos = TextEditingController();
   final percentualCustoFixo = TextEditingController();
+  final _capacidadeAtendimento =  TextEditingController();
 
   var mesSelect = ValueNotifier('');
 
@@ -73,8 +74,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   void _consultar() async {
     await bd.lista().then((data) {
       data.forEach((element) {
-        print('element');
-        print(element);
+     //   print('element');
+    //    print(element['capacidade_atendimento']);
         id = element['id'];
         _quantidadeController.text = element['qtd'];
         _faturamentoController.text = element['faturamento'];
@@ -84,6 +85,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         _custoVariavelController.text = element['custo_varivel'];
         _custoInsumosController.text = element['gastos_insumos'];
         mesSelect.value = element['mes'];
+       _capacidadeAtendimento.text = element['capacidade_atendimento'];
         var faturamentoTemp = (element['faturamento']
             .toString()
             .replaceAll("R\$", "")
@@ -373,6 +375,25 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     ],
                   ),
                   const Espacamento(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildTituloInput(context,'Capacidade de atendimento'),
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        // mainAxisSize: MainAxisSize.max,
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.14,
+                            child: Container(),
+                          ),
+                          capacidadeAtendimento(),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Espacamento(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     mainAxisSize: MainAxisSize.max,
@@ -405,6 +426,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                             percentualGastosInsumos.text = "";
                             percentualOutrosCustos.text = "";
                             percentualCustoFixo.text = "";
+                            _custoInsumosController.text ="";
 
 
                           },
@@ -578,6 +600,40 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     );
   }
 
+
+  Container capacidadeAtendimento() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.80,
+      decoration: buildBuildBoxDecoration(),
+      child: TextFormField(
+        validator: ValidationBuilder().maxLength(50).required().build(),
+        keyboardType: TextInputType.number,
+        controller: _capacidadeAtendimento,
+        decoration: const InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+          fillColor: const Color.fromRGBO(245, 245, 245, 1),
+          filled: true,
+          // disabledBorder: true,
+          focusedBorder:  OutlineInputBorder(
+            // borderSide: BorderSide(color: Color(0xFFffd600)),
+            borderSide:    BorderSide(color: Color.fromRGBO(1, 57, 44, 1), width: 1.0),
+          ),
+          border:  OutlineInputBorder(
+            // borderSide: BorderSide(color: Color(0xFFffd600)),
+            borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+          ),
+          labelText: "",
+          labelStyle:  TextStyle(
+            color: Colors.black54,
+            fontSize: 13,
+            //  backgroundColor: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
   Container containerMsgMesSelecionado() {
     return Container(
       decoration: const BoxDecoration(
@@ -629,7 +685,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
 
   IconButton buildIconeMsg(BuildContext context, msgAlertaMes) {
     return IconButton(
-     // iconSize: 35,
+      iconSize: 35,
       icon:const Icon(
         Icons.help,
         color: Color.fromRGBO(1, 57, 44, 1),
@@ -693,6 +749,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     percentualGastosInsumos.text = "";
                     percentualOutrosCustos.text = "";
                     percentualCustoFixo.text = "";
+                    _custoInsumosController.text="";
 
                     mesSelect.value = onChanged.toString();
                   }),
@@ -711,8 +768,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
           //  FocusScope.of(context).unfocus(); // Fecha o teclado ao tocar fora do campo de text
         },
         onChanged: (value) {
-          print(nomeCampo);
-          print(value);
+        //  print(nomeCampo);
+         // print(value);
           if ('Faturamento' == nomeCampo) {
             calculoPercentual(value, _custoFixoController.text,_custoVariavelController.text, _custoInsumosController.text,nomeCampo);
           }
@@ -893,17 +950,16 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       'custo insumos': _custoInsumosController.text,
       'magem_desejada': _margenController.text,
       'gasto_com_vendas': _custoInsumosController.text,
+      'capacidade_atendimento':_capacidadeAtendimento.text
     };
-
+   // print(dados);
     var users = VerificaStatusFairebase();
     users.addDadosBasicos(context, dados);
 
     if (id == 0) {
-      _saveUpdate(_getDados(null, mesSave),
-          "Dados básicos cadastrado realizado com sucesso");
+      _saveUpdate(_getDados(null, mesSave),"Dados básicos cadastrado realizado com sucesso");
     } else {
-      _saveUpdate(
-          _getDados(id, mesSave), "Dados básicos atulizado com sucesso");
+      _saveUpdate(_getDados(id, mesSave), "Dados básicos atulizado com sucesso");
     }
   }
 
@@ -917,7 +973,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         _custoVariavelController.text,
         _margenController.text,
         mesSelect.value,
-        _custoInsumosController.text);
+        _custoInsumosController.text,
+        _capacidadeAtendimento.text
+    );
   }
 
   _saveUpdate(dados, msg) {

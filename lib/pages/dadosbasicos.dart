@@ -468,11 +468,9 @@ class _DadosBasicosState extends State<DadosBasicos> {
 
 
     if (id == 0) {
-      _saveUpdate(_getDados(null, mesSave),
-          "Dados básicos cadastrado realizado com sucesso");
+      _saveUpdate(_getDados(null, mesSave), "Dados básicos cadastrado realizado com sucesso");
     } else {
-      _saveUpdate(
-          _getDados(id, mesSave), "Dados básicos atulizado com sucesso");
+      _saveUpdate( _getDados(id, mesSave), "Dados básicos atulizado com sucesso");
     }
 
 
@@ -488,7 +486,9 @@ class _DadosBasicosState extends State<DadosBasicos> {
         _custoVariavelController.text,
         _margenController.text,
         mesSelect.value,
-        _custoInsumosController.text);
+        _custoInsumosController.text,
+       '0'
+    );
   }
 
   _saveUpdate(dados, msg) {
