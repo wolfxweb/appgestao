@@ -376,13 +376,15 @@ class _CalculadoraState extends State<Calculadora> {
       decoration: const BoxDecoration(
         //  color: Colors.transparent,
         //borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+    /*    boxShadow: [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 1,
             offset: Offset(1, 3), // Shadow position
           ),
         ],
+
+     */
       ),
       child: StreamBuilder(
           stream: calBloc.outPrecoConcorrente,
@@ -403,7 +405,7 @@ class _CalculadoraState extends State<Calculadora> {
               controller: TextEditingController(text: snapshot.data.toString()),
               decoration: _styleInput("", "ops"),
             )
-                : Text('msgComentario');
+                : Container();
           }),
     );
   }
@@ -521,15 +523,16 @@ class _CalculadoraState extends State<Calculadora> {
                     builder: (context, snapshot) {
                       var data = snapshot.data;
                       return TextFormField(
-                        validator:  ValidationBuilder().maxLength(5).required().build(),
+                        //validator:  ValidationBuilder().maxLength(5).required().build(),
                         keyboardType: TextInputType.number,
                         controller: _margemDesejadaController,
                         decoration: decoretorNovo(''),
-                        inputFormatters: [
+                     /*   inputFormatters: [
                           // obrigatório
                           FilteringTextInputFormatter.digitsOnly,
                           CentavosInputFormatter(moeda: false, casasDecimais: 2)
                         ],
+                        */
                         onChanged: (text) {
                           if (text.isNotEmpty) {
                             calBloc.margemDesejada(text);
@@ -599,8 +602,14 @@ class _CalculadoraState extends State<Calculadora> {
                             FilteringTextInputFormatter.digitsOnly,
                             CentavosInputFormatter(moeda: false, casasDecimais: 2)
                           ],
-
-
+                          onChanged: (text) {
+                            if (text.isNotEmpty) {
+                              calBloc.precoConcorrente(text);
+                              setState(() {
+                               // _percoConcorrenteController.text = text;
+                              });
+                            }
+                          },
                         );
                       }),
                 ),

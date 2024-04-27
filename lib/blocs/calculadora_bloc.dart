@@ -67,7 +67,7 @@ class CalculadoraBloc extends BlocBase {
   _getDadosBasicos() async {
     await bd.lista().then((data) {
       data.forEach((element) {
-            print(element);
+          //  print(element);
         var faturamento = (element['faturamento']
             .toString()
             .replaceAll("R\$", "")
@@ -170,12 +170,14 @@ class CalculadoraBloc extends BlocBase {
   }
   _comentarioPrecoConcorrete(){
     var margeEmpresa = ((fat-(cf+cv+gi+gas))/fat);
-    var A ="";
-    var R$B ="";
-    var R$C ="";
-    var R$D ="";
-    var R$E ="";
-    var R$F ="";
+   // var margeEmpresaS = ((fat-(cf+cv+gi+gas))/fat);
+   // print(margeEmpresaS);
+    var A ;
+    var RB;
+    var RC;
+    var RD;
+    var RE;
+    var RF;
     /*
       Informaçãoes do excel enviado dia 20 março de 2024
         E23 = PrecoConcorente
@@ -190,12 +192,6 @@ class CalculadoraBloc extends BlocBase {
         (R$F) = =SE(E(B21<E21*99%;E23="";B23="");B17-(B17*(F9+F11+E21));"")
 
     */
-/*
-  SE(E(PREÇO VENDA ATUAL>0;
-  PREÇO VENDA ATUAL= PREÇO MÉDIO CONCORR;
-  MARGEM PREÇO ATUAL<MARGEM DA EMPRESA);
-  PREÇO DE VENDA ATUAL-(PREÇO DE VENDA ATUAL*(%GASTOS COM VENDAS+%CUSTOS FIXOS)+(PREÇO DE VENDA ATUAL*MARGEM DA EMPRESA));"")
- */
 
     var preco_venda_atual = _precoVendaAtual;
     var preco_concorrente = _precoMedioConcorrente;
@@ -205,55 +201,61 @@ class CalculadoraBloc extends BlocBase {
     var faturamento = fat;
     var percentual_gasto_vendas = gasto_com_vendas/fat;
     var percentual_custo_fixo = custo_fixo/fat;
-    var teste = preco_venda_atual - (preco_venda_atual *(percentual_gasto_vendas + percentual_custo_fixo) + (preco_venda_atual * margeEmpresa));
+    var gasto_insumos_terceiros = cf;
+    var percentual_gasto_insumos_terceiros = cf/fat;
 
-    print("PREÇO DE VENDA ATUAL");
-    print(preco_venda_atual);
-   /* print("CUSTOS FIXOS");
-    print(custo_fixo);
-    print("GASTOS COM VENDAS");
-    print(gasto_com_vendas);
-    print("MARGEM DA EMPRESA");
-    print(margem_empresa);
-    print("Faturamento");
-    print(faturamento);
-    print("percentual_gasto_vendas");
-    print(percentual_gasto_vendas);
-    print("percentual_custo_fixo");
-    print(percentual_custo_fixo);
-    */
-    print("teste");
-    print(teste);
+
     double margemPrecoAtual = 0.0;
-    double margemEmpresa = 0.0;
-    double precoMedioConcorrencia = 0.0;
+    double margemEmpresa = 0.0 ;
+    double precoMedioConcorrencia =  0.0;
     double precoVendaAtual = 0.0;
-    double margemDesejada = 0.0;
-    String mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
+    double margemDesejada =0.00;
+    margemPrecoAtual = _margemComPrecoAtual/100 ?? 0.0;
+    margemEmpresa = margeEmpresa ?? 0.0 ;
+    precoMedioConcorrencia = preco_concorrente ?? 0.0;
+    precoVendaAtual = preco_venda_atual ?? 0.0;
+    margemDesejada =_margemDesejada ?? 0.00;
 
-    if (margemPrecoAtual >= margemEmpresa * 0.99 && precoMedioConcorrencia == 0 && margemDesejada == 0) {
+    String mensagem = "Olá";
+    RC = formatter.format(preco_venda_atual - (preco_venda_atual *(percentual_gasto_vendas + percentual_custo_fixo) + (preco_venda_atual * margeEmpresa)));
+    var a_calculado;
+    if (preco_concorrente != null && preco_venda_atual != null && preco_venda_atual != 0) {
+        a_calculado = (1 -  (preco_concorrente / (preco_venda_atual / _custoInsumo) / _custoInsumo));
+        A = formatter.format(a_calculado*100);
+    }
+    if(margemPrecoAtual >0.0 && precoMedioConcorrencia > 0.0 && margemPrecoAtual >0  && a_calculado != null){
+      RB = formatter.format(_custoInsumo- (_custoInsumo * (a_calculado)));
+    }
+    RF = formatter.format(precoVendaAtual -(precoVendaAtual*( percentual_gasto_vendas + percentual_custo_fixo +margemEmpresa )));
+
+    RD = formatter.format( precoMedioConcorrencia -(precoMedioConcorrencia *(percentual_gasto_vendas + percentual_custo_fixo + margemEmpresa)));
+
+    RE = RF;
+
+    if (margemPrecoAtual >= margemEmpresa * 0.99 && precoMedioConcorrencia == 0.0 && margemDesejada == 0.0) {
       mensagem = "";
-    } else if (margemPrecoAtual < margemEmpresa * 0.99 && precoMedioConcorrencia == 0 && margemDesejada == 0) {
-      mensagem = "Insira o percentual da Margem da Empresa no campo Margem Desejada para ver o preço necessário. Ou reduza o Custo dos insumos para (R\$F)";
+    } else if (margemPrecoAtual < margemEmpresa * 0.99 && precoMedioConcorrencia == 0.0 && margemDesejada == 0.0) {
+      mensagem = "Insira o percentual da Margem da Empresa no campo Margem Desejada para ver o preço necessário. Ou reduza o Custo dos insumos para R\$ ${RF}";
     } else if (precoMedioConcorrencia > 0 && precoVendaAtual > 0 && precoVendaAtual > precoMedioConcorrencia) {
-      mensagem = "Para igualar o preço da concorrência o custo dos insumos e/ou mercadoria 3o. deveria ser (A%) menor. Substitua o custo atual por (R\$B) e veja a margem resultante.";
+      mensagem = "Para igualar o preço da concorrência o custo dos insumos e/ou mercadoria 3o. deveria ser ${A}%  menor. Substitua o custo atual por R\$ ${RB} e veja a margem resultante.";
     } else if (precoVendaAtual > 0 && precoVendaAtual < precoMedioConcorrencia) {
       mensagem = "Se a concorrência vende bem, substitua acima seu preço pelo dela. Se a margem resultante não for satisfatória, digite a margem desejada. Em seguida digite o preço sugerido no campo preço de venda atual. E veja as recomendações.";
     } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual == margemEmpresa) {
       mensagem = "";
     } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual < margemEmpresa) {
-      mensagem = "Se você acha que não deve mexer no preço atual, então veja se consegue diminuir o custo dos insumos e/ou mercadoria 3o. para (R\$C). Você consegue?";
+      mensagem = "Se você acha que não deve mexer no preço atual, então veja se consegue diminuir o custo dos insumos e/ou mercadoria 3o. para R\$ ${RC}. Você consegue?";
     } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual > margemEmpresa) {
       mensagem = "Este produto, se for o caso, pode ter sua venda associada ao de outro cujo preço prejudica o resultado da empresa.";
     } else if (margemPrecoAtual < 0 && precoVendaAtual > precoMedioConcorrencia) {
-      mensagem = "Para equiparar seu preço com o da concorrência e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de (R\$D). Você consegue?";
+      mensagem = "Para equiparar seu preço com o da concorrência e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de R\$  ${RD}. Você consegue?";
     } else if (margemPrecoAtual < 0 && precoVendaAtual == precoMedioConcorrencia) {
-      mensagem = "Para manter seu preço e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de (R\$E). Você consegue?";
+      mensagem = "Para manter seu preço e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de R\$ ${RE}. Você consegue?";
     } else if (margemPrecoAtual < 0 && margemPrecoAtual < margemEmpresa && precoVendaAtual < precoMedioConcorrencia) {
       mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
     }
-    mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
+   // mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
     _precoConcorrenteController.add(mensagem);
+    //print(mensagem);
   }
   _calculoMargemAtual() {
     // print(_precoVendaAtual);
@@ -296,6 +298,7 @@ class CalculadoraBloc extends BlocBase {
     var mar2 = mar1 / 100;
     _margemDesejada = mar2;
     _calculoMargemAtual();
+    _comentarioPrecoConcorrete();
   }
 
   percoVendaAtual(preco) {
@@ -316,8 +319,8 @@ class CalculadoraBloc extends BlocBase {
         .replaceAll('.', '')
         .replaceAll(',', '.'));
     _precoMedioConcorrente = double.parse(price);
-    print('_precoMedioConcorrente');
-    print(_precoMedioConcorrente);
+   // print('_precoMedioConcorrente');
+   // print(_precoMedioConcorrente);
     _comentarioPrecoConcorrete();
   }
 
@@ -329,6 +332,7 @@ class CalculadoraBloc extends BlocBase {
     _calculoPrecoSuregirdo =calTemp1*_custoInsumo;
     _calcluloSugeridoController.add(formatter.format(_calculoPrecoSuregirdo));
     calculoRelacaoPreco();
+
   }
 
   _nomeUsuarioLogado() async {
@@ -425,7 +429,7 @@ class CalculadoraBloc extends BlocBase {
 
   excluirHistorico(id) {
     //   print('excluirHistorico');
-//    print(id);
+    //    print(id);
     //   delete(id)
     var _db = CalculadoraSqlite();
     return _db.delete(id);
