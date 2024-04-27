@@ -511,7 +511,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                         icon: const Icon(Icons.help, color: Colors.black54,),
                         color: Colors.black54,
                         onPressed: () {
-                          alerta.openModal(context, 'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
+                          buildIconeMsg.openModal(context, 'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
                         },
                       ),*/
 

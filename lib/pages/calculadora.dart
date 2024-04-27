@@ -30,6 +30,9 @@ class _CalculadoraState extends State<Calculadora> {
   var _margemDesejadaController = TextEditingController();
   var _btnStatus = false;
   var _pesquisaController = TextEditingController();
+  var _percoConcorrenteController = TextEditingController();
+
+
 
   List historico = [];
 
@@ -85,13 +88,60 @@ class _CalculadoraState extends State<Calculadora> {
                     ? Column(
                         children: [
                           nomeProduto,
-                          precoVendaAtual(),
-                          custoInsumos(),
+                          Row(
+                           //  mainAxisAlignment: MainAxisAlignment.center,
+                           //  mainAxisSize: MainAxisSize.max,
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                             children: [
+                               SizedBox(
+                                 width: MediaQuery.of(context).size.width * 0.84,
+                                 child:  precoVendaAtual(),
+                               ),
+                               SizedBox(
+                                 width: MediaQuery.of(context).size.width * 0.05,
+                                 child:
+                                       Padding(
+                                         padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
+                                         child: buildIconeMsg(
+                                           context,
+                                           'Para calcular o preço de venda de um produto novo, digite o "Custo dos insumos e/ou mercadoria 3o.", e a "Margem desejada". A resposta estará em "Preço sugerido". Para conferir, digite o valor sugerido em "Preço de venda atual".',
+                                         ),
+                                       ),
+
+                                   ),
+                             ]
+                           ),
+                         // precoVendaAtual(),
+                          Row(
+                            //  mainAxisAlignment: MainAxisAlignment.center,
+                            //  mainAxisSize: MainAxisSize.max,
+                            //   crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.84,
+                                  child:  custoInsumos(),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.05,
+                                  child:
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
+                                    child: buildIconeMsg(
+                                      context,
+                                      'Para analisar seu "ticket médio", anote em "preço de venda atual" o valor indicado no DIAGNÓSTICO. Em DADOS BÁSICOS pegue o "gasto com insumos e mercadoria 3o.", divida pela quantidade de clientes atendidos  e anote aqui. Informe a "margem desejada". O valor que aparecerá em "Preço sugerido", será o "Ticket médio" necessário (faturamento médio por cliente). Se, na sua opinião, não for possível aumentar o consumo por cliente, o percentual em "Relação com preço atual" estará sugerindo um aumento médio para os preços.',
+                                    ),
+                                  ),
+                                ),
+                              ]
+                          ),
+                        //  custoInsumos(),
                           margemPreco(context),
                           areTextoInformativo(),
                           margemDesejada(context),
                           precoSugeridoAtual(context),
-                          msgPrecoSugerido()
+                          msgPrecoSugerido(),
+                          precoMedioConcorrente(context),
+                          msgComentario()
                         ],
                       )
                     : Container(),
@@ -319,6 +369,45 @@ class _CalculadoraState extends State<Calculadora> {
     );
   }
 
+  Container msgComentario() {
+    return Container(
+      //   width: MediaQuery.of(context).size.width*0.45,
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+      decoration: const BoxDecoration(
+        //  color: Colors.transparent,
+        //borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 1,
+            offset: Offset(1, 3), // Shadow position
+          ),
+        ],
+      ),
+      child: StreamBuilder(
+          stream: calBloc.outPrecoConcorrente,
+          builder: (context, snapshot) {
+            var data = snapshot.data.toString();
+            var obs = true;
+            if (data.isEmpty) {
+              obs = false;
+            }
+
+            return !mostraPrecoSugerido && obs
+                ? TextFormField(
+              validator: ValidationBuilder().maxLength(50).required().build(),
+              keyboardType: TextInputType.none,
+              enabled: false,
+              maxLines: 6,
+              style: TextStyle(fontSize: 14),
+              controller: TextEditingController(text: snapshot.data.toString()),
+              decoration: _styleInput("", "ops"),
+            )
+                : Text('msgComentario');
+          }),
+    );
+  }
+
   Row precoSugeridoAtual(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -476,6 +565,64 @@ class _CalculadoraState extends State<Calculadora> {
     );
   }
 
+
+  Row precoMedioConcorrente(BuildContext context) {
+    return Row(
+     // mainAxisAlignment: MainAxisAlignment.center,
+      //   mainAxisSize: MainAxisSize.max,
+      //  crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Preço médio concorrente"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.84,
+                child:   Container(
+                  // width: 180,
+                 // width: MediaQuery.of(context).size.width * 0.50,
+                  //   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                  decoration: buildBoxDecoration(),
+                  child: StreamBuilder(
+                      stream: null,
+                      builder: (context, snapshot) {
+                        var data = snapshot.data;
+                        return TextFormField(
+                          validator:  ValidationBuilder().maxLength(5).required().build(),
+                          keyboardType: TextInputType.number,
+                          controller: _percoConcorrenteController,
+                          decoration: decoretorInput(''),
+                          inputFormatters: [
+                            // obrigatório
+                            FilteringTextInputFormatter.digitsOnly,
+                            CentavosInputFormatter(moeda: false, casasDecimais: 2)
+                          ],
+
+
+                        );
+                      }),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.05,
+          child:
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
+            child: buildIconeMsg(
+              context,
+              'Pensando em ofertar preços promocionais (descontos). Após digitar os valores atuais, anote o preço que estará oferecendo em "Preço médio concorrentes". Se for para todos os produtos, em "Preço de venda atual" digite o "Tiket médio", e, em "Custo dos insumos e/ou mercadoria 3o." dividido pela "Quantidade de clientes atendidos" (vendas) que estão em DADOS BÁSICOS. Digite a margem desejada. Coloque o "Preço sugerido" em "Preço médio concorrentes".',
+            ),
+          ),
+        ),
+      ],
+
+    );
+  }
   Container areTextoInformativo() {
     return Container(
       decoration: buildBoxDecoration(),
@@ -649,7 +796,18 @@ class _CalculadoraState extends State<Calculadora> {
       ],
     );
   }
-
+  IconButton buildIconeMsg(BuildContext context, msgAlertaMes) {
+    return IconButton(
+       iconSize: 35,
+      icon:const Icon(
+        Icons.help,
+        color: Color.fromRGBO(1, 57, 44, 1),
+      ),
+      onPressed: () {
+        alerta.openModal(context, msgAlertaMes);
+      },
+    );
+  }
   Column precoVendaAtual() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -663,8 +821,7 @@ class _CalculadoraState extends State<Calculadora> {
                 //  print(snapshot.data);
                 var data = snapshot.data;
                 return TextFormField(
-                  validator:
-                      ValidationBuilder().maxLength(50).required().build(),
+                  validator:ValidationBuilder().maxLength(50).required().build(),
                   keyboardType: TextInputType.number,
                   controller: _precoAtualController,
                   decoration: _styleInput("", "cor"),
@@ -673,6 +830,7 @@ class _CalculadoraState extends State<Calculadora> {
                     FilteringTextInputFormatter.digitsOnly,
                     CentavosInputFormatter(moeda: true, casasDecimais: 2)
                   ],
+                  
                   onChanged: (text) {
                     if (text.isNotEmpty) {
                       calBloc.percoVendaAtual(text);
@@ -697,6 +855,7 @@ class _CalculadoraState extends State<Calculadora> {
                       }
                     }
                   },
+                  
                 );
               }),
         ),
@@ -848,7 +1007,36 @@ class _CalculadoraState extends State<Calculadora> {
       ],
     );
   }
+  InputDecoration decoretorInput(titulo) {
+    return InputDecoration(
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      fillColor: const Color.fromRGBO(245, 245, 245, 1),
+      filled: true,
+      // disabledBorder: true,
+      focusedBorder: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide: BorderSide(color: Color.fromRGBO(1, 57, 44, 1), width: 1.0),
+      ),
+      border: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:
+        BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+      ),
 
+      /* focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.orange, width: 1.0, style: BorderStyle.none),
+                                    ),*/
+
+      labelText: titulo,
+      labelStyle: const TextStyle(
+        color: Colors.black,
+        fontSize: 13,
+        // backgroundColor: Colors.white,
+      ),
+    );
+  }
   _buildOnPressed() {
     if (_produto.text.isEmpty) {
       alerta.openModal(context, 'Campo produto é obrigatório.');
@@ -1001,3 +1189,7 @@ class _CalculadoraState extends State<Calculadora> {
     );
   }
 }
+
+                                                                                                       
+
+

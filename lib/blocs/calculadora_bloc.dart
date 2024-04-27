@@ -21,6 +21,7 @@ class CalculadoraBloc extends BlocBase {
   final _custoComInsumoslController = BehaviorSubject();
   final _historicolController = BehaviorSubject();
   final _margemEmpresalController = BehaviorSubject();
+  final _precoConcorrenteController = BehaviorSubject();
 
   Stream get outCalculoMargem => _calculoMargemController.stream;
   Stream get outMsgMargem => _msgMargemController.stream;
@@ -33,6 +34,7 @@ class CalculadoraBloc extends BlocBase {
   Stream get outCustosComInsumosController => _custoComInsumoslController.stream;
   Stream get outHistoricoController => _historicolController.stream;
   Stream get outMargemEmpresalControllerr => _margemEmpresalController.stream;
+  Stream get outPrecoConcorrente => _precoConcorrenteController.stream;
 
   var _custoInsumo = 200.0;
   var _margemDesejada = 0.3;
@@ -49,6 +51,8 @@ class CalculadoraBloc extends BlocBase {
   var _calculoPrecoSuregirdo;
   var _relacaoPreco;
   var _nomeUsuario;
+  var _precoMedioConcorrente;
+
   List list = [];
   CalculadoraBloc() {
     Intl.defaultLocale = 'pt_BR';
@@ -164,7 +168,93 @@ class CalculadoraBloc extends BlocBase {
     }
     _primeiroComentario();
   }
+  _comentarioPrecoConcorrete(){
+    var margeEmpresa = ((fat-(cf+cv+gi+gas))/fat);
+    var A ="";
+    var R$B ="";
+    var R$C ="";
+    var R$D ="";
+    var R$E ="";
+    var R$F ="";
+    /*
+      Informaçãoes do excel enviado dia 20 março de 2024
+        E23 = PrecoConcorente
+        B17 = Preco venda atual
+        B21 = Margem preco atual
+        B19 = Custo insumos terceiros
+        (A%)  = SE(E(E23>0;B17>0;B21>0;B17>E23);100%-E23/(B17/B19)/B19;"")
+        (R$B) = SE(E(B17>0;E23>0;B21>0;B17>E23);B19*(100%-C28);"")
+        (R$C) = SE(E(B17>0;B17=E23;B21<E21);B17-(B17*(F9+F11)+(B17*E21));"")
+        (R$D) = SE(E(B21<0;B17>E23);E23-(E23*(F9+F11+E21));"")
+        (R$E) = SE(E(B21<0;B17=E23);B17-(B17*(F9+F11+E21));"")
+        (R$F) = =SE(E(B21<E21*99%;E23="";B23="");B17-(B17*(F9+F11+E21));"")
 
+    */
+/*
+  SE(E(PREÇO VENDA ATUAL>0;
+  PREÇO VENDA ATUAL= PREÇO MÉDIO CONCORR;
+  MARGEM PREÇO ATUAL<MARGEM DA EMPRESA);
+  PREÇO DE VENDA ATUAL-(PREÇO DE VENDA ATUAL*(%GASTOS COM VENDAS+%CUSTOS FIXOS)+(PREÇO DE VENDA ATUAL*MARGEM DA EMPRESA));"")
+ */
+
+    var preco_venda_atual = _precoVendaAtual;
+    var preco_concorrente = _precoMedioConcorrente;
+    var custo_fixo = cv;
+    var gasto_com_vendas = gi;
+    var margem_empresa = mar;
+    var faturamento = fat;
+    var percentual_gasto_vendas = gasto_com_vendas/fat;
+    var percentual_custo_fixo = custo_fixo/fat;
+    var teste = preco_venda_atual - (preco_venda_atual *(percentual_gasto_vendas + percentual_custo_fixo) + (preco_venda_atual * margeEmpresa));
+
+    print("PREÇO DE VENDA ATUAL");
+    print(preco_venda_atual);
+   /* print("CUSTOS FIXOS");
+    print(custo_fixo);
+    print("GASTOS COM VENDAS");
+    print(gasto_com_vendas);
+    print("MARGEM DA EMPRESA");
+    print(margem_empresa);
+    print("Faturamento");
+    print(faturamento);
+    print("percentual_gasto_vendas");
+    print(percentual_gasto_vendas);
+    print("percentual_custo_fixo");
+    print(percentual_custo_fixo);
+    */
+    print("teste");
+    print(teste);
+    double margemPrecoAtual = 0.0;
+    double margemEmpresa = 0.0;
+    double precoMedioConcorrencia = 0.0;
+    double precoVendaAtual = 0.0;
+    double margemDesejada = 0.0;
+    String mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
+
+    if (margemPrecoAtual >= margemEmpresa * 0.99 && precoMedioConcorrencia == 0 && margemDesejada == 0) {
+      mensagem = "";
+    } else if (margemPrecoAtual < margemEmpresa * 0.99 && precoMedioConcorrencia == 0 && margemDesejada == 0) {
+      mensagem = "Insira o percentual da Margem da Empresa no campo Margem Desejada para ver o preço necessário. Ou reduza o Custo dos insumos para (R\$F)";
+    } else if (precoMedioConcorrencia > 0 && precoVendaAtual > 0 && precoVendaAtual > precoMedioConcorrencia) {
+      mensagem = "Para igualar o preço da concorrência o custo dos insumos e/ou mercadoria 3o. deveria ser (A%) menor. Substitua o custo atual por (R\$B) e veja a margem resultante.";
+    } else if (precoVendaAtual > 0 && precoVendaAtual < precoMedioConcorrencia) {
+      mensagem = "Se a concorrência vende bem, substitua acima seu preço pelo dela. Se a margem resultante não for satisfatória, digite a margem desejada. Em seguida digite o preço sugerido no campo preço de venda atual. E veja as recomendações.";
+    } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual == margemEmpresa) {
+      mensagem = "";
+    } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual < margemEmpresa) {
+      mensagem = "Se você acha que não deve mexer no preço atual, então veja se consegue diminuir o custo dos insumos e/ou mercadoria 3o. para (R\$C). Você consegue?";
+    } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual > margemEmpresa) {
+      mensagem = "Este produto, se for o caso, pode ter sua venda associada ao de outro cujo preço prejudica o resultado da empresa.";
+    } else if (margemPrecoAtual < 0 && precoVendaAtual > precoMedioConcorrencia) {
+      mensagem = "Para equiparar seu preço com o da concorrência e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de (R\$D). Você consegue?";
+    } else if (margemPrecoAtual < 0 && precoVendaAtual == precoMedioConcorrencia) {
+      mensagem = "Para manter seu preço e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de (R\$E). Você consegue?";
+    } else if (margemPrecoAtual < 0 && margemPrecoAtual < margemEmpresa && precoVendaAtual < precoMedioConcorrencia) {
+      mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
+    }
+    mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
+    _precoConcorrenteController.add(mensagem);
+  }
   _calculoMargemAtual() {
     // print(_precoVendaAtual);
     /***------------------------calculadora ------------------------ * ---------------------------Dados básicos------------------------- * ----------------Calculardora----------------****/
@@ -174,6 +264,7 @@ class CalculadoraBloc extends BlocBase {
     _calculoMargemController.add(margem);
     _calculoPrecodugerido();
     _margemDaEmpresa();
+    _comentarioPrecoConcorrete();
   }
 
   calculoRelacaoPreco() {
@@ -218,6 +309,18 @@ class CalculadoraBloc extends BlocBase {
     _calculoMargemAtual();
   }
 
+  precoConcorrente(preco){
+    var price = (preco
+        .toString()
+        .replaceAll("R\$", "")
+        .replaceAll('.', '')
+        .replaceAll(',', '.'));
+    _precoMedioConcorrente = double.parse(price);
+    print('_precoMedioConcorrente');
+    print(_precoMedioConcorrente);
+    _comentarioPrecoConcorrete();
+  }
+
   _calculoPrecodugerido() {
     //(1/1-((((total outros custos variaveis + custos fixo)/faturamento vendas)+margem desejada)/(1)))*custo insumos
     //(1/(1-((((B10+B11)/B7)+F15)/1)))*F10
@@ -242,7 +345,7 @@ class CalculadoraBloc extends BlocBase {
             // print(documentSnapshot.data());
             Map<String, dynamic> data =
                 documentSnapshot.data()! as Map<String, dynamic>;
-            print(data);
+           // print(data);
             _nomeUsuario = data['nome'];
           }
         });
@@ -262,8 +365,8 @@ class CalculadoraBloc extends BlocBase {
           -> preço sugerido
           -> margem( margem atual)
      */
-    print("save");
-    print(produto);
+   // print("save");
+   // print(produto);
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd/MM/yyyy ').format(now);
 
@@ -286,7 +389,7 @@ class CalculadoraBloc extends BlocBase {
         _marDesejada,
         mgComPrecoAtual.toString());
 
-    print(dados);
+ //   print(dados);
     return _db.save(dados.toJson()); /*
    _db.save(dados.toJson()).then((value) {
       print("save value");
@@ -310,7 +413,7 @@ class CalculadoraBloc extends BlocBase {
             element['margem_desejada'],
             element['margem_atual']);
         var json = dados.toJson();
-        print(json);
+       // print(json);
         list.add(json);
         // _historicolController.add(json);
       });
@@ -336,5 +439,6 @@ class CalculadoraBloc extends BlocBase {
     _calcluloSugeridoController.close();
     _comparativoPrecoController.close();
     _msgPrecoSugeridoController.close();
+    _precoConcorrenteController.close();
   }
 }
