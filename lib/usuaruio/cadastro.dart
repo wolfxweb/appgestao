@@ -432,9 +432,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
         ..sort(
             (a, b) => a.nome!.toLowerCase().compareTo(b.nome!.toLowerCase()));
       final List<String> estadosUFS = response.data!
-          .map<String>((item) => item['sigla'])!
+          .map<String>((item) => item['sigla'])
           .toList()
-        ..sort((a, b) => a!.toLowerCase().compareTo(b!.toLowerCase()));
+        ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
       //  final List<String> estadosUFS =[];
       setState(() {
         if (estadosUFS.isNotEmpty) {
@@ -456,10 +456,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       try {
         final response = await Dio().get<List>(url);
         final List<String> cidades = response.data!
-            .map<String>((item) => item['nome'])!
+            .map<String>((item) => item['nome'])
             .toList()
-          ..sort((a, b) => a!.toLowerCase().compareTo(b!.toLowerCase()));
-        print(_cidades);
+          ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+       // print(_cidades);
         setState(() {
           _cidades = cidades;
         });
@@ -837,8 +837,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     _especialidadeController.text =values!;
                   });
                 },
-                items: dropOpcoesEspecialidade!.map((item) {
-                  print(_especialidadeController.text);
+                items: dropOpcoesEspecialidade.map((item) {
+                 // print(_especialidadeController.text);
                   return buildDropdownEspecialidades(item);
                 }).toList(),
               ),
@@ -903,8 +903,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                                // _especialidadeController.text =_especialidadeController.text;
                                 _nomeController.text = values!;
                               //dropOpcoesEspecialidade.add(_especialidadeController.text);
-                                print("especialisa");
-                                print(_especialidadeController.text);
+                             //   print("especialisa");
+                             //   print(_especialidadeController.text);
                                 if(!restricoesLimpezaLista.contains(_especialidadeController.text)) {
                                   dropOpcoesEspecialidade.retainWhere((titulo) => titulo == _especialidadeController.text );
 
@@ -942,7 +942,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     _especialidadeController.text="";
      if(values == 'AMBULANTE'){
       AMBULANTE.forEach((element) {
-        dropOpcoesEspecialidade.add(element!);
+        dropOpcoesEspecialidade.add(element);
       });
     }else if(values == "ATACADO"){
       ATACADO.forEach((element) {

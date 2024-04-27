@@ -210,11 +210,11 @@ class CalculadoraBloc extends BlocBase {
     double precoMedioConcorrencia =  0.0;
     double precoVendaAtual = 0.0;
     double margemDesejada =0.00;
-    margemPrecoAtual = _margemComPrecoAtual/100 ?? 0.0;
+    margemPrecoAtual = _margemComPrecoAtual/100 ;
     margemEmpresa = margeEmpresa ?? 0.0 ;
     precoMedioConcorrencia = preco_concorrente ?? 0.0;
-    precoVendaAtual = preco_venda_atual ?? 0.0;
-    margemDesejada =_margemDesejada ?? 0.00;
+    precoVendaAtual = preco_venda_atual ;
+    margemDesejada =_margemDesejada;
 
     String mensagem = "Olá";
     RC = formatter.format(preco_venda_atual - (preco_venda_atual *(percentual_gasto_vendas + percentual_custo_fixo) + (preco_venda_atual * margeEmpresa)));
