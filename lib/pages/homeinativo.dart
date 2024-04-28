@@ -84,9 +84,9 @@ class _HomeInativoState extends State<HomeInativo> {
                      width: MediaQuery.of(context).size.width * 0.70,
                      child: ElevatedButton(
                        style: ElevatedButton.styleFrom(
-                         primary: const Color.fromRGBO(1, 57, 44, 1),
+                         //primary: const Color.fromRGBO(1, 57, 44, 1),
                          // background
-                         onPrimary: Colors.white, // foreground
+                        // onPrimary: Colors.white, // foreground
                        ),
                        onPressed: () {
                          _launchEmail(); // Função para abrir o link do WhatsApp
@@ -100,9 +100,9 @@ class _HomeInativoState extends State<HomeInativo> {
                      width: MediaQuery.of(context).size.width * 0.70,
                      child: ElevatedButton(
                        style: ElevatedButton.styleFrom(
-                         primary: const Color.fromRGBO(1, 57, 44, 1),
+                        // primary: const Color.fromRGBO(1, 57, 44, 1),
                          // background
-                         onPrimary: Colors.white, // foreground
+                         //onPrimary: Colors.white, // foreground
                        ),
                        onPressed: () {
                          _launchWhatsApp(); // Função para abrir o link do WhatsApp
@@ -116,9 +116,9 @@ class _HomeInativoState extends State<HomeInativo> {
                      width: MediaQuery.of(context).size.width * 0.70,
                      child: ElevatedButton(
                        style: ElevatedButton.styleFrom(
-                         primary: const Color.fromRGBO(1, 57, 44, 1),
+                       //  primary: const Color.fromRGBO(1, 57, 44, 1),
                          // background
-                         onPrimary: Colors.white, // foreground
+                       //  onPrimary: Colors.white, // foreground
                        ),
                        onPressed: () {
                          irPagina.pushPage(context, const Login());

@@ -249,10 +249,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 20),
-                        primary: const Color.fromRGBO(1, 57, 44, 1),
-                      ),
+                      style: colorButtonStyle() ,
                       onPressed: () {
 
                         route.pushPage(context, GestaoPrioridade());
@@ -812,6 +809,13 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
           ),
         ),
       ),
+    );
+  }
+  ButtonStyle colorButtonStyle() {
+    return ButtonStyle(
+      // primary: color, // Cor de fundo do botão
+      backgroundColor:MaterialStateProperty.all<Color>(const Color.fromRGBO(1, 57, 44, 1)),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     );
   }
 }

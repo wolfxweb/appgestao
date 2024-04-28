@@ -97,7 +97,8 @@ class CalculadoraBloc extends BlocBase {
         cf = double.parse(custo_fixo).truncateToDouble();
         cv = double.parse(custo_varivel).truncateToDouble();
         gi = double.parse(gastos_insumos).truncateToDouble();
-        gas = double.parse(gastos).truncateToDouble();
+       // gas = double.parse(gastos).truncateToDouble();
+        gas = 0.0;
         mars = double.parse(element['margen']);
         mar = mars / 100;
 

@@ -125,11 +125,7 @@ class _novaHomeState extends State<novaHome> {
     return SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: color,
-                    // background
-                    onPrimary: Colors.white, // foreground
-                  ),
+                  style: colorButtonStyle(color),
                   onPressed:(){
                     route.pushPage(context, funcao);
                   },
@@ -137,20 +133,29 @@ class _novaHomeState extends State<novaHome> {
                       style: TextStyle(color: Colors.white)),
                 ),
               );
-  }
-  SizedBox buildElevatedButtonIcon(text, icone, funcao) {
+  }SizedBox buildElevatedButtonIcon(text, icone, funcao, color) {
     return SizedBox(
-      width:  MediaQuery.of(context).size.width ,
+      width: MediaQuery.of(context).size.width,
       child: ElevatedButton.icon(
-        onPressed: (){
-          funcao;
+        onPressed: () {
+          funcao();
         },
-        icon: Icon(icone),  //icon data for elevated button
-        label: Text(text), //label text
-        style: ElevatedButton.styleFrom(
-            primary: color //elevated btton background color
-        ),
+        icon: Icon(icone),
+        label: Text(text),
+        style: colorButtonStyle(color),
+       // Colors.blue,
       ),
+
     );
+
   }
+
+ButtonStyle colorButtonStyle(color) {
+  return ButtonStyle(
+       // primary: color, // Cor de fundo do botão
+          backgroundColor:MaterialStateProperty.all<Color>(color),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+   );
+}
+
 }

@@ -521,8 +521,8 @@ class _AnaliseViabilidadeState extends State<AnaliseViabilidade> {
                   //  width: MediaQuery.of(context).size.width*0.45,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(1, 57, 44, 1), // background
-                      onPrimary: Colors.white, // foreground
+                    //  primary: Color.fromRGBO(1, 57, 44, 1), // background
+                      //onPrimary: Colors.white, // foreground
                     ),
                     child: const Text('Limpar Análise',style: TextStyle(color: Colors.white)),
                     onPressed: () {

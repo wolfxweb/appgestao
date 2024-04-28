@@ -177,13 +177,7 @@ class _CalculadoraState extends State<Calculadora> {
                     calBloc.selectHistorico();
                   });
                 },
-                style: ElevatedButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 13),
-                  primary: Color.fromRGBO(1, 57, 44, 1),
-                  elevation: 0,
-                  shadowColor: Colors.black,
-                  padding: EdgeInsets.all(16),
-                ),
+                style:colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
               )),
         ),
       ],
@@ -297,13 +291,7 @@ class _CalculadoraState extends State<Calculadora> {
                           _pesquisaController.text = "";
                         });
                       },
-                      style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 14),
-                        primary: const Color.fromRGBO(1, 57, 44, 1),
-                        elevation: 5,
-                        shadowColor: Colors.black,
-                        padding: EdgeInsets.all(14),
-                      ),
+                      style:colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
                     )),
               )
             : Container(),
@@ -316,13 +304,14 @@ class _CalculadoraState extends State<Calculadora> {
                     child: ElevatedButton(
                       child: const Text('Salvar'),
                       onPressed: _btnStatus ? _buildOnPressed : null,
-                      style: ElevatedButton.styleFrom(
+                      style: colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
+                    /*  ElevatedButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 14),
-                        primary: const Color.fromRGBO(1, 57, 44, 1),
+                       // primary: const Color.fromRGBO(1, 57, 44, 1),
                         elevation: 5,
                         shadowColor: Colors.black,
                         padding: EdgeInsets.all(14),
-                      ),
+                      ),*/
                     )),
               )
             : Container()
@@ -809,7 +798,7 @@ class _CalculadoraState extends State<Calculadora> {
     return IconButton(
        iconSize: 35,
       icon:const Icon(
-        Icons.help,
+        Icons.lightbulb,
         color: Color.fromRGBO(1, 57, 44, 1),
       ),
       onPressed: () {
@@ -1195,6 +1184,13 @@ class _CalculadoraState extends State<Calculadora> {
         //  backgroundColor: Colors.white,
       ),
       // hintText: 'Quantidade de clientes atendidos',
+    );
+  }
+  ButtonStyle colorButtonStyle(color) {
+    return ButtonStyle(
+      // primary: color, // Cor de fundo do botão
+      backgroundColor:MaterialStateProperty.all<Color>(color),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     );
   }
 }

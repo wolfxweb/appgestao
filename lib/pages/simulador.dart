@@ -519,8 +519,8 @@ class _SimuladorState extends State<Simulador> {
                   //  width: MediaQuery.of(context).size.width*0.45,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color.fromRGBO(159, 105, 56,1), // background
-                        onPrimary: Colors.white, // foreground
+                      //  primary: //Color.fromRGBO(159, 105, 56,1), // background
+                      //  onPrimary: Colors.white, // foreground
                       ),
                       child: const Text('Limpar filtros',
                           style: TextStyle(color: Colors.white)),

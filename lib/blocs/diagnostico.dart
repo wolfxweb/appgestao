@@ -366,7 +366,7 @@ class DignosticoBloc extends BlocBase {
     var dadosBasicos = true;
     await bd.lista().then((data) {
       data.forEach((element) {
-     //   print(element);
+        print(element);
         dadosBasicos = false;
         _A = element['mes'];
         calculo_a = element['mes'];
@@ -632,7 +632,8 @@ class DignosticoBloc extends BlocBase {
     calc_cf = double.parse(custo_fixo).truncateToDouble();
     calc_cv = double.parse(custo_varivel).truncateToDouble();
     calc_gi = double.parse(gastos_insumos).truncateToDouble();
-    calc_gas = double.parse(gastos).truncateToDouble();
+   // calc_gas = double.parse(gastos).truncateToDouble();
+    calc_gas =0.0;
     print(element);
     _calculoMargemResultante();
   }

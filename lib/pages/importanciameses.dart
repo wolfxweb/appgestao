@@ -489,7 +489,7 @@ class _InportanciaMesesState extends State<InportanciaMeses> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
-                        primary: const  Color.fromRGBO(1, 57, 44, 1),
+                        //primary: const  Color.fromRGBO(1, 57, 44, 1),
                       ),
                       onPressed: (){
                         _importanciaMesesBLoc.adicionarImportanciaMeses(context);

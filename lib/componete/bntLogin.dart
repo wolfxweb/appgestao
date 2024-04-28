@@ -12,13 +12,20 @@ class BtnLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     var irPagina = PushPage();
     return  OutlinedButton(
-      style: OutlinedButton.styleFrom(
-        primary: Colors.orange, // background
-      ),
+      style: colorButtonStyle() ,
       child: const Text('Login'),
       onPressed:(){
         irPagina.pushPage(context, const Login());
       },
+    );
+  }
+  ButtonStyle colorButtonStyle() {
+    var corVerde  = const Color.fromRGBO(1, 57, 44, 1);
+    var corBranco = Colors.white;
+    return ButtonStyle(
+      // primary: color, // Cor de fundo do botão
+      backgroundColor:MaterialStateProperty.all<Color>(corVerde),
+      foregroundColor: MaterialStateProperty.all<Color>(corVerde),
     );
   }
 }

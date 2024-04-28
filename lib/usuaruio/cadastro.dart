@@ -1012,11 +1012,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.70,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color.fromRGBO(1, 57, 44, 1),
-                            // background
-                            onPrimary: Colors.white, // foreground
-                          ),
+                          style:colorButtonStyle() ,
                           onPressed: _conn ? _buildOnPressed : null,
                           child: const Text('Cadastrar',
                               style: TextStyle(color: Colors.white)),
@@ -1030,9 +1026,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.35,
                             child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                primary: const Color.fromRGBO(1, 57, 44, 1),
-                              ),
+                              style: colorButtonStyle() ,
                               child: const Text('Login'),
                               onPressed: () {
                                 irPagina.pushPage(context, const Login());
@@ -1042,9 +1036,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.35,
                             child: TextButton(
-                              style: OutlinedButton.styleFrom(
-                                primary: const Color.fromRGBO(1, 57, 44, 1),
-                              ),
+                              style: colorButtonStyle() ,
                               child: const Text('Esqueceu a senha?'),
                               onPressed: () {
                                 irPagina.pushPage(context, const RecuperarSenha());
@@ -1224,5 +1216,14 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       print(e);
     }
 
+  }
+  ButtonStyle colorButtonStyle() {
+    var corVerde  = const Color.fromRGBO(1, 57, 44, 1);
+    var corBranco = Colors.white;
+    return ButtonStyle(
+      // primary: color, // Cor de fundo do botão
+      backgroundColor:MaterialStateProperty.all<Color>(corVerde),
+      foregroundColor: MaterialStateProperty.all<Color>(corBranco),
+    );
   }
 }

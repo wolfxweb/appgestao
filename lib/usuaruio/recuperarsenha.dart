@@ -107,11 +107,7 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                 SizedBox(
                     width: MediaQuery.of(context).size.width*0.70,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary:
-                          const Color.fromRGBO(1, 57, 44, 1), // background
-                      onPrimary: Colors.white, // foreground
-                    ),
+                    style:colorButtonStyle() ,
                     child:
                         Text('Enviar', style: TextStyle(color: Colors.white)),
                     onPressed: btnEnviar ? _buildOnPressed : null,
@@ -126,11 +122,8 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width*0.35,
                       child: TextButton(
-                        style: OutlinedButton.styleFrom(
-                          primary:
-                              const Color.fromRGBO(1, 57, 44, 1), // background
-                        ),
-                        child: const Text('Login'),
+                        style: colorButtonStyle(),
+                          child: const Text('Login'),
                         onPressed: () {
                           irPagina.pushPage(context, const Login());
                         },
@@ -222,5 +215,14 @@ class _RecuperarSenhaState extends State<RecuperarSenha> {
     if (!_isConnected) {
       alerta.openModal(context, 'Sem conexão com a internet');
     }
+  }
+  ButtonStyle colorButtonStyle() {
+    var corVerde  = const Color.fromRGBO(1, 57, 44, 1);
+    var corBranco = Colors.white;
+    return ButtonStyle(
+      // primary: color, // Cor de fundo do botão
+      backgroundColor:MaterialStateProperty.all<Color>(corVerde),
+      foregroundColor: MaterialStateProperty.all<Color>(corBranco),
+    );
   }
 }

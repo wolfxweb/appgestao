@@ -13,14 +13,19 @@ class BtnCadastreSe extends StatelessWidget {
     return  SizedBox(
       width: MediaQuery.of(context).size.width*0.35,
       child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          primary:  const Color.fromRGBO(1, 57, 44, 1),// background
-        ),
+        style: colorButtonStyle() ,
         child: const Text('Cadastre-se '),
         onPressed:(){
           irPagina.pushPage(context, const CadastroUsuario());
         },
       ),
+    );
+  }
+  ButtonStyle colorButtonStyle() {
+    return ButtonStyle(
+      // primary: color, // Cor de fundo do botão
+      backgroundColor:MaterialStateProperty.all<Color>(const Color.fromRGBO(1, 57, 44, 1)),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     );
   }
 }

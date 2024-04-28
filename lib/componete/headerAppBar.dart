@@ -5,11 +5,16 @@ class HeaderAppBar {
     return AppBar(
       title: Text(
         title,
-        style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold, fontFamily:'Arial' , ),
+        style: const TextStyle(fontSize: 20,
+          fontWeight:
+          FontWeight.bold,
+            fontFamily:'Arial' ,
+            color: Colors.white ),
       ),
       centerTitle: true,
       backgroundColor: const Color.fromRGBO(1, 57, 44,1),
-      actionsIconTheme: const IconThemeData(color: Colors.white),
+   //   actionsIconTheme: const IconThemeData(color: Colors.white),
+
       //  elevation: 15,
       //  toolbarHeight: 100, // default is 56
       //  toolbarOpacity: 0.5,

@@ -14,14 +14,21 @@ class EsqueceuSenha extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width*0.35,
       child: TextButton(
-        style: OutlinedButton.styleFrom(
-          primary: const Color.fromRGBO(1, 57, 44, 1), // background
-        ),
+        style: colorButtonStyle(),
         child: const Text('Esqueceu a senha?'),
         onPressed:(){
           irPagina.pushPage(context, RecuperarSenha());
         },
       ),
+    );
+  }
+  ButtonStyle colorButtonStyle() {
+    var corVerde  = const Color.fromRGBO(1, 57, 44, 1);
+    var corBranco = Colors.white;
+    return ButtonStyle(
+      // primary: color, // Cor de fundo do botão
+      backgroundColor:MaterialStateProperty.all<Color>(corBranco),
+      foregroundColor: MaterialStateProperty.all<Color>(corVerde),
     );
   }
 }

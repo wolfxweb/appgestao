@@ -20,8 +20,8 @@ class DadosBasicosSqlite{
 
   Future<List<dynamic>> lista() async {
     final dbClient = await db;
-    final list = await dbClient!.rawQuery('SELECT * FROM dados_basiscos where dados_basicos_atual ="S" ');
-   // print(list);
+    final list = await dbClient!.rawQuery('SELECT  * FROM dados_basiscos ');
+    print(list);
     return list;
   }
 

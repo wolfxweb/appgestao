@@ -406,10 +406,11 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
+                          style: colorButtonStyle(),
+                            /*ElevatedButton.styleFrom(
                             textStyle: const TextStyle(fontSize: 20),
-                            primary: const Color.fromRGBO(1, 57, 44, 1),
-                          ),
+                            //primary: const Color.fromRGBO(1, 57, 44, 1),
+                          ),*/
                           onPressed: () {
                            // route.pushPage(context, NovoDadosBasicos());
 
@@ -436,10 +437,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 20),
-                            primary: const Color.fromRGBO(1, 57, 44, 1),
-                          ),
+                          style: colorButtonStyle(),
                           onPressed: _buildBuildOnPressed,
                           child: const Text("Salvar"),
                         ),
@@ -975,6 +973,13 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         mesSelect.value,
         _custoInsumosController.text,
         _capacidadeAtendimento.text
+    );
+  }
+  ButtonStyle colorButtonStyle() {
+    return ButtonStyle(
+      // primary: color, // Cor de fundo do botão
+      backgroundColor:MaterialStateProperty.all<Color>(const Color.fromRGBO(1, 57, 44, 1)),
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     );
   }
 

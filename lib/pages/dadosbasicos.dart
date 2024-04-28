@@ -361,7 +361,7 @@ class _DadosBasicosState extends State<DadosBasicos> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
-                        primary: const Color.fromRGBO(159, 105, 56,1),
+                        //primary: const Color.fromRGBO(159, 105, 56,1),
                       ),
                       onPressed: _buildBuildOnPressed,
                       child: const Text("Salvar"),

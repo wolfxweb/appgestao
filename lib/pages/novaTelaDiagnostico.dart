@@ -57,7 +57,7 @@ class _telaDiagnosticoState extends State<telaDiagnostico> {
                       }
                       return  Text(text,
                         style:const TextStyle(
-                          //  color: Colors.white,
+                           //color: Colors.black12,
                           fontSize: 16,
                           //  fontWeight: FontWeight.bold,
                         ),

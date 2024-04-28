@@ -4,7 +4,7 @@ import 'package:appgestao/componete/espasamento.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:dart_date/dart_date.dart';
+//import 'package:dart_date/dart_date.dart';
 
 class MsgDia extends StatefulWidget {
   const MsgDia({Key? key}) : super(key: key);
@@ -84,14 +84,16 @@ class _MsgDiaState extends State<MsgDia> {
     final dia = DateTime.now().day;
     final mes = DateTime.now().month;
     final ano = DateTime.now().year;
-    final diaMes = DateTime.now().format("dd/MM");
+    final diaMes ="";
+   // final diaMes = DateTime.now().format("dd/MM");
     int qtdDiasUteis = 0;
     int fimSemana = 0;
     const feriados =["01/01","15/04","17/04","21/04","01/5","08/05","07/06","12/06","16/06","25/07","14/08","07/09","12/10","02/11","15/11","05/12"];
 
 
     for (var i = 1; i <= dia; i++) {
-      final diaUtil = DateTime(ano, mes, i).getWeekday;
+     // final diaUtil = DateTime(ano, mes, i).getWeekday;
+      final diaUtil ="";
       print('diaUtil');
 
       print(diaUtil);

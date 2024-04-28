@@ -135,11 +135,7 @@ class _LoginState extends State<Login> {
                         SizedBox(
                            width: MediaQuery.of(context).size.width*0.70,
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: const Color.fromRGBO(1, 57, 44, 1),
-                               // background
-                              onPrimary: Colors.white, // foreground
-                            ),
+                            style: colorButtonStyle(),
                             child: Text('Entrar', style: TextStyle(color: Colors.white)),
                             onPressed: _buildOnPressed,
                           ),
@@ -260,5 +256,14 @@ class _LoginState extends State<Login> {
             'Senha incorreta fornecida para esse usuário.');
       }
     }
+  }
+  ButtonStyle colorButtonStyle() {
+    var corVerde  = const Color.fromRGBO(1, 57, 44, 1);
+    var corBranco = Colors.white;
+    return ButtonStyle(
+      // primary: color, // Cor de fundo do botão
+      backgroundColor:MaterialStateProperty.all<Color>(corVerde),
+      foregroundColor: MaterialStateProperty.all<Color>(corVerde),
+    );
   }
 }

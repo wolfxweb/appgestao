@@ -18,6 +18,10 @@ import 'package:appgestao/pages/novaTelaDiagnostico.dart';
 import 'package:appgestao/pages/novodadosbasicos.dart';
 import 'package:appgestao/pages/simulador.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:sqflite/sqflite.dart';
+import 'package:appgestao/classes/sqlite/dbhelper.dart';
 
 class Menu extends StatefulWidget {
   Menu({Key? key}) : super(key: key);
@@ -111,7 +115,10 @@ class _MenuState extends State<Menu> {
               //  Navigator.pop(context);
             },
           ),
-     /*     ListTile(
+
+
+
+          /*     ListTile(
             leading: const Icon(Icons.calendar_month),
             title: buildText("Importância dos meses"),
             trailing: const Icon(Icons.arrow_forward),
@@ -173,6 +180,28 @@ class _MenuState extends State<Menu> {
                   }
                 }),
           ListTile(
+            leading: const Icon(Icons.lock_reset),
+            title: buildText("Reset banco de dados"),
+            trailing: const Icon(Icons.arrow_forward),
+            onTap: () async {
+              try {
+                // Obtém o diretório do banco de dados SQLite
+                String databasesPath = await getDatabasesPath();
+                // Cria o objeto Directory
+                Directory databaseFolder = Directory(databasesPath);
+                // Verifica se o diretório existe
+                if (await databaseFolder.exists()) {
+                  // Exclui o diretório
+                  await databaseFolder.delete(recursive: true);
+                  print('Diretório do banco de dados excluído com sucesso.');
+                  DatabaseHelper dbHelper = DatabaseHelper();
+                }
+              } catch (e) {
+                print('Erro ao excluir o diretório do banco de dados: $e');
+              }
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text("Sair"),
             trailing: const Icon(Icons.arrow_forward),
@@ -196,4 +225,5 @@ class _MenuState extends State<Menu> {
       ),
     );
   }
+
 }

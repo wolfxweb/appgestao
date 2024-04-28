@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 var lightThemeData = ThemeData(
     primaryColor: const Color.fromRGBO(1, 57, 44, 1),
     textTheme: const TextTheme(button: TextStyle(color: Colors.white70)),
-    buttonColor:  const Color.fromRGBO(1, 57, 44, 1),
+   // buttonColor:  const Color.fromRGBO(1, 57, 44, 1),
     fontFamily: 'Lato',
 
     //iconTheme: new IconTheme(data:  , child: Widget);
   //  elevatedButtonTheme:  new ElevatedButtonTheme(data: {}, child: child),
     brightness: Brightness.light,
-    accentColor: const Color.fromRGBO(1, 57, 44, 1)
+ //   accentColor: const Color.fromRGBO(1, 57, 44, 1)
 );
 
 var darkThemeData = ThemeData(
@@ -26,7 +26,7 @@ var darkThemeData = ThemeData(
 
     ),
     brightness: Brightness.dark,
-    accentColor: const Color.fromRGBO(1, 57, 44, 1)
+  //  accentColor: const Color.fromRGBO(1, 57, 44, 1)
 );
 
 /*
