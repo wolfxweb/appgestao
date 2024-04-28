@@ -26,9 +26,19 @@ class DatabaseHelper {
     String path = join(databasesPath, 'appGestao.db');
     print("db $path");
 
-    var db = await openDatabase(path, version: 1, onCreate: _onCreate, onUpgrade: _onUpgrade);
-    print("create");
+    var db = await openDatabase(path, version: 2, onCreate: _onCreate, onUpgrade: (db, oldVersion, newVersion) => _onUpgrade(db, oldVersion, newVersion));
+
     return db;
+  }
+  Future<bool> update() async {
+    try {
+      await _initDb();
+      // Operações adicionais de atualização do banco de dados, se necessário
+      return true; // Retornar true indicando sucesso
+    } catch (e) {
+      print('Erro ao atualizar banco de dados: $e');
+      return false; // Retornar false indicando falha
+    }
   }
 
   void _onCreate(Database db, int newVersion) async {
@@ -43,29 +53,20 @@ class DatabaseHelper {
         await db.execute(sql);
       }
     }
-   // print("_onUpgrade: oldVersion:  > newVersion: $newVersion");
-    // Adicionar as colunas se a tabela existir
-    bool columnExists = await _isColumnExists(db, 'dados_basiscos', 'capacidade_atendimento');
 
-    if (!columnExists) {
-      await db.execute("ALTER TABLE dados_basiscos ADD COLUMN capacidade_atendimento TEXT DEFAULT '0'");
-    }
-    columnExists = await _isColumnExists(db, 'dados_basiscos', 'dados_basicos_atual');
-    if (!columnExists) {
-      await db.execute("ALTER TABLE dados_basiscos ADD COLUMN dados_basicos_atual TEXT DEFAULT 'S'");
-    }
-    columnExists = await _isColumnExists(db, 'dados_basiscos', 'data_cadastro');
-    if (!columnExists) {
-      await db.execute("ALTER TABLE dados_basiscos ADD COLUMN data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP ");
-    }
   }
 
   Future<FutureOr<void>> _onUpgrade(Database db, int oldVersion, int newVersion) async {
    // print("_onUpgrade: oldVersion: $oldVersion > newVersion: $newVersion");
 
-    if(oldVersion == 1 && newVersion == 2) {
+    print('oldVersion');
+    print(oldVersion);
+    print('newVersion');
+    print(newVersion);
+    if(oldVersion == 2 && newVersion == 3) {
       await db.execute("ALTER TABLE dados_basiscos   ADD COLUMN data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ADD COLUMN dados_basicos_atual TEXT DEFAULT 'S', ADD COLUMN capacidade_atendimento TEXT DEFAULT '0'");
     }
+
   }
 
   Future<bool> _isColumnExists(Database db, String table, String column) async {

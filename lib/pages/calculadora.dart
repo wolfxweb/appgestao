@@ -349,7 +349,7 @@ class _CalculadoraState extends State<Calculadora> {
                     keyboardType: TextInputType.none,
                     enabled: false,
                     maxLines: 6,
-                      style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 16,color: Colors.black),
                     controller: TextEditingController(text: snapshot.data.toString()),
                     decoration: _styleInput("", "ops"),
                   )
@@ -363,7 +363,7 @@ class _CalculadoraState extends State<Calculadora> {
       //   width: MediaQuery.of(context).size.width*0.45,
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
       decoration: const BoxDecoration(
-        //  color: Colors.transparent,
+          color: Colors.transparent,
         //borderRadius: BorderRadius.circular(20),
     /*    boxShadow: [
           BoxShadow(
@@ -390,7 +390,8 @@ class _CalculadoraState extends State<Calculadora> {
               keyboardType: TextInputType.none,
               enabled: false,
               maxLines: 6,
-              style: TextStyle(fontSize: 14),
+            //  style: const TextStyle(color: Colors.black),
+              style: const TextStyle(fontSize: 16,color: Colors.black),
               controller: TextEditingController(text: snapshot.data.toString()),
               decoration: _styleInput("", "ops"),
             )
@@ -433,9 +434,12 @@ class _CalculadoraState extends State<Calculadora> {
                               //  validator: ValidationBuilder().maxLength(50).required().build(),
                               keyboardType: TextInputType.none,
                               enabled: false,
+                //      style: const TextStyle(color: Colors.black),
                               controller: TextEditingController(text: "$data"),
                               style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                                  fontSize: 18, fontWeight: FontWeight.bold,
+                                  color: Colors.black
+                              ),
 
                               decoration: _styleInput("", "1"),
                               inputFormatters: [
@@ -477,6 +481,7 @@ class _CalculadoraState extends State<Calculadora> {
                                   .build(),
                               keyboardType: TextInputType.none,
                               enabled: false,
+                             style: const TextStyle(color: Colors.black),
                               controller: TextEditingController(text: "$data"),
                               decoration:  decoretorNovo(''),
                             )
@@ -640,6 +645,7 @@ class _CalculadoraState extends State<Calculadora> {
                     keyboardType: TextInputType.none,
                     enabled: false,
                     maxLines: 3,
+                    style: const TextStyle(fontSize: 15,color: Colors.black),
                     controller: TextEditingController(text: "$data "),
                     decoration: _styleInput("", "ops"),
                     inputFormatters: [
@@ -683,6 +689,7 @@ class _CalculadoraState extends State<Calculadora> {
                           return TextFormField(
                             /// validator: ValidationBuilder().maxLength(50).required().build(),
                             keyboardType: TextInputType.none,
+                            style: const TextStyle(color: Colors.black),
                             enabled: false,
                             controller: TextEditingController(text: "$data"),
                             // decoration: _styleInput("Margem preço atual", "cor"),
@@ -723,6 +730,7 @@ class _CalculadoraState extends State<Calculadora> {
                                   .build(),
                               keyboardType: TextInputType.none,
                               enabled: false,
+                              style: const TextStyle(color: Colors.black),
                               controller: TextEditingController(text: "$data"),
                               // decoration: _styleInput("Margem da empresa", "ops"),
                               decoration: decoretorNovo(''),
@@ -755,6 +763,7 @@ class _CalculadoraState extends State<Calculadora> {
                       ValidationBuilder().maxLength(50).required().build(),
                   keyboardType: TextInputType.number,
                   controller: _precoInsumosController,
+                  style: const TextStyle(color: Colors.black),
                   decoration: _styleInput("", "cor"),
                   inputFormatters: [
                     // obrigatório

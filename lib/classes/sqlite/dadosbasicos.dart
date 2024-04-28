@@ -13,8 +13,8 @@ class DadosBasicosSqlite{
    // print(dados);
    var dbClient = await db;
    var id = await dbClient!.insert('dados_basiscos', dados, conflictAlgorithm: ConflictAlgorithm.replace);
-   //print('id: $id');
-   // print(dados);
+    print('id: $id');
+    print(dados);
     return 1;
   }
 

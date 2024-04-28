@@ -179,28 +179,32 @@ class _MenuState extends State<Menu> {
                     return const SizedBox(height: 0.0);
                   }
                 }),
-          ListTile(
-            leading: const Icon(Icons.lock_reset),
-            title: buildText("Reset banco de dados"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () async {
-              try {
-                // Obtém o diretório do banco de dados SQLite
-                String databasesPath = await getDatabasesPath();
-                // Cria o objeto Directory
-                Directory databaseFolder = Directory(databasesPath);
-                // Verifica se o diretório existe
-                if (await databaseFolder.exists()) {
-                  // Exclui o diretório
-                  await databaseFolder.delete(recursive: true);
-                  print('Diretório do banco de dados excluído com sucesso.');
-                  DatabaseHelper dbHelper = DatabaseHelper();
-                }
-              } catch (e) {
-                print('Erro ao excluir o diretório do banco de dados: $e');
-              }
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.lock_reset),
+          //   title: buildText("Reset banco de dados"),
+          //   trailing: const Icon(Icons.arrow_forward),
+          //   onTap: () async {
+          //     try {
+          //       // Obtém o diretório do banco de dados SQLite
+          //       String databasesPath = await getDatabasesPath();
+          //       // Cria o objeto Directory
+          //       Directory databaseFolder = Directory(databasesPath);
+          //       // Verifica se o diretório existe
+          //       if (await databaseFolder.exists()) {
+          //         print("exite");
+          //         // Exclui o diretório
+          //     //    await databaseFolder.delete(recursive: true);
+          //         print('Diretório do banco de dados excluído com sucesso.');
+          //         DatabaseHelper dbHelper = DatabaseHelper();
+          //         var update = dbHelper.update();
+          //
+          //
+          //       }
+          //     } catch (e) {
+          //       print('Erro ao excluir o diretório do banco de dados: $e');
+          //     }
+          //   },
+          // ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text("Sair"),

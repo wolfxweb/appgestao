@@ -23,7 +23,7 @@ class dadosbasicossqlite {
     margen = json['margen'];
     mes = json['mes'];
     gastos_insumos = json['gastos_insumos'];
-    capacidade_atendimento = json['capacidade_atendimento'];
+   // capacidade_atendimento = json['capacidade_atendimento'];
   }
 
   Map<String, dynamic> toJson() {
@@ -37,7 +37,7 @@ class dadosbasicossqlite {
     data['margen'] = this.margen;
     data['mes'] = this.mes;
     data['gastos_insumos'] = this.gastos_insumos;
-    data['capacidade_atendimento'] = this.capacidade_atendimento;
+   // data['capacidade_atendimento'] = this.capacidade_atendimento;
     return data;
   }
 }

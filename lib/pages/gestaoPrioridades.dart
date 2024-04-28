@@ -337,6 +337,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                         }
                         return TextFormField(
                           enabled: false,
+                          style: const TextStyle(color: Colors.black),
                           controller: controller1 = TextEditingController(text: '$data'), //controller1,
                           textAlignVertical: TextAlignVertical.center,
                           decoration: const InputDecoration(
@@ -386,6 +387,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
 
                                 return TextFormField(
                                     enabled: false,
+                                    style: const TextStyle(color: Colors.black),
                                     keyboardType: TextInputType.number,
                                     controller: controller2 = TextEditingController(text: '$data'),
                                     decoration: _styleInput( campo, corCampo, null),
