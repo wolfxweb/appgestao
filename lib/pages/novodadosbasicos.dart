@@ -10,6 +10,7 @@ import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:appgestao/componete/menu.dart';
+import 'package:appgestao/pages/listaDadosBasicos.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:flutter/material.dart';
@@ -469,8 +470,16 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                         ),
                       ),
                     ],
+                    //_listaDadosBasicos
                   ),
-
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: ElevatedButton(
+                      style: colorButtonStyle(),
+                      onPressed: _listaDadosBasicos,
+                      child: const Text("Histórico"),
+                    ),
+                  ),
 
                   const Espacamento(),
                   const Espacamento(),
@@ -965,7 +974,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       return;
     }
 
-    DateTime dataHoraAtual = DateTime.now();
+    data_cadastro ??= DateTime.now().toIso8601String();
     var dados = {
       'quantidade_clientes_atendido': _quantidadeController.text,
       'faturamento_vendas': _faturamentoController.text,
@@ -977,7 +986,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       'magem_desejada': _margenController.text,
       'gasto_com_vendas': _custoInsumosController.text,
       'capacidade_atendimento':_capacidadeAtendimento.text ,
-      'data_cadastro': dataHoraAtual
+      'data_cadastro': data_cadastro
     };
     // print(dados);
     var users = VerificaStatusFairebase();
@@ -991,6 +1000,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     }
   }
   _inserir()async{
+    data_cadastro = DateTime.now().toIso8601String();
     _insertUpdate('i');
   }
   _delete()async{
@@ -1002,7 +1012,12 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     route.pushPage(context, NovoDadosBasicos());
     _consultar();
   }
+  _listaDadosBasicos(){
+
+    route.pushPage(context, ListaDadosBasicos());
+  }
   _buildBuildOnPressed() async {
+    data_cadastro = DateTime.now().toIso8601String();
     _insertUpdate('a');
   }
 

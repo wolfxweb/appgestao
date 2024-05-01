@@ -57,15 +57,15 @@ class DadosBasicosSqlite {
 
   Future<List<dynamic>> getDadosBasicoAtual() async {
     final dbClient = await db;
-    //final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos where dados_basicos_atual = 'S' ");
-    final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos  ");
+    final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos where dados_basicos_atual = 'S' ");
+   // final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos  ");
 
     print(list);
     return list;
   }
   Future<List<dynamic>> lista() async {
     final dbClient = await db;
-    final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos where dados_basicos_atual = 'S' ");
+    final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos where 1=1 order by dados_basicos_atual desc  ");
     print(list);
     return list;
   }
@@ -91,7 +91,18 @@ class DadosBasicosSqlite {
       print('Erro ao atualizar o banco de dados: $e');
       return id;
     }
-
+  }
+ // reutilizar
+  Future<List<dynamic>> reutilizar(id) async {
+    final dbClient = await db;
+    await dbClient!.execute("UPDATE dados_basiscos SET dados_basicos_atual = 'N' WHERE dados_basicos_atual ='S'");
+    await dbClient!.execute("UPDATE dados_basiscos SET dados_basicos_atual = 'S' WHERE id = ' ${id}' ");
+    final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos  ");
+    print('reutilizar');
+    print(id);
+    print('list');
+    print(list);
+    return list;
   }
 }
 
