@@ -1,4 +1,5 @@
 
+
 class dadosbasicossqlite {
   int? id;
   String? qtd;
@@ -10,8 +11,12 @@ class dadosbasicossqlite {
   String? mes;
   String? gastos_insumos;
   String? capacidade_atendimento;
+  String? data_cadastro;
 
-  dadosbasicossqlite(this.id,this.qtd,this.faturamento,this.gastos,this.custo_fixo,this.custo_varivel,this.margen,this.mes,this.gastos_insumos, this.capacidade_atendimento);
+
+
+
+  dadosbasicossqlite(this.id,this.qtd,this.faturamento,this.gastos,this.custo_fixo,this.custo_varivel,this.margen,this.mes,this.gastos_insumos, this.capacidade_atendimento , this.data_cadastro);
 
   dadosbasicossqlite.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -23,7 +28,8 @@ class dadosbasicossqlite {
     margen = json['margen'];
     mes = json['mes'];
     gastos_insumos = json['gastos_insumos'];
-   // capacidade_atendimento = json['capacidade_atendimento'];
+    capacidade_atendimento = json['capacidade_atendimento'];
+    data_cadastro = json['data_cadastro'];
   }
 
   Map<String, dynamic> toJson() {
@@ -37,7 +43,8 @@ class dadosbasicossqlite {
     data['margen'] = this.margen;
     data['mes'] = this.mes;
     data['gastos_insumos'] = this.gastos_insumos;
-   // data['capacidade_atendimento'] = this.capacidade_atendimento;
+    data['capacidade_atendimento'] = this.capacidade_atendimento;
+    data['data_cadastro']= this.data_cadastro;
     return data;
   }
 }

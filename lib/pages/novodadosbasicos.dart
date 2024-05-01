@@ -37,7 +37,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   var importanciaMesesBLoc = ImportanciaMesesBLoc();
   var color = Color.fromRGBO(105, 105, 105, 1);
   var id = 0;
-
+  String? data_cadastro;
   var fatVendas = 100.0;
   var gastosInsumos = 0.0;
   var outrosCustos = 0.0;
@@ -66,15 +66,13 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   bool _conn = false;
   String _message = '';
   StreamSubscription? subscription;
-  String msgAlertaMes =
-      "Todos os dados devem se referir ao mês selecionado. Caso você esteja estudando a viabilidade de um negócio novo, anote suas estimativas e metas.";
-  final SimpleConnectionChecker _simpleConnectionChecker =
-      SimpleConnectionChecker()..setLookUpAddress('pub.dev');
+  String msgAlertaMes ="Todos os dados devem se referir ao mês selecionado. Caso você esteja estudando a viabilidade de um negócio novo, anote suas estimativas e metas.";
+  final SimpleConnectionChecker _simpleConnectionChecker =   SimpleConnectionChecker()..setLookUpAddress('pub.dev');
   @override
   void _consultar() async {
-    await bd.lista().then((data) {
+    await bd.getDadosBasicoAtual().then((data) {
       data.forEach((element) {
-     //   print('element');
+        print('element');
     //    print(element['capacidade_atendimento']);
         id = element['id'];
         _quantidadeController.text = element['qtd'];
@@ -86,6 +84,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         _custoInsumosController.text = element['gastos_insumos'];
         mesSelect.value = element['mes'];
        _capacidadeAtendimento.text = element['capacidade_atendimento'];
+        data_cadastro     = element['data_cadastro'];
         var faturamentoTemp = (element['faturamento']
             .toString()
             .replaceAll("R\$", "")
@@ -938,6 +937,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       return;
     }
 
+    DateTime dataHoraAtual = DateTime.now();
     var dados = {
       'quantidade_clientes_atendido': _quantidadeController.text,
       'faturamento_vendas': _faturamentoController.text,
@@ -948,7 +948,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       'custo insumos': _custoInsumosController.text,
       'magem_desejada': _margenController.text,
       'gasto_com_vendas': _custoInsumosController.text,
-      'capacidade_atendimento':_capacidadeAtendimento.text
+      'capacidade_atendimento':_capacidadeAtendimento.text ,
+      'data_cadastro': dataHoraAtual
     };
    // print(dados);
     var users = VerificaStatusFairebase();
@@ -957,11 +958,15 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     if (id == 0) {
       _saveUpdate(_getDados(null, mesSave),"Dados básicos cadastrado realizado com sucesso");
     } else {
+
       _saveUpdate(_getDados(id, mesSave), "Dados básicos atulizado com sucesso");
     }
   }
 
   _getDados(idinfo, mesRef) {
+
+
+    data_cadastro ??= DateTime.now().toIso8601String();
     return dadosbasicossqlite(
         idinfo,
         _quantidadeController.text,
@@ -972,7 +977,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         _margenController.text,
         mesSelect.value,
         _custoInsumosController.text,
-        _capacidadeAtendimento.text
+        _capacidadeAtendimento.text,
+        data_cadastro
     );
   }
   ButtonStyle colorButtonStyle() {

@@ -477,6 +477,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
   }
 
   _getDados(idinfo, mesRef) {
+ //   String dataHoraAtual = DateTime.now().toIso8601String();
+
     return dadosbasicossqlite(
         idinfo,
         _quantidadeController.text,
@@ -487,7 +489,8 @@ class _DadosBasicosState extends State<DadosBasicos> {
         _margenController.text,
         mesSelect.value,
         _custoInsumosController.text,
-       '0'
+        '0',
+        '0'
     );
   }
 
