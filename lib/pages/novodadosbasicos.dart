@@ -438,11 +438,39 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                         child: ElevatedButton(
                           style: colorButtonStyle(),
                           onPressed: _buildBuildOnPressed,
-                          child: const Text("Salvar"),
+                          child: const Text("Salvar*"),
                         ),
                       ),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.13,
+                        child: Container(),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: ElevatedButton(
+                          style: colorButtonStyle(),
+                          onPressed: _inserir,
+                          child: const Text("Salvar"),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: ElevatedButton(
+                          style: colorButtonStyle(),
+                          onPressed: _delete,
+                          child: const Text("Delete"),
+                        ),
+                      ),
+                    ],
+                  ),
+
 
                   const Espacamento(),
                   const Espacamento(),
@@ -911,7 +939,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     );
   }
 
-  _buildBuildOnPressed() async {
+  _insertUpdate(operacao) async {
     final isValid = _formKey.currentState!.validate();
     bool isConnected = await SimpleConnectionChecker.isConnectedToInternet();
     if (!isConnected) {
@@ -951,16 +979,31 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       'capacidade_atendimento':_capacidadeAtendimento.text ,
       'data_cadastro': dataHoraAtual
     };
-   // print(dados);
+    // print(dados);
     var users = VerificaStatusFairebase();
     users.addDadosBasicos(context, dados);
 
-    if (id == 0) {
+    if (id == 0 || operacao =='i') {
       _saveUpdate(_getDados(null, mesSave),"Dados básicos cadastrado realizado com sucesso");
     } else {
 
       _saveUpdate(_getDados(id, mesSave), "Dados básicos atulizado com sucesso");
     }
+  }
+  _inserir()async{
+    _insertUpdate('i');
+  }
+  _delete()async{
+
+    var alert = AlertSnackBar();
+    await bd.deleteDadosBasicos(id);
+    await bd.deleteDadosBasicos(id);
+    alert.alertSnackBar(context, Colors.green, "Excluído com sucesso");
+    route.pushPage(context, NovoDadosBasicos());
+    _consultar();
+  }
+  _buildBuildOnPressed() async {
+    _insertUpdate('a');
   }
 
   _getDados(idinfo, mesRef) {
