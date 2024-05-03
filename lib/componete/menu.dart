@@ -51,171 +51,174 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        children: [
-          const Espacamento(),
-          const Espacamento(),
-          SizedBox(
-            width: 100,
-            height: 80,
-            child: Image.asset("assets/img/Logo.jpg"),
-          ),
-
-      /*    ListTile(
-            leading: const Icon(Icons.home),
-            title: buildText('Home'),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, const HomeAdmin());
-              //  Navigator.pop(context);
-            },
-          ),*/
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: buildText('Home'),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, const novaHome());
-              //  Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.description),
-            title: buildText("Dados Básicos"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, NovoDadosBasicos());
-              //  Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.currency_exchange),
-            title: buildText("Diagnóstico"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, const telaDiagnostico());
-              //  Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.data_exploration),
-            title: buildText("Gestão prioridades"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, const GestaoPrioridade());
-              //  Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.calculate),
-            title: buildText("Calculadora de preços"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, const Calculadora());
-              //  Navigator.pop(context);
-            },
-          ),
-
-
-
-          /*     ListTile(
-            leading: const Icon(Icons.calendar_month),
-            title: buildText("Importância dos meses"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, const InportanciaMeses());
-              //  Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.insights),
-            title:  buildText("Análise de viabilidade"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              route.pushPage(context, const AnaliseViabilidade());
-              //  Navigator.pop(context);
-            },
-          ),*/
-          ListTile(
-            leading: const Icon(Icons.contact_page),
-            title:   buildText("Fale conosco"),
-            trailing: const Icon(
-              Icons.arrow_forward,
+      child: Container(
+        color: Colors.white,
+        child: ListView(
+          children: [
+            const Espacamento(),
+            const Espacamento(),
+            SizedBox(
+              width: 100,
+              height: 80,
+              child: Image.asset("assets/img/Logo.jpg"),
             ),
-            onTap: () {
-              _ususarioBloc.openUrlFaleConosco();
-              //   route.pushPage(context, const AnaliseViabilidade());
-              //  Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.rocket_launch),
-            title:   buildText("Nosso site"),
-            trailing: const Icon(
-              Icons.arrow_forward,
+
+        /*    ListTile(
+              leading: const Icon(Icons.home),
+              title: buildText('Home'),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                route.pushPage(context, const HomeAdmin());
+                //  Navigator.pop(context);
+              },
+            ),*/
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: buildText('Home'),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                route.pushPage(context, const novaHome());
+                //  Navigator.pop(context);
+              },
             ),
-            onTap: () {
-              _ususarioBloc.openURL();
-              //   route.pushPage(context, const AnaliseViabilidade());
-              //  Navigator.pop(context);
-            },
-          ),
-          if (nivelAcesso)
-            StreamBuilder(
-                stream: _ususarioBloc.outIsAdminUsuario,
-                builder: (context, snapshot) {
-                  //  print("btn admin");
-                  //    print(snapshot.data.toString());
-                  if (snapshot.data.toString() == 'admin') {
-                    return ListTile(
-                      leading: const Icon(Icons.people),
-                      title:  buildText("Clientes"),
-                      trailing: const Icon(Icons.arrow_forward),
-                      onTap: () {
-                        route.pushPage(context, const clientesSearch());
-                      },
-                    );
-                  } else {
-                    return const SizedBox(height: 0.0);
-                  }
-                }),
-          // ListTile(
-          //   leading: const Icon(Icons.lock_reset),
-          //   title: buildText("Reset banco de dados"),
-          //   trailing: const Icon(Icons.arrow_forward),
-          //   onTap: () async {
-          //     try {
-          //       // Obtém o diretório do banco de dados SQLite
-          //       String databasesPath = await getDatabasesPath();
-          //       // Cria o objeto Directory
-          //       Directory databaseFolder = Directory(databasesPath);
-          //       // Verifica se o diretório existe
-          //       if (await databaseFolder.exists()) {
-          //         print("exite");
-          //         // Exclui o diretório
-          //     //    await databaseFolder.delete(recursive: true);
-          //         print('Diretório do banco de dados excluído com sucesso.');
-          //         DatabaseHelper dbHelper = DatabaseHelper();
-          //         var update = dbHelper.update();
-          //
-          //
-          //       }
-          //     } catch (e) {
-          //       print('Erro ao excluir o diretório do banco de dados: $e');
-          //     }
-          //   },
-          // ),
-          ListTile(
-            leading: const Icon(Icons.exit_to_app),
-            title: const Text("Sair"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              fb.logoutUsuario(context);
-              Navigator.pop(context);
-            },
-          ),
-          //  const BtnDarkLight(),
-        ],
+            ListTile(
+              leading: const Icon(Icons.description),
+              title: buildText("Dados Básicos"),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                route.pushPage(context, NovoDadosBasicos());
+                //  Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.currency_exchange),
+              title: buildText("Diagnóstico"),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                route.pushPage(context, const telaDiagnostico());
+                //  Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.data_exploration),
+              title: buildText("Gestão prioridades"),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                route.pushPage(context, const GestaoPrioridade());
+                //  Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.calculate),
+              title: buildText("Calculadora de preços"),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                route.pushPage(context, const Calculadora());
+                //  Navigator.pop(context);
+              },
+            ),
+
+
+
+            /*     ListTile(
+              leading: const Icon(Icons.calendar_month),
+              title: buildText("Importância dos meses"),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                route.pushPage(context, const InportanciaMeses());
+                //  Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.insights),
+              title:  buildText("Análise de viabilidade"),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                route.pushPage(context, const AnaliseViabilidade());
+                //  Navigator.pop(context);
+              },
+            ),*/
+            ListTile(
+              leading: const Icon(Icons.contact_page),
+              title:   buildText("Fale conosco"),
+              trailing: const Icon(
+                Icons.arrow_forward,
+              ),
+              onTap: () {
+                _ususarioBloc.openUrlFaleConosco();
+                //   route.pushPage(context, const AnaliseViabilidade());
+                //  Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.rocket_launch),
+              title:   buildText("Nosso site"),
+              trailing: const Icon(
+                Icons.arrow_forward,
+              ),
+              onTap: () {
+                _ususarioBloc.openURL();
+                //   route.pushPage(context, const AnaliseViabilidade());
+                //  Navigator.pop(context);
+              },
+            ),
+            if (nivelAcesso)
+              StreamBuilder(
+                  stream: _ususarioBloc.outIsAdminUsuario,
+                  builder: (context, snapshot) {
+                    //  print("btn admin");
+                    //    print(snapshot.data.toString());
+                    if (snapshot.data.toString() == 'admin') {
+                      return ListTile(
+                        leading: const Icon(Icons.people),
+                        title:  buildText("Clientes"),
+                        trailing: const Icon(Icons.arrow_forward),
+                        onTap: () {
+                          route.pushPage(context, const clientesSearch());
+                        },
+                      );
+                    } else {
+                      return const SizedBox(height: 0.0);
+                    }
+                  }),
+            // ListTile(
+            //   leading: const Icon(Icons.lock_reset),
+            //   title: buildText("Reset banco de dados"),
+            //   trailing: const Icon(Icons.arrow_forward),
+            //   onTap: () async {
+            //     try {
+            //       // Obtém o diretório do banco de dados SQLite
+            //       String databasesPath = await getDatabasesPath();
+            //       // Cria o objeto Directory
+            //       Directory databaseFolder = Directory(databasesPath);
+            //       // Verifica se o diretório existe
+            //       if (await databaseFolder.exists()) {
+            //         print("exite");
+            //         // Exclui o diretório
+            //     //    await databaseFolder.delete(recursive: true);
+            //         print('Diretório do banco de dados excluído com sucesso.');
+            //         DatabaseHelper dbHelper = DatabaseHelper();
+            //         var update = dbHelper.update();
+            //
+            //
+            //       }
+            //     } catch (e) {
+            //       print('Erro ao excluir o diretório do banco de dados: $e');
+            //     }
+            //   },
+            // ),
+            ListTile(
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text("Sair"),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                fb.logoutUsuario(context);
+                Navigator.pop(context);
+              },
+            ),
+            //  const BtnDarkLight(),
+          ],
+        ),
       ),
     );
   }
