@@ -55,7 +55,7 @@ class _CalculadoraState extends State<Calculadora> {
     // print(historico);
     return Scaffold(
       appBar: header.getAppBar('Calculadora de Preços '),
-      drawer: Menu(),
+    //  drawer: Menu(),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,

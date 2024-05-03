@@ -98,7 +98,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: header.getAppBar('Gestão de prioridades'),
-        drawer: Menu(),
+       // drawer: Menu(),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(10.0),

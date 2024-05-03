@@ -18,7 +18,7 @@ class _telaDiagnosticoState extends State<telaDiagnostico> {
     var dignosticoBloc = DignosticoBloc();
     return Scaffold(
       appBar: header.getAppBar('Diagnóstico'),
-      drawer: Menu(),
+     // drawer: Menu(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

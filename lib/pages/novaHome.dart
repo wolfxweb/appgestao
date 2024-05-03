@@ -12,6 +12,7 @@ import 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/diagnostico.dart';
 import 'package:appgestao/pages/gestaoPrioridades.dart';
 import 'package:appgestao/pages/importanciameses.dart';
+import 'package:appgestao/pages/newTelaDiagnostico.dart';
 import 'package:appgestao/pages/novaTelaDiagnostico.dart';
 
 import 'package:appgestao/pages/novodadosbasicos.dart';
@@ -79,6 +80,7 @@ class _novaHomeState extends State<novaHome> {
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,telaDiagnostico()),
             buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnGestaoPrioridades,GestaoPrioridade()),
             buildRowBtn(context, textAjudaGestaoPrioridades ,textBtnCalculadoraPrecos,Calculadora()),
+            buildRowBtn(context, '','Nova tela',NovaTelaDiagnostico()),
          //   buildRowBtn(context,textAjudaInportanciaMeses,textBtnInportanciaMeses,InportanciaMeses()),
          //   buildRowBtn(context,textAjudaAnalizeVibilidade,textBtnAnalizeVibilidade,AnaliseViabilidade()),
 

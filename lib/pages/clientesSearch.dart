@@ -32,7 +32,7 @@ class _clientesSearchState extends State<clientesSearch> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: header.getAppBar('Clientes'),
-      drawer: Menu(),
+    //  drawer: Menu(),
       body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: SizedBox(

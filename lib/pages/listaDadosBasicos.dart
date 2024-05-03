@@ -42,7 +42,11 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Histórico de Dados Básicos'),
+      //  title: Text('Histórico de Dados Básicos',),
+        title: const Text(
+          'Histórico de Dados Básicos',
+          style: TextStyle(color: Colors.white), // Altera a cor do texto para branco
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -57,7 +61,10 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
             icon: Icon(Icons.search),
             tooltip: 'Pesquisar',
           ),
+
         ],
+        backgroundColor:const Color.fromRGBO(1, 57, 44, 1), // Altera a cor de fundo da AppBar
+        iconTheme: const IconThemeData(color: Colors.white), // Altera a cor do ícone (seta) para branco
       ),
       body: FutureBuilder<List<dynamic>>(
         future: dadosDoBancoDeDados,

@@ -172,7 +172,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     ValidationBuilder.setLocale('pt-br');
     return Scaffold(
       appBar: header.getAppBar('Dados básicos'),
-      drawer: Menu(),
+     // drawer: Menu(),
       body: Form(
         key: _formKey,
         child: Center(
