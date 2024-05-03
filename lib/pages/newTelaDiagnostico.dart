@@ -42,7 +42,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.symmetric(vertical:30, horizontal: 0.0),
           child: Column(
             children: [
               Container(
@@ -115,7 +115,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
               Container(
                 padding: EdgeInsets.all(8.0),
                 color: Colors.green,
-                child: Text(
+                child: const Text(
                   'Texto que ocupa toda a largura da tela',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -198,7 +198,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.help),
+          icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
           onPressed: () {
             _showHelpModal(context, textAlert);
           },

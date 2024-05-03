@@ -112,7 +112,7 @@ class _novaHomeState extends State<novaHome> {
 
   IconButton buildIconButton(textoAjuda) {
     return IconButton(
-               // iconSize: 25,
+                iconSize: 30,
                 icon:  Icon(
                   Icons.help,
                   color:color,
