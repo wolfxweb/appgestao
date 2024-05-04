@@ -16,6 +16,7 @@ class _telaDiagnosticoState extends State<telaDiagnostico> {
   Widget build(BuildContext context) {
     var header = new HeaderAppBar();
     var dignosticoBloc = DignosticoBloc();
+
     return Scaffold(
       appBar: header.getAppBar('Diagnóstico'),
       drawer: Menu(),

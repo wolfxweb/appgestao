@@ -13,6 +13,12 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
 
   var bd = DadosBasicosSqlite();
 
+  String mensagem1 ="Existem 4 maneiras de aumentar a margem: 1. Aumentando os preços (se não prejudicar a competitividade); 2. Vendendo mais (se houver demanda, capacidade de atendimento, se a margem de contribuição for positiva e se houver disponibilidade  de capital de giro); 3. Faturando mais com cada cliente; 4. reduzindo custos (sem prejudicar a qualidade da oferta e do atendimento).";
+  String mensagem2 ="Para faturar mais com cada cliente é preciso ofertar itens complementares ao que estiver sendo vendido, e/ou estabelecer quantidades mínimas, e/ou criar 'combos promocionais', e/ou 'vantagens' para compras acima de..., etc. É importante saber oferecer e divulgar.";
+  String mensagem3 ="Este é o valor que cada venda deixa para cobrir os custos fixos e gerar margem. Para que seja maior, é preciso aumentar o faturamento e/ou reduzindo os gastos com as vendas e, principalmente, com insumos e produtos de 3os. ";
+  String mensagem4 ="Aqui, produtividade = faturamento dividido pelos custos fixos. Por tanto, para aumentar a produtividade, você precisa faturar mais sem aumentar o custo fixo, ou, manter o faturamento com custo fixo menor! Ou seja: capriche no layout e no planejamento das atividades (uso do tempo). Combata os desperdícios, retrabalhos e indisciplina. Elimine a ociosidade dos recursos disponíveis. Invista em motivação, competência e comprometimento! ";
+  String mensagem5 ="Esta é a quantidade de atendimentos (vendas) e o faturamento que foi preciso alcançar para começar a ter lucro. Ele pode ser melhorado aumentando a margem de contribuição e/ou reduzindo os custos fixos.";
+  String mensagem6 ="";
 
   void _consultar() async {
     await bd.getDadosBasicoAtual().then((data) {
@@ -96,17 +102,17 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            _buildRowWithHelpIcon('Lucro','',null,'msg',null),
+                            _buildRowWithHelpIcon('Lucro','',null,mensagem1,null),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Percentual','',null,'msg',null),
+                            _buildRowWithHelpIcon('Percentual','',null,'Verificar o texto para este campo',null),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Ticket Médio','',null,'msg',null),
+                            _buildRowWithHelpIcon('Ticket Médio','',null,mensagem2,null),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Margem de Contribuição','',null,'msg',null),
+                            _buildRowWithHelpIcon('Margem de Contribuição','',null,mensagem3,null),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Produtividade','',null,'msg',null),
+                            _buildRowWithHelpIcon('Produtividade','',null,mensagem4,null),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Ponto de Equilíbrio','',null,'msg',null),
+                            _buildRowWithHelpIcon('Ponto de Equilíbrio','',null,mensagem5,null),
                           ],
                         ),
                       ),
