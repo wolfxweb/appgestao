@@ -172,7 +172,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     ValidationBuilder.setLocale('pt-br');
     return Scaffold(
       appBar: header.getAppBar('Dados básicos'),
-     // drawer: Menu(),
+      drawer: Menu(),
       body: Form(
         key: _formKey,
         child: Center(
@@ -993,7 +993,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     users.addDadosBasicos(context, dados);
 
     if (id == 0 || operacao =='i') {
-      _saveUpdate(_getDados(null, mesSave),"Dados básicos cadastrado realizado com sucesso");
+      _saveUpdate(_getDados(null, mesSave),"Dados básicos cadastrado com sucesso");
     } else {
 
       _saveUpdate(_getDados(id, mesSave), "Dados básicos atulizado com sucesso");

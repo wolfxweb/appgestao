@@ -67,7 +67,7 @@ class _SimuladorState extends State<Simulador> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: header.getAppBar('Simulador'),
-     // drawer: Menu(),
+      drawer: Menu(),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,

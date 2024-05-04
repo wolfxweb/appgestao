@@ -217,7 +217,7 @@ class CalculadoraBloc extends BlocBase {
     precoVendaAtual = preco_venda_atual ;
     margemDesejada =_margemDesejada;
 
-    String mensagem = "Olá";
+    String mensagem = "";
     RC = formatter.format(preco_venda_atual - (preco_venda_atual *(percentual_gasto_vendas + percentual_custo_fixo) + (preco_venda_atual * margeEmpresa)));
     var a_calculado;
     if (preco_concorrente != null && preco_venda_atual != null && preco_venda_atual != 0) {
@@ -228,35 +228,46 @@ class CalculadoraBloc extends BlocBase {
       RB = formatter.format(_custoInsumo- (_custoInsumo * (a_calculado)));
     }
     RF = formatter.format(precoVendaAtual -(precoVendaAtual*( percentual_gasto_vendas + percentual_custo_fixo +margemEmpresa )));
-
     RD = formatter.format( precoMedioConcorrencia -(precoMedioConcorrencia *(percentual_gasto_vendas + percentual_custo_fixo + margemEmpresa)));
-
     RE = RF;
+    if (precoVendaAtual > 0 && precoMedioConcorrencia > 0) {
+      double percentual90 = precoMedioConcorrencia * 0.9;
+      double percentual110 = precoMedioConcorrencia * 1.1;
+      if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
+        mensagem = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
+      } else if (precoVendaAtual >= percentual110) {
+        mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
+      } else if (precoVendaAtual <= percentual90) {
+        mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
 
-    if (margemPrecoAtual >= margemEmpresa * 0.99 && precoMedioConcorrencia == 0.0 && margemDesejada == 0.0) {
-      mensagem = "";
-    } else if (margemPrecoAtual < margemEmpresa * 0.99 && precoMedioConcorrencia == 0.0 && margemDesejada == 0.0) {
-      mensagem = "Insira o percentual da Margem da Empresa no campo Margem Desejada para ver o preço necessário. Ou reduza o Custo dos insumos para R\$ ${RF}";
-    } else if (precoMedioConcorrencia > 0 && precoVendaAtual > 0 && precoVendaAtual > precoMedioConcorrencia) {
-      mensagem = "Para igualar o preço da concorrência o custo dos insumos e/ou mercadoria 3o. deveria ser ${A}%  menor. Substitua o custo atual por R\$ ${RB} e veja a margem resultante.";
-    } else if (precoVendaAtual > 0 && precoVendaAtual < precoMedioConcorrencia) {
-      mensagem = "Se a concorrência vende bem, substitua acima seu preço pelo dela. Se a margem resultante não for satisfatória, digite a margem desejada. Em seguida digite o preço sugerido no campo preço de venda atual. E veja as recomendações.";
-    } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual == margemEmpresa) {
-      mensagem = "";
-    } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual < margemEmpresa) {
-      mensagem = "Se você acha que não deve mexer no preço atual, então veja se consegue diminuir o custo dos insumos e/ou mercadoria 3o. para R\$ ${RC}. Você consegue?";
-    } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual > margemEmpresa) {
-      mensagem = "Este produto, se for o caso, pode ter sua venda associada ao de outro cujo preço prejudica o resultado da empresa.";
-    } else if (margemPrecoAtual < 0 && precoVendaAtual > precoMedioConcorrencia) {
-      mensagem = "Para equiparar seu preço com o da concorrência e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de R\$  ${RD}. Você consegue?";
-    } else if (margemPrecoAtual < 0 && precoVendaAtual == precoMedioConcorrencia) {
-      mensagem = "Para manter seu preço e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de R\$ ${RE}. Você consegue?";
-    } else if (margemPrecoAtual < 0 && margemPrecoAtual < margemEmpresa && precoVendaAtual < precoMedioConcorrencia) {
-      mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
+      }
     }
+
+    // Cliente alterou os textos de saida no email dia 02/05/2024
+    // if (margemPrecoAtual >= margemEmpresa * 0.99 && precoMedioConcorrencia == 0.0 && margemDesejada == 0.0) {
+    //   mensagem = "";
+    // } else if (margemPrecoAtual < margemEmpresa * 0.99 && precoMedioConcorrencia == 0.0 && margemDesejada == 0.0) {
+    //   mensagem = "Insira o percentual da Margem da Empresa no campo Margem Desejada para ver o preço necessário. Ou reduza o Custo dos insumos para R\$ ${RF}";
+    // } else if (precoMedioConcorrencia > 0 && precoVendaAtual > 0 && precoVendaAtual > precoMedioConcorrencia) {
+    //   mensagem = "Para igualar o preço da concorrência o custo dos insumos e/ou mercadoria 3o. deveria ser ${A}%  menor. Substitua o custo atual por R\$ ${RB} e veja a margem resultante.";
+    // } else if (precoVendaAtual > 0 && precoVendaAtual < precoMedioConcorrencia) {
+    //   mensagem = "Se a concorrência vende bem, substitua acima seu preço pelo dela. Se a margem resultante não for satisfatória, digite a margem desejada. Em seguida digite o preço sugerido no campo preço de venda atual. E veja as recomendações.";
+    // } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual == margemEmpresa) {
+    //   mensagem = "";
+    // } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual < margemEmpresa) {
+    //   mensagem = "Se você acha que não deve mexer no preço atual, então veja se consegue diminuir o custo dos insumos e/ou mercadoria 3o. para R\$ ${RC}. Você consegue?";
+    // } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual > margemEmpresa) {
+    //   mensagem = "Este produto, se for o caso, pode ter sua venda associada ao de outro cujo preço prejudica o resultado da empresa.";
+    // } else if (margemPrecoAtual < 0 && precoVendaAtual > precoMedioConcorrencia) {
+    //   mensagem = "Para equiparar seu preço com o da concorrência e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de R\$  ${RD}. Você consegue?";
+    // } else if (margemPrecoAtual < 0 && precoVendaAtual == precoMedioConcorrencia) {
+    //   mensagem = "Para manter seu preço e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de R\$ ${RE}. Você consegue?";
+    // } else if (margemPrecoAtual < 0 && margemPrecoAtual < margemEmpresa && precoVendaAtual < precoMedioConcorrencia) {
+    //   mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
+    // }
    // mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
     _precoConcorrenteController.add(mensagem);
-    //print(mensagem);
+
   }
   _calculoMargemAtual() {
     // print(_precoVendaAtual);

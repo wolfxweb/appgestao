@@ -1,11 +1,13 @@
 import 'package:appgestao/blocs/gestao_prioridade_bloc.dart';
 import 'package:appgestao/blocs/simulador_bloc.dart';
 import 'package:appgestao/classes/pushpage.dart';
+import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:appgestao/componete/menu.dart';
+import 'package:appgestao/pages/listaDadosBasicos.dart';
 import 'package:appgestao/pages/telaAjudaSimulador.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:dropdown_plus/dropdown_plus.dart';
@@ -34,7 +36,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
   var header = HeaderAppBar();
   var info = AlertSnackBar();
   var route = PushPage();
-
+  var bd = DadosBasicosSqlite();
   NumberFormat formatterPercentual = NumberFormat("0.00");
   //var corFundo = Colors.grey[150];
   var corFundo = Color.fromRGBO(159, 105, 56, 0.5);
@@ -80,6 +82,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
   //**//
   final _formKey = GlobalKey<FormState>();
   var color = const Color.fromRGBO(1, 57, 44, 1);
+
   @override
   void initState() {
     simuladorBloc = SimuladorBloc();
@@ -98,7 +101,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: header.getAppBar('Gestão de prioridades'),
-       // drawer: Menu(),
+        drawer: Menu(),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -246,18 +249,40 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   const Text('Trabalha com capacidade ociosa?',
                       style: TextStyle(fontSize: 16.0)),
                       */
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: ElevatedButton(
-                      style: colorButtonStyle() ,
-                      onPressed: () {
-
-                        route.pushPage(context, GestaoPrioridade());
-                      },
-                      child: const Text("Limpar"),
-                    ),
-                  ),
                   const Espacamento(),
+                  const Espacamento(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ajuste conforme necessário
+                    children: [
+                      ElevatedButton(
+                        style: colorButtonStyle(),
+                        onPressed: () {
+                          route.pushPage(context, GestaoPrioridade());
+                        },
+                        child: const Text("Limpar"),
+                      ),
+                      ElevatedButton(
+                        style: colorButtonStyle(),
+                        onPressed: () {
+                          var data = bloc.salvarDadosBasicos();
+
+                            var alert = AlertSnackBar();
+                            bd.save(data).then((value) {
+                              alert.alertSnackBar(context, Colors.green, 'Dados básicos cadastrado com sucesso');
+                            });
+                        },
+                        child: const Text("Salvar "),
+                      ),
+                      ElevatedButton(
+                        style: colorButtonStyle(),
+                        onPressed: () {
+                          route.pushPage(context, ListaDadosBasicos());
+                        },
+                        child: const Text("Histórico"),
+                      ),
+                    ],
+                  ),
+
                   const Espacamento(),
                   const Espacamento(),
                   const Espacamento(),

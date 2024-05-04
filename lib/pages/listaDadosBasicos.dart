@@ -23,9 +23,9 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
   late Future<List<dynamic>> dadosDoBancoDeDados;
   void _consultar() async {
     dadosDoBancoDeDados = bd.lista();
-    //  var lista = extrairDadosBasicos(dados);
-    print('dadosDoBancoDeDados');
-    print(dadosDoBancoDeDados);
+    // //  var lista = extrairDadosBasicos(dados);
+     print('dadosDoBancoDeDados');
+     print(dadosDoBancoDeDados);
   }
   @override
   String get searchFieldLabel => 'Pesquisar';
@@ -131,16 +131,18 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
     await bd.deleteDadosBasicos(id);
     await bd.deleteDadosBasicos(id);
     alert.alertSnackBar(context, Colors.green, "Excluído com sucesso");
-    route.pushPage(context, NovoDadosBasicos());
+    //route.pushPage(context, NovoDadosBasicos());
     _consultar();
+    setState(() {});
   }
   _reutilizar(id)async{
     var alert = AlertSnackBar();
     await bd.reutilizar(id);
      await bd.reutilizar(id);
      alert.alertSnackBar(context, Colors.green, "Atualizado com sucesso.");
-     route.pushPage(context, NovoDadosBasicos());
+    // route.pushPage(context, NovoDadosBasicos());
      _consultar();
+    setState(() {});
   }
   Widget buildCard(Map<String, dynamic> dado) {
     String dateTimeString = dado['data_cadastro'];
@@ -324,7 +326,7 @@ class DataSearch extends SearchDelegate<String> {
     await bd.reutilizar(id);
     alert.alertSnackBar(context, Colors.green, "Atualizado com sucesso.");
     route.pushPage(context, NovoDadosBasicos());
-   // _consultar();
+    //_consultar();
   }
   Row buildRow(String titulo1 ,String valor1) {
     return Row(

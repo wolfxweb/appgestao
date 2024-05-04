@@ -1,4 +1,5 @@
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
+import 'package:appgestao/componete/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
@@ -40,6 +41,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
         backgroundColor:const Color.fromRGBO(1, 57, 44, 1), // Altera a cor de fundo da AppBar
         iconTheme: const IconThemeData(color: Colors.white), // Altera a cor do ícone (seta) para branco
       ),
+      drawer: Menu(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical:30, horizontal: 0.0),

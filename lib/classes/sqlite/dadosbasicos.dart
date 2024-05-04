@@ -5,7 +5,8 @@ class DadosBasicosSqlite {
   Future<Database?> get db => DatabaseHelper.getInstance().db;
 
   Future<int> save(dados) async {
-    // print(dados);
+   //  print('dados save');
+   //  print(dados);
     var dbClient = await db;
     try {
       bool columnExists1 = await _isColumnExists(dbClient!, 'dados_basiscos', 'data_cadastro');

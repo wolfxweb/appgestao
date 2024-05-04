@@ -1,4 +1,6 @@
+import 'package:appgestao/classes/dadosbasicossqlite.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
+import 'package:appgestao/componete/alertasnackbar.dart';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/subjects.dart';
@@ -119,6 +121,8 @@ class gestao_prioridade_bloc extends BlocBase{
   var custoFixoAtual;
   var calculoFaturamento;
   var custoTercerirosReferencia;
+  var capacidadeAtendimento;
+  var mesSelecionado;
 
 
 
@@ -132,7 +136,7 @@ class gestao_prioridade_bloc extends BlocBase{
     await bd.lista().then((data) {
       data.forEach((element) {
         print('gestao_prioridade_bloc');
-        print(element);
+      //  print(element);
         faturamentoDadosBasicos =  convertMonetarioFloat(element["faturamento"]);
         custoVendasDadosBasicos = convertMonetarioFloat(element["gastos_insumos"]);
         custoInsumosTerceirosDadosBasicos =  convertMonetarioFloat(element["custo_fixo"]);
@@ -143,6 +147,8 @@ class gestao_prioridade_bloc extends BlocBase{
         quantidadeDeClientesAtendidoDadosBasicos = element["qtd"];
         quantidadeDeClientesAtendidoCalculada  = element["qtd"];
         quantidadeDeClientesAtendido =element["qtd"];
+        capacidadeAtendimento = element["capacidade_atendimento"];
+        mesSelecionado =  element["mes"];
         valoresIniciais();
       });
     });
@@ -152,7 +158,43 @@ class gestao_prioridade_bloc extends BlocBase{
 
   }
 
-
+  salvarDadosBasicos(){
+  //  getDadosBasicos();
+   String data_cadastro = DateTime.now().toIso8601String();
+   var margemIdeal = arredondarParaInteiro(margenDadosBasicos);
+   var qtdClientes = arredondarParaInteiro(qtdClienteAtual);
+    var data =  dadosbasicossqlite(
+                  null,
+                  qtdClientes.toString(),
+                  valorFormatadoReal(faturamentoAtual).toString(),
+                  "0.0",
+                   valorFormatadoReal(custosTerceirosAtual).toString(),
+                   valorFormatadoReal(custoFixoAtual).toString(),
+                   margemIdeal.toString(),
+                  mesSelecionado.toString(),
+                  valorFormatadoReal(custoVendasAtual).toString(),
+                  capacidadeAtendimento.toString(),
+                  data_cadastro.toString()
+              );
+    return data.toJson();
+   // print('salvarDadosBasicos');
+   // print(data);
+    //print("data");
+    //print(data.toJson());
+    //_saveUpdate(_getDados(null, mesSave),"Dados básicos cadastrado realizado com sucesso");
+   // var alert = AlertSnackBar();
+   //  bd.save(data.toJson()).then((value) {
+   //    print('skksksk');
+   //    alert.alertSnackBar(context, Colors.green, msg);
+   //  });
+  }
+  int arredondarParaInteiro(double numero) {
+    if (numero % 1 == 0) {
+      return numero.toInt();
+    } else {
+      return numero.round();
+    }
+  }
   calculoPercentual(percent, operacao, selecionado, modo, context) {
 
     var select = selecionado;
