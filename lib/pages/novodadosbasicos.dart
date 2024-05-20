@@ -439,47 +439,47 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                         child: ElevatedButton(
                           style: colorButtonStyle(),
                           onPressed: _buildBuildOnPressed,
-                          child: const Text("Salvar*"),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.13,
-                        child: Container(),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: ElevatedButton(
-                          style: colorButtonStyle(),
-                          onPressed: _inserir,
                           child: const Text("Salvar"),
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: ElevatedButton(
-                          style: colorButtonStyle(),
-                          onPressed: _delete,
-                          child: const Text("Delete"),
-                        ),
-                      ),
                     ],
-                    //_listaDadosBasicos
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: ElevatedButton(
-                      style: colorButtonStyle(),
-                      onPressed: _listaDadosBasicos,
-                      child: const Text("Histórico"),
-                    ),
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //   mainAxisSize: MainAxisSize.max,
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: MediaQuery.of(context).size.width * 0.13,
+                  //       child: Container(),
+                  //     ),
+                  //     SizedBox(
+                  //       width: MediaQuery.of(context).size.width * 0.4,
+                  //       child: ElevatedButton(
+                  //         style: colorButtonStyle(),
+                  //         onPressed: _inserir,
+                  //         child: const Text("Salvar"),
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: MediaQuery.of(context).size.width * 0.4,
+                  //       child: ElevatedButton(
+                  //         style: colorButtonStyle(),
+                  //         onPressed: _delete,
+                  //         child: const Text("Delete"),
+                  //       ),
+                  //     ),
+                  //   ],
+                  //   //_listaDadosBasicos
+                  // ),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width * 0.4,
+                  //   child: ElevatedButton(
+                  //     style: colorButtonStyle(),
+                  //     onPressed: _listaDadosBasicos,
+                  //     child: const Text("Histórico"),
+                  //   ),
+                  // ),
 
                   const Espacamento(),
                   const Espacamento(),

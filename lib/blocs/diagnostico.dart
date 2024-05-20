@@ -21,17 +21,38 @@ class DignosticoBloc extends BlocBase {
   final _textLucro_2_Controller = BehaviorSubject();
   final _textLucro_3_Controller = BehaviorSubject();
 
+  final _lucroController = BehaviorSubject<String>();
+  final _percentualLucroController = BehaviorSubject<String>();
+  final _margemContribuicaoController = BehaviorSubject<String>();
+  final _produtividadeController = BehaviorSubject<String>();
+  final _pontoEquilibrioController = BehaviorSubject<String>();
+  final _percentualPontoEquilibrioController = BehaviorSubject<String>();
+  final _ticketMedioController = BehaviorSubject<String>();
+  final _custoTotalController = BehaviorSubject<double>();
+
   final _card1 = BehaviorSubject();
   final _card2 = BehaviorSubject();
   final _card3 = BehaviorSubject();
   final _card4 = BehaviorSubject();
   final _card5 = BehaviorSubject();
 
+
   Stream get textDiagnosticoController => _textDiagnosticoController.stream;
   Stream get textPrejuisoController => _textPrejuisoController.stream;
   Stream get textLucro_1_Controller => _textLucro_1_Controller.stream;
   Stream get textLucro_2_Controller => _textLucro_2_Controller.stream;
   Stream get textLucro_3_Controller => _textLucro_3_Controller.stream;
+
+  //Utilizando na tela com grafico
+  Stream get lucroController => _lucroController.stream;
+  Stream get percentualLucroController => _percentualLucroController.stream;
+  Stream get margemContribuicaoController => _margemContribuicaoController.stream;
+  Stream get produtividadeController => _produtividadeController.stream;
+  Stream get pontoEquilibrioController => _pontoEquilibrioController.stream;
+  Stream get percentualPontoEquilibrioController => _percentualPontoEquilibrioController.stream;
+  Stream get ticketMedioController => _ticketMedioController.stream;
+  Stream<double> get custoTotalController => _custoTotalController.stream;
+
 
   Stream get card1 => _card1.stream;
   Stream get card2 => _card2.stream;
@@ -258,12 +279,12 @@ class DignosticoBloc extends BlocBase {
     var textoCard5txt1 ="";
 
 
-    print('faturamento');
+   // print('faturamento');
     print(faturamentoDadosBasicos);
 
     var fatGastosVendasEinsumos = (faturamentoDadosBasicos -(gastoVendasDadosBasicos +gastoInsumos3DadosBasics ));
-    print('calculo_b');
-    print(calculo_b);
+   // print('calculo_b');
+  //  print(calculo_b);
   //  fatGastosVendasEinsumos = -1;
     var margem = double.parse(calculo_b.toStringAsFixed(2));
     if(fatGastosVendasEinsumos<= 0){
@@ -293,8 +314,8 @@ class DignosticoBloc extends BlocBase {
           "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
           " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%";
     }
-    print(double.parse(calculo_b.toStringAsFixed(2)));
-    print(margemDadosBasicos);
+   // print(double.parse(calculo_b.toStringAsFixed(2)));
+   // print(margemDadosBasicos);
 
     if(double.parse(calculo_b.toStringAsFixed(2))!=0 &&double.parse(calculo_b.toStringAsFixed(2)) < margemDadosBasicos ){
       textoCard5txt1 = "A produtividade foi de R\$ $produtividade de faturamento para cada R\$1,00 de custo fixo.\n"
@@ -360,13 +381,27 @@ class DignosticoBloc extends BlocBase {
       _textPrejuisoController.add(_text_5);
       _textDiagnosticoController.add("prejuízo");
     }
+    //var _b = double.parse(_B).truncateToDouble();
+    var faturamentoTelaGrafico = faturamentoDadosBasicos - soma_custos;
+    _lucroController.add("R\$ ${formatterMoeda.format(faturamentoTelaGrafico) }");
+
+    _percentualLucroController.add("${_Bnovo.toString()} %");
+    _margemContribuicaoController.add("R\$ $_D");
+    _produtividadeController.add(produtividade);
+    _pontoEquilibrioController.add(formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao)));
+    _percentualPontoEquilibrioController.add("R\$ ${formatterMoeda.format(faturamento)}");
+    _ticketMedioController.add("R\$ $_C");
+  //  print('soma_custos');
+  //  print(soma_custos.runtimeType);
+ //   _custoTotalController.add(2200);
+
   }
 
   _getDadosBasicos() async {
     var dadosBasicos = true;
     await bd.lista().then((data) {
       data.forEach((element) {
-        print(element);
+     //   print(element);
         dadosBasicos = false;
         _A = element['mes'];
         calculo_a = element['mes'];
@@ -634,7 +669,7 @@ class DignosticoBloc extends BlocBase {
     calc_gi = double.parse(gastos_insumos).truncateToDouble();
    // calc_gas = double.parse(gastos).truncateToDouble();
     calc_gas =0.0;
-    print(element);
+  //  print(element);
     _calculoMargemResultante();
   }
 }

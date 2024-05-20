@@ -261,25 +261,25 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                         },
                         child: const Text("Limpar"),
                       ),
-                      ElevatedButton(
-                        style: colorButtonStyle(),
-                        onPressed: () {
-                          var data = bloc.salvarDadosBasicos();
-
-                            var alert = AlertSnackBar();
-                            bd.save(data).then((value) {
-                              alert.alertSnackBar(context, Colors.green, 'Dados básicos cadastrado com sucesso');
-                            });
-                        },
-                        child: const Text("Salvar "),
-                      ),
-                      ElevatedButton(
-                        style: colorButtonStyle(),
-                        onPressed: () {
-                          route.pushPage(context, ListaDadosBasicos());
-                        },
-                        child: const Text("Histórico"),
-                      ),
+                      // ElevatedButton(
+                      //   style: colorButtonStyle(),
+                      //   onPressed: () {
+                      //     var data = bloc.salvarDadosBasicos();
+                      //
+                      //       var alert = AlertSnackBar();
+                      //       bd.save(data).then((value) {
+                      //         alert.alertSnackBar(context, Colors.green, 'Dados básicos cadastrado com sucesso');
+                      //       });
+                      //   },
+                      //   child: const Text("Salvar "),
+                      // ),
+                      // ElevatedButton(
+                      //   style: colorButtonStyle(),
+                      //   onPressed: () {
+                      //     route.pushPage(context, ListaDadosBasicos());
+                      //   },
+                      //   child: const Text("Histórico"),
+                      // ),
                     ],
                   ),
 

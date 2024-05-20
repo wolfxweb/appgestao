@@ -275,6 +275,9 @@ class CalculadoraBloc extends BlocBase {
     // ((preco atual de vendas calculadora-(preço insumos calculadora+((( total outros custos variaveis + custos fixo)/ faturamento vendas)*preço atual vendas)))/preco atual de vendas))
     _margemComPrecoAtual = ((_precoVendaAtual -(_custoInsumo + (((gi +cv ) / fat) * _precoVendaAtual))) / _precoVendaAtual) * 100;
     var margem = formatterPercentual.format(_margemComPrecoAtual);
+    if(_precoVendaAtual == ''){
+      margem ="";
+    }
     _calculoMargemController.add(margem);
     _calculoPrecodugerido();
     _margemDaEmpresa();
