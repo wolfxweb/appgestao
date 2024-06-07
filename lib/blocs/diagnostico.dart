@@ -28,7 +28,7 @@ class DignosticoBloc extends BlocBase {
   final _pontoEquilibrioController = BehaviorSubject<String>();
   final _percentualPontoEquilibrioController = BehaviorSubject<String>();
   final _ticketMedioController = BehaviorSubject<String>();
-  final _custoTotalController = BehaviorSubject<double>();
+  //final _custoTotalController = BehaviorSubject<double>();
 
   final _card1 = BehaviorSubject();
   final _card2 = BehaviorSubject();
@@ -51,7 +51,7 @@ class DignosticoBloc extends BlocBase {
   Stream get pontoEquilibrioController => _pontoEquilibrioController.stream;
   Stream get percentualPontoEquilibrioController => _percentualPontoEquilibrioController.stream;
   Stream get ticketMedioController => _ticketMedioController.stream;
-  Stream<double> get custoTotalController => _custoTotalController.stream;
+  //Stream<double> get custoTotalController => _custoTotalController.stream;
 
 
   Stream get card1 => _card1.stream;

@@ -21,21 +21,21 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   String mensagem5 ="Esta é a quantidade de atendimentos (vendas) e o faturamento que foi preciso alcançar para começar a ter lucro. Ele pode ser melhorado aumentando a margem de contribuição e/ou reduzindo os custos fixos.";
   String mensagem6 ="";
 
-  final _faturamentoGraficoController = StreamController<String>();
-  final _custoController = StreamController<String>();
+  final _faturamentoGraficoController = StreamController<double>();
+  final _custoController = StreamController<double>();
 
   void adicionarFaturamento(double valor) {
-    _faturamentoGraficoController.add(valor.toString());
+    _faturamentoGraficoController.add(valor);
   }
 
   void adicionarCusto(double valor) {
-    _custoController.add(valor.toString());
+    _custoController.add(valor);
   }
   void _consultar() async {
     await bd.getDadosBasicoAtual().then((data) {
       data.forEach((element) {
-        print('element');
-        print(element);
+      //  print('element');
+      //  print(element);
         var faturamento = (element['faturamento']
             .toString()
             .replaceAll("R\$", "")
@@ -67,8 +67,8 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
         //     .replaceAll('.', '')
         //     .replaceAll(',', '.'));
         var totalCusto = double.parse(gastos)+double.parse(gastos_insumos)+double.parse(custo_varivel)+double.parse(custo_fixo);
-        adicionarFaturamento(double.parse(faturamento).truncateToDouble());
-        adicionarCusto(totalCusto.truncateToDouble());
+        adicionarFaturamento(double.parse(faturamento));
+        adicionarCusto(totalCusto);
 
       });
     });
@@ -104,32 +104,39 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+
                     Expanded(
                       child: Container(
                         width: double.infinity,
-                        child: StreamBuilder<String>(
+                        child: StreamBuilder<double>(
                           stream: _faturamentoGraficoController.stream,
                           builder: (context, faturamentoSnapshot) {
-                            return StreamBuilder<String>(
+                            return StreamBuilder<double>(
                               stream: _custoController.stream,
                               builder: (context, custoSnapshot) {
+                                double faturamento = faturamentoSnapshot.data ?? 0;
+                                double custo = custoSnapshot.data ?? 0;
+
+                                // Calcula a proporção entre faturamento e custo
+                                double proporcao = faturamento > 0 ? custo / faturamento : 0;
+
                                 final List<Map<String, dynamic>> dataSource = [
-                                  {'category': 'Faturamento', 'value': double.tryParse(faturamentoSnapshot.data ?? '0') ?? 0, 'color': Colors.orange},
-                                  {'category': 'Custo', 'value': double.tryParse(custoSnapshot.data ?? '0') ?? 0, 'color': Colors.amberAccent},
+                                  {'category': 'Faturamento', 'value': faturamento, 'color': Colors.orange},
+                                  {'category': 'Custo', 'value': custo, 'color': Colors.amberAccent},
                                 ];
 
                                 return SfCartesianChart(
-                                  enableSideBySideSeriesPlacement: false,
-                                  legend: const Legend(isVisible: false),
+                                  // Configurações do gráfico
                                   primaryXAxis: const CategoryAxis(
-                                    majorTickLines: MajorTickLines(size: 0),
                                     axisLine: AxisLine(color: Colors.transparent),
                                   ),
-                                  primaryYAxis: const NumericAxis(
-                                    majorTickLines: MajorTickLines(size: 0),
-                                    edgeLabelPlacement: EdgeLabelPlacement.shift,
-                                    labelStyle: TextStyle(color: Colors.transparent),
-                                    interval: 1000,
+                                  primaryYAxis: NumericAxis(
+                                    // Define a altura da segunda barra proporcional à primeira
+                                    maximum: faturamento * 1.2, // Define o máximo como 20% maior que o faturamento
+                                    // Define o intervalo do eixo Y
+                                    interval: faturamento / 10, // Ou qualquer outro intervalo desejado
+                                    // Oculta os rótulos do eixo Y
+                                    labelStyle: const TextStyle(color: Colors.transparent),
                                   ),
                                   series: <CartesianSeries>[
                                     ColumnSeries<Map<String, dynamic>, String>(
@@ -147,6 +154,8 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                         ),
                       ),
                     ),
+
+
 
                     //     Expanded(
                 //       child:Container(
