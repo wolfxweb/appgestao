@@ -1,5 +1,5 @@
 import 'dart:ffi';
-
+import 'package:flutter/material.dart';
 import 'package:appgestao/blocs/dados_basico_bloc.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:appgestao/classes/sqlite/importanciameses.dart';
@@ -162,7 +162,38 @@ class DignosticoBloc extends BlocBase {
       }
     });
   }
+  String getColorBasedOnConditions() {
+    _getDadosBasicos();
+    _calculoTiketMedio();
 
+   var  margemContribuicao = double.parse(
+      (_D
+          .toString()
+          .replaceAll("R\$", "")
+          .replaceAll('.', '')
+          .replaceAll(',', '.')),
+    );
+    var ticketMedio = double.parse(
+      (_C
+          .toString()
+          .replaceAll("R\$", "")
+          .replaceAll('.', '')
+          .replaceAll(',', '.')),
+    );
+
+    var proporcaoMargemContribuicao = margemContribuicao/ticketMedio;
+    var proporcaoTicketMedio = ticketMedio/ticketMedio;
+
+    if (proporcaoMargemContribuicao < 0.0) {
+      return "VERMELHO";
+    } else if (proporcaoMargemContribuicao > 0 && proporcaoTicketMedio < 0.20) {
+      return "AMARELO";
+    } else if (proporcaoMargemContribuicao > 0.20) {
+      return  "VERDE";
+    } else {
+      return "Defualt";
+    }
+  }
   _montaTexto() {
     //  ${_fulano}
     _text_1 =
@@ -383,7 +414,8 @@ class DignosticoBloc extends BlocBase {
     }
     //var _b = double.parse(_B).truncateToDouble();
     var faturamentoTelaGrafico = faturamentoDadosBasicos - soma_custos;
-    _lucroController.add("R\$ ${formatterMoeda.format(faturamentoTelaGrafico) }");
+
+    _lucroController.add("R\$ ${formatterMoeda.format(faturamentoTelaGrafico)}");
 
     _percentualLucroController.add("${_Bnovo.toString()} %");
     _margemContribuicaoController.add("R\$ $_D");
@@ -482,8 +514,8 @@ class DignosticoBloc extends BlocBase {
         //    print('_A');
         //    print(_A);
         final mesAtual = DateTime.now().month;
-        //   print('mesAtual');
-        //   print(mesAtual);
+           print('mesAtual');
+           print(mesAtual);
         switch (mesAtual) {
           case 1:
             _calculoMensal(_dez, _jan, _fev, "Fevereiro");

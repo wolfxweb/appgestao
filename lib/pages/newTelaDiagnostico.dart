@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 class NovaTelaDiagnostico extends StatefulWidget {
   @override
   _NovaTelaDiagnosticoState createState() => _NovaTelaDiagnosticoState();
@@ -23,6 +25,30 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
 
   final _faturamentoGraficoController = StreamController<double>();
   final _custoController = StreamController<double>();
+
+
+  // Variável para armazenar o título do campo
+  String tituloCampo = "Lucro";
+
+  String calcularSituacaoFinanceira(double faturamento, double custoTotal) {
+    if (faturamento > custoTotal) {
+      return "LUCRO";
+    } else if (faturamento == custoTotal) {
+      return "MARGEM";
+    } else {
+      return "PREJUÍZO";
+    }
+  }
+
+  Color calcularCor(double margem) {
+    if (margem == 0) {
+      return Colors.yellow;
+    } else if (margem < 0) {
+      return Colors.red;
+    } else {
+      return Colors.green;
+    }
+  }
 
   void adicionarFaturamento(double valor) {
     _faturamentoGraficoController.add(valor);
@@ -69,7 +95,11 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
         var totalCusto = double.parse(gastos)+double.parse(gastos_insumos)+double.parse(custo_varivel)+double.parse(custo_fixo);
         adicionarFaturamento(double.parse(faturamento));
         adicionarCusto(totalCusto);
-
+       // tituloCampo ="Prejuíso";
+        String situacaoFinanceira = calcularSituacaoFinanceira(double.parse(faturamento), totalCusto);
+        setState(() {
+          tituloCampo = situacaoFinanceira;
+        });
       });
     });
 
@@ -105,55 +135,55 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
 
-                    Expanded(
-                      child: Container(
-                        width: double.infinity,
-                        child: StreamBuilder<double>(
-                          stream: _faturamentoGraficoController.stream,
-                          builder: (context, faturamentoSnapshot) {
-                            return StreamBuilder<double>(
-                              stream: _custoController.stream,
-                              builder: (context, custoSnapshot) {
-                                double faturamento = faturamentoSnapshot.data ?? 0;
-                                double custo = custoSnapshot.data ?? 0;
+                Expanded(
+                child: Container(
+                width: double.infinity,
+                  child: StreamBuilder<double>(
+                    stream: _faturamentoGraficoController.stream,
+                    builder: (context, faturamentoSnapshot) {
+                      return StreamBuilder<double>(
+                        stream: _custoController.stream,
+                        builder: (context, custoSnapshot) {
+                          double faturamento = faturamentoSnapshot.data ?? 0;
+                          double custo = custoSnapshot.data ?? 0;
 
-                                // Calcula a proporção entre faturamento e custo
-                                double proporcao = faturamento > 0 ? custo / faturamento : 0;
+                          // Calcula a proporção entre faturamento e custo
+                          double proporcao = faturamento > 0 ? custo / faturamento : 0;
 
-                                final List<Map<String, dynamic>> dataSource = [
-                                  {'category': 'Faturamento', 'value': faturamento, 'color': Colors.orange},
-                                  {'category': 'Custo', 'value': custo, 'color': Colors.amberAccent},
-                                ];
+                          final List<Map<String, dynamic>> dataSource = [
+                            {'category': 'Faturamento', 'value': faturamento, 'color': Colors.orange},
+                            {'category': 'Custo', 'value': custo, 'color': Colors.amberAccent},
+                          ];
 
-                                return SfCartesianChart(
-                                  // Configurações do gráfico
-                                  primaryXAxis: const CategoryAxis(
-                                    axisLine: AxisLine(color: Colors.transparent),
-                                  ),
-                                  primaryYAxis: NumericAxis(
-                                    // Define a altura da segunda barra proporcional à primeira
-                                    maximum: faturamento * 1.2, // Define o máximo como 20% maior que o faturamento
-                                    // Define o intervalo do eixo Y
-                                    interval: faturamento / 10, // Ou qualquer outro intervalo desejado
-                                    // Oculta os rótulos do eixo Y
-                                    labelStyle: const TextStyle(color: Colors.transparent),
-                                  ),
-                                  series: <CartesianSeries>[
-                                    ColumnSeries<Map<String, dynamic>, String>(
-                                      dataSource: dataSource,
-                                      xValueMapper: (sales, _) => sales['category'] as String,
-                                      yValueMapper: (sales, _) => sales['value'] as num,
-                                      dataLabelSettings: const DataLabelSettings(isVisible: true),
-                                      pointColorMapper: (sales, _) => sales['color'] as Color,
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ),
+                          return SfCartesianChart(
+                            // Configurações do gráfico
+                            primaryXAxis: const CategoryAxis(
+                              axisLine: AxisLine(color: Colors.transparent),
+                            ),
+                            primaryYAxis: NumericAxis(
+                              // Define a altura da segunda barra proporcional à primeira
+                              maximum: faturamento * 1.2, // Define o máximo como 20% maior que o faturamento
+                              // Define o intervalo do eixo Y
+                              interval: faturamento / 10, // Ou qualquer outro intervalo desejado
+                              // Oculta os rótulos do eixo Y
+                              labelStyle: const TextStyle(color: Colors.transparent),
+                            ),
+                            series: <CartesianSeries>[
+                              ColumnSeries<Map<String, dynamic>, String>(
+                                dataSource: dataSource,
+                                xValueMapper: (sales, _) => sales['category'] as String,
+                                yValueMapper: (sales, _) => sales['value'] as num,
+                                dataLabelSettings: const DataLabelSettings(isVisible: true),
+                                pointColorMapper: (sales, _) => sales['color'] as Color,
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+          ),
 
 
 
@@ -198,19 +228,19 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            _buildRowWithHelpIcon('Lucro','',dignosticoBloc.lucroController,mensagem1,null),
+                            _buildRowWithHelpIcon(tituloCampo,'',dignosticoBloc.lucroController,mensagem1,"lucro_prejuiso"),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',null),
+                            _buildRowWithHelpIcon('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual"),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Ticket Médio','',dignosticoBloc.ticketMedioController,mensagem2,null),
+                            _buildRowWithHelpIcon('Ticket Médio','',dignosticoBloc.ticketMedioController,mensagem2,""),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Margem de Contribuição','',dignosticoBloc.margemContribuicaoController,mensagem3,null),
+                            _buildRowWithHelpIcon('Margem de Contribuição','',dignosticoBloc.margemContribuicaoController,mensagem3,"margem"),
                             const SizedBox(height: 5.0),
                             _buildRowWithHelpIcon('Produtividade','',dignosticoBloc.produtividadeController,mensagem4,null),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Ponto de Equilíbrio %','',dignosticoBloc.percentualPontoEquilibrioController,mensagem5,null),
+                            _buildRowWithHelpIcon('Ponto de Equilíbrio %','',dignosticoBloc.percentualPontoEquilibrioController,mensagem5,""),
                             const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Ponto de Equilíbrio','',dignosticoBloc.pontoEquilibrioController,mensagem5,null),
+                            _buildRowWithHelpIcon('Ponto de Equilíbrio','',dignosticoBloc.pontoEquilibrioController,mensagem5,""),
                             const SizedBox(height: 5.0),
                             const SizedBox(height: 5.0),
                           ],
@@ -241,7 +271,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   }
 
 
-  InputDecoration buildInputDecoration(BuildContext context, text, titulo) {
+  InputDecoration buildInputDecoration(BuildContext context, text, titulo,corFundo ) {
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
@@ -254,7 +284,8 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
       ),*/
 
       //   suffixIcon: suffixIcon,
-      fillColor: const Color.fromRGBO(245, 245, 245, 1),
+     // fillColor: const Color.fromRGBO(245, 245, 245, 1),
+      fillColor:  corFundo,
       filled: true,
       // disabledBorder: true,
       focusedBorder: const OutlineInputBorder(
@@ -270,12 +301,15 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
       labelStyle: const TextStyle(
         color: Colors.black,
         fontSize: 13,
-        //  backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
       ),
       // hintText: 'Quantidade de clientes atendidos',
     );
   }
   Widget _buildRowWithHelpIcon(String label,text , strean_text, textAlert,strean_color) {
+    var cor_fundo = Color.fromRGBO(245, 245, 245, 1);
+
+
     return Row(
       children: [
         // Expanded(
@@ -292,11 +326,34 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
               return StreamBuilder<Color>(
                 stream:  null, // Substitua 'backgroundColorStream' pelo seu fluxo de dados para a cor de fundo
                 builder: (context, colorSnapshot) {
+                  print(strean_color);
+                  if("lucro_prejuiso" == strean_color){
+                    var valor = (textSnapshot.data
+                        .toString()
+                        .replaceAll("R\$", "")
+                        .replaceAll('.', '')
+                        .replaceAll(',', '.'));
+                    cor_fundo = calcularCor(double.parse(valor));
+                  }
+                  if("margem" == strean_color){
+                    var corSelecionada =  dignosticoBloc.getColorBasedOnConditions();
+                    print('corSelecionada');
+                    print(corSelecionada);
+                    if( corSelecionada == 'VERDE'){
+                       cor_fundo = Colors.green;
+                    }else if( corSelecionada == 'AMARELO'){
+                      cor_fundo = Colors.yellow;
+                    }else if( corSelecionada == 'VERDE'){
+                      cor_fundo = Colors.red;
+                    }
+
+                  }
+
                   return Container(
                     color: colorSnapshot.data ?? Colors.white, // Usar a cor do snapshot ou branco se for nulo
                     child: TextField(
                       enabled: false,
-                      decoration: buildInputDecoration(context, textSnapshot.data, label),
+                      decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
                       controller: TextEditingController(text: textSnapshot.data ?? ''), // Usar o valor atual do snapshot ou vazio se for nulo
                     ),
                   );

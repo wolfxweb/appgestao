@@ -47,22 +47,22 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
           'Histórico de Dados Básicos',
           style: TextStyle(color: Colors.white), // Altera a cor do texto para branco
         ),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              final List<Map<String, dynamic>> dados = await dadosDoBancoDeDados.then((value) {
-                return value.cast<Map<String, dynamic>>();
-              });
-              showSearch(
-                context: context,
-                delegate: DataSearch(dados: dados , context: context),
-              );
-            },
-            icon: Icon(Icons.search),
-            tooltip: 'Pesquisar',
-          ),
-
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () async {
+        //       final List<Map<String, dynamic>> dados = await dadosDoBancoDeDados.then((value) {
+        //         return value.cast<Map<String, dynamic>>();
+        //       });
+        //       showSearch(
+        //         context: context,
+        //         delegate: DataSearch(dados: dados , context: context),
+        //       );
+        //     },
+        //     icon: Icon(Icons.search),
+        //     tooltip: 'Pesquisar',
+        //   ),
+        //
+        // ],
         backgroundColor:const Color.fromRGBO(1, 57, 44, 1), // Altera a cor de fundo da AppBar
         iconTheme: const IconThemeData(color: Colors.white), // Altera a cor do ícone (seta) para branco
       ),
@@ -80,17 +80,17 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(12.0), // Adiciona padding de 8.0 em todas as direções
-                  child: Text(
-                    'Para filtrar clique na lupa e digite a hora que deseja filtrar.',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8.0), // Adiciona um espaço entre os textos
+                // const Padding(
+                //   padding: EdgeInsets.all(12.0), // Adiciona padding de 8.0 em todas as direções
+                //   child: Text(
+                //     'Para filtrar clique na lupa e digite a hora que deseja filtrar.',
+                //     style: TextStyle(
+                //       fontSize: 14.0,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
+               const SizedBox(height: 8.0), // Adiciona um espaço entre os textos
                 Expanded(
                   child: ListView.builder(
                     itemCount: dadosDoBancoDeDados.length,
