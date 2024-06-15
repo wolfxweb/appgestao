@@ -36,12 +36,14 @@ class DignosticoBloc extends BlocBase {
   final _card4 = BehaviorSubject();
   final _card5 = BehaviorSubject();
 
+  final _cardInformativoNovaTela = BehaviorSubject();
 
   Stream get textDiagnosticoController => _textDiagnosticoController.stream;
   Stream get textPrejuisoController => _textPrejuisoController.stream;
   Stream get textLucro_1_Controller => _textLucro_1_Controller.stream;
   Stream get textLucro_2_Controller => _textLucro_2_Controller.stream;
   Stream get textLucro_3_Controller => _textLucro_3_Controller.stream;
+
 
   //Utilizando na tela com grafico
   Stream get lucroController => _lucroController.stream;
@@ -59,7 +61,7 @@ class DignosticoBloc extends BlocBase {
   Stream get card3 => _card3.stream;
   Stream get card4 => _card4.stream;
   Stream get card5 => _card5.stream;
-
+  Stream get cardInformativoNovaTela => _cardInformativoNovaTela.stream;
   var margemDadosBasicos;
   var custoFixoDadosBasicos;
   var qualTextoMostrar;
@@ -68,7 +70,7 @@ class DignosticoBloc extends BlocBase {
   var gastoInsumos3DadosBasics;
   var quantidadeVendasDadosBasicos;
   var custoVendas;
-
+  var capacidade_atendimento;
 
   //var _marInformada;
   var calc_qtd;
@@ -183,7 +185,6 @@ class DignosticoBloc extends BlocBase {
 
     var proporcaoMargemContribuicao = margemContribuicao/ticketMedio;
     var proporcaoTicketMedio = ticketMedio/ticketMedio;
-
     if (proporcaoMargemContribuicao < 0.0) {
       return "VERMELHO";
     } else if (proporcaoMargemContribuicao > 0 && proporcaoTicketMedio < 0.20) {
@@ -193,6 +194,127 @@ class DignosticoBloc extends BlocBase {
     } else {
       return "Defualt";
     }
+  }
+  String getPrimeiroTexto(double margem, double margemIdeal) {
+    if (margem == null || margem == 0) {
+      return "Você deve estar bem preocupado!";
+    } else if (margem < 0) {
+      return "Atenção! Prejuízo!";
+    } else if (margem > 0 && margem < margemIdeal * 0.6) {
+      return "O lucro alcançado foi menor do que aquele que você gostaria!";
+    } else if (margem >= margemIdeal * 0.6 && margem < margemIdeal * 0.9) {
+      return "O lucro alcançado não é aquele que você gostaria!";
+    } else if (margem >= margemIdeal * 0.9 && margem < margemIdeal * 1.05) {
+      return "Você deve estar satisfeito com o lucro alcançado!";
+    } else if (margem >= margemIdeal * 1.05) {
+      return "Você deve estar muito satisfeito com o lucro alcançado!";
+    } else {
+      return "Você deve estar bem preocupado!";
+    }
+  }
+  String getTerceiroTexto(double margem, double margemIdeal, double quantClientesAtendimento, double capacidadeAtendimento) {
+    if (margem >= 0 && quantClientesAtendimento < capacidadeAtendimento * 0.9 && margem > 0) {
+      return "Por que não vendeu mais? \n1) Mercado não comporta? Então reduza custos fixos; \n2) Concorrência? Crie diferenciais, corrija seus pontos fracos; \n3) Mês fraco? Crie incentivos!";
+    } else if (margem < 0 && margem > 0) {
+      return "Verifique seus preços de vendas! Item que dá prejuízo, que não pode ter o preço aumentado, nem ser descartado, associe com outros (combo); some seus preços e o custo dos insumos e/ou de aquisição e veja o resultado na Calculadora de Preços.";
+    } else if (margem >= 0 && margem < margemIdeal * 0.9 && quantClientesAtendimento >= capacidadeAtendimento * 0.9 && quantClientesAtendimento < capacidadeAtendimento * 1.1) {
+      return "Verifique seus preços de vendas! Item que dá prejuízo, que não pode ter o preço aumentado, nem ser descartado, associe com outros (combo); some os preços dos produtos e seus custos e veja o resultado na Calculadora de Preços.";
+    } else if (margem >= margemIdeal * 0.9 && quantClientesAtendimento >= capacidadeAtendimento * 0.9 && quantClientesAtendimento < capacidadeAtendimento * 1.1) {
+      return "Vale a pena estudar a viabilidade de aumentar sua capacidade de atendimento!";
+    } else if (margem >= 0 && margem < margemIdeal * 0.9 && quantClientesAtendimento >= capacidadeAtendimento * 1.1) {
+      return "Isso coloca em risco a qualidade da oferta e do atendimento (clientes e colaboradores estressados)! Verifique a lucratividade de cada item que comercializa!";
+    } else if (margem >= margemIdeal * 0.9 && quantClientesAtendimento >= capacidadeAtendimento * 1.1) {
+      return "Isso coloca em risco a qualidade da oferta e do atendimento (clientes e colaboradores estressados)!";
+    } else if (margem < 0 && margem <= 0 && margemIdeal <= 0) {
+      return "SUAS VENDAS ESTÃO CONTRIBUINDO PARA O PREJUÍZO! Se um Item dá prejuízo e não pode ter o preço aumentado, nem ser descartado, associe com outros (combo); some seus preços e o custo dos insumos e/ou de aquisição) e veja o resultado na Calculadora de Preços.";
+    }
+    return "";
+  }
+  String getSegundoTexto(double margem, double margemIdeal, double quantClientesAtendimento, double capacidadeAtendimento) {
+    double percentual;
+    if (margem > 0 && margem < margemIdeal * 0.9 && quantClientesAtendimento < capacidadeAtendimento * 0.9) {
+      percentual = ((capacidadeAtendimento - quantClientesAtendimento) / capacidadeAtendimento) * 100;
+      return "E, as vendas foram menores (${percentual.toStringAsFixed(2)}%) do que sua capacidade instalada.";
+    } else if (margem < 0 && quantClientesAtendimento < capacidadeAtendimento * 0.9) {
+      percentual = ((capacidadeAtendimento - quantClientesAtendimento) / capacidadeAtendimento) * 100;
+      return "Pelo menos (${percentual.toStringAsFixed(2)}%) dos investimentos e custos fixos não estão sendo aproveitados!";
+    } else if (margem > 0 && margem < margemIdeal * 0.9 && quantClientesAtendimento >= capacidadeAtendimento * 0.9 && quantClientesAtendimento < capacidadeAtendimento * 1.1) {
+      percentual = ((quantClientesAtendimento - capacidadeAtendimento * 0.9) / capacidadeAtendimento) * 100;
+      return "Mesmo com as vendas nos limites da capacidade instalada (${percentual.toStringAsFixed(2)}%).";
+    } else if (margem < 0 && quantClientesAtendimento >= capacidadeAtendimento * 0.9 && quantClientesAtendimento < capacidadeAtendimento * 1.1) {
+      percentual = ((quantClientesAtendimento - capacidadeAtendimento * 0.9) / capacidadeAtendimento) * 100;
+      return "Mesmo com as vendas correspondendo a capacidade de atendimento! (${percentual.toStringAsFixed(2)}%).";
+    } else if (margem > 0 && margem < margemIdeal * 0.9 && quantClientesAtendimento >= capacidadeAtendimento * 1.1) {
+      percentual = ((quantClientesAtendimento - capacidadeAtendimento * 1.1) / capacidadeAtendimento) * 100;
+      return "Apesar de estar vendendo (${percentual.toStringAsFixed(2)}%) acima da capacidade instalada.";
+    } else if (margem < 0 && quantClientesAtendimento >= capacidadeAtendimento * 1.1) {
+      percentual = ((quantClientesAtendimento - capacidadeAtendimento * 1.1) / capacidadeAtendimento) * 100;
+      return "Mesmo vendendo acima da capacidade instalada! (${percentual.toStringAsFixed(2)}%).";
+    } else if (margem >= margemIdeal * 0.9 && quantClientesAtendimento < capacidadeAtendimento * 0.9) {
+      percentual = ((capacidadeAtendimento - quantClientesAtendimento) / capacidadeAtendimento) * 100;
+      return "Mesmo vendendo (${percentual.toStringAsFixed(2)}%) menos do que a capacidade instalada.";
+    } else if (margem >= margemIdeal * 0.9 && quantClientesAtendimento >= capacidadeAtendimento * 0.9 && quantClientesAtendimento < capacidadeAtendimento * 1.1) {
+      percentual = ((quantClientesAtendimento - capacidadeAtendimento * 0.9) / capacidadeAtendimento) * 100;
+      return "Suas vendas corresponderam à capacidade instalada (${percentual.toStringAsFixed(2)}%).";
+    } else if (margem >= margemIdeal * 0.9 && quantClientesAtendimento >= capacidadeAtendimento * 1.1) {
+      percentual = ((quantClientesAtendimento - capacidadeAtendimento * 1.1) / capacidadeAtendimento) * 100;
+      return "Porém, ATENÇÃO! As vendas superaram em (${percentual.toStringAsFixed(2)}%) a capacidade instalada.";
+    }
+    return "";
+  }
+  String getQuartoTexto(double margem, double margemIdeal, double faturamento, double margContribuicao, double ticketMedio, double quantPontoEquilibrio, double quantVendas) {
+    if (margemIdeal == 0 || faturamento == 0) {
+      return "";
+    }
+    if (margem >= 0 && margem < margemIdeal * 0.9 && margContribuicao > 0 && margContribuicao / ticketMedio < 0.2 && quantPontoEquilibrio / quantVendas > 0.5) {
+      return "Diminua a participação dos seus gastos com vendas, com suas compras e os custos fixos, sobre o faturamento. Você está calculando corretamente os preços dos itens que comercializa?";
+    } else if (margem >= 0 && margem < margemIdeal * 0.9 && margContribuicao > 0 && margContribuicao / ticketMedio < 0.2 && quantPontoEquilibrio / quantVendas < 0.5) {
+      return "Diminua a participação dos seus gastos com vendas e com suas compras, sobre o faturamento. Muita atenção com os estoques e com os prazos dos recebimento e dos pagamentos!";
+    } else if (margem >= 0 && margem < margemIdeal * 0.9 && margContribuicao / ticketMedio >= 0.2 && quantPontoEquilibrio / quantVendas > 0.5) {
+      return "Verifique a possibilidade de aumentar a produtividade!";
+    } else if (margem >= 0 && margem < margemIdeal * 0.9 && margContribuicao / ticketMedio >= 0.2 && quantPontoEquilibrio / quantVendas < 0.5) {
+      return "Você está calculando corretamente os preços dos itens que comercializa?";
+    } else if (margem >= margemIdeal * 0.9 && margContribuicao > 0 && margContribuicao / ticketMedio < 0.2 && quantPontoEquilibrio / quantVendas > 0.5) {
+      return "Diminua a participação dos seus gastos com vendas, com suas compras e custos fixos, sobre o faturamento!";
+    } else if (margem >= margemIdeal * 0.9 && margContribuicao > 0 && margContribuicao / ticketMedio < 0.2 && quantPontoEquilibrio / quantVendas < 0.5) {
+      return "Diminua seus gastos com vendas e com suas compras!";
+    } else if (margem >= margemIdeal * 0.9 && margContribuicao / ticketMedio >= 0.2 && quantPontoEquilibrio / quantVendas > 0.5) {
+      return "Verifique a possibilidade de reduzir a participação dos custos fixos sobre o faturamento!";
+    } else if (margem >= margemIdeal * 0.9 && margContribuicao / ticketMedio >= 0.2 && quantPontoEquilibrio / quantVendas < 0.5) {
+      return "A participação dos seus gastos e custos sobre o faturamento estão bem administrados!";
+    } else if (margem < 0 && margContribuicao < 0) {
+      return "Sua prioridade mais urgente é reduzir a participação dos gastos com vendas e com suas compras, sobre o faturamento!";
+    } else if (margem < 0 && margContribuicao > 0) {
+      return "Após analisar os preços, priorize reduzir os custos fixos! E reveja os gastos com vendas e com suas compras.";
+    }
+    return "";
+  }
+  String getQuintoTexto(double faturamento, double pontoEquilibrio, double margemContribuicao, double capacidadeAtendimento, double margem, double margemIdeal, double ticketMedio) {
+    if (faturamento == 0 || pontoEquilibrio == capacidadeAtendimento || margemContribuicao <= 0) {
+      return "";
+    }
+    if (margem <= 0 && pontoEquilibrio > 0 && pontoEquilibrio <= capacidadeAtendimento) {
+      double c = (capacidadeAtendimento / pontoEquilibrio);
+      double d = ((c - 1) * 100).roundToDouble();
+      return "Para alcançar o ponto de equilíbrio a produtividade deveria ser de $c, ou seja: $d% maior.";
+    } else if (margem <= 0 && pontoEquilibrio > 0 && pontoEquilibrio > capacidadeAtendimento) {
+      double c = (pontoEquilibrio / capacidadeAtendimento);
+      double d = ((c - 1) * 100).roundToDouble();
+      return "Para alcançar o ponto de equilíbrio a produtividade deveria ser de $c, ou seja: $d% maior, o que não é possível com a atual capacidade de atendimento!";
+    } else if (margem <= 0 && margemContribuicao <= 0) {
+      return "Concentre-se em reduzir a participação dos gastos com vendas, insumos e produtos de 3os sobre o faturamento!";
+    } else if (margem > 0 && margem < margemIdeal * 0.9 && pontoEquilibrio > 0) {
+      double e = faturamento - margem / ticketMedio;
+      double f = ((faturamento - margem / ticketMedio) / faturamento * 100);
+      double g = (faturamento - margem) / margem * 100;
+      double h = ((faturamento - margem / ticketMedio) / faturamento * 100);
+      double i = (faturamento - margem) / margem * 100;
+      return "Com a atual capacidade de atendimento e ticket médio, o faturamento seria de $e, (produtividade de $f%). Para conseguir lucro de $g%, a participação sobre o faturamento dos gastos (com vendas e insumos) teria que diminuir de  $h% para $i%.";
+    } else if (margem > 0 && margem >= margemIdeal * 0.9 && pontoEquilibrio > 0) {
+      double j = (margem * 0.1);
+      return "Veja como é importante cuidar da produtividade: se você conseguir  aumentá-la em 10%, em 12 meses iguais, ganho adicional de $j";
+    }
+    return "";
   }
   _montaTexto() {
     //  ${_fulano}
@@ -227,7 +349,6 @@ class DignosticoBloc extends BlocBase {
 
     var _b = double.parse(_B).truncateToDouble();
     var _h = double.parse(_H).truncateToDouble();
-
     var ticket = (_C
         .toString()
         .replaceAll("R\$", "")
@@ -238,7 +359,6 @@ class DignosticoBloc extends BlocBase {
         .replaceAll("R\$", "")
         .replaceAll('.', '')
         .replaceAll(',', '.'));
-
     var variacaoTicketMedioMargemContribuicao = (double.parse(margemcontribucao).truncateToDouble()/double.parse(ticket).truncateToDouble())*100;
     var margem95 = _h * 0.95;
     var margem105 = _h * 1.05;
@@ -248,57 +368,36 @@ class DignosticoBloc extends BlocBase {
     var faturamento =(custoFixoDadosBasicos/double.parse(margemcontribucao))*double.parse(ticket);
     var variacaoPercentualFaturamento =formatterPercentual.format( (faturamento/faturamentoDadosBasicos)*100);
     var produtividade =formatterMoeda.format( faturamentoDadosBasicos/custoFixoDadosBasicos);
-
     var textoPositivoP1 = 'O lucro de ';
     if(calculo_b < 0.0){
        textoPositivoP1 = 'prejuízo de ';
     }else if(calculo_b == 0){
       textoPositivoP1 = 'A margem de ';
     }
-
-
     var caculoVariacaoCard3 =(faturamento/faturamentoDadosBasicos)*100;
     var textoPositivoCad3 = 'foi preciso atender';
     if(calculo_b < 0){
       textoPositivoCad3 = 'será preciso atender';
     }
-
     var x_clientes;
     var y_clientes;
     var faturamento_maior;
     var diminucao_custo;
     var chegar_valor;
-  //  =((1/((100% - ((C.VENDAS DADOS BÁSICOS * (100% + (MARGEM IDEAL DADOS BÁSICOS – MARGEM ATUAL 1º. PARÁGRAFO DIAGNÓSTICO ))) +
-    //  CUSTOS FIXOS DADOS BÁSICOS + MARGEM IDEAL DADOS BÁSICOS)) /100%)) * CUSTO DOS INSUMOS DADOS BÁSICOS)
     var margemIdealMenosDadosBasico = ((margemDadosBasicos-margemCalculada));
     var custoDadosBasicoMenosInsumos = ((custoFixoDadosBasicos+margemIdealMenosDadosBasico));
     var diminucao_custo_variacao;
-
-    //=SE(H7>"";(C8+C9+C10)/(100%-C11))
-    // =SE(H7>"";(Gastos com vendas+Gastos com insumos+Custos Fixos)/(100%-Custos Fixos))
-    // =SE(H7>"";(gastoVendasDadosBasicos + gastoInsumos3DadosBasics + custoFixoDadosBasicos)/(1-custoFixoDadosBasicos))
     var soma_custos =gastoVendasDadosBasicos + gastoInsumos3DadosBasics + custoFixoDadosBasicos;
-
     var formulaPadrao =((soma_custos)/(1-(margemDadosBasicos/100)));
-
-   //=SE(L15>"";((C7-(C7*C11))/(C8+C9+C10)-100%)*(-1);"")
-    //=SE(L15>"";((faturamentoDadosBasicos -(faturamentoDadosBasicos * margemDadosBasicos))/(gastoVendasDadosBasicos + gastoInsumos3DadosBasics + custoFixoDadosBasicos)-1)*(-1);"")
-
     var percentualMargemDadosBasicos =margemDadosBasicos/100;
-
     var parte1DiminuicaoCusto =faturamentoDadosBasicos-(faturamentoDadosBasicos*percentualMargemDadosBasicos);
+
     diminucao_custo_variacao = 100 -(((parte1DiminuicaoCusto)/(soma_custos))*100);
     diminucao_custo =  (formulaPadrao/faturamentoDadosBasicos);
     chegar_valor =(formulaPadrao/custoFixoDadosBasicos);
-  
-
     faturamento_maior =  ((formulaPadrao)/(faturamentoDadosBasicos/10));
-
     x_clientes = formatterMoeda.format(formulaPadrao/quantidadeVendasDadosBasicos);
     y_clientes = formatterQuantidade.format(formulaPadrao/(faturamentoDadosBasicos/quantidadeVendasDadosBasicos));
-
-
-
     chegar_valor = formatterMoeda.format(formulaPadrao/custoFixoDadosBasicos);
 
     var textoCard1txt1 = "$textoPositivoP1 $_Bnovo% é menor do que aquele que você gostaria.\nUtilize a CALCULADORA DE PREÇOS para verificar a margem dos itens que comercializa.\nEm seguida analise possíveis providências em GESTÃO DE PRIORIDADES.";
@@ -308,16 +407,9 @@ class DignosticoBloc extends BlocBase {
     var textoCard2txt1 = "";
     var textoCard4txt1 = "";
     var textoCard5txt1 ="";
-
-
-   // print('faturamento');
-    print(faturamentoDadosBasicos);
-
     var fatGastosVendasEinsumos = (faturamentoDadosBasicos -(gastoVendasDadosBasicos +gastoInsumos3DadosBasics ));
-   // print('calculo_b');
-  //  print(calculo_b);
-  //  fatGastosVendasEinsumos = -1;
     var margem = double.parse(calculo_b.toStringAsFixed(2));
+
     if(fatGastosVendasEinsumos<= 0){
       textoCard2txt1 = "O faturamento médio por cliente 'ticket médio' foi de R\$ $_C.\nReveja seus preços e/ou custo das vendas e com insumos e mercadorias de 3os. Aumentar vendas não é solução!\n";
     }else if(margem < 0) {
@@ -345,8 +437,6 @@ class DignosticoBloc extends BlocBase {
           "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
           " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%";
     }
-   // print(double.parse(calculo_b.toStringAsFixed(2)));
-   // print(margemDadosBasicos);
 
     if(double.parse(calculo_b.toStringAsFixed(2))!=0 &&double.parse(calculo_b.toStringAsFixed(2)) < margemDadosBasicos ){
       textoCard5txt1 = "A produtividade foi de R\$ $produtividade de faturamento para cada R\$1,00 de custo fixo.\n"
@@ -368,18 +458,6 @@ class DignosticoBloc extends BlocBase {
           "para cobrir os custos fixos e gerar margem.";
     }
 
-
-
-  /*  var textoCard4txt1 = "Para começar a ter lucro (ponto de equilíbrio),"
-        "$textoPositivoCad3 ${formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao))}"
-        " clientes,e faturar R\$ ${formatterMoeda.format(faturamento)} ou seja: $variacaoPercentualFaturamento%\n"
-        "Para atingir a margem ideal ${formatterQuantidade.format(margemDadosBasicos)}%, com"
-        " o faturamento atual, o faturamente precisa ser ${formatterPercentual.format(faturamento_maior)}% maior.";
-
-    var textoCard5txt1 = "A produtividade foi de R\$ $produtividade de faturamento para cada R\$1,00 de custo fixo.\n"
-        "Quanto maior for a produtividade, melhor!\nPrincipalmente se ela chegar a R\$ ${chegar_valor}";
-*/
-//custo fixo
 
     if (margemCalculada > 0 && margemCalculada < margem95) {
       _card1.add(textoCard1txt1);
@@ -423,9 +501,32 @@ class DignosticoBloc extends BlocBase {
     _pontoEquilibrioController.add(formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao)));
     _percentualPontoEquilibrioController.add("R\$ ${formatterMoeda.format(faturamento)}");
     _ticketMedioController.add("R\$ $_C");
-  //  print('soma_custos');
-  //  print(soma_custos.runtimeType);
- //   _custoTotalController.add(2200);
+
+    // DAQUI PARA BAIXO E O TEXTO DA TELA NOVA,
+
+    var  margemContribuicao_parse = double.parse((_D.toString().replaceAll("R\$", "").replaceAll('.', '').replaceAll(',', '.')),);
+    var ticketMedio_parse = double.parse((_C.toString().replaceAll("R\$", "").replaceAll('.', '').replaceAll(',', '.')), );
+    double margem_1 = margem;
+    double margemIdeal = margem;
+    double quantClientesAtendimento = quantidadeVendasDadosBasicos;
+    double capacidadeAtendimento = capacidade_atendimento;
+   // double faturamento_ = 50000.0;
+    double margContribuicao = double.parse(margemcontribucao);
+    double ticketMedio =ticketMedio_parse;
+    double quantPontoEquilibrio = faturamento;
+    double quantVendas =quantidadeVendasDadosBasicos;
+    double pontoEquilibrio = faturamento;
+    double margemContribuicao = margemContribuicao_parse;
+
+    String mensagem_1 = getPrimeiroTexto(margem_1, margemIdeal);
+    String mensagem_2 = getSegundoTexto(margem_1, margemIdeal, quantClientesAtendimento, capacidadeAtendimento);
+    String mensagem_3 = getTerceiroTexto(margem_1, margemIdeal, quantClientesAtendimento, capacidadeAtendimento);
+    String mensagem_4 =  getQuartoTexto(margem_1, margemIdeal, faturamento, margContribuicao, ticketMedio, quantPontoEquilibrio, quantVendas);
+    String mensagem_5 = getQuintoTexto(faturamento, pontoEquilibrio, margemContribuicao, capacidadeAtendimento, margem, margemIdeal, ticketMedio);
+    String mensagem_6 ="Uma vez que estas considerações referem-se a mês anterior, recomendamos que em DEFINIÇÃO DE PRIORIDADES você estime comparativamente as variações para o corrente mês. Feito isso, digite suas estimativas para fechamento deste mês em DADOS BÁSICOS e veja o DIAGNÓSTICO.";
+    String mensagemConcatenada = "$mensagem_1\n$mensagem_2\n$mensagem_3\n$mensagem_4\n$mensagem_5\n$mensagem_6";
+    _cardInformativoNovaTela.add(mensagemConcatenada);
+
 
   }
 
@@ -433,7 +534,7 @@ class DignosticoBloc extends BlocBase {
     var dadosBasicos = true;
     await bd.lista().then((data) {
       data.forEach((element) {
-     //   print(element);
+        print(element);
         dadosBasicos = false;
         _A = element['mes'];
         calculo_a = element['mes'];
@@ -471,6 +572,13 @@ class DignosticoBloc extends BlocBase {
         );
         quantidadeVendasDadosBasicos= double.parse(
           (element['qtd']
+              .toString()
+              .replaceAll("R\$", "")
+              .replaceAll('.', '')
+              .replaceAll(',', '.')),
+        );
+        capacidade_atendimento= double.parse(
+          (element['capacidade_atendimento']
               .toString()
               .replaceAll("R\$", "")
               .replaceAll('.', '')

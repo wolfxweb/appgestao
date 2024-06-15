@@ -29,6 +29,8 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
 
   // Variável para armazenar o título do campo
   String tituloCampo = "Lucro";
+  bool _showComponents = false;
+
 
   String calcularSituacaoFinanceira(double faturamento, double custoTotal) {
     if (faturamento > custoTotal) {
@@ -97,8 +99,10 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
         adicionarCusto(totalCusto);
        // tituloCampo ="Prejuíso";
         String situacaoFinanceira = calcularSituacaoFinanceira(double.parse(faturamento), totalCusto);
-        setState(() {
-          tituloCampo = situacaoFinanceira;
+        Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            tituloCampo = situacaoFinanceira;
+          });
         });
       });
     });
@@ -107,7 +111,15 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   @override
   void initState() {
     super.initState();
-    _consultar();
+  //  Future.delayed(Duration(seconds: 1), _consultar);
+    Future.delayed(Duration(seconds: 1), () {
+      _consultar();
+      Future.delayed(Duration(seconds: 1), () {
+        setState(() {
+          _showComponents = true;
+        });
+      });
+    });
   }
 
   @override
@@ -121,7 +133,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
         iconTheme: const IconThemeData(color: Colors.white), // Altera a cor do ícone (seta) para branco
       ),
       drawer: Menu(),
-      body: SingleChildScrollView(
+      body:_showComponents? SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical:30, horizontal: 0.0),
           child: Column(
@@ -250,23 +262,37 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(8.0),
-                color: Colors.green,
-                child: const Text(
-                  'Texto que ocupa toda a largura da tela',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+          Card(
+           // elevation: 4.0, // Sombreamento do card
+            margin: EdgeInsets.all(8.0), // Margem ao redor do card
+            child: Container(
+              padding: EdgeInsets.all(11.0), // Preenchimento interno do container
+              // color: Colors.green, // Cor de fundo do container (opcional)
+              child: StreamBuilder(
+                stream: dignosticoBloc.cardInformativoNovaTela,
+                builder: (context, snapshot) {
+                  String texto = snapshot.data ?? ''; // Valor padrão se o snapshot estiver vazio
+                  return Text(
+                    texto.isEmpty ? 'Texto que ocupa toda a largura da tela' : texto,
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      //color: Colors.white, // Cor do texto (opcional)
+                    ),
+                  );
+                },
               ),
-            ],
+            ),
+          )
+
+
+          ],
           ),
         ),
-      ),
+      ): const Center(
+        child: CircularProgressIndicator(), // Exibe um indicador de progresso enquanto os dados estão sendo carregados
+    ),
     );
   }
 
@@ -308,25 +334,15 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   }
   Widget _buildRowWithHelpIcon(String label,text , strean_text, textAlert,strean_color) {
     var cor_fundo = Color.fromRGBO(245, 245, 245, 1);
-
-
     return Row(
       children: [
-        // Expanded(
-        //   child: TextField(
-        //     enabled: false,
-        //     decoration: buildInputDecoration(context, text, label),
-        //     controller: contoller,
-        //   ),
-        // ),
         Expanded(
           child: StreamBuilder<String>(
-            stream: strean_text, // Substitua 'textStream' pelo seu fluxo de dados para o texto do campo
+            stream: strean_text,
             builder: (context, textSnapshot) {
               return StreamBuilder<Color>(
-                stream:  null, // Substitua 'backgroundColorStream' pelo seu fluxo de dados para a cor de fundo
+                stream:  null,
                 builder: (context, colorSnapshot) {
-                  print(strean_color);
                   if("lucro_prejuiso" == strean_color){
                     var valor = (textSnapshot.data
                         .toString()
@@ -337,8 +353,6 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                   }
                   if("margem" == strean_color){
                     var corSelecionada =  dignosticoBloc.getColorBasedOnConditions();
-                    print('corSelecionada');
-                    print(corSelecionada);
                     if( corSelecionada == 'VERDE'){
                        cor_fundo = Colors.green;
                     }else if( corSelecionada == 'AMARELO'){
@@ -346,15 +360,13 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                     }else if( corSelecionada == 'VERDE'){
                       cor_fundo = Colors.red;
                     }
-
                   }
-
                   return Container(
-                    color: colorSnapshot.data ?? Colors.white, // Usar a cor do snapshot ou branco se for nulo
+                    color: colorSnapshot.data ?? Colors.white,
                     child: TextField(
                       enabled: false,
                       decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
-                      controller: TextEditingController(text: textSnapshot.data ?? ''), // Usar o valor atual do snapshot ou vazio se for nulo
+                      controller: TextEditingController(text: textSnapshot.data ?? ''),
                     ),
                   );
                 },
