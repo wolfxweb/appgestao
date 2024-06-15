@@ -81,7 +81,7 @@ class _novaHomeState extends State<novaHome> {
             buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnGestaoPrioridades,GestaoPrioridade()),
             buildRowBtn(context, textAjudaGestaoPrioridades ,textBtnCalculadoraPrecos,Calculadora()),
         //
-                   buildRowBtn(context, '','Nova tela',NovaTelaDiagnostico()),
+         //          buildRowBtn(context, '','Nova tela',NovaTelaDiagnostico()),
         /*
           Tela removidas ou alteradas por solicitação  do cliente alguns dos arquivos foram removidos por solicitação do mesmo
              buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,DadosBasicos()),
