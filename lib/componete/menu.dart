@@ -13,6 +13,7 @@ import 'package:appgestao/pages/diagnostico.dart';
 import 'package:appgestao/pages/gestaoPrioridades.dart';
 import 'package:appgestao/pages/homeadmin.dart';
 import 'package:appgestao/pages/importanciameses.dart';
+import 'package:appgestao/pages/newTelaDiagnostico.dart';
 import 'package:appgestao/pages/novaHome.dart';
 import 'package:appgestao/pages/novaTelaDiagnostico.dart';
 import 'package:appgestao/pages/novodadosbasicos.dart';
@@ -95,7 +96,7 @@ class _MenuState extends State<Menu> {
               title: buildText("Diagnóstico"),
               trailing: const Icon(Icons.arrow_forward),
               onTap: () {
-                route.pushPage(context, const telaDiagnostico());
+                route.pushPage(context,  NovaTelaDiagnostico());
                 //  Navigator.pop(context);
               },
             ),

@@ -126,7 +126,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nova Tela Diagnóstico',
+        title: const Text('Diagnóstico',
           style: TextStyle(color: Colors.white), // Altera a cor do texto para branco
         ),
         backgroundColor:const Color.fromRGBO(1, 57, 44, 1), // Altera a cor de fundo da AppBar
@@ -156,11 +156,11 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                       return StreamBuilder<double>(
                         stream: _custoController.stream,
                         builder: (context, custoSnapshot) {
-                          double faturamento = faturamentoSnapshot.data ?? 0;
-                          double custo = custoSnapshot.data ?? 0;
+                          double faturamento = faturamentoSnapshot.data ?? 1;
+                          double custo = custoSnapshot.data ??1;
 
                           // Calcula a proporção entre faturamento e custo
-                          double proporcao = faturamento > 0 ? custo / faturamento : 0;
+                          double proporcao = faturamento > 0 ? custo / faturamento :1;
 
                           final List<Map<String, dynamic>> dataSource = [
                             {'category': 'Faturamento', 'value': faturamento, 'color': Colors.orange},
@@ -176,7 +176,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                               // Define a altura da segunda barra proporcional à primeira
                               maximum: faturamento * 1.2, // Define o máximo como 20% maior que o faturamento
                               // Define o intervalo do eixo Y
-                              interval: faturamento / 10, // Ou qualquer outro intervalo desejado
+                              interval: (faturamento / 10) > 0 ? faturamento / 10 : 1,
                               // Oculta os rótulos do eixo Y
                               labelStyle: const TextStyle(color: Colors.transparent),
                             ),
@@ -197,42 +197,6 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                 ),
           ),
 
-
-
-                    //     Expanded(
-                //       child:Container(
-                //         width: double.infinity,
-                //        // padding: EdgeInsets.symmetric(horizontal: 4.0),
-                //         //   width: double.infinity,
-                //         child: SfCartesianChart(
-                //           enableSideBySideSeriesPlacement: false,
-                //           legend: const Legend(isVisible: false),
-                //           primaryXAxis: const CategoryAxis(
-                //             majorTickLines: MajorTickLines(size: 0),
-                //             axisLine: AxisLine(color: Colors.transparent), // Remove as linhas de grade e os valores no eixo X
-                //           ),
-                //           primaryYAxis: const NumericAxis(
-                //               majorTickLines: MajorTickLines(size: 0), // Remove as linhas de grade e os valores no eixo Y
-                //              edgeLabelPlacement: EdgeLabelPlacement.shift, // Evita que os rótulos de dados sejam cortados
-                //              labelStyle: TextStyle(color: Colors.transparent), // Define a cor do texto como transparente para ocultar os rótulos
-                //              interval: 1000, // Defina um intervalo que não exibe nenhum rótulo
-                //           ),
-                //           series: <CartesianSeries>[
-                //             ColumnSeries<Map, String>(
-                //               dataSource: const [
-                //                 {'category': 'Faturamento', 'value': 5000, 'color': Colors.orange}, // Barra azul para faturamento
-                //                 {'category': 'Custo', 'value': 3000, 'color': Colors.amberAccent}, // Barra vermelha para custo
-                //               ],
-                //               xValueMapper: (Map sales, _) => sales['category'] as String,
-                //               yValueMapper: (Map sales, _) => sales['value'] as num,
-                //                 dataLabelSettings: const DataLabelSettings(isVisible: true), // Oculta os rótulos de dados
-                //              // dataLabelMapper: (Map sales, _) => '',
-                //               pointColorMapper: (Map sales, _) => sales['color'] as Color, // Define a cor da barra
-                //             ),
-                //           ],
-                //         ),
-                //   ),
-                // ),
 
                     Expanded(
                       child: Container(
@@ -340,16 +304,25 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
           child: StreamBuilder<String>(
             stream: strean_text,
             builder: (context, textSnapshot) {
+              print('strean_color');
+              print(strean_color);
+              if(strean_color ==''){
+                strean_color = 'lucro_prejuiso';
+              }
               return StreamBuilder<Color>(
                 stream:  null,
                 builder: (context, colorSnapshot) {
+
+
                   if("lucro_prejuiso" == strean_color){
                     var valor = (textSnapshot.data
                         .toString()
                         .replaceAll("R\$", "")
                         .replaceAll('.', '')
                         .replaceAll(',', '.'));
-                    cor_fundo = calcularCor(double.parse(valor));
+                    if (textSnapshot.data != null) {
+                     cor_fundo = calcularCor(double.parse(valor));
+                    }
                   }
                   if("margem" == strean_color){
                     var corSelecionada =  dignosticoBloc.getColorBasedOnConditions();
