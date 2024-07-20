@@ -2,6 +2,7 @@ import 'package:appgestao/blocs/diagnostico.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:appgestao/componete/menu.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
@@ -26,7 +27,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
 
   final _faturamentoGraficoController = StreamController<double>();
   final _custoController = StreamController<double>();
-
+  final _margemContribuicao = BehaviorSubject<String>();
 
   // Variável para armazenar o título do campo
   String tituloCampo = "Lucro";
@@ -107,7 +108,8 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
         var totalCusto = double.parse(gastos)+double.parse(gastos_insumos)+double.parse(custo_varivel)+double.parse(custo_fixo);
         adicionarFaturamento(double.parse(faturamento));
         adicionarCusto(totalCusto);
-       // tituloCampo ="Prejuíso";
+        var margem  =  dignosticoBloc.getMargem();
+        _margemContribuicao.add("R\$ $margem");
         String situacaoFinanceira = calcularSituacaoFinanceira(double.parse(faturamento), totalCusto);
         Future.delayed(Duration(seconds: 1), () {
           setState(() {
@@ -122,6 +124,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   void initState() {
     super.initState();
   //  Future.delayed(Duration(seconds: 1), _consultar);
+
     Future.delayed(Duration(seconds: 1), () {
       _consultar();
       Future.delayed(Duration(seconds: 1), () {
@@ -223,7 +226,8 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                           //  SizedBox(height: 5.0),
                             _buildRowWithHelpIcon('Ticket Médio','',dignosticoBloc.ticketMedioController,mensagem2,"","Ticket Médio"),
                         //    SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Margem de Contribuição','',dignosticoBloc.margemContriController,mensagem3,"margem","Margem de Contribuição"),
+                            _buildRowMargemContibuicao('Margem de Contribuição','',"",mensagem3,"margem","Margem de Contribuição"),
+                          //  _buildRowWithHelpIcon('Margem de Contribuição','',dignosticoBloc.margemContriController,mensagem3,"margem","Margem de Contribuição"),
                         //    SizedBox(height: 5.0),
                             _buildRowWithHelpIcon('Produtividade','',dignosticoBloc.produtividadeController,mensagem4,null,"Produtividade"),
                         //    SizedBox(height: 5.0),
@@ -297,7 +301,71 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
       // hintText: 'Quantidade de clientes atendidos',
     );
   }
-
+  Widget _buildRowMargemContibuicao(String label,text , strean_text, textAlert,strean_color, titulo) {
+    var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
+    return Row(
+      children: [
+        Expanded(
+          child: StreamBuilder<String>(
+            stream: _margemContribuicao.stream,
+            builder: (context, textSnapshot) {
+              var lucro = "Lucro";
+              if(strean_color ==''){
+                strean_color = 'lucro_prejuiso';
+              }
+              return StreamBuilder<Color>(
+                stream:  null,
+                builder: (context, colorSnapshot) {
+                  if("lucro_prejuiso" == strean_color){
+                    var valor = (textSnapshot.data
+                        .toString()
+                        .replaceAll("R\$", "")
+                        .replaceAll('.', '')
+                        .replaceAll(',', '.'));
+                    if (textSnapshot.data != null) {
+                      cor_fundo = calcularCor(double.parse(valor));
+                    }
+                    // lucro ="Prejuíso";
+                  }
+                  if("margem" == strean_color){
+                    var corSelecionada =  dignosticoBloc.getColorBasedOnConditions();
+                    if( corSelecionada == 'VERDE'){
+                      cor_fundo = Colors.green;
+                    }else if( corSelecionada == 'AMARELO'){
+                      cor_fundo = Colors.yellow;
+                    }else if( corSelecionada == 'VERDE'){
+                      cor_fundo = Colors.red;
+                    }
+                  }
+                  return Container(
+                    color: colorSnapshot.data ?? Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0),):Text(titulo,style: const TextStyle(fontSize: 13.0),),
+                        TextField(
+                          enabled: false,
+                          decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
+                          controller: TextEditingController(text: textSnapshot.data ?? ''),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+          onPressed: () {
+            _showHelpModal(context, textAlert);
+          },
+        ),
+      ],
+    );
+  }
   Widget _buildRowWithHelpIcon(String label,text , strean_text, textAlert,strean_color, titulo) {
     var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
     return Row(

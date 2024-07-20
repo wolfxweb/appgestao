@@ -71,6 +71,7 @@ class DignosticoBloc extends BlocBase {
   var quantidadeVendasDadosBasicos;
   var custoVendas;
   var capacidade_atendimento;
+  var calculoTesteResult;
 
   //var _marInformada;
   var calc_qtd;
@@ -196,6 +197,7 @@ class DignosticoBloc extends BlocBase {
     }
   }
   String getPrimeiroTexto(double margem, double margemIdeal) {
+
     if (margem == null || margem == 0) {
       return "Você deve estar bem preocupado!";
     } else if (margem < 0) {
@@ -262,6 +264,42 @@ class DignosticoBloc extends BlocBase {
     }
     return "";
   }
+  String avaliarMargem(
+     double margem,
+     double margemIdeal,
+     double faturamento,
+     double margContribuicao,
+     double ticketMedio,
+     double quantPontoEquilibrio,
+     double quantVendas,
+  ) {
+    if (margemIdeal == null || faturamento == null) {
+      return "";
+    } else if (margem >= 0 && margem < margemIdeal * 0.90 && margContribuicao > 0 && margContribuicao / ticketMedio < 0.20 && quantPontoEquilibrio / quantVendas > 0.50) {
+      return "Diminua a participação dos seus gastos com vendas, com suas compras e os custos fixos, sobre o faturamento. Você está calculando corretamente os preços dos itens que comercializa?";
+    } else if (margem >= 0 && margem < margemIdeal * 0.90 && margContribuicao > 0 && margContribuicao / ticketMedio < 0.20 && quantPontoEquilibrio / quantVendas < 0.50) {
+      return "Diminua a participação dos seus gastos com vendas e com suas compras, sobre o faturamento. Muita atenção com os estoques e com os prazos dos recebimento e dos pagamentos!";
+    } else if (margem >= 0 && margem < margemIdeal * 0.90 && margContribuicao / ticketMedio >= 0.20 && quantPontoEquilibrio / quantVendas > 0.50) {
+      return "Verifique a possibilidade de aumentar a produtividade!";
+    } else if (margem >= 0 && margem < margemIdeal * 0.90 && margContribuicao / ticketMedio >= 0.20 && quantPontoEquilibrio / quantVendas < 0.50) {
+      return "Você está calculando corretamente os preços dos itens que comercializa?";
+    } else if (margem >= margemIdeal * 0.90 && margContribuicao > 0 && margContribuicao / ticketMedio < 0.20 && quantPontoEquilibrio / quantVendas > 0.50) {
+      return "Diminua a participação dos seus gastos com vendas, com suas compras e custos fixos, sobre o faturamento!";
+    } else if (margem >= margemIdeal * 0.90 && margContribuicao > 0 && margContribuicao / ticketMedio < 0.20 && quantPontoEquilibrio / quantVendas < 0.50) {
+      return "Diminua seus gastos com vendas e com suas compras!";
+    } else if (margem >= margemIdeal * 0.90 && margContribuicao / ticketMedio >= 0.20 && quantPontoEquilibrio / quantVendas > 0.50) {
+      return "Verifique a possibilidade de reduzir a participação dos custos fixos sobre o faturamento!";
+    } else if (margem >= margemIdeal * 0.90 && margContribuicao / ticketMedio >= 0.20 && quantPontoEquilibrio / quantVendas < 0.50) {
+      return "A participação dos seus gastos e custos sobre o faturamento estão bem administrados!";
+    } else if (margem < 0 && margContribuicao < 0) {
+      return "Sua prioridade mais urgente é reduzir a participação dos gastos com vendas e com suas compras, sobre o faturamento!";
+    } else if (margem < 0 && margContribuicao > 0) {
+      return "Após analisar os preços, priorize reduzir os custos fixos! E reveja os gastos com vendas e com suas compras.";
+    } else {
+      return "";
+    }
+  }
+
   String getQuartoTexto(double margem, double margemIdeal, double faturamento, double margContribuicao, double ticketMedio, double quantPontoEquilibrio, double quantVendas) {
     if (margemIdeal == 0 || faturamento == 0) {
       return "";
@@ -496,10 +534,12 @@ class DignosticoBloc extends BlocBase {
     _lucroController.add("R\$ ${formatterMoeda.format(faturamentoTelaGrafico)}");
 
     _percentualLucroController.add("${_Bnovo.toString()} %");
-   //  var calculo_teste = (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
-   //  var calculo_teste_result = formatterMoeda.format(calculo_teste);
-   // // _margemContribuicaoController.add("R\$ $calculo_teste_result");
-   //  _margemContriController.add("R\$ $calculo_teste_result");
+
+
+     //  var calculo_teste = (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
+     //  var calculo_teste_result = formatterMoeda.format(calculo_teste);
+     //  _margemContribuicaoController.add("R\$ $calculo_teste_result");
+     // _margemContriController.add("R\$ $calculoTesteResult");
     _produtividadeController.add(produtividade);
     _pontoEquilibrioController.add(formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao)));
     _percentualPontoEquilibrioController.add("R\$ ${formatterMoeda.format(faturamento)}");
@@ -521,12 +561,17 @@ class DignosticoBloc extends BlocBase {
     double pontoEquilibrio = faturamento;
     double margemContribuicao = margemContribuicao_parse;
 
-    String mensagem_1 = getPrimeiroTexto(margem_1, margemIdeal);
-    String mensagem_2 = getSegundoTexto(margem_1, margemIdeal, quantClientesAtendimento, capacidadeAtendimento);
-    String mensagem_3 = getTerceiroTexto(margem_1, margemIdeal, quantClientesAtendimento, capacidadeAtendimento);
-    String mensagem_4 =  getQuartoTexto(margem_1, margemIdeal, faturamento, margContribuicao, ticketMedio, quantPontoEquilibrio, quantVendas);
-    String mensagem_5 = getQuintoTexto(faturamento, pontoEquilibrio, margemContribuicao, capacidadeAtendimento, margem, margemIdeal, ticketMedio);
-    String mensagem_6 ="Uma vez que estas considerações referem-se a mês anterior, recomendamos que em DEFINIÇÃO DE PRIORIDADES você estime comparativamente as variações para o corrente mês. Feito isso, digite suas estimativas para fechamento deste mês em DADOS BÁSICOS e veja o DIAGNÓSTICO.";
+    String mensagem_1 = getPrimeiroTexto(margem_1, margemDadosBasicos);
+    String mensagem_2 = getSegundoTexto(margem_1, margemDadosBasicos, quantClientesAtendimento, capacidadeAtendimento);
+    String mensagem_3 = getTerceiroTexto(margem_1, margemDadosBasicos, quantClientesAtendimento, capacidadeAtendimento);
+    // String mensagem_4 = getQuartoTexto(margem_1, margemDadosBasicos, faturamentoDadosBasicos, margContribuicao, ticketMedio, quantPontoEquilibrio, quantVendas);
+      //avaliarMargem()
+    String mensagem_4 = avaliarMargem(margem_1, margemDadosBasicos, faturamentoDadosBasicos, margContribuicao, ticketMedio, quantPontoEquilibrio, quantVendas);
+
+   // print(mensagem_teste);
+   String mensagem_5 = getQuintoTexto(faturamento, pontoEquilibrio, margemContribuicao, capacidadeAtendimento, margem, margemIdeal, ticketMedio);
+   String mensagem_6 ="Uma vez que estas considerações referem-se a mês anterior, recomendamos que em DEFINIÇÃO DE PRIORIDADES você estime comparativamente as variações para o corrente mês. Feito isso, digite suas estimativas para fechamento deste mês em DADOS BÁSICOS e veja o DIAGNÓSTICO.";
+   // String mensagem_4 ="";
     String mensagemConcatenada = "$mensagem_1\n$mensagem_2\n$mensagem_3\n$mensagem_4\n$mensagem_5\n$mensagem_6";
     _cardInformativoNovaTela.add(mensagemConcatenada);
     // var calculo_teste = (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
@@ -540,7 +585,7 @@ class DignosticoBloc extends BlocBase {
     var dadosBasicos = true;
     await bd.lista().then((data) {
       data.forEach((element) {
-        print(element);
+      //  print(element);
         dadosBasicos = false;
         _A = element['mes'];
         calculo_a = element['mes'];
@@ -628,8 +673,8 @@ class DignosticoBloc extends BlocBase {
         //    print('_A');
         //    print(_A);
         final mesAtual = DateTime.now().month;
-           print('mesAtual');
-           print(mesAtual);
+         //  print('mesAtual');
+         //  print(mesAtual);
         switch (mesAtual) {
           case 1:
             _calculoMensal(_dez, _jan, _fev, "Fevereiro");
@@ -676,6 +721,9 @@ class DignosticoBloc extends BlocBase {
     }
   }
 
+  getMargem(){
+    return calculoTesteResult;
+  }
   _calculoX() {
     //  var calculoX=(((24000.0+((((24000.0*25)-(7.1*24000.0))/13.0)*48.0))/4800.00)/(24000.00/4800.00));
     // print('calculoX');
@@ -815,8 +863,11 @@ class DignosticoBloc extends BlocBase {
     calc_gi = double.parse(gastos_insumos).truncateToDouble();
    // calc_gas = double.parse(gastos).truncateToDouble();
     calc_gas =0.0;
-  //  print(element);
+    var calculoTeste = (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
+    calculoTesteResult = formatterMoeda.format(calculoTeste);
+
     _calculoMargemResultante();
+
   }
   @override
   void dispose() {
