@@ -169,7 +169,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                         builder: (context, custoSnapshot) {
                           double faturamento = faturamentoSnapshot.data ?? 1;
                           double custo = custoSnapshot.data ??1;
-                          
+
                           double proporcao = faturamento > 0 ? custo / faturamento :1;
 
                           final List<Map<String, dynamic>> dataSource = [

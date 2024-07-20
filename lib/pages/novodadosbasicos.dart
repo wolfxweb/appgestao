@@ -401,37 +401,46 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.13,
-                        child: Container(),
+                        child:   buildIconeMsg(context,
+                            'Botão salvar adiciona um novo registro\nBotão altualizar atualizar os dados atuais da tela no banco de dados.\nBotão histórico abre a tela com a lista de dados basicos.'),
                       ),
+                      // SizedBox(
+                      //   width: MediaQuery.of(context).size.width * 0.4,
+                      //   child: ElevatedButton(
+                      //     style: colorButtonStyle(),
+                      //       /*ElevatedButton.styleFrom(
+                      //       textStyle: const TextStyle(fontSize: 20),
+                      //       //primary: const Color.fromRGBO(1, 57, 44, 1),
+                      //     ),*/
+                      //     onPressed: () {
+                      //      // route.pushPage(context, NovoDadosBasicos());
+                      //
+                      //       _faturamentoController.text = "";
+                      //       _quantidadeController.text = "";
+                      //       _gastoinsumosController.text = "";
+                      //       _custoFixoController.text = "";
+                      //       _margenController.text = "";
+                      //       _custoVariavelController.text = "";
+                      //       _custoInsumosController.text = "";
+                      //       mesSelecionaController.text = "";
+                      //       mesSelect.value = "";
+                      //       percentualVendas.text = "";
+                      //       percentualGastosInsumos.text = "";
+                      //       percentualOutrosCustos.text = "";
+                      //       percentualCustoFixo.text = "";
+                      //       _custoInsumosController.text ="";
+                      //
+                      //
+                      //     },
+                      //     child: const Text("Limpar"),
+                      //   ),
+                      // ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: ElevatedButton(
                           style: colorButtonStyle(),
-                            /*ElevatedButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 20),
-                            //primary: const Color.fromRGBO(1, 57, 44, 1),
-                          ),*/
-                          onPressed: () {
-                           // route.pushPage(context, NovoDadosBasicos());
-
-                            _faturamentoController.text = "";
-                            _quantidadeController.text = "";
-                            _gastoinsumosController.text = "";
-                            _custoFixoController.text = "";
-                            _margenController.text = "";
-                            _custoVariavelController.text = "";
-                            _custoInsumosController.text = "";
-                            mesSelecionaController.text = "";
-                            mesSelect.value = "";
-                            percentualVendas.text = "";
-                            percentualGastosInsumos.text = "";
-                            percentualOutrosCustos.text = "";
-                            percentualCustoFixo.text = "";
-                            _custoInsumosController.text ="";
-
-
-                          },
-                          child: const Text("Limpar"),
+                          onPressed: _inserir,
+                          child: const Text("Salvar"),
                         ),
                       ),
                       SizedBox(
@@ -444,34 +453,34 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                       ),
                     ],
                   ),
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     mainAxisSize: MainAxisSize.max,
-                     crossAxisAlignment: CrossAxisAlignment.center,
-                     children: <Widget>[
-                       SizedBox(
-                         width: MediaQuery.of(context).size.width * 0.13,
-                         child: Container(),
-                       ),
-                       SizedBox(
-                         width: MediaQuery.of(context).size.width * 0.4,
-                         child: ElevatedButton(
-                           style: colorButtonStyle(),
-                           onPressed: _inserir,
-                           child: const Text("Salvar"),
-                         ),
-                       ),
-                       SizedBox(
-                         width: MediaQuery.of(context).size.width * 0.4,
-                         child: ElevatedButton(
-                           style: colorButtonStyle(),
-                          onPressed: _delete,
-                           child: const Text("Delete"),
-                         ),
-                       ),
-                     ],
-                     //_listaDadosBasicos
-                   ),
+                   // Row(
+                   //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                   //   mainAxisSize: MainAxisSize.max,
+                   //   crossAxisAlignment: CrossAxisAlignment.center,
+                   //   children: <Widget>[
+                   //     SizedBox(
+                   //       width: MediaQuery.of(context).size.width * 0.13,
+                   //       child: Container(),
+                   //     ),
+                   //     SizedBox(
+                   //       width: MediaQuery.of(context).size.width * 0.4,
+                   //       child: ElevatedButton(
+                   //         style: colorButtonStyle(),
+                   //         onPressed: _inserir,
+                   //         child: const Text("Salvar"),
+                   //       ),
+                   //     ),
+                   //     SizedBox(
+                   //       width: MediaQuery.of(context).size.width * 0.4,
+                   //       child: ElevatedButton(
+                   //         style: colorButtonStyle(),
+                   //        onPressed: _delete,
+                   //         child: const Text("Delete"),
+                   //       ),
+                   //     ),
+                   //   ],
+                   //   //_listaDadosBasicos
+                   // ),
                    SizedBox(
                      width: MediaQuery.of(context).size.width * 0.4,
                      child: ElevatedButton(
