@@ -111,7 +111,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
         var margem  =  dignosticoBloc.getMargem();
         _margemContribuicao.add("R\$ $margem");
         String situacaoFinanceira = calcularSituacaoFinanceira(double.parse(faturamento), totalCusto);
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(const Duration(seconds: 1), () {
           setState(() {
             tituloCampo = situacaoFinanceira;
           });
@@ -125,9 +125,9 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
     super.initState();
   //  Future.delayed(Duration(seconds: 1), _consultar);
 
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       _consultar();
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         setState(() {
           _showComponents = true;
         });
@@ -149,7 +149,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
       drawer: Menu(),
       body:_showComponents? SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical:0, horizontal: 0.0),
+          padding: const EdgeInsets.symmetric(vertical:10, horizontal: 0.0),
           child: Column(
             children: [
               Container(
@@ -248,9 +248,9 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
               ),
           Card(
            // elevation: 4.0, // Sombreamento do card
-            margin: EdgeInsets.all(8.0), // Margem ao redor do card
+            margin: const EdgeInsets.all(8.0), // Margem ao redor do card
             child: Container(
-              padding: EdgeInsets.all(11.0), // Preenchimento interno do container
+              padding: const EdgeInsets.all(11.0), // Preenchimento interno do container
               // color: Colors.green, // Cor de fundo do container (opcional)
               child: StreamBuilder(
                 stream: dignosticoBloc.cardInformativoNovaTela,
@@ -284,7 +284,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   InputDecoration buildInputDecoration(BuildContext context, text, titulo,corFundo ) {
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
-      contentPadding:    EdgeInsets.symmetric(horizontal: 5, vertical:0),
+      contentPadding:    const EdgeInsets.symmetric(horizontal: 5, vertical:0),
       fillColor:  corFundo,
       filled: true,
       enabled: false,
@@ -498,6 +498,74 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
       ],
     );
   }
+
+  Widget _buildRowSemIconTitulo(String label,text , strean_text, textAlert,strean_color, titulo) {
+    var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
+    return Row(
+      children: [
+        Expanded(
+          child: StreamBuilder<String>(
+            stream: strean_text,
+            builder: (context, textSnapshot) {
+              var lucro = "Lucro";
+              if(strean_color ==''){
+                strean_color = 'lucro_prejuiso';
+              }
+              return StreamBuilder<Color>(
+                stream:  null,
+                builder: (context, colorSnapshot) {
+
+                  if("lucro_prejuiso" == strean_color){
+                    var valor = (textSnapshot.data
+                        .toString()
+                        .replaceAll("R\$", "")
+                        .replaceAll('.', '')
+                        .replaceAll(',', '.'));
+                    if (textSnapshot.data != null) {
+                      cor_fundo = calcularCor(double.parse(valor));
+                    }
+                    // lucro ="Prejuíso";
+                  }
+                  if("margem" == strean_color){
+                    var corSelecionada =  dignosticoBloc.getColorBasedOnConditions();
+                    if( corSelecionada == 'VERDE'){
+                      cor_fundo = Colors.green;
+                    }else if( corSelecionada == 'AMARELO'){
+                      cor_fundo = Colors.yellow;
+                    }else if( corSelecionada == 'VERDE'){
+                      cor_fundo = Colors.red;
+                    }
+                  }
+                  return Container(
+                    color: colorSnapshot.data ?? Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                     //   titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0),):Text(titulo,style: const TextStyle(fontSize: 13.0),),
+                        TextField(
+                          enabled: false,
+                          decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
+                          controller: TextEditingController(text: textSnapshot.data ?? ''),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        // IconButton(
+        //   icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+        //   onPressed: () {
+        //     _showHelpModal(context, textAlert);
+        //   },
+        // ),
+      ],
+    );
+  }
+
   Widget _buildRowWithHelpIconDuplo(String label,text , strean_text, textAlert,strean_color, titulo ,label2,text2 , strean_text2, textAlert2,strean_color2, titulo2) {
     var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
     return Column(
@@ -509,7 +577,8 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildRowSemIcon(tituloCampo,'',dignosticoBloc.lucroController,'Verificar o texto para este campo',"lucro_prejuiso","lucro"),
-                  _buildRowSemIcon('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual",""),
+                  const SizedBox(height: 5.0),
+                  _buildRowSemIconTitulo('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual",""),
                 ],
               ),
             ),
@@ -533,9 +602,10 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   _buildRowSemIcon('Ponto de Equilíbrio %','',dignosticoBloc.percentualPontoEquilibrioController,mensagem5,"","Ponto de Equilíbrio"),
-                  _buildRowSemIcon('','',dignosticoBloc.pontoEquilibrioController,mensagem5,"",""),
+                  const SizedBox(height: 5.0),
+                  _buildRowSemIconTitulo('','',dignosticoBloc.pontoEquilibrioController,mensagem5,"",""),
                 ],
               ),
             ),
