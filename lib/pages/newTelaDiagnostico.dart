@@ -358,7 +358,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+          icon: const Icon(Icons.lightbulb, size: 30, color: Colors.yellow),
           onPressed: () {
             _showHelpModal(context, textAlert);
           },
@@ -423,7 +423,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+          icon: const Icon(Icons.lightbulb, size: 30, color: Colors.yellow),
           onPressed: () {
             _showHelpModal(context, textAlert);
           },
@@ -583,7 +583,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+              icon: const Icon(Icons.lightbulb, size: 30, color: Colors.yellow),
               onPressed: () {
                 _showHelpModal(context, textAlert);
               },
@@ -610,7 +610,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+              icon: const Icon(Icons.lightbulb, size: 30, color: Colors.yellow),
               onPressed: () {
                 _showHelpModal(context, textAlert);
               },
@@ -765,7 +765,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+              icon: const Icon(Icons.lightbulb, size: 30, color: Colors.yellow),
               onPressed: () {
                 _showHelpModal(context, textAlert);
               },
