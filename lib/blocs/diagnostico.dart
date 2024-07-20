@@ -29,7 +29,7 @@ class DignosticoBloc extends BlocBase {
   final _percentualPontoEquilibrioController = BehaviorSubject<String>();
   final _ticketMedioController = BehaviorSubject<String>();
   //final _custoTotalController = BehaviorSubject<double>();
-
+  final _margemContriController = BehaviorSubject<String>();
   final _card1 = BehaviorSubject();
   final _card2 = BehaviorSubject();
   final _card3 = BehaviorSubject();
@@ -54,7 +54,7 @@ class DignosticoBloc extends BlocBase {
   Stream get percentualPontoEquilibrioController => _percentualPontoEquilibrioController.stream;
   Stream get ticketMedioController => _ticketMedioController.stream;
   //Stream<double> get custoTotalController => _custoTotalController.stream;
-
+  Stream get margemContriController => _margemContriController.stream;
 
   Stream get card1 => _card1.stream;
   Stream get card2 => _card2.stream;
@@ -496,7 +496,10 @@ class DignosticoBloc extends BlocBase {
     _lucroController.add("R\$ ${formatterMoeda.format(faturamentoTelaGrafico)}");
 
     _percentualLucroController.add("${_Bnovo.toString()} %");
-    _margemContribuicaoController.add("R\$ $_D");
+   //  var calculo_teste = (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
+   //  var calculo_teste_result = formatterMoeda.format(calculo_teste);
+   // // _margemContribuicaoController.add("R\$ $calculo_teste_result");
+   //  _margemContriController.add("R\$ $calculo_teste_result");
     _produtividadeController.add(produtividade);
     _pontoEquilibrioController.add(formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao)));
     _percentualPontoEquilibrioController.add("R\$ ${formatterMoeda.format(faturamento)}");
@@ -526,7 +529,10 @@ class DignosticoBloc extends BlocBase {
     String mensagem_6 ="Uma vez que estas considerações referem-se a mês anterior, recomendamos que em DEFINIÇÃO DE PRIORIDADES você estime comparativamente as variações para o corrente mês. Feito isso, digite suas estimativas para fechamento deste mês em DADOS BÁSICOS e veja o DIAGNÓSTICO.";
     String mensagemConcatenada = "$mensagem_1\n$mensagem_2\n$mensagem_3\n$mensagem_4\n$mensagem_5\n$mensagem_6";
     _cardInformativoNovaTela.add(mensagemConcatenada);
-
+    // var calculo_teste = (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
+    // var calculo_teste_result = formatterMoeda.format(calculo_teste);
+    // _margemContribuicaoController.add("R\$ $calculo_teste_result");
+   // _margemContriController.add("R\$ $margContribuicao");
 
   }
 
@@ -811,5 +817,32 @@ class DignosticoBloc extends BlocBase {
     calc_gas =0.0;
   //  print(element);
     _calculoMargemResultante();
+  }
+  @override
+  void dispose() {
+    // Fecha todos os BehaviorSubject e Subjects ao sair do widget
+    _textDiagnosticoController.close();
+    _textPrejuisoController.close();
+    _textLucro_1_Controller.close();
+    _textLucro_2_Controller.close();
+    _textLucro_3_Controller.close();
+
+    _lucroController.close();
+    _percentualLucroController.close();
+    _margemContribuicaoController.close();
+    _produtividadeController.close();
+    _pontoEquilibrioController.close();
+    _percentualPontoEquilibrioController.close();
+    _ticketMedioController.close();
+
+    _card1.close();
+    _card2.close();
+    _card3.close();
+    _card4.close();
+    _card5.close();
+
+    _cardInformativoNovaTela.close();
+
+    super.dispose();
   }
 }

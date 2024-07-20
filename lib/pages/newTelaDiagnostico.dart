@@ -10,6 +10,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class NovaTelaDiagnostico extends StatefulWidget {
   @override
   _NovaTelaDiagnosticoState createState() => _NovaTelaDiagnosticoState();
+  final TextEditingController textFieldController = TextEditingController();
 }
 
 class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
@@ -30,7 +31,14 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   // Variável para armazenar o título do campo
   String tituloCampo = "Lucro";
   bool _showComponents = false;
+  @override
+  void dispose() {
+    // Fecha os controladores quando a tela é descartada
+    _faturamentoGraficoController.close();
+    _custoController.close();
 
+    super.dispose();
+  }
 
   String calcularSituacaoFinanceira(double faturamento, double custoTotal) {
     if (faturamento > custoTotal) {
@@ -55,6 +63,8 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   void adicionarFaturamento(double valor) {
     _faturamentoGraficoController.add(valor);
   }
+
+
 
   void adicionarCusto(double valor) {
     _custoController.add(valor);
@@ -124,6 +134,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
 
   @override
   Widget build(BuildContext context) {
+    var textFieldController;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Diagnóstico',
@@ -135,7 +146,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
       drawer: Menu(),
       body:_showComponents? SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical:30, horizontal: 0.0),
+          padding: const EdgeInsets.symmetric(vertical:0, horizontal: 0.0),
           child: Column(
             children: [
               Container(
@@ -158,8 +169,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                         builder: (context, custoSnapshot) {
                           double faturamento = faturamentoSnapshot.data ?? 1;
                           double custo = custoSnapshot.data ??1;
-
-                          // Calcula a proporção entre faturamento e custo
+                          
                           double proporcao = faturamento > 0 ? custo / faturamento :1;
 
                           final List<Map<String, dynamic>> dataSource = [
@@ -200,25 +210,30 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
 
                     Expanded(
                       child: Container(
-                        child: Column(
+                        child:  Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            _buildRowWithHelpIcon(tituloCampo,'',dignosticoBloc.lucroController,mensagem1,"lucro_prejuiso"),
-                            const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual"),
-                            const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Ticket Médio','',dignosticoBloc.ticketMedioController,mensagem2,""),
-                            const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Margem de Contribuição','',dignosticoBloc.margemContribuicaoController,mensagem3,"margem"),
-                            const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Produtividade','',dignosticoBloc.produtividadeController,mensagem4,null),
-                            const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Ponto de Equilíbrio %','',dignosticoBloc.percentualPontoEquilibrioController,mensagem5,""),
-                            const SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Ponto de Equilíbrio','',dignosticoBloc.pontoEquilibrioController,mensagem5,""),
-                            const SizedBox(height: 5.0),
-                            const SizedBox(height: 5.0),
+
+                            _buildRowWithHelpIconDuplo(tituloCampo,'',dignosticoBloc.lucroController,mensagem1,"lucro_prejuiso","lucro",'Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual","Percentual"),
+                          //  _buildRowWithHelpIcon(tituloCampo,'',dignosticoBloc.lucroController,mensagem1,"lucro_prejuiso","lucro"),
+                          // SizedBox(height: 5.0),
+                          //  _buildRowWithHelpIcon('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual",""),
+                          //  SizedBox(height: 5.0),
+                            _buildRowWithHelpIcon('Ticket Médio','',dignosticoBloc.ticketMedioController,mensagem2,"","Ticket Médio"),
+                        //    SizedBox(height: 5.0),
+                            _buildRowWithHelpIcon('Margem de Contribuição','',dignosticoBloc.margemContriController,mensagem3,"margem","Margem de Contribuição"),
+                        //    SizedBox(height: 5.0),
+                            _buildRowWithHelpIcon('Produtividade','',dignosticoBloc.produtividadeController,mensagem4,null,"Produtividade"),
+                        //    SizedBox(height: 5.0),
+                           // _buildRowSemIcon('Ponto de Equilíbrio %','',dignosticoBloc.percentualPontoEquilibrioController,mensagem5,"","Ponto de Equilíbrio"),
+                            // _buildRowSemIcon('Ponto de Equilíbrio ','',dignosticoBloc.pontoEquilibrioController,mensagem5,"","Ponto de Equilíbrio"),
+                           // _buildRowWithHelpIcon('Ponto de Equilíbrio %','',dignosticoBloc.percentualPontoEquilibrioController,mensagem5,"","Ponto de Equilíbrio %"),
+                           //  SizedBox(height: 5.0),
+                           //  _buildRowWithHelpIcon('Ponto de Equilíbrio','',dignosticoBloc.pontoEquilibrioController,mensagem5,"","Ponto de Equilíbrio"),
+                            _buildRowWithHelpIconDuploPonto('Ponto de Equilíbrio %','',dignosticoBloc.percentualPontoEquilibrioController,mensagem5,"","Ponto de Equilíbrio %",'','',dignosticoBloc.pontoEquilibrioController,mensagem5,"","" ),
+                         //   SizedBox(height: 5.0),
+                        //    SizedBox(height: 5.0),
                           ],
                         ),
                       ),
@@ -264,56 +279,39 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
   InputDecoration buildInputDecoration(BuildContext context, text, titulo,corFundo ) {
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.always,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-      /*    prefixIcon: IconButton(
-        icon: const Icon(Icons.help, color: Colors.black54,),
-        color: Colors.black54,
-        onPressed: () {
-          alerta.openModal(context, text);
-        },
-      ),*/
-
-      //   suffixIcon: suffixIcon,
-     // fillColor: const Color.fromRGBO(245, 245, 245, 1),
+      contentPadding:    EdgeInsets.symmetric(horizontal: 5, vertical:0),
       fillColor:  corFundo,
       filled: true,
-      // disabledBorder: true,
-      focusedBorder: const OutlineInputBorder(
+      enabled: false,
+      // filled: true,
+      focusedBorder:  const OutlineInputBorder(
         // borderSide: BorderSide(color: Color(0xFFffd600)),
         borderSide:    BorderSide(color: Color.fromRGBO(1, 57, 44, 1), width: 1.0),
       ),
-      border: const OutlineInputBorder(
+      border:  const OutlineInputBorder(
         // borderSide: BorderSide(color: Color(0xFFffd600)),
         borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
       ),
 
-      labelText: titulo,
-      labelStyle: const TextStyle(
-        color: Colors.black,
-        fontSize: 13,
-        // backgroundColor: Colors.white,
-      ),
       // hintText: 'Quantidade de clientes atendidos',
     );
   }
-  Widget _buildRowWithHelpIcon(String label,text , strean_text, textAlert,strean_color) {
-    var cor_fundo = Color.fromRGBO(245, 245, 245, 1);
+
+  Widget _buildRowWithHelpIcon(String label,text , strean_text, textAlert,strean_color, titulo) {
+    var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
     return Row(
       children: [
         Expanded(
           child: StreamBuilder<String>(
             stream: strean_text,
             builder: (context, textSnapshot) {
-              print('strean_color');
-              print(strean_color);
+              var lucro = "Lucro";
               if(strean_color ==''){
                 strean_color = 'lucro_prejuiso';
               }
               return StreamBuilder<Color>(
                 stream:  null,
                 builder: (context, colorSnapshot) {
-
-
                   if("lucro_prejuiso" == strean_color){
                     var valor = (textSnapshot.data
                         .toString()
@@ -323,6 +321,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                     if (textSnapshot.data != null) {
                      cor_fundo = calcularCor(double.parse(valor));
                     }
+                  // lucro ="Prejuíso";
                   }
                   if("margem" == strean_color){
                     var corSelecionada =  dignosticoBloc.getColorBasedOnConditions();
@@ -336,10 +335,17 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                   }
                   return Container(
                     color: colorSnapshot.data ?? Colors.white,
-                    child: TextField(
-                      enabled: false,
-                      decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
-                      controller: TextEditingController(text: textSnapshot.data ?? ''),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0),):Text(titulo,style: const TextStyle(fontSize: 13.0),),
+                        TextField(
+                          enabled: false,
+                          decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
+                          controller: TextEditingController(text: textSnapshot.data ?? ''),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
                     ),
                   );
                 },
@@ -357,6 +363,279 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
     );
   }
 
+  Widget _buildRowSemIcon(String label,text , strean_text, textAlert,strean_color, titulo) {
+    var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
+    return Row(
+      children: [
+        Expanded(
+          child: StreamBuilder<String>(
+            stream: strean_text,
+            builder: (context, textSnapshot) {
+              var lucro = "Lucro";
+              if(strean_color ==''){
+                strean_color = 'lucro_prejuiso';
+              }
+              return StreamBuilder<Color>(
+                stream:  null,
+                builder: (context, colorSnapshot) {
+
+                  if("lucro_prejuiso" == strean_color){
+                    var valor = (textSnapshot.data
+                        .toString()
+                        .replaceAll("R\$", "")
+                        .replaceAll('.', '')
+                        .replaceAll(',', '.'));
+                    if (textSnapshot.data != null) {
+                      cor_fundo = calcularCor(double.parse(valor));
+                    }
+                    // lucro ="Prejuíso";
+                  }
+                  if("margem" == strean_color){
+                    var corSelecionada =  dignosticoBloc.getColorBasedOnConditions();
+                    if( corSelecionada == 'VERDE'){
+                      cor_fundo = Colors.green;
+                    }else if( corSelecionada == 'AMARELO'){
+                      cor_fundo = Colors.yellow;
+                    }else if( corSelecionada == 'VERDE'){
+                      cor_fundo = Colors.red;
+                    }
+                  }
+                  return Container(
+                    color: colorSnapshot.data ?? Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0),):Text(titulo,style: const TextStyle(fontSize: 13.0),),
+                        TextField(
+                          enabled: false,
+                          decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
+                          controller: TextEditingController(text: textSnapshot.data ?? ''),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        // IconButton(
+        //   icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+        //   onPressed: () {
+        //     _showHelpModal(context, textAlert);
+        //   },
+        // ),
+      ],
+    );
+  }
+  Widget _buildRowWithHelpIconDuplo(String label,text , strean_text, textAlert,strean_color, titulo ,label2,text2 , strean_text2, textAlert2,strean_color2, titulo2) {
+    var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildRowSemIcon(tituloCampo,'',dignosticoBloc.lucroController,'Verificar o texto para este campo',"lucro_prejuiso","lucro"),
+                  _buildRowSemIcon('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual",""),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+              onPressed: () {
+                _showHelpModal(context, textAlert);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+  Widget _buildRowWithHelpIconDuploPonto(String label,text , strean_text, textAlert,strean_color, titulo ,label2,text2 , strean_text2, textAlert2,strean_color2, titulo2) {
+    var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildRowSemIcon('Ponto de Equilíbrio %','',dignosticoBloc.percentualPontoEquilibrioController,mensagem5,"","Ponto de Equilíbrio"),
+                  _buildRowSemIcon('','',dignosticoBloc.pontoEquilibrioController,mensagem5,"",""),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+              onPressed: () {
+                _showHelpModal(context, textAlert);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+  Widget _buildRowWithHelpIconDuplo2(String label,text , strean_text, textAlert,strean_color, titulo ,label2,text2 , strean_text2, textAlert2,strean_color2, titulo2) {
+    var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StreamBuilder<String>(
+                    stream: strean_text,
+                    builder: (context, textSnapshot) {
+
+                      var lucro = "";
+                      if(titulo == 'lucro'){
+                        lucro = "Lucro";
+                      }
+                      if(titulo== "" && titulo2 ==""){
+                        lucro ="Ponto de Equilíbrio";
+                      }
+
+                      if (strean_color == '') {
+                        strean_color = 'lucro_prejuiso';
+                        lucro = "Prejuízo";
+                      }
+                      return StreamBuilder<Color>(
+                        stream: null,
+                        builder: (context, colorSnapshot) {
+                          if ("lucro_prejuiso" == strean_color) {
+                            var valor = (textSnapshot.data
+                                .toString()
+                                .replaceAll("R\$", "")
+                                .replaceAll('.', '')
+                                .replaceAll(',', '.'));
+                            if (textSnapshot.data != null) {
+                              cor_fundo = calcularCor(double.parse(valor));
+                            }
+                          }
+                          if ("margem" == strean_color) {
+                            var corSelecionada = dignosticoBloc.getColorBasedOnConditions();
+                            if (corSelecionada == 'VERDE') {
+                              cor_fundo = Colors.green;
+                            } else if (corSelecionada == 'AMARELO') {
+                              cor_fundo = Colors.yellow;
+                            } else if (corSelecionada == 'VERMELHO') {
+                              cor_fundo = Colors.red;
+                            }
+                          }
+                          return Container(
+                            color: colorSnapshot.data ?? Colors.white,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                titulo == 'lucro'
+                                    ? const Text(
+                                  "Ponto de Equilíbrio",
+                                  style: TextStyle(fontSize: 13.0),
+                                  textAlign: TextAlign.start,
+                                )
+                                    : const Text(
+                                  'Ponto de Equilíbrio',
+                                  style: TextStyle(fontSize: 13.0),
+                                  textAlign: TextAlign.start,
+                                ),
+                                TextField(
+                                  enabled: false,
+                                  decoration: buildInputDecoration(context, textSnapshot.data, label, cor_fundo),
+                                  controller: TextEditingController(text: textSnapshot.data ?? ''),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  StreamBuilder<String>(
+                    stream: strean_text,
+                    builder: (context, textSnapshot) {
+                      var lucro = "";
+                      if(titulo == 'lucro'){
+                        lucro = "Lucro";
+                      }
+                      if (strean_color == '') {
+                        strean_color = 'lucro_prejuiso';
+                        lucro = "Prejuízo";
+                      }
+                      return StreamBuilder<Color>(
+                        stream: null,
+                        builder: (context, colorSnapshot) {
+                          if ("lucro_prejuiso" == strean_color) {
+                            var valor = (textSnapshot.data
+                                .toString()
+                                .replaceAll("R\$", "")
+                                .replaceAll('.', '')
+                                .replaceAll(',', '.'));
+                            if (textSnapshot.data != null) {
+                              cor_fundo = calcularCor(double.parse(valor));
+                            }
+                          }
+                          if ("margem" == strean_color) {
+                            var corSelecionada = dignosticoBloc.getColorBasedOnConditions();
+                            if (corSelecionada == 'VERDE') {
+                              cor_fundo = Colors.green;
+                            } else if (corSelecionada == 'AMARELO') {
+                              cor_fundo = Colors.yellow;
+                            } else if (corSelecionada == 'VERMELHO') {
+                              cor_fundo = Colors.red;
+                            }
+                          }
+                          return Container(
+                            color: colorSnapshot.data ?? Colors.white,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                titulo2 == 'Percentual'
+                                    ? const Text(
+                                  "",
+                                  style:  TextStyle(fontSize: 13.0),
+                                  textAlign: TextAlign.start,
+                                )
+                                    : Text(
+                                  lucro,
+                                  style: const TextStyle(fontSize: 13.0),
+                                  textAlign: TextAlign.start,
+                                ),
+                                TextField(
+                                  enabled: false,
+                                  decoration: buildInputDecoration(context, textSnapshot.data, label, cor_fundo),
+                                  controller: TextEditingController(text: textSnapshot.data ?? ''),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.help, size: 30, color: Color.fromRGBO(1, 57, 44, 1)),
+              onPressed: () {
+                _showHelpModal(context, textAlert);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
   void _showHelpModal(BuildContext context, String fieldName) {
     showDialog(
       context: context,

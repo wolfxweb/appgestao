@@ -26,18 +26,18 @@ class DadosBasicosSqlite {
       if (!columnExists3) {
         await dbClient!.execute("ALTER TABLE dados_basiscos ADD COLUMN capacidade_atendimento TEXT DEFAULT '0'");
       }
-    //  await dbClient!.execute("DELETE FROM dados_basiscos WHERE id = 1");
+      await dbClient!.execute("DELETE FROM dados_basiscos WHERE id = 1");
       // print(dados);
       //para manter sincronizado o dados atual em todas as telas sempre atualize o dados_basicos_atual
       await dbClient!.execute("UPDATE dados_basiscos SET dados_basicos_atual = 'N' WHERE dados_basicos_atual ='S'");
       var id = await dbClient!.insert('dados_basiscos', dados, conflictAlgorithm: ConflictAlgorithm.replace);
-      await dbClient!.execute("UPDATE dados_basiscos SET dados_basicos_atual = 'S' WHERE id = ' ${id}' ");
+    //  await dbClient!.execute("UPDATE dados_basiscos SET dados_basicos_atual = 'S' WHERE id = ' ${id}' ");
         final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos  ");
-      print('id: $id');
-       print(list);
+
     } catch (e) {
       print('Erro ao atualizar o banco de dados: $e');
     }
+
 
 
     return 1;
