@@ -188,6 +188,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                               // Define o intervalo do eixo Y
                               interval: (faturamento / 10) > 0 ? faturamento / 10 : 1,
                               // Oculta os rótulos do eixo Y
+                              majorGridLines: const MajorGridLines(width: 0),
                               labelStyle: const TextStyle(color: Colors.transparent),
                             ),
                             series: <CartesianSeries>[
