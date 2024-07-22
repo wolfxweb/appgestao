@@ -1,5 +1,6 @@
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
+import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/novodadosbasicos.dart';
@@ -19,7 +20,7 @@ class ListaDadosBasicos extends StatefulWidget {
 class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
   var route = PushPage();
   var bd = DadosBasicosSqlite();
-
+  var alerta = AlertModal();
   late Future<List<dynamic>> dadosDoBancoDeDados;
   void _consultar() async {
     dadosDoBancoDeDados = bd.lista();
@@ -200,6 +201,17 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+            //   IconButton(
+            //   iconSize: 35,
+            //   icon:const Icon(
+            //     Icons.help,
+            //     color: Color.fromRGBO(1, 57, 44, 1),
+            //   ),
+            //   onPressed: () {
+            //     var msgAlertaMes ="Botão remover ira excluir a informação do banco de dados.\nBotão reutilizar alterar o  bados baícos se o atual.";
+            //     alerta.openModal(context, msgAlertaMes);
+            //   },
+            // ),
                 ElevatedButton(
                   onPressed: () {
                     _delete(dado['id']);
