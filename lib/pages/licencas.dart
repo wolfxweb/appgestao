@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Gerador de Licenças',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        //primarySwatch: Colors.blue,
       ),
       home: LicenseScreen(),
     );
@@ -36,7 +36,9 @@ class _LicenseScreenState extends State<LicenseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Gerador de Licenças'),
+        title: const Text('Gerador de Licenças', style: TextStyle(color: Colors.white),),
+        backgroundColor: const Color.fromRGBO(1, 57, 44, 1),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
