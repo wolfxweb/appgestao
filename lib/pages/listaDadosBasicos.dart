@@ -48,22 +48,22 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
           'Histórico de Dados Básicos',
           style: TextStyle(color: Colors.white), // Altera a cor do texto para branco
         ),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () async {
-        //       final List<Map<String, dynamic>> dados = await dadosDoBancoDeDados.then((value) {
-        //         return value.cast<Map<String, dynamic>>();
-        //       });
-        //       showSearch(
-        //         context: context,
-        //         delegate: DataSearch(dados: dados , context: context),
-        //       );
-        //     },
-        //     icon: Icon(Icons.search),
-        //     tooltip: 'Pesquisar',
-        //   ),
-        //
-        // ],
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final List<Map<String, dynamic>> dados = await dadosDoBancoDeDados.then((value) {
+                return value.cast<Map<String, dynamic>>();
+              });
+              showSearch(
+                context: context,
+                delegate: DataSearch(dados: dados , context: context),
+              );
+            },
+            icon: Icon(Icons.search),
+            tooltip: 'Pesquisar',
+          ),
+
+        ],
         backgroundColor:const Color.fromRGBO(1, 57, 44, 1), // Altera a cor de fundo da AppBar
         iconTheme: const IconThemeData(color: Colors.white), // Altera a cor do ícone (seta) para branco
       ),
@@ -152,7 +152,7 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
     String timePart = parts[1];
     List<String> partsData = datePart.split('-');
     String ano = partsData[0];
-    String mes = partsData[1];
+    String mes_data = partsData[1];
     String dia = partsData[2];
     List<String> timeParts = timePart.split('.');
     String hora = timeParts[0];
@@ -164,7 +164,7 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
     String capacidade_atendimento = dado['capacidade_atendimento'];
     String quantidade_clientes_atendido = dado['qtd'];
     String dados_basicos_atual = dado['dados_basicos_atual'] == 'S' ? "Sim" : "Não";
-
+    String mes = dado['mes'];
     return Card(
       child: Padding(
         padding: EdgeInsets.all(10.0),
@@ -172,10 +172,12 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 8.0),
+            buildRow("Mês:", mes),
+            const SizedBox(height: 8.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Data: $dia/$mes/$ano'),
+                Text('Data: $dia/$mes_data/$ano'),
                 SizedBox(width: 8.0),
                 Text('Hora: $hora'),
               ],
@@ -251,7 +253,7 @@ class DataSearch extends SearchDelegate<String> {
  // DataSearch({required this.dados});
   DataSearch({required this.dados, required this.context});
   @override
-  String get searchFieldLabel => 'Pesquisar digite a hora ';
+  String get searchFieldLabel => 'Digite o mês desejado. ';
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -309,9 +311,9 @@ class DataSearch extends SearchDelegate<String> {
     final suggestionList = query.isEmpty
         ? dados
         : dados.where((element) {
-      String dataCadastro = element['data_cadastro'];
-      String dia = dataCadastro.split('T')[0].split('-').reversed.join('/');
-      return dataCadastro.contains(query) || dia.contains(query);
+      String dataCadastro = element['mes'];
+      // Convertendo ambos os textos para minúsculas
+      return dataCadastro.toLowerCase().contains(query.toLowerCase());
     }).toList();
 
     return ListView.builder(
@@ -369,13 +371,16 @@ class DataSearch extends SearchDelegate<String> {
     String capacidade_atendimento = dado['capacidade_atendimento'];
     String quantidade_clientes_atendido = dado['qtd'];
     String dados_basicos_atual = dado['dados_basicos_atual'] == 'S' ? "Sim" : "Não";
-
+    String mes_ref = dado['mes'];
     return Card(
       child: Padding(
         padding: EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 8.0),
+            buildRow("Mês:", mes_ref),
+            const SizedBox(height: 8.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
