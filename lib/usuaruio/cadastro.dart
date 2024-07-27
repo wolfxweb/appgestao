@@ -65,6 +65,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   final _especialidadeController = TextEditingController();
   final _telefoneController = TextEditingController(text: '');
   final _senhaController = TextEditingController();
+  final _tokenAtivacaoController = TextEditingController();
+
+
   var color = const Color.fromRGBO(1, 57, 44, 1);
   List<String> restricoesLimpezaLista = ['Outra',];
  final dropOpcoesEspecialidade =[];
@@ -506,10 +509,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   const SizedBox(
                     height: 50.0,
                   ),
-                  const Logo(),
-                  const SizedBox(
-                    height: 50.0,
-                  ),
+                 // const Logo(),
+                  // const SizedBox(
+                  //   height: 50.0,
+                  // ),
 
                   const Espacamento(),
                   const Text(
@@ -744,6 +747,36 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                                 keyboardType: TextInputType.text,
                                 obscureText: true,
                                 controller: _senhaController,
+                                decoration: buildInputDecoration("")),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.01,
+                          child: Container()),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.82,
+                        decoration: buildBoxDecoration(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildTextoInput('Chave de  ativação'),
+                            TextFormField(
+                                validator: ValidationBuilder()
+                                    .minLength(6)
+                                    .maxLength(50)
+                                    .required()
+                                    .build(),
+                                keyboardType: TextInputType.text,
+                               // obscureText: true,
+                                controller: _tokenAtivacaoController,
                                 decoration: buildInputDecoration("")),
                           ],
                         ),
@@ -1167,12 +1200,19 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       'area_empresa':_especialidadeController.text,
       'telefone': _telefoneController.text,
       'email': _emailController.text,
-      'status': false,
+      'status': true,
       'admin': false,
       'cidade': _cidadesValue,
-      'estado': _selectedItem
+      'estado': _selectedItem,
+      'chave_ativacao': _tokenAtivacaoController.text
     };
-    print(_valueCheck);
+    var token_ativacao = _tokenAtivacaoController.text;
+
+    if(token_ativacao == ""){
+      alerta.openModal(context,
+          'Chave de ativação é obrigatoria.');
+      return;
+    }
     if (_valueCheck == false) {
       alerta.openModal(context,
           'Aceite da policita de privacidade  e termo de uso para dar continuidade.');
@@ -1186,22 +1226,36 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       alerta.openModal(context, 'Selecione o cidade');
       return;
     }
+
     try {
+      // Consultar a coleção 'licenses' para verificar o status do token de ativação
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('licenses')
+          .where('code', isEqualTo: token_ativacao)
+          .where('status', isEqualTo: 'disponível')
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        // Se nenhum documento for encontrado com o token de ativação e status 'disponível'
+        alerta.openModal(context, 'Token de ativação inválido ou não disponível.');
+        return;
+      }
+
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _senhaController.text,
       );
       if (credential.additionalUserInfo != null) {
-        // print(credential.user!.email);
+        print(credential.user!.email);
         FirebaseFirestore.instance
             .collection("usuario")
             .doc(_emailController.text)
             .set(data);
       }
       // ignore: use_build_context_synchronously
-      alert.alertSnackBar(
-          context, Colors.green, 'Cadastro realizado com sucesso');
+      alert.alertSnackBar(context, Colors.green, 'Cadastro realizado com sucesso');
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         // print('The password provided is too weak.');

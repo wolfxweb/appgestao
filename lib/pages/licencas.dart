@@ -78,7 +78,7 @@ class _LicenseScreenState extends State<LicenseScreen> {
                         items: const [
                           DropdownMenuItem(value: 'todos', child: Text('Todos')),
                           DropdownMenuItem(value: 'disponível', child: Text('Disponível')),
-                          DropdownMenuItem(value: 'usado', child: Text('Ativada')),
+                          DropdownMenuItem(value: 'ativada', child: Text('Ativada')),
                         ],
                         onChanged: (value) {
                           setState(() {
@@ -143,6 +143,7 @@ class _LicenseScreenState extends State<LicenseScreen> {
       await db.collection('licenses').add({
         'code': code,
         'status': 'disponível',
+        'email_ativacao':'',
       });
     }
 
@@ -196,10 +197,17 @@ class _LicenseScreenState extends State<LicenseScreen> {
             final data = licenses[index].data() as Map<String, dynamic>;
             final code = data['code'];
             final status = data['status'];
-
+            final email_ativacao = data['email_ativacao'];
             return ListTile(
               title: Text(code),
-              subtitle: Text('Status: $status'),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Status: $status'),
+                  if (email_ativacao != null && email_ativacao.isNotEmpty)
+                    Text('Email de Ativação: $email_ativacao'),
+                ],
+              ),
             );
           },
         );

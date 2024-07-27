@@ -71,7 +71,7 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 100.0,
                 ),
-                const Logo(),
+               // const Logo(),
                 const SizedBox(
                   height: 100.0,
                 ),
@@ -147,10 +147,10 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                     const Espacamento(),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
+                      children: [
                         BtnCadastreSe(),
                         EsqueceuSenha(),
                       ],
