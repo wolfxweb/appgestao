@@ -341,7 +341,9 @@ calculoTicketMedio(){
    corPrecoMedioAtual();
  }
  calculoMargemAtual(){
-    margemAtual =(faturamentoAtual -(custoVendasAtual+custosTerceirosAtual+custoFixoAtual))/faturamentoAtual;
+   // Calulo alterado conforme reunião do 26/07/2024
+   // margemAtual =(faturamentoAtual -(custoVendasAtual+custosTerceirosAtual+custoFixoAtual))/faturamentoAtual;
+    margemAtual =(faturamentoDadosBasicos -(custoVendasAtual+custosTerceirosAtual+custoFixoAtual))/faturamentoAtual;
    _margemCalculada.add(formatterPercentual.format(margemAtual*100));
     var txt = "";
     if(margemInicalCalculada.toInt()<0 && margemAtual<0){
