@@ -183,18 +183,42 @@ class _MenuState extends State<Menu> {
                       return const SizedBox(height: 0.0);
                     }
                   }),
-              ListTile(
-                leading: const Icon(Icons.add_chart),
-                title:   buildText("Licenças"),
-                trailing: const Icon(
-                  Icons.arrow_forward,
-                ),
-                onTap: () {
-               //   _ususarioBloc.openURL();
-                    route.pushPage(context,  LicenseScreen());
-                  //  Navigator.pop(context);
-                },
-              ),
+
+            if (nivelAcesso)
+              StreamBuilder(
+                  stream: _ususarioBloc.outIsAdminUsuario,
+                  builder: (context, snapshot) {
+                    //  print("btn admin");
+                    //    print(snapshot.data.toString());
+                    if (snapshot.data.toString() == 'admin') {
+                      return  ListTile(
+                        leading: const Icon(Icons.add_chart),
+                        title:   buildText("Licenças"),
+                        trailing: const Icon(
+                          Icons.arrow_forward,
+                        ),
+                        onTap: () {
+                          //   _ususarioBloc.openURL();
+                          route.pushPage(context,  LicenseScreen());
+                          //  Navigator.pop(context);
+                        },
+                      );
+                    } else {
+                      return const SizedBox(height: 0.0);
+                    }
+                  }),
+                // ListTile(
+                //   leading: const Icon(Icons.add_chart),
+                //   title:   buildText("Licenças"),
+                //   trailing: const Icon(
+                //     Icons.arrow_forward,
+                //   ),
+                //   onTap: () {
+                //  //   _ususarioBloc.openURL();
+                //       route.pushPage(context,  LicenseScreen());
+                //     //  Navigator.pop(context);
+                //   },
+                // ),
             // ListTile(
             //   leading: const Icon(Icons.lock_reset),
             //   title: buildText("Reset banco de dados"),

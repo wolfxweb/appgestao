@@ -52,9 +52,21 @@ class _LicenseScreenState extends State<LicenseScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Quantidade de licenças"),
+                    // TextField(
+                    //   keyboardType: TextInputType.numberWithOptions(decimal: false),
+                    //   decoration: buildInputDecoration(context,"sda", "sda", const Color.fromRGBO(245, 245, 245, 1)),
+                    //   controller: _quantityController,
+                    //   textAlign: TextAlign.start,
+                    //   maxLength: 6,
+                    // ),
                     TextField(
-                      keyboardType: TextInputType.number,
-                      decoration: buildInputDecoration(context,"sda", "sda", const Color.fromRGBO(245, 245, 245, 1)),
+                      keyboardType: TextInputType.numberWithOptions(decimal: false),
+                      decoration: buildInputDecoration(
+                        context,
+                        "Quantidade de Licenças",
+                        "Digite a quantidade",
+                        const Color.fromRGBO(245, 245, 245, 1),
+                      ),
                       controller: _quantityController,
                       textAlign: TextAlign.start,
                       maxLength: 6,
