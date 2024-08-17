@@ -119,6 +119,7 @@ class CalculadoraBloc extends BlocBase {
     _margemEmpresalController.add(formatter.format(margeEmpresa));
   }
   _primeiroComentario() {
+
     /*
         =(fat-(cv+cf+gi+gas))/fat
         =(B7-(B8+B9+B10+B11))/B7
@@ -158,15 +159,28 @@ class CalculadoraBloc extends BlocBase {
   }
 
   _ultimoComentario() {
-    if (_relacaoPreco > 5) {
-      /* CERTIFIQUE-SE DE QUE: 1.O MOMENTO ATUAL É OPORTUNO;2.ESTE PREÇO SUGERIDO SERÁ SUPORTADO POR SEU PÚBLICO-ALVO;3.QUE ELE SERÁ COMPETITIVO! */
-      _msgPrecoSugeridoController.add("CERTIFIQUE-SE DE QUE:\n"
-          "1. O MOMENTO ATUAL É OPORTUNO;\n"
-          "2. ESTE PREÇO SUGERIDO SERÁ SUPORTADO POR SEU PÚBLICO-ALVO;\n"
-          "3. QUE ELE SERÁ COMPETITIVO!");
+    // if (_relacaoPreco > 5) {
+    //   /* CERTIFIQUE-SE DE QUE: 1.O MOMENTO ATUAL É OPORTUNO;2.ESTE PREÇO SUGERIDO SERÁ SUPORTADO POR SEU PÚBLICO-ALVO;3.QUE ELE SERÁ COMPETITIVO! */
+    //   _msgPrecoSugeridoController.add("CERTIFIQUE-SE DE QUE:\n"
+    //       "1. O MOMENTO ATUAL É OPORTUNO;\n"
+    //       "2. ESTE PREÇO SUGERIDO SERÁ SUPORTADO POR SEU PÚBLICO-ALVO;\n"
+    //       "3. QUE ELE SERÁ COMPETITIVO!");
+    // } else {
+    //   _msgPrecoSugeridoController.add("");
+    // }
+    var j21 = _relacaoPreco; // Substitua com o valor real
+    var resultado = "";
+
+    if (j21 == null ) {
+      resultado = "";
+    } else if (j21 > 5) {
+      _msgPrecoSugeridoController.add('Certifique-se de que: 1) O momento atual é oportuno; 2) Este preço sugerido será suportado por seu público-alvo.');
+    } else if (j21 < 0) {
+      _msgPrecoSugeridoController.add('Redução só se justifica se for para promover mais vendas!');
     } else {
-      _msgPrecoSugeridoController.add("");
+      resultado = "";
     }
+
     _primeiroComentario();
   }
   _comentarioPrecoConcorrete(){
@@ -218,7 +232,15 @@ class CalculadoraBloc extends BlocBase {
     margemDesejada =_margemDesejada;
 
     String mensagem = "";
-    RC = formatter.format(preco_venda_atual - (preco_venda_atual *(percentual_gasto_vendas + percentual_custo_fixo) + (preco_venda_atual * margeEmpresa)));
+    //calcula alterado no email do dia 17/08
+  //  RC = formatter.format(preco_venda_atual - (preco_venda_atual *(percentual_gasto_vendas + percentual_custo_fixo) + (preco_venda_atual * margeEmpresa)));
+    double G9 = preco_venda_atual;
+    double C10 = percentual_gasto_vendas;
+    double C14 = percentual_custo_fixo;
+    double G11 = _custoInsumo;
+    RC = formatter.format(((G9-((C10*G9)+(C14*G9)+G11))/G9)*100);
+
+
     var a_calculado;
     if (preco_concorrente != null && preco_venda_atual != null && preco_venda_atual != 0) {
         a_calculado = (1 -  (preco_concorrente / (preco_venda_atual / _custoInsumo) / _custoInsumo));
@@ -228,7 +250,12 @@ class CalculadoraBloc extends BlocBase {
       RB = formatter.format(_custoInsumo- (_custoInsumo * (a_calculado)));
     }
     RF = formatter.format(precoVendaAtual -(precoVendaAtual*( percentual_gasto_vendas + percentual_custo_fixo +margemEmpresa )));
-    RD = formatter.format( precoMedioConcorrencia -(precoMedioConcorrencia *(percentual_gasto_vendas + percentual_custo_fixo + margemEmpresa)));
+    // CALCULO ALTERADO EMAIL DIA 17/08/2024
+    // RD = formatter.format( precoMedioConcorrencia -(precoMedioConcorrencia *(percentual_gasto_vendas + percentual_custo_fixo + margemEmpresa)));
+    double H26 = precoMedioConcorrencia; // Valor de exemplo para H26
+    RD = formatter.format(((H26 - ((H26 * (C10 + C14)) + G11)) / H26)*100);
+
+
     RE = RF;
     if (precoVendaAtual > 0 && precoMedioConcorrencia > 0) {
       double percentual90 = precoMedioConcorrencia * 0.9;
