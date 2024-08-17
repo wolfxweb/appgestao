@@ -104,7 +104,14 @@ class _CalculadoraState extends State<Calculadora> {
                                          padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
                                          child: buildIconeMsg(
                                            context,
-                                           'Para calcular o preço de venda de um produto novo, digite o "Custo dos insumos e/ou mercadoria 3o.", e a "Margem desejada". A resposta estará em "Preço sugerido". Para conferir, digite o valor sugerido em "Preço de venda atual".',
+                                         /*  ALATERAÇÃO DAS SOLICITIDADA DIA 15/08
+                                         'Para calcular o preço de venda de um produto novo, digite o "Custo dos insumos '
+                                               'e/ou mercadoria 3o.", e a "Margem desejada". A resposta estará em "Preço sugerido".'
+                                               ' Para conferir, digite o valor sugerido em "Preço de venda atual".',
+
+                                          */
+                                           '''Para calcular o preço de venda de um produto novo: 1) Digite o “Custo dos insumos e/ou mercadoria 3º.”; 2) Digite a “Margem desejada”. 3) A resposta estará em “Preço sugerido”.\nPara analisar a margem que resulta do preço praticado para um produto: 1) Digite o valor em “Preço de venda atual”; 2) Digite o “Custo dos insumos e/ou mercadoria 3º.”.\nPara analisar seus preços como um todo: 1) Em “Preço de venda atual”, digite o valor do “Ticket médio”, disponível no “Diagnóstico”; 2) Em “Custo dos insumos e/ou mercadoria 3º.”, digite o resultado da divisão do “Custo dos insumos e/ou mercadoria 3º.” pela “Quantidade de clientes atendidos “, (disponíveis em “Dados básicos”).\nPara analisar a oferta de preço promocional, basta colocar em “Preço de venda atual” o valor resultante do desconto que estará sendo oferecido.
+                                            ''',
                                          ),
                                        ),
 
@@ -128,7 +135,11 @@ class _CalculadoraState extends State<Calculadora> {
                                     padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
                                     child: buildIconeMsg(
                                       context,
-                                      'Para analisar seu "ticket médio", anote em "preço de venda atual" o valor indicado no DIAGNÓSTICO. Em DADOS BÁSICOS pegue o "gasto com insumos e mercadoria 3o.", divida pela quantidade de clientes atendidos  e anote aqui. Informe a "margem desejada". O valor que aparecerá em "Preço sugerido", será o "Ticket médio" necessário (faturamento médio por cliente). Se, na sua opinião, não for possível aumentar o consumo por cliente, o percentual em "Relação com preço atual" estará sugerindo um aumento médio para os preços.',
+                                          'Você precisa ter a “Fixa técnica gerencial”. Se não tem, recomendamos fortemente que providencie. Não conhece?  '
+                                          'Ela descreve todos os insumos utilizados na produção de cada item: quantidades e respectivos valores.'
+                                          'Pesquise no Google! Sem saber o custo dos insumos não tem como calcular corretamente o preço de venda.'
+                                          'E tem mais: com a Ficha Técnica Gerencial você saberá exatamente qual a quantidade necessária de cada insumo. '
+                                          'Desta forma: 1) qual a real necessidade de compras; 2) qual a demanda de recursos financeiros; 3) melhor gestão dos estoques; 4) uso racional do capital de giro; 5) evita interrupções na produção); 6) realiza boas negociações de compras (preços e prazos); 7) alimenta antecipadamente o Fluxo de Caixa (melhores datas para pagamentos). ',
                                     ),
                                   ),
                                 ),
@@ -619,7 +630,8 @@ class _CalculadoraState extends State<Calculadora> {
             padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
             child: buildIconeMsg(
               context,
-              'Pensando em ofertar preços promocionais (descontos). Após digitar os valores atuais, anote o preço que estará oferecendo em "Preço médio concorrentes". Se for para todos os produtos, em "Preço de venda atual" digite o "Tiket médio", e, em "Custo dos insumos e/ou mercadoria 3o." dividido pela "Quantidade de clientes atendidos" (vendas) que estão em DADOS BÁSICOS. Digite a margem desejada. Coloque o "Preço sugerido" em "Preço médio concorrentes".',
+              'Considere que o concorrente pode estar praticando preços menores que os seus em consequência: a) da operação da empresa com custos menores; b) de melhor negociação nas compras; c) de maiores volumes de vendas; d) qualidade dos processos de produção. Mas também, de: e) preços mal calculados; f) produtos de qualidade inferior; g) campanha promocional.'
+              'Ao decidir se é conveniente acompanhar o concorrente, tenha tudo isso em conta. Mas, sobretudo, considere as necessidades, benefícios e expectativas dos seus públicos-alvo:  conveniência, confiabilidade, experiência anterior e status. O equilíbrio entre custo e valor percebido, ao antecipar satisfação, é que definirá a decisão de compra.',
             ),
           ),
         ),
