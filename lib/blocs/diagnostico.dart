@@ -564,12 +564,6 @@ class DignosticoBloc extends BlocBase {
     _lucroController.add("R\$ ${formatterMoeda.format(faturamentoTelaGrafico)}");
 
     _percentualLucroController.add("${_Bnovo.toString()} %");
-
-
-     //  var calculo_teste = (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
-     //  var calculo_teste_result = formatterMoeda.format(calculo_teste);
-     //  _margemContribuicaoController.add("R\$ $calculo_teste_result");
-     // _margemContriController.add("R\$ $calculoTesteResult");
     _produtividadeController.add(produtividade);
     _pontoEquilibrioController.add(formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao)));
     _percentualPontoEquilibrioController.add("R\$ ${formatterMoeda.format(faturamento)}");
@@ -583,46 +577,180 @@ class DignosticoBloc extends BlocBase {
     double margemIdeal = margem;
     double quantClientesAtendimento = quantidadeVendasDadosBasicos;
     double capacidadeAtendimento = capacidade_atendimento;
-   // double faturamento_ = 50000.0;
+    // double faturamento_ = 50000.0;
     double margContribuicao = double.parse(margemcontribucao);
     double ticketMedio =ticketMedio_parse;
     double quantPontoEquilibrio = faturamento;
     double quantVendas =quantidadeVendasDadosBasicos;
     double pontoEquilibrio = faturamento;
     double margemContribuicao = margemContribuicao_parse;
+    var L14 = margemIdeal;
+    var L19 = margemContribuicao;
+    var F15 = margemDadosBasicos;
+    var F10 = quantVendas;
+    var F16 = capacidadeAtendimento;
 
-    String mensagem_1 = getPrimeiroTexto(margem_1, margemDadosBasicos);
-    String mensagem_2 = getSegundoTexto(margem_1, margemDadosBasicos, quantClientesAtendimento, capacidadeAtendimento);
-    String mensagem_3 = getTerceiroTexto(margem_1, margemDadosBasicos, quantClientesAtendimento, capacidadeAtendimento);
-    String mensagem_4 = getQuartoTexto(margem_1, margemDadosBasicos, faturamentoDadosBasicos, margContribuicao, ticketMedio, quantPontoEquilibrio, quantVendas);
+    var texto_resposta = novaForlumaFrasesDiagnostico(L14,L19,F15,F10,F16);
+    _cardInformativoNovaTela.add(texto_resposta);
+    /*
+     A EXIBIÇÃO ABAIXO ERRA USADA ANTES DA ALTERAÇÃO DO DIA 01/08/2024
+       double margem_1 = margem;
+      double margemIdeal = margem;
+      double quantClientesAtendimento = quantidadeVendasDadosBasicos;
+      double capacidadeAtendimento = capacidade_atendimento;
+     // double faturamento_ = 50000.0;
+      double margContribuicao = double.parse(margemcontribucao);
+      double ticketMedio =ticketMedio_parse;
+      double quantPontoEquilibrio = faturamento;
+      double quantVendas =quantidadeVendasDadosBasicos;
+      double pontoEquilibrio = faturamento;
+      double margemContribuicao = margemContribuicao_parse;
+      String mensagem_1 = getPrimeiroTexto(margem_1, margemDadosBasicos);
+      String mensagem_2 = getSegundoTexto(margem_1, margemDadosBasicos, quantClientesAtendimento, capacidadeAtendimento);
+      String mensagem_3 = getTerceiroTexto(margem_1, margemDadosBasicos, quantClientesAtendimento, capacidadeAtendimento);
+      String mensagem_4 = getQuartoTexto(margem_1, margemDadosBasicos, faturamentoDadosBasicos, margContribuicao, ticketMedio, quantPontoEquilibrio, quantVendas);
+      String mensagem_5 = getQuintoTexto(faturamento, pontoEquilibrio, margemContribuicao, capacidadeAtendimento, margem, margemDadosBasicos, ticketMedio);
+      String mensagem_6 ="Uma vez que estas considerações referem-se a mês anterior, recomendamos que em DEFINIÇÃO DE PRIORIDADES você estime comparativamente as variações para o corrente mês. Feito isso, digite suas estimativas para fechamento deste mês em DADOS BÁSICOS e veja o DIAGNÓSTICO.";
+      List<String> mensagens = [
+        mensagem_1,
+        mensagem_2,
+        mensagem_3,
+        mensagem_4,
+        mensagem_5,
+        mensagem_6
+      ];
+      List<String> mensagensNaoVazias = mensagens.where((mensagem) => mensagem.isNotEmpty).toList();
+      String mensagemConcatenada = mensagensNaoVazias.join('\n');
+      _cardInformativoNovaTela.add(mensagemConcatenada);
 
-    String mensagem_5 = getQuintoTexto(faturamento, pontoEquilibrio, margemContribuicao, capacidadeAtendimento, margem, margemDadosBasicos, ticketMedio);
-    String mensagem_6 ="Uma vez que estas considerações referem-se a mês anterior, recomendamos que em DEFINIÇÃO DE PRIORIDADES você estime comparativamente as variações para o corrente mês. Feito isso, digite suas estimativas para fechamento deste mês em DADOS BÁSICOS e veja o DIAGNÓSTICO.";
-   // String mensagem_4 ="";
-   // String mensagem_5 = "";
-  //  String mensagem_6 ="";
-  //  String mensagemConcatenada = "$mensagem_1\n$mensagem_2\n$mensagem_3\n$mensagem_4\n$mensagem_5\n$mensagem_6";
-    List<String> mensagens = [
-      mensagem_1,
-      mensagem_2,
-      mensagem_3,
-      mensagem_4,
-      mensagem_5,
-      mensagem_6
-    ];
-
-    // Filtra mensagens não vazias
-    List<String> mensagensNaoVazias = mensagens.where((mensagem) => mensagem.isNotEmpty).toList();
-
-    // Concatena as mensagens com quebra de linha
-    String mensagemConcatenada = mensagensNaoVazias.join('\n');
-    _cardInformativoNovaTela.add(mensagemConcatenada);
-    // var calculo_teste = (calc_fat - (calc_gi + calc_cf + calc_gas)) / calc_qtd;
-    // var calculo_teste_result = formatterMoeda.format(calculo_teste);
-    // _margemContribuicaoController.add("R\$ $calculo_teste_result");
-   // _margemContriController.add("R\$ $margContribuicao");
+     */
 
   }
+
+  //Formulas do dias 1/08/2024
+  String novaForlumaFrasesDiagnostico(double L14, double L19, double F15, double F10, double F16) {
+    String texto_fixo = ''' 
+        Uma vez que estas considerações se referem a mês anterior, recomendamos que em “Definição de Prioridades” você estime as variações para o corrente mês, antecipando-se assim a eventuais providências relevantes.
+    ''';
+    if (L14 <= 0 && L19 <= 0) {
+      String texto = '''
+                  Você tem motivo para estar bem preocupado! 
+                  É preciso agir rápido! Seja racional, objetivo e frio! Faça o que for preciso! Agora!
+                  Com esta margem de contribuição, quanto mais vender, maior será o prejuízo!
+                  Faça simulações na “Gestão de Prioridades”, tratando de reduzir prioritariamente os gastos com vendas (consulte seu Contador para verificar seu enquadramento fiscal).
+                  Também será preciso reduzir, os custos dos insumos e/ou mercadorias de terceiros: a) comprando bem (preços, prazos e quantidades); b) eliminando desperdícios, retrabalhos, perdas e desvios.
+                  Utilize a “Calculadora de preços” para analisar: 1) a margem de cada item; 2) a comparação com os preços dos concorrentes. 
+                  Assim você saberá: a) o que deve deixar de produzir/vender; b) em quais ainda existe espaço para aumentar preços; c) o que terá que associar com os mais lucrativos (combos); d) em quais concentrar suas vendas.
+                  Se o Negócio ainda continuar no prejuízo, veja o que consegue reduzir nos custos fixos (aumento da produtividade).
+                  O negócio é viável? Então assuma a responsabilidade e aprenda com os erros. Levante a cabeça. Não demonstre que está com problemas. Não comente. Priorize o pagamento de dívidas pequenas. Proponha acordos para as maiores, considerando que será vital cumpri-los fielmente!
+                  ''';
+      return '$texto\n$texto_fixo';
+    } else if (L14 <= 0 && L19 > 0) {
+      String texto = '''
+              Você tem motivo para estar bem preocupado!
+              É preciso agir rápido! Seja racional, objetivo e frio! Faça o que for preciso. Agora!
+              Comece utilizando a “Calculadora de preços” para verificar: 1) a margem de cada item; 2) seus preços em relação aos dos concorrentes.
+              Assim você saberá: a) o que deve deixar de produzir/vender; b) em quais ainda existe espaço para aumentar preços; c) quais terá que associar com os mais lucrativos (combos); d) em quais concentrar suas vendas.
+              Melhore sua produtividade! Analise seus custos fixos e veja o que pode fazer para reduzi-los. É possível vender mais? (Existe demanda? Preparado para competir? Capital de giro suficiente? Fornecedores?).
+              Utilize a ferramenta “Gestão de Prioridades” para simular o resultado de suas análises. O negócio é viável? Então assuma a responsabilidade e aprenda com os erros. Levante a cabeça. Não demonstre que está com problemas. Não comente. Priorize o pagamento de dívidas pequenas. Proponha acordos para as maiores, considerando que será vital cumpri-los fielmente!
+             ''';
+
+      return '$texto\n$texto_fixo';
+    } else if (L14 > 0 && L14 < F15 * 0.90 && F10 < F16 * 0.90 && L19 > 0) {
+      String texto = '''
+              O lucro alcançado não é aquele que você gostaria! E o negócio está sendo onerado por capacidade ociosa (vendas menores do que a capacidade de atendimento)!
+              Na ferramenta “Gestão de Prioridades” aumente a quantidade de clientes atendidos até o limite de sua capacidade de atendimento (desde que exista demanda, esteja preparado para competir, disponha de capital de giro suficiente e haja disponibilidades nos fornecedores). Verifique a margem resultante.
+              Se não for possível vender mais, ou se não for suficiente, você ainda pode tentar estimular aumento do valor do ticket médio e verificar a possibilidade de reduzir despesas e custos. 
+              Utilize a “Calculadora de preços” para analisar: 1) a margem de cada item; 2) a comparação com os preços dos concorrentes. 
+              Assim você saberá: a) se deve deixar de produzir/vender algum item; b) em quais ainda existe espaço para aumentar preços; c) o que terá que associar com os mais lucrativos (combos); d) em quais concentrar suas vendas.
+              Se a margem continuar menor do que o ideal, considere a hipótese de que o negócio não permite a lucratividade que você considera ideal!
+
+             ''';
+
+      return '$texto\n$texto_fixo';
+    } else if (L14 > 0 && L14 < F15 * 0.90 && F10 > F16 * 0.90 && F10 < F16 * 1.05 && L19 > 0) {
+      String texto = '''
+            O lucro alcançado não é aquele que você gostaria, mesmo atendendo no limite de sua capacidade!
+            Comece utilizando a “Calculadora de preços” para verificar: 1) a margem de cada item; 2) seus preços em relação aos dos concorrentes.
+            Assim você saberá: a) o que deve deixar de produzir/vender; b) em quais ainda existe espaço para aumentar preços; c) quais terá que associar com os mais lucrativos (combos); d) em quais concentrar suas vendas.
+            Ainda assim a lucratividade não é a desejada? Na ferramenta “Gestão de Prioridades” simule uma possível redução dos custos fixos e veja o que acontece com a margem. Se isso ainda não for suficiente, verifique a possibilidade de reduzir os demais custos!
+            Se a margem continuar menor do que o ideal, considere a hipótese de que o negócio não permite a lucratividade que você considera ideal!
+
+             ''';
+
+      return '$texto\n$texto_fixo';
+    } else if (L14 > 0 && L14 < F15 * 0.90 && F10 > F16 * 1.05 && L19 > 0) {
+      String texto = '''
+          O lucro alcançado não é aquele que você gostaria, mesmo vendendo mais do que a capacidade de atendimento (alto risco de estresse e mal atendimento, o que acabará prejudicando o Negócio!).
+          Utilize a “Calculadora de Preços” para verificar: 1) a margem de cada item; 2) seus preços em relação aos dos concorrentes.
+          Assim você saberá: a) o que deve deixar de produzir/vender; b) em quais ainda existe espaço para aumentar preços; c) quais terá que associar com os mais lucrativos (combos); d) em quais concentrar suas vendas.
+          Com a ferramenta “Gestão de Prioridades” simule reduzir a quantidade de clientes atendidos para o limite de sua capacidade de atendimento. Depois, para melhorar a produtividade, reduza os custos fixos. Ainda não está bom? Veja o que dá para reduzir nos demais custos. 
+          Se a margem continuar menor do que o ideal, considere a hipótese de que o negócio não permite a lucratividade que você considera ideal! E, avalie a conveniência de investir para ampliar sua capacidade de atendimento!
+
+             ''';
+      return '$texto\n$texto_fixo';
+    } else if (L14 > F15 * 0.90 && L14 < F15 * 1.05 && F10 < F16 * 0.90 && L19 > 0) {
+      String texto = '''
+      Você deve estar satisfeito com o lucro alcançado, mesmo vendendo menos do que o possível!
+      É preciso reduzir a capacidade ociosa (custos e recursos subutilizados).
+      Por que não vendeu mais: 
+      1) Mercado não comporta? Então aumente o valor do ticket médio e/ou reduza custos fixos (utilize a ferramenta “Gestão de Prioridades” para fazer simulações);
+      2) Concorrência? a) crie diferenciais e corrija seus pontos fracos; b) utilize a “Calculadora de Preços” para comparar seus preços com os dos concorrentes. Faça simulações em “Definição de Prioridades”.
+
+             ''';
+
+      return '$texto\n$texto_fixo';
+    } else if (L14 > F15 * 0.90 && L14 < F15 * 1.05 && F10 >= F16 * 0.90 && F10 < F16 * 1.05 && L19 > 0) {
+      String texto = '''
+          Você deve estar satisfeito com o lucro alcançado! 
+          Suas vendas corresponderam à sua capacidade de atendimento.
+          Estude o potencial do mercado em que atua! Observe os indícios de alterações: aumento ou redução da demanda; mudanças tecnológicas e/ou nas preferências dos clientes; situação dos fornecedores; comportamento dos preços; ações importantes na concorrência e o impacto em sua competitividade; situações sócio econômicas, mudanças na legislação, obras públicas, etc.
+          Traduza suas conclusões em percentuais de aumento ou redução (em relação aos dados atuais), na ferramenta “Definição de Prioridades” e veja como afeta sua lucratividade. Se acredita em variações nos preços dos insumos e/ou mercadorias de terceiros; ou nos preços dos concorrentes, recorra à “Calculadora de Preços”!
+
+             ''';
+      return '$texto\n$texto_fixo';
+    } else if (L14 > F15 * 0.90 && L14 < F15 * 1.05 && F10 >= F16 * 1.05 && L19 > 0) {
+          String texto = '''
+              Você deve estar satisfeito com o lucro alcançado!
+              Mas fique atento, pois está vendendo mais do que a capacidade de atendimento (alto risco de estresse e mal atendimento, o que acabará prejudicando o Negócio!).
+              Considere a viabilidade de ampliar sua capacidade de atendimento! Fora de cogitação?
+              Então, na ferramenta “Gestão de Prioridades” simule reduzir a quantidade de clientes atendidos para o limite de sua capacidade de atendimento. Verifique o impacto na margem! Para retomar o lucro anterior, verifique o resultado de um aumento no valor do ticket médio; também, reduza os custos fixos, (aumento da produtividade). Ainda não está bom? Então utilize a “Calculadora de Preços” para comparar seus preços com os da concorrência: existe espaço para aumentos? é possível estimular a venda dos itens mais lucrativos? 
+
+             ''';
+          return '$texto\n$texto_fixo';
+    } else if (L14 > F15 * 1.05 && F10 < F16 * 0.90 && L19 > 0) {
+      String texto = '''
+              Você deve estar muito satisfeito com o lucro alcançado, mesmo vendendo menos do que o possível.
+              É preciso reduzir a capacidade ociosa (custos e recursos subutilizados).
+              Por que não vendeu mais: 
+              1) Mercado não comporta? Então aumente o valor do ticket médio e/ou reduza custos fixos (utilize a ferramenta “Gestão de Prioridades” para fazer simulações);
+              2) Concorrência? a) crie diferenciais e corrija seus pontos fracos; b) utilize a “Calculadora de Preços” para comparar seus preços com os dos concorrentes. Faça simulações em “Definição de Prioridades”.
+
+             ''';
+      return '$texto\n$texto_fixo';
+    } else if (L14 > F15 * 1.05 && F10 > F16 * 0.90 && F10 < F16 * 1.05 && L19 > 0) {
+      String texto = '''
+              Você deve estar muito satisfeito com o lucro alcançado!
+              Suas vendas correspondem à sua capacidade de atendimento.
+              Estude o potencial do mercado em que atua! Observe os indícios de alterações: aumento ou redução da demanda; mudanças tecnológicas e/ou nas preferências dos clientes; situação dos fornecedores; comportamento dos preços; ações importantes na concorrência e o impacto em sua competitividade; situações sócio econômicas, mudanças na legislação, obras públicas, etc.
+              Traduza suas conclusões em percentuais de aumento ou redução (em relação aos dados atuais), na ferramenta “Definição de Prioridades” e veja como afeta sua lucratividade. Se acredita em variações nos preços dos insumos e/ou mercadorias de terceiros; ou nos preços dos concorrentes, recorra à “Calculadora de Preços”!
+
+             ''';
+      return '$texto\n$texto_fixo';
+    } else if (L14 > F15 * 1.05 && F10 > F16 * 1.05 && L19 > 0) {
+      String texto = '''
+              Você deve estar muito satisfeito com o lucro alcançado!
+              Mas fique atento, pois está vendendo mais do que a capacidade de atendimento (risco de estresse e mal atendimento)!
+              Considere a viabilidade de ampliar sua capacidade de atendimento! Fora de cogitação?
+              Com a ferramenta “Gestão de Prioridades” simule reduzir a quantidade de clientes atendidos para o limite de sua capacidade de atendimento. Isso reduzirá a margem. Então, tente melhorar a produtividade, reduzindo os custos fixos. Ainda não está bom? Veja o que dá para reduzir nos demais custos. Ainda assim a margem continua menor? O que acontece se conseguir aumentar o ticket médio? Com a ajuda da “Calculadora de Preços” identifique os produtos mais lucrativos e considere a possibilidade de aumentar o volume de vendas deles. Nas comparações com os concorrentes, veja se há espaço para aumento de preços.
+
+             ''';
+      return '$texto\n$texto_fixo';
+    } else {
+      return "";
+    }
+  }
+
 
   _getDadosBasicos() async {
     var dadosBasicos = true;
