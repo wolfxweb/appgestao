@@ -77,7 +77,7 @@ class _novaHomeState extends State<novaHome> {
             const Espacamento(),
 
             buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
-            buildRowBtn(context, '',textBtnDiganostico,NovaTelaDiagnostico()),
+            buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,NovaTelaDiagnostico()),
            // buildRowBtn(context, '',textBtnDiganostico,NovaTelaDiagnostico()),
            // buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,telaDiagnostico()),
             buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnGestaoPrioridades,GestaoPrioridade()),

@@ -822,7 +822,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
           enabled: false,
           decoration: const InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: 'Para você definir prioridades',
+            hintText: "Simulações x Margem",
             prefixIcon: Icon(
               Icons.help,
               color: Color.fromRGBO(1, 57, 44, 1),
