@@ -434,9 +434,7 @@ calculoTicketMedio(){
   String textoClientesAtendidos() {
     var e13 = double.parse(capacidadeAtendimento);
     var h21 = double.parse(quantidadeDeClientesAtendidoDadosBasicos);
-    print(capacidadeAtendimento);
-    print(quantidadeDeClientesAtendido);
-     if (h21 < e13 * 0.8) {
+    if (h21 < e13 * 0.8) {
        _textInfoClientesAtendidos.add('Se não for possível vender mais, tente reduzir seus custos fixos!');
      } else if (h21 > e13 * 1.1) {
        _textInfoClientesAtendidos.add('Cuidado! Vendas acima da capacidade de atendimento! Com os mesmos custos fixos?');
