@@ -123,7 +123,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                   ),
                   const Espacamento(),
                   builtItulo("Margem"),
-                  buildInputs(
+                  buildInputsMargem(
                       context,
                       bloc.margemInicial,
                       bloc.corMargem,
@@ -134,10 +134,11 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                       null,
                       "Margem",
                       null),
+
                   const Espacamento(),
                   const Espacamento(),
                   builtItulo("Clientes atendidos"),
-                  buildInputs(
+                  buildInputsClientesAtendidos(
                       context,
                       bloc.clientesAtendidoDadosBasico,
                       bloc.corClientesAtendido,
@@ -330,9 +331,259 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
       // hintText: 'Quantidade de clientes atendidos',
     );
   }
-
   Container buildInputs(BuildContext context, stream1, stream2, stream3, stream4,
       controller1, controller2, controller3,campo, corCampo) {
+
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: color,
+            width: 1.0,
+            style: BorderStyle.solid,
+          )),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  child: StreamBuilder(
+                      stream: stream1,
+                      builder: (context, snapshot) {
+                        var data = snapshot.data;
+                        //  print(data);
+                        if (snapshot.data == null) {
+                          data = "";
+                        }
+                        return TextFormField(
+                          enabled: false,
+                          style: const TextStyle(color: Colors.black),
+                          controller: controller1 = TextEditingController(text: '$data'), //controller1,
+                          textAlignVertical: TextAlignVertical.center,
+                          decoration: const InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 0),
+                            fillColor: Color.fromRGBO(211, 211, 211, 1),
+                            filled: true,
+                            suffixIcon: Icon(
+                              Icons.percent,
+                              color: Color.fromRGBO(211, 211, 211, 1),
+                              size: 20,
+                            ),
+                            border: InputBorder.none,
+                            focusedBorder: OutlineInputBorder(
+                              // borderSide: BorderSide(color: Color(0xFFffd600)),
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(1, 57, 44, 1),
+                                  width: 1.0),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  child:  StreamBuilder(
+                    stream: stream2,
+                    builder: (context, snapshot) {
+                      var dataCor = snapshot.data;
+                      corCampo = dataCor.toString();
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                        child: Container(
+                          //  width: 185,
+                          width: MediaQuery.of(context).size.width*0.45,
+                          // decoration: buildBoxDecoration(),
+                          child: StreamBuilder(
+                              stream: stream3,
+                              builder: (context, snapshot) {
+                                var data = snapshot.data;
+                                if(!snapshot.hasData){
+                                  data ="";
+                                }
+
+                                return TextFormField(
+                                  enabled: false,
+                                  style: const TextStyle(color: Colors.black),
+                                  keyboardType: TextInputType.number,
+                                  controller: controller2 = TextEditingController(text: '$data'),
+                                  decoration: _styleInput( campo, corCampo, null),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CentavosInputFormatter(
+                                        moeda: true, casasDecimais: 2)
+                                  ],
+                                  onChanged: (text) {
+
+                                    if( campo == 'Ticket Médio'){
+                                      simuladorBloc.calculoTicketMedioInput(text);
+                                    }
+                                  },
+                                );
+                              }),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.31,
+            child: inputPercentual(context, stream4, controller3),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container buildInputsClientesAtendidos(BuildContext context, stream1, stream2, stream3, stream4,
+      controller1, controller2, controller3,campo, corCampo) {
+
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: color,
+            width: 1.0,
+            style: BorderStyle.solid,
+          )),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  child: StreamBuilder(
+                      stream: stream1,
+                      builder: (context, snapshot) {
+                        var data = snapshot.data;
+                        //  print(data);
+                        if (snapshot.data == null) {
+                          data = "";
+                        }
+                        return TextFormField(
+                          enabled: false,
+                          style: const TextStyle(color: Colors.black),
+                          controller: controller1 = TextEditingController(text: '$data'), //controller1,
+                          textAlignVertical: TextAlignVertical.center,
+                          decoration: const InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 0),
+                            fillColor: Color.fromRGBO(211, 211, 211, 1),
+                            filled: true,
+                            suffixIcon: Icon(
+                              Icons.percent,
+                              color: Color.fromRGBO(211, 211, 211, 1),
+                              size: 20,
+                            ),
+                            border: InputBorder.none,
+                            focusedBorder: OutlineInputBorder(
+                              // borderSide: BorderSide(color: Color(0xFFffd600)),
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(1, 57, 44, 1),
+                                  width: 1.0),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  child:  StreamBuilder(
+                    stream: stream2,
+                    builder: (context, snapshot) {
+                      var dataCor = snapshot.data;
+                      corCampo = dataCor.toString();
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                        child: Container(
+                          //  width: 185,
+                          width: MediaQuery.of(context).size.width*0.45,
+                          // decoration: buildBoxDecoration(),
+                          child: StreamBuilder(
+                              stream: stream3,
+                              builder: (context, snapshot) {
+                                var data = snapshot.data;
+                                if(!snapshot.hasData){
+                                  data ="";
+                                }
+
+                                return TextFormField(
+                                  enabled: false,
+                                  style: const TextStyle(color: Colors.black),
+                                  keyboardType: TextInputType.number,
+                                  controller: controller2 = TextEditingController(text: '$data'),
+                                  decoration: _styleInput( campo, corCampo, null),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    CentavosInputFormatter(
+                                        moeda: true, casasDecimais: 2)
+                                  ],
+                                  onChanged: (text) {
+
+                                    if( campo == 'Ticket Médio'){
+                                      simuladorBloc.calculoTicketMedioInput(text);
+                                    }
+                                  },
+                                );
+                              }),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  alignment: Alignment.bottomLeft,
+                  child: StreamBuilder(
+                    stream: bloc.textInfoClientesAtendidos,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) { //textInfoClientesAtendidos
+                        return Text(snapshot.data?.toString() ?? '');
+                      } else if (snapshot.hasError) {
+                        return const Text('');
+                      } else {
+                        return const Text("");
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.31,
+            child: inputPercentual(context, stream4, controller3),
+          ),
+        ],
+      ),
+    );
+  }
+  Container buildInputsMargem(BuildContext context, stream1, stream2, stream3, stream4,
+      controller1, controller2, controller3,campo, corCampo) {
+
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -409,7 +660,6 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                                 if(!snapshot.hasData){
                                   data ="";
                                 }
-
                                 return TextFormField(
                                     enabled: false,
                                     style: const TextStyle(color: Colors.black),
@@ -431,6 +681,26 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                               }),
                         ),
                       );
+                    },
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.60,
+                child: Container(
+                  alignment: Alignment.bottomLeft,
+                  child: StreamBuilder(
+                    stream: bloc.textInfoMargem,
+                    builder: (context, snapshot) {
+                      print(snapshot.data);
+                      if (snapshot.hasData) {
+                        return Text(snapshot.data?.toString() ?? '');
+                      } else if (snapshot.hasError) {
+                        return const Text('');
+                      } else {
+                        return const Text('');
+                      }
                     },
                   ),
                 ),

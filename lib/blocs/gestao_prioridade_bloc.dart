@@ -10,7 +10,10 @@ import 'package:intl/intl.dart';
 
 class gestao_prioridade_bloc extends BlocBase{
   var bd = DadosBasicosSqlite();
-
+  final _msgInformativa_1  =BehaviorSubject();
+  final _msgInformativa_2 =BehaviorSubject();
+  Stream get msgInformativa_1 => _msgInformativa_1.stream;
+  Stream get msgInformativa_2 => _msgInformativa_2.stream;
   /* Margem */
   final _margemInicial = BehaviorSubject();
   final _margemCalculada = BehaviorSubject();
@@ -95,6 +98,14 @@ class gestao_prioridade_bloc extends BlocBase{
   final _percentualRemoveController = BehaviorSubject();
   Stream get percentualAddController => _percentualAddController.stream;
   Stream get percentualRemoveController => _percentualRemoveController.stream;
+
+
+  final _textInfoMargem = BehaviorSubject();
+  final _textInfoClientesAtendidos = BehaviorSubject();
+  Stream get textInfoMargem => _textInfoMargem.stream;
+  Stream get textInfoClientesAtendidos => _textInfoClientesAtendidos.stream;
+
+
   /* variaveis  */
   var faturamentoDadosBasicos;
   var custoVendasDadosBasicos;
@@ -135,7 +146,7 @@ class gestao_prioridade_bloc extends BlocBase{
   getDadosBasicos() async {
     await bd.lista().then((data) {
       data.forEach((element) {
-        print('gestao_prioridade_bloc');
+      //  print('gestao_prioridade_bloc');
       //  print(element);
         faturamentoDadosBasicos =  convertMonetarioFloat(element["faturamento"]);
         custoVendasDadosBasicos = convertMonetarioFloat(element["gastos_insumos"]);
@@ -345,11 +356,6 @@ calculoTicketMedio(){
    // Calulo alterado conforme reunião do 26/07/2024
     margemAtual =(faturamentoAtual -(custoVendasAtual+custosTerceirosAtual+custoFixoAtual))/faturamentoAtual;
    // margemAtual =(faturamentoDadosBasicos -(custoVendasAtual+custosTerceirosAtual+custoFixoAtual))/faturamentoAtual;
-    print(faturamentoAtual);
-    print(custoVendasAtual);
-    print(custosTerceirosAtual);
-    print(custoFixoAtual);
-
    _margemCalculada.add(formatterPercentual.format(margemAtual*100));
     var txt = "";
     if(margemInicalCalculada.toInt()<0 && margemAtual<0){
@@ -362,9 +368,36 @@ calculoTicketMedio(){
       _margemVariacao.add(formatterPercentual.format(calculoCampoVariacao(margemInicalCalculada, margemAtual*100)));
     }
   // _margemVariacao.add(formatterPercentual.format(calculoCampoVariacao(margemInicalCalculada, margemAtual*100)));
+
+
+     getTextoInfoMargem(margemAtual);
+
+
    corMargemCalculada();
  }
- calculoCustoTerceiros(){
+  String getTextoInfoMargem(margemAtual) {
+    var h17 = margemAtual;
+    var e12 = margenDadosBasicos/100;
+
+    if (h17 <= 0) {
+      _textInfoMargem.add('Atenção! Sobrevivência em risco!');
+    } else if (h17 > 0 && h17 < e12 * 0.7) {
+      _textInfoMargem.add('Esta margem está longe do ideal!');
+    } else if (h17 >= e12 * 0.7 && h17 < e12 * 0.9) {
+      _textInfoMargem.add('Tente melhorar esta margem!');
+    } else if (h17 >= e12 * 0.9 && h17 < e12 * 1.0) {
+      _textInfoMargem.add('Esta margem é praticamente a ideal!');
+    } else if (h17 == e12 * 1.0 && h17 < e12 * 1.05) {
+      _textInfoMargem.add('Esta margem é a que você considera ideal!');
+    } else if (h17 >= e12 * 1.05) {
+      _textInfoMargem.add('Esta margem supera a que você considera ideal!');
+    } else {
+      _textInfoMargem.add('');
+    }
+    return "";
+  }
+
+  calculoCustoTerceiros(){
 
    if(qtdClienteAtual is String){
      qtdClienteAtual = double.parse(qtdClienteAtual);
@@ -396,7 +429,22 @@ calculoTicketMedio(){
    _clientesAtendidoCalculado.add(formatterFornecedor.format(quantidadeDeClientesAtendido));
    _clientesAtendidoVaricacao.add(formatterFornecedor.format(calculoCampoVariacao(double.parse(quantidadeDeClientesAtendidoDadosBasicos), quantidadeDeClientesAtendido)));
    corClientesAtendidos();
+   textoClientesAtendidos();
  }
+  String textoClientesAtendidos() {
+    var e13 = double.parse(capacidadeAtendimento);
+    var h21 = double.parse(quantidadeDeClientesAtendidoDadosBasicos);
+    print(capacidadeAtendimento);
+    print(quantidadeDeClientesAtendido);
+     if (h21 < e13 * 0.8) {
+       _textInfoClientesAtendidos.add('Se não for possível vender mais, tente reduzir seus custos fixos!');
+     } else if (h21 > e13 * 1.1) {
+       _textInfoClientesAtendidos.add('Cuidado! Vendas acima da capacidade de atendimento! Com os mesmos custos fixos?');
+     } else {
+       _textInfoClientesAtendidos.add('');
+     }
+    return "";
+  }
 
  corCustoFixoAtual(){
    if (custoFixoDadosBasicos < custoFixoAtual) {
@@ -471,6 +519,7 @@ calculoTicketMedio(){
     }else{
       _corClientesAtendido.add('desabilitado');
     }
+    textoClientesAtendidos();
   }
 
   valoresIniciais(){
