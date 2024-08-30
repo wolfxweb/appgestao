@@ -589,7 +589,11 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                 stream: bloc.textInfoClientesAtendidos,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) { //textInfoClientesAtendidos
-                    return Text(snapshot.data?.toString() ?? '');
+                    return Text(snapshot.data?.toString() ?? '',
+                      style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    );
                   } else if (snapshot.hasError) {
                     return Container();
                   } else {
@@ -744,9 +748,11 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
               child: StreamBuilder(
                 stream: bloc.textInfoMargem,
                 builder: (context, snapshot) {
-                  print(snapshot.data);
+                //  print(snapshot.data);
                   if (snapshot.hasData) {
-                    return Text(snapshot.data?.toString() ?? '');
+                    return Text(snapshot.data?.toString() ?? '', style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),);
                   } else if (snapshot.hasError) {
                     return Container();
                   } else {
