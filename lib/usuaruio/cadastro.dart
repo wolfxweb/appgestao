@@ -536,18 +536,21 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.01,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.help,
-                              color: Color.fromRGBO(1, 57, 44, 1),
-                            ),
-                            color: Colors.black54,
-                            onPressed: () {
-                              alerta.openModal(context,
-                                  "DEFINIR O TEXTO A CLÁUSULA DOIS NÃO CABE NA MODAL MUITO TEXTO.");
-                            },
-                          )),
+                        width: MediaQuery.of(context).size.width * 0.08,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.help,
+                            color: Color.fromRGBO(1, 57, 44, 1),
+                          ),
+                          color: Colors.black54,
+                          onPressed: () {
+                            var texto_email = """
+SOLICITAR PARA O CLIENTE A CLÁUSULA 2 E MUITO GRANDE
+                            """;
+                            alerta.openModal(context,texto_email);
+                          },
+                        ),
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

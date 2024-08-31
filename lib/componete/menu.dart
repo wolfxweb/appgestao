@@ -140,30 +140,30 @@ class _MenuState extends State<Menu> {
                 //  Navigator.pop(context);
               },
             ),*/
-            ListTile(
-              leading: const Icon(Icons.contact_page),
-              title:   buildText("Fale conosco"),
-              trailing: const Icon(
-                Icons.arrow_forward,
-              ),
-              onTap: () {
-                _ususarioBloc.openUrlFaleConosco();
-                //   route.pushPage(context, const AnaliseViabilidade());
-                //  Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.rocket_launch),
-              title:   buildText("Nosso site"),
-              trailing: const Icon(
-                Icons.arrow_forward,
-              ),
-              onTap: () {
-                _ususarioBloc.openURL();
-                //   route.pushPage(context, const AnaliseViabilidade());
-                //  Navigator.pop(context);
-              },
-            ),
+            // ListTile(
+            //   leading: const Icon(Icons.contact_page),
+            //   title:   buildText("Fale conosco"),
+            //   trailing: const Icon(
+            //     Icons.arrow_forward,
+            //   ),
+            //   onTap: () {
+            //     _ususarioBloc.openUrlFaleConosco();
+            //     //   route.pushPage(context, const AnaliseViabilidade());
+            //     //  Navigator.pop(context);
+            //   },
+            // ),
+            // ListTile(
+            //   leading: const Icon(Icons.rocket_launch),
+            //   title:   buildText("Nosso site"),
+            //   trailing: const Icon(
+            //     Icons.arrow_forward,
+            //   ),
+            //   onTap: () {
+            //     _ususarioBloc.openURL();
+            //     //   route.pushPage(context, const AnaliseViabilidade());
+            //     //  Navigator.pop(context);
+            //   },
+            // ),
             if (nivelAcesso)
               StreamBuilder(
                   stream: _ususarioBloc.outIsAdminUsuario,

@@ -7,6 +7,7 @@ import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:appgestao/componete/menu.dart';
+import 'package:appgestao/pages/ListaDadosBasicosGestao.dart';
 import 'package:appgestao/pages/listaDadosBasicos.dart';
 import 'package:appgestao/pages/telaAjudaSimulador.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -277,7 +278,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                        ElevatedButton(
                          style: colorButtonStyle(),
                          onPressed: () {
-                           route.pushPage(context, ListaDadosBasicos());
+                           route.pushPage(context, ListaDadosBasicosGestao());
                          },
                          child: const Text("Histórico"),
                        ),

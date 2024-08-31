@@ -821,7 +821,7 @@ class _CalculadoraState extends State<Calculadora> {
        iconSize: 35,
       icon:const Icon(
         Icons.lightbulb,
-        color: Color.fromRGBO(1, 57, 44, 1),
+        color:  Colors.amberAccent,
       ),
       onPressed: () {
         alerta.openModal(context, msgAlertaMes);
