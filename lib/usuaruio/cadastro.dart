@@ -507,12 +507,16 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
+                    height:100.0,
+                  ),
+                  const Logo(),
+                  //   SizedBox(
+                  //   width: 300,
+                  //   child:  Image.asset("assets/img/Logo.jpg"),
+                  // ),
+                  const SizedBox(
                     height: 50.0,
                   ),
-                 // const Logo(),
-                  // const SizedBox(
-                  //   height: 50.0,
-                  // ),
 
                   const Espacamento(),
                   const Text(
@@ -533,7 +537,17 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     children: [
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.01,
-                          child: Container()),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.help,
+                              color: Color.fromRGBO(1, 57, 44, 1),
+                            ),
+                            color: Colors.black54,
+                            onPressed: () {
+                              alerta.openModal(context,
+                                  "DEFINIR O TEXTO A CLÁUSULA DOIS NÃO CABE NA MODAL MUITO TEXTO.");
+                            },
+                          )),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -588,140 +602,140 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ],
                   ),
                   const Espacamento(),
-                  GestureDetector(
-                      onTap: (){
-                        dropOpcoesEspecialidade.clear();
-                     //  _especialidadeController.text ='';
-                      },
-                      child: buildAtividadeEmpresa(context),
-                  ),
-                  const Espacamento(),
-                  buildAtividade(context),
-                  const Espacamento(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.01,
-                          child: Container()),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.82,
-                        decoration: buildBoxDecoration(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            buildTextoInput('Estado'),
-                            DropdownButtonFormField<String>(
-                              value: null,
-                              isExpanded: true,
-                              decoration: buildInputDecoration(""),
-                              onChanged: (value) {
-                                setState(() {
-                                  print(value);
-                                  _cidadesValue = '';
-                                  _uf.forEach((element) {
-                                    if (element.sigla == value) {
-                                      _idEstado = element.id;
-                                      _loadCidades();
-                                    }
-                                  });
-                                  _selectedItem = value!;
-                                });
-                              },
-                              items: _items.map((item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      // fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                      //  color: const Color.fromRGBO(159, 105, 56,1),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Espacamento(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.01,
-                          child: Container()),
-                 /*     SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.08,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.help,
-                            color:  Color.fromRGBO(1, 57, 44, 1)
-                          ),
-                          color: Colors.black54,
-                          onPressed: () {
-                            alerta.openModal(context,
-                                "Para selecionar a cidade o estado deve este selecionado.");
-                          },
-                        ),
-                      ),
-
-                  */
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.82,
-                        decoration: buildBoxDecoration(),
-
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            buildTextoInput('Cidade'),
-                            DropdownButtonFormField<String>(
-                              itemHeight: null,
-                              isExpanded: true,
-
-                              value:
-                                  _cidadesValue.isNotEmpty ? _cidadesValue : null,
-                              decoration:
-                                  buildInputDecoration(""),
-                              onChanged: (values) {
-                                print(values);
-                                setState(() {
-                                  //  _items=[];
-                                  _cidadesValue = values!;
-                                });
-                              },
-                              items: _cidades.map((item) {
-                                return DropdownMenuItem<String>(
-                                  value: item,
-                                  child: SizedBox(
-                                    width: 200.0,
-                                    child: Text(
-                                      item,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const  TextStyle(
-                                        // fontWeight: FontWeight.bold,
-                                      //  fontSize: 14,
-                                        //  color: const Color.fromRGBO(159, 105, 56,1),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                    ],
-                  ),
+                  // GestureDetector(
+                  //     onTap: (){
+                  //       dropOpcoesEspecialidade.clear();
+                  //    //  _especialidadeController.text ='';
+                  //     },
+                  //     child: buildAtividadeEmpresa(context),
+                  // ),
+                  // const Espacamento(),
+                  // buildAtividade(context),
+                  // const Espacamento(),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   mainAxisSize: MainAxisSize.max,
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: [
+                  //     SizedBox(
+                  //         width: MediaQuery.of(context).size.width * 0.01,
+                  //         child: Container()),
+                  //     Container(
+                  //       width: MediaQuery.of(context).size.width * 0.82,
+                  //       decoration: buildBoxDecoration(),
+                  //       child: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           buildTextoInput('Estado'),
+                  //           DropdownButtonFormField<String>(
+                  //             value: null,
+                  //             isExpanded: true,
+                  //             decoration: buildInputDecoration(""),
+                  //             onChanged: (value) {
+                  //               setState(() {
+                  //                 print(value);
+                  //                 _cidadesValue = '';
+                  //                 _uf.forEach((element) {
+                  //                   if (element.sigla == value) {
+                  //                     _idEstado = element.id;
+                  //                     _loadCidades();
+                  //                   }
+                  //                 });
+                  //                 _selectedItem = value!;
+                  //               });
+                  //             },
+                  //             items: _items.map((item) {
+                  //               return DropdownMenuItem<String>(
+                  //                 value: item,
+                  //                 child: Text(
+                  //                   item,
+                  //                   style: const TextStyle(
+                  //                     overflow: TextOverflow.ellipsis,
+                  //                     // fontWeight: FontWeight.bold,
+                  //                     fontSize: 12,
+                  //                     //  color: const Color.fromRGBO(159, 105, 56,1),
+                  //                   ),
+                  //                 ),
+                  //               );
+                  //             }).toList(),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const Espacamento(),
+                 //  Row(
+                 //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 //    mainAxisSize: MainAxisSize.max,
+                 //    crossAxisAlignment: CrossAxisAlignment.center,
+                 //    children: [
+                 //      SizedBox(
+                 //          width: MediaQuery.of(context).size.width * 0.01,
+                 //          child: Container()),
+                 // /*     SizedBox(
+                 //        width: MediaQuery.of(context).size.width * 0.08,
+                 //        child: IconButton(
+                 //          icon: const Icon(
+                 //            Icons.help,
+                 //            color:  Color.fromRGBO(1, 57, 44, 1)
+                 //          ),
+                 //          color: Colors.black54,
+                 //          onPressed: () {
+                 //            alerta.openModal(context,
+                 //                "Para selecionar a cidade o estado deve este selecionado.");
+                 //          },
+                 //        ),
+                 //      ),
+                 //
+                 //  */
+                 //      Container(
+                 //        width: MediaQuery.of(context).size.width * 0.82,
+                 //        decoration: buildBoxDecoration(),
+                 //
+                 //        child: Column(
+                 //          crossAxisAlignment: CrossAxisAlignment.start,
+                 //          children: [
+                 //            buildTextoInput('Cidade'),
+                 //            DropdownButtonFormField<String>(
+                 //              itemHeight: null,
+                 //              isExpanded: true,
+                 //
+                 //              value:
+                 //                  _cidadesValue.isNotEmpty ? _cidadesValue : null,
+                 //              decoration:
+                 //                  buildInputDecoration(""),
+                 //              onChanged: (values) {
+                 //                print(values);
+                 //                setState(() {
+                 //                  //  _items=[];
+                 //                  _cidadesValue = values!;
+                 //                });
+                 //              },
+                 //              items: _cidades.map((item) {
+                 //                return DropdownMenuItem<String>(
+                 //                  value: item,
+                 //                  child: SizedBox(
+                 //                    width: 200.0,
+                 //                    child: Text(
+                 //                      item,
+                 //                      overflow: TextOverflow.ellipsis,
+                 //                      style: const  TextStyle(
+                 //                        // fontWeight: FontWeight.bold,
+                 //                      //  fontSize: 14,
+                 //                        //  color: const Color.fromRGBO(159, 105, 56,1),
+                 //                      ),
+                 //                    ),
+                 //                  ),
+                 //                );
+                 //              }).toList(),
+                 //            ),
+                 //          ],
+                 //        ),
+                 //      ),
+                 //
+                 //    ],
+                 //  ),
                  const Espacamento(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1053,11 +1067,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       ),
                       const Espacamento(),
                       Row(
-                     //   mainAxisAlignment: MainAxisAlignment.center,
-                     //   crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.35,
+                            width: MediaQuery.of(context).size.width * 0.70,
                             child: OutlinedButton(
                               style: colorButtonStyle() ,
                               child: const Text('Login'),
@@ -1066,7 +1080,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                               },
                             ),
                           ),
-                          SizedBox(
+                      /*   SizedBox(
                             width: MediaQuery.of(context).size.width * 0.35,
                             child: TextButton(
                               style: colorButtonStyle() ,
@@ -1075,7 +1089,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                                 irPagina.pushPage(context, const RecuperarSenha());
                               },
                             ),
-                          ),
+                          ),*/
                         ],
                       ),
                     ],
@@ -1218,14 +1232,14 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
           'Aceite da policita de privacidade  e termo de uso para dar continuidade.');
       return;
     }
-    if (_selectedItem.isEmpty) {
-      alerta.openModal(context, 'Selecione o estado');
-      return;
-    }
-    if (_cidadesValue.isEmpty) {
-      alerta.openModal(context, 'Selecione o cidade');
-      return;
-    }
+    // if (_selectedItem.isEmpty) {
+    //   alerta.openModal(context, 'Selecione o estado');
+    //   return;
+    // }
+    // if (_cidadesValue.isEmpty) {
+    //   alerta.openModal(context, 'Selecione o cidade');
+    //   return;
+    // }
 
     try {
       // Consultar a coleção 'licenses' para verificar o status do token de ativação

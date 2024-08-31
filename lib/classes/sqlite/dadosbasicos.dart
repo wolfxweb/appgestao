@@ -31,8 +31,8 @@ class DadosBasicosSqlite {
       );
 
       int quantidade = resultados.isNotEmpty ? resultados.first['qtd'] as int : 0;
-      if (quantidade > 1) {
-        await dbClient!.execute("DELETE FROM dados_basiscos WHERE id = 1");
+      if (quantidade > 0) {
+       // await dbClient!.execute("DELETE FROM dados_basiscos WHERE id = 1");
         await dbClient!.execute("UPDATE dados_basiscos SET dados_basicos_atual = 'N' WHERE dados_basicos_atual ='S'");
       }
 

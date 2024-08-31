@@ -3,6 +3,7 @@ import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/pages/dadosbasicos.dart';
+import 'package:appgestao/pages/gestaoPrioridades.dart';
 import 'package:appgestao/pages/novodadosbasicos.dart';
 import 'package:flutter/material.dart';
 import 'package:appgestao/classes/dadosbasicossqlite.dart';
@@ -141,8 +142,10 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
     await bd.reutilizar(id);
      await bd.reutilizar(id);
      alert.alertSnackBar(context, Colors.green, "Atualizado com sucesso.");
-    // route.pushPage(context, NovoDadosBasicos());
-     _consultar();
+     route.pushPage(context, NovoDadosBasicos());
+     // route.pushPage(context, GestaoPrioridade());
+    _consultar();
+   // Navigator.pop(context);
     setState(() {});
   }
   Widget buildCard(Map<String, dynamic> dado) {
@@ -340,6 +343,7 @@ class DataSearch extends SearchDelegate<String> {
     await bd.reutilizar(id);
     alert.alertSnackBar(context, Colors.green, "Atualizado com sucesso.");
     route.pushPage(context, NovoDadosBasicos());
+    Navigator.pop(context);
     //_consultar();
   }
   Row buildRow(String titulo1 ,String valor1) {

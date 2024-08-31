@@ -472,7 +472,11 @@ class _DadosBasicosState extends State<DadosBasicos> {
     } else {
       _saveUpdate( _getDados(id, mesSave), "Dados básicos atulizado com sucesso");
     }
-
+    if (id == 0) {
+      _saveUpdate(_getDados(null, mesSave), "Dados básicos cadastrado realizado com sucesso");
+    } else {
+      _saveUpdate( _getDados(id, mesSave), "Dados básicos atulizado com sucesso");
+    }
 
   }
 
@@ -499,7 +503,11 @@ class _DadosBasicosState extends State<DadosBasicos> {
     print(dados);
     var alert = AlertSnackBar();
     bd.save(dados.toJson()).then((value) {
-      alert.alertSnackBar(context, Colors.green, msg);
+      bd.save(dados.toJson()).then((value) {
+        alert.alertSnackBar(context, Colors.green, msg);
+      });
     });
+
+
   }
 }

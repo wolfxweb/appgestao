@@ -960,9 +960,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   _insertUpdate(operacao) async {
     final isValid = _formKey.currentState!.validate();
     bool isConnected = await SimpleConnectionChecker.isConnectedToInternet();
-    if (!isConnected) {
-      alerta.openModal(context, 'Sem conexão com a internet.');
-    }
+    // if (!isConnected) {
+    //   alerta.openModal(context, 'Sem conexão com a internet.');
+    // }
     if (_gastoinsumosController.text == "" &&
         _custoInsumosController.text == "") {
       //  alerta.openModal(context,"É NECESSÁRIO QUE TODOS OS CAMPOS SEJAM PREENCHIDOS! Exceção: no caso de 'gastos com insumos' e 'gastos com produto para revenda' será admimivel apenas um deles seja preenchido");
@@ -998,8 +998,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       'data_cadastro': data_cadastro
     };
     // print(dados);
-    var users = VerificaStatusFairebase();
-    users.addDadosBasicos(context, dados);
+    // desabilitado o salvamento no firebase
+    // var users = VerificaStatusFairebase();
+    // users.addDadosBasicos(context, dados);
 
     if (id == 0 || operacao =='i') {
       _saveUpdate(_getDados(null, mesSave),"Dados básicos cadastrado com sucesso");

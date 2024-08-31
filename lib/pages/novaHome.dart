@@ -34,10 +34,42 @@ class _novaHomeState extends State<novaHome> {
   var color =  Color.fromRGBO(1, 57,44,1);
   var route = PushPage();
 
-  String textAjudaDadosBasicos = "Coração e cérebro do Get Up. Quando você digitar suas informações, o aplicativo ficará customizado para o seu negócio.\nSe você está planejando iniciar seu empreendimento, ou abrir uma filial, preencha com suas estimativas e metas. ";
-  String textAjudaDiganostico = "Como está a saúde da empresa: lucratividade, valor médio das vendas, contribuição de cada venda para cobrir custos fixos e gerar lucro, faturamento necessário para começar a lucrar, produtividade.\n";
-  String textAjudaCalculadoraPrecos = "Como aumentos ou diminuições nas vendas, nos preços, no valor médio das compras, ou nos custos, impactam a lucratividade de sua empresa?\nQuais as prioridades para lucrar mais?";
-  String textAjudaGestaoPrioridades = "Por quanto vender! Qual a margem obtida com o preço atual!\nEste produto contribui para o resultado da empresa?\nQual o preço para atingir determinada margem!";
+  //String textAjudaDadosBasicos = "Coração e cérebro do Get Up. Quando você digitar suas informações, o aplicativo ficará customizado para o seu negócio.\nSe você está planejando iniciar seu empreendimento, ou abrir uma filial, preencha com suas estimativas e metas. ";
+ // String textAjudaDiganostico = "Como está a saúde da empresa: lucratividade, valor médio das vendas, contribuição de cada venda para cobrir custos fixos e gerar lucro, faturamento necessário para começar a lucrar, produtividade.\n";
+ // String textAjudaCalculadoraPrecos = "Como aumentos ou diminuições nas vendas, nos preços, no valor médio das compras, ou nos custos, impactam a lucratividade de sua empresa?\nQuais as prioridades para lucrar mais?";
+ // String textAjudaGestaoPrioridades = "Por quanto vender! Qual a margem obtida com o preço atual!\nEste produto contribui para o resultado da empresa?\nQual o preço para atingir determinada margem!";
+
+  String textAjudaDadosBasicos ="""
+Se você está se preparando para iniciar um negócio, digite aqui suas estimativas e premissas.
+Tratando-se de empresa já em atividade, digite os resultados apurados a cada mês.
+Você também pode transcrever aqui o resultado de suas simulações em “Gestão de prioridades”. 
+Portanto, só você sabe se os “números” refletem a realidade, uma estimativa, ou especulação!
+A partir do momento em que você “salvar”, todas as funcionalidades do Aplicativo estarão levando em conta as quantidades e valores informados, os quais ficarão armazenados no “Histórico” para consultas futuras.
+Vale observar que este Aplicativo não utiliza Internet, funcionando apenas em seu telefone celular, sendo você quem define a senha de acesso.
+""";
+  String textAjudaDiganostico ="""
+Aqui, os “Dados Básicos” passam por processo de análise, gerando indicadores, comentários, sugestões e orientações focadas em otimizar seus resultados, assim como faria um consultor! 
+Sejam as estimativas de um negócio novo, ou a realidade atual do Negócio, ou simulações para antecipar eventos futuros, você sempre terá orientações úteis, na palma da mão, em qualquer lugar do planeta, quando quiser.
+""";
+  String textAjudaCalculadoraPrecos ="""
+Na realidade trata-se de um “simulador”, no qual você pode definir percentuais de aumento (+) ou diminuição (-) de um ou até mesmo de todos os valores registrados em “Dados Básicos”.
+Desta forma, você poderá antever a lucratividade do Negócio, em consequência de alterações em seus gastos e custos; diante de volumes maiores ou menores de vendas, descontos promocionais, aumentos de preços e/ou no valor do ticket médio.
+Lembrando a possibilidade de transcrever os resultados das simulações em “Dados Básicos” e verificar qual o “Diagnóstico”; assim como poderá utilizar a “Calculadora de preços” para análises complementares.
+""";
+  String textAjudaGestaoPrioridades ="""
+Esta calculadora, com base na estrutura de custos do seu Negócio e em suas metas de lucro, será útil para você:
+Analisar os preços que está praticando;
+Definir os preços para produtos novos; 
+Atualizar preços quando de alterações nos custos; 
+Definir preços para produtos novos;
+Analisar a viabilidade de ofertas promocionais;
+Complementar as considerações do “diagnóstico”, com observações relativas à lucratividade e competitividade;
+Obter índices de variação para utilizar em suas análises em “Gestão de prioridades”.
+Decidir providências em relação a produtos com baixa lucratividade.
+Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histórico para montar tabelas e rever a evolução de seus preços. Sem precisar de Internet, na palma de sua mão, em qualquer lugar do planeta. 
+
+  """;
+
   String textAjudaInportanciaMeses = "Inportância dos meses";
   String textAjudaSimuladorProximosMeses = "Simulador Próximos meses";
   String textAjudaCalculadoraViabilidade = "Calculadora Viabilidade e P&P";
@@ -68,21 +100,27 @@ class _novaHomeState extends State<novaHome> {
             const Espacamento(),
             const Espacamento(),
             const Espacamento(),
-           // const Logo(),
+            const SizedBox(
+            height: 20.0,
+          ),
+            const Logo(),
             const Espacamento(),
             const Espacamento(),
             const Espacamento(),
             const Espacamento(),
             const Espacamento(),
             const Espacamento(),
-
+            // SizedBox(
+            //   width: 300,
+            //   child:  Image.asset("assets/img/Logo.jpg"),
+            // ),
             buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,NovaTelaDiagnostico()),
            // buildRowBtn(context, '',textBtnDiganostico,NovaTelaDiagnostico()),
            // buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,telaDiagnostico()),
             buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnGestaoPrioridades,GestaoPrioridade()),
             buildRowBtn(context, textAjudaGestaoPrioridades ,textBtnCalculadoraPrecos,Calculadora()),
-        //
+
 
         /*
           Tela removidas ou alteradas por solicitação  do cliente alguns dos arquivos foram removidos por solicitação do mesmo
