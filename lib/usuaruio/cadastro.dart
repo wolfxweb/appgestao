@@ -544,8 +544,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           ),
                           color: Colors.black54,
                           onPressed: () {
-                            var texto_email = """
-SOLICITAR PARA O CLIENTE A CLÁUSULA 2 E MUITO GRANDE
+                            var texto_email = """Para recuperação de senha e recebimento de eventuais atualizações do Get Up.app.com
                             """;
                             alerta.openModal(context,texto_email);
                           },
@@ -589,7 +588,7 @@ SOLICITAR PARA O CLIENTE A CLÁUSULA 2 E MUITO GRANDE
                           color: Colors.black54,
                           onPressed: () {
                             alerta.openModal(context,
-                                "O número do WhatsApp será sua 'Identidade'no Get UP.\nNenhum nome nem Rasão social ou CNPJ, Nenhum endereço.\nApenas o número que nos informar.");
+                                " Para que a Administradora possa reconhecer que se trata de um usuário caso seja procurada, e, para o envio de notificações 'push' ");
                           },
                         ),
                       ),
