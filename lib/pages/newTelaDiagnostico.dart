@@ -342,7 +342,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0),):Text(titulo,style: const TextStyle(fontSize: 13.0),),
+                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),):Text(titulo,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),),
                         TextField(
                           enabled: false,
                           decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
@@ -407,7 +407,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0),):Text(titulo,style: const TextStyle(fontSize: 13.0),),
+                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),):Text(titulo,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),),
                         TextField(
                           enabled: false,
                           decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
@@ -474,7 +474,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0),):Text(titulo,style: const TextStyle(fontSize: 13.0),),
+                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),):Text(titulo,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),),
                         TextField(
                           enabled: false,
                           decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
@@ -677,7 +677,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                                 titulo == 'lucro'
                                     ? const Text(
                                   "Ponto de Equilíbrio",
-                                  style: TextStyle(fontSize: 13.0),
+                                  style: TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.start,
                                 )
                                     : const Text(

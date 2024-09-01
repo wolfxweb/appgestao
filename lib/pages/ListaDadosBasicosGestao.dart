@@ -128,6 +128,9 @@ class _ListaDadosBasicosGestaoStateState extends State<ListaDadosBasicosGestao> 
       ],
     );
   }
+
+  //53,98
+  //85,21
   _delete(id)async{
     var alert = AlertSnackBar();
     await bd.deleteDadosBasicos(id);
