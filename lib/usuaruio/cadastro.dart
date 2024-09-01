@@ -3,6 +3,7 @@ import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/logo.dart';
+import 'package:appgestao/pages/politicaPrivacidade.dart';
 import 'package:appgestao/usuaruio/login.dart';
 import 'package:appgestao/usuaruio/recuperarsenha.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -828,7 +829,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                                 color: Colors.blue, // Define a cor do texto como azul
                               ),
                             ),
-                            onTap: () => launch('https://wolfx.com.br/')),
+                            onTap: (){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (context) => PoliticaPrivacidadeScreen(),
+                              ));
+                            }),
                       ),
                     ],
                   ),

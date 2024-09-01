@@ -52,9 +52,13 @@ Aqui, os “Dados Básicos” passam por processo de análise, gerando indicador
 Sejam as estimativas de um negócio novo, ou a realidade atual do Negócio, ou simulações para antecipar eventos futuros, você sempre terá orientações úteis, na palma da mão, em qualquer lugar do planeta, quando quiser.
 """;
   String textAjudaCalculadoraPrecos ="""
-Na realidade trata-se de um “simulador”, no qual você pode definir percentuais de aumento (+) ou diminuição (-) de um ou até mesmo de todos os valores registrados em “Dados Básicos”.
-Desta forma, você poderá antever a lucratividade do Negócio, em consequência de alterações em seus gastos e custos; diante de volumes maiores ou menores de vendas, descontos promocionais, aumentos de preços e/ou no valor do ticket médio.
-Lembrando a possibilidade de transcrever os resultados das simulações em “Dados Básicos” e verificar qual o “Diagnóstico”; assim como poderá utilizar a “Calculadora de preços” para análises complementares.
+Esta calculadora, com base na estrutura de custos do seu Negócio e em suas metas de lucro, será útil para você:
+Analisar os preços que está praticando;
+Definir os preços para produtos novos; 
+Atualizar preços quando de alterações nos custos;
+Decidir providências em relação a produtos com baixa lucratividade.
+Analisar a viabilidade de ofertas promocionais.
+Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histórico para montar tabelas e acompanhar a evolução de seus preços. 
 """;
   String textAjudaGestaoPrioridades ="""
 Esta calculadora, com base na estrutura de custos do seu Negócio e em suas metas de lucro, será útil para você:
@@ -155,9 +159,9 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
   IconButton buildIconButton(textoAjuda) {
     return IconButton(
                 iconSize: 30,
-                icon:  Icon(
-                  Icons.help,
-                  color:color,
+                icon: const Icon(
+                  Icons.lightbulb,
+                  color: Colors.amberAccent,
                 ),
                   onPressed:(){
                     alerta.openModal(context,textoAjuda);
