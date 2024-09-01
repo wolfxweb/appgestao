@@ -49,12 +49,12 @@ class _CalculadoraState extends State<Calculadora> {
   var _verHistorico = false;
   var mostrarValores = true;
   var mostraPrecoSugerido = true;
-
+  var mostraPrecoSugeridoMsg =false;
   @override
   Widget build(BuildContext context) {
     // print(historico);
     return Scaffold(
-      appBar: header.getAppBar('Calculadora de Preços '),
+      appBar: header.getAppBar('Calculadora de Preços'),
       drawer: Menu(),
       body: SingleChildScrollView(
         child: Form(
@@ -350,12 +350,13 @@ class _CalculadoraState extends State<Calculadora> {
           stream: calBloc.outMsgPrecoSugerido,
           builder: (context, snapshot) {
             var data = snapshot.data.toString();
+            print(data);
             var obs = true;
             if (data.isEmpty) {
               obs = false;
             }
 
-            return !mostraPrecoSugerido && obs
+            return mostraPrecoSugeridoMsg
                 ? TextFormField(
                     validator: ValidationBuilder().maxLength(50).required().build(),
                     keyboardType: TextInputType.none,
@@ -694,7 +695,6 @@ class _CalculadoraState extends State<Calculadora> {
                         builder: (context, snapshot) {
                           var sanp = snapshot.data;
                           var data = "$sanp ";
-
                           if (mostrarValores) {
                             data = "";
                           }
@@ -788,6 +788,7 @@ class _CalculadoraState extends State<Calculadora> {
                     //calculadoraCusto(text)
                     if (text.isNotEmpty) {
                       calBloc.calculadoraCusto(text);
+                      mostraPrecoSugeridoMsg =true;
                       setState(() {
                         _precoInsumos.text = text;
                         if (_precoAtual.text.isNotEmpty &&

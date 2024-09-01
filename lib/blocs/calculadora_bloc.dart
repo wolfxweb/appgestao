@@ -168,16 +168,19 @@ class CalculadoraBloc extends BlocBase {
     // } else {
     //   _msgPrecoSugeridoController.add("");
     // }
+   // APARTIR DA VESÃO DE AGOSTO DE 2024 ESTAMOS USANDO AS VARIAVEIS COM NOME DAS DO EXECEL DO CLIENTE POIS O MESMO
+    // ANDA ALTERANDO AS FORMULAS ENTÃO INICIAMOS O RATREIO MANTENDO IGUAL A DELE PARA VALIDAÇÕES FUTURA.
+
     var j21 = _relacaoPreco; // Substitua com o valor real
     var resultado = "";
-
     if (j21 == null ) {
       resultado = "";
     } else if (j21 > 5) {
-      _msgPrecoSugeridoController.add('Certifique-se de que: 1) O momento atual é oportuno; 2) Este preço sugerido será suportado por seu público-alvo.');
+      _msgPrecoSugeridoController.add('Certifique-se de que:\n1) O momento atual é oportuno;\n2) Este preço sugerido será suportado por seu público-alvo.');
     } else if (j21 < 0) {
       _msgPrecoSugeridoController.add('Redução só se justifica se for para promover mais vendas!');
     } else {
+    //  print("else");
       resultado = "";
     }
 
@@ -300,15 +303,19 @@ class CalculadoraBloc extends BlocBase {
     // print(_precoVendaAtual);
     /***------------------------calculadora ------------------------ * ---------------------------Dados básicos------------------------- * ----------------Calculardora----------------****/
     // ((preco atual de vendas calculadora-(preço insumos calculadora+((( total outros custos variaveis + custos fixo)/ faturamento vendas)*preço atual vendas)))/preco atual de vendas))
+
     _margemComPrecoAtual = ((_precoVendaAtual -(_custoInsumo + (((gi +cv ) / fat) * _precoVendaAtual))) / _precoVendaAtual) * 100;
     var margem = formatterPercentual.format(_margemComPrecoAtual);
-    if(_precoVendaAtual == ''){
+    if(_precoVendaAtual == '' ||_custoInsumo ==''){
       margem ="";
     }
+
     _calculoMargemController.add(margem);
     _calculoPrecodugerido();
     _margemDaEmpresa();
     _comentarioPrecoConcorrete();
+    _ultimoComentario();
+
   }
 
   calculoRelacaoPreco() {
@@ -341,6 +348,7 @@ class CalculadoraBloc extends BlocBase {
     _margemDesejada = mar2;
     _calculoMargemAtual();
     _comentarioPrecoConcorrete();
+
   }
 
   percoVendaAtual(preco) {
