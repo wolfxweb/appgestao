@@ -147,18 +147,47 @@ class _CalculadoraState extends State<Calculadora> {
                           ),
                         //  custoInsumos(),
                           margemPreco(context),
-                          areTextoInformativo(),
+                          if(_precoInsumosController.text.isNotEmpty && _precoAtualController.text.isNotEmpty)
+                            areTextoInformativo(),
                          // msgComentario(),
                           margemDesejada(context),
                           precoSugeridoAtual(context),
-                          msgPrecoSugerido(),
+                          if(_precoInsumosController.text.isNotEmpty && _precoAtualController.text.isNotEmpty && _margemDesejadaController.text.isNotEmpty)
+                             msgPrecoSugerido(),
                           precoMedioConcorrente(context),
                           msgComentario()
                         ],
                       )
                     : Container(),
                 const Espacamento(),
-                btnVerVoltar(context)
+                btnVerVoltar(context),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.42,
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                  child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: ElevatedButton(
+                        child: _verHistorico
+                            ? Text('Voltar Calculadora')
+                            : Text('Ver o histórico'),
+                        onPressed: () {
+                          setState(() {
+                            _verHistorico = !_verHistorico;
+                            _margemDesejadaController.text = "";
+                            _precoInsumosController.text = "";
+                            _precoAtualController.text = "";
+                            _precoAtual.text = "";
+                            _precoInsumos.text = "";
+                            _margemDesejada.text = "";
+                            _produto.text = "";
+                            //  _mostrarComponentes = false;
+                            _btnStatus = false;
+                            _pesquisaController.text = "";
+                          });
+                        },
+                        style:colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
+                      )),
+                )
               ],
             ),
           ),
@@ -285,28 +314,19 @@ class _CalculadoraState extends State<Calculadora> {
                 child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: ElevatedButton(
-                      child: _verHistorico
-                          ? Text('Voltar Calculadora')
-                          : Text('Ver o histórico'),
+                      child: const Text('Limpar'),
+
                       onPressed: () {
-                        setState(() {
-                          _verHistorico = !_verHistorico;
-                          _margemDesejadaController.text = "";
-                          _precoInsumosController.text = "";
-                          _precoAtualController.text = "";
-                          _precoAtual.text = "";
-                          _precoInsumos.text = "";
-                          _margemDesejada.text = "";
-                          _produto.text = "";
-                          //  _mostrarComponentes = false;
-                          _btnStatus = false;
-                          _pesquisaController.text = "";
-                        });
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (BuildContext context) => super.widget),
+                        );
                       },
                       style:colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
                     )),
               )
             : Container(),
+
         !_verHistorico
             ? Container(
                 width: MediaQuery.of(context).size.width * 0.42,
@@ -326,7 +346,8 @@ class _CalculadoraState extends State<Calculadora> {
                       ),*/
                     )),
               )
-            : Container()
+            : Container(),
+
       ],
     ));
   }
@@ -397,7 +418,7 @@ class _CalculadoraState extends State<Calculadora> {
               obs = false;
             }
 
-            return !mostraPrecoSugerido && obs
+            return obs
                 ? TextFormField(
               validator: ValidationBuilder().maxLength(50).required().build(),
               keyboardType: TextInputType.none,
@@ -483,7 +504,7 @@ class _CalculadoraState extends State<Calculadora> {
                       var sanp = snapshot.data;
                       var data = "$sanp %";
 
-                      if (mostraPrecoSugerido) {
+                      if (mostraPrecoSugerido || _precoAtualController.text.isEmpty) {
                         data = "";
                       }
                       return _mostrarComponentes
@@ -695,9 +716,10 @@ class _CalculadoraState extends State<Calculadora> {
                         builder: (context, snapshot) {
                           var sanp = snapshot.data;
                           var data = "$sanp ";
-                          if (mostrarValores) {
+                          if (mostrarValores || _precoInsumosController.text.isEmpty || _precoAtualController.text.isEmpty) {
                             data = "";
                           }
+
                           //var margemPrecoAtual = data.;
                           return TextFormField(
                             /// validator: ValidationBuilder().maxLength(50).required().build(),

@@ -158,7 +158,9 @@ class _LicenseScreenState extends State<LicenseScreen> {
         'email_ativacao':'',
       });
     }
-
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Cadastrado com sucesso')),
+    );
     _quantityController.clear();
     setState(() {});
   }

@@ -18,6 +18,7 @@ import 'package:appgestao/pages/newTelaDiagnostico.dart';
 import 'package:appgestao/pages/novaHome.dart';
 import 'package:appgestao/pages/novaTelaDiagnostico.dart';
 import 'package:appgestao/pages/novodadosbasicos.dart';
+import 'package:appgestao/pages/politicaPrivacidade.dart';
 import 'package:appgestao/pages/simulador.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -119,6 +120,8 @@ class _MenuState extends State<Menu> {
                 //  Navigator.pop(context);
               },
             ),
+
+
 
 
 
@@ -245,6 +248,15 @@ class _MenuState extends State<Menu> {
             //     }
             //   },
             // ),
+            ListTile(
+              leading: const Icon(Icons.ad_units),
+              title: buildText("Termo de uso e privacidade"),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                route.pushPage(context,  PoliticaPrivacidadeScreen());
+                //  Navigator.pop(context);
+              },
+            ),
             ListTile(
               leading: const Icon(Icons.exit_to_app),
               title: const Text("Sair"),
