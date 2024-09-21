@@ -266,6 +266,16 @@ class _MenuState extends State<Menu> {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+             // leading: const Icon(Icons.contact_mail),
+              title: buildText("Contatos:\nWhatsApp (19) 989599889\nE-mail: contato@getup.app.br"),
+             // trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+              //  route.pushPage(context,  PoliticaPrivacidadeScreen());
+                //  Navigator.pop(context);
+              },
+            ),
+
             //  const BtnDarkLight(),
           ],
         ),

@@ -348,6 +348,11 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                           decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
                           controller: TextEditingController(text: textSnapshot.data ?? ''),
                           textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,  // Negrito
+                            color: Colors.black,  // Cor preta
+                            fontSize: 14,  // Tamanho da fonte 11
+                          ),
                         ),
                       ],
                     ),
@@ -413,6 +418,11 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                           decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
                           controller: TextEditingController(text: textSnapshot.data ?? ''),
                           textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,  // Negrito
+                            color: Colors.black,  // Cor preta
+                            fontSize: 14,  // Tamanho da fonte 11
+                          ),
                         ),
                       ],
                     ),
@@ -480,6 +490,11 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                           decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
                           controller: TextEditingController(text: textSnapshot.data ?? ''),
                           textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,  // Negrito
+                            color: Colors.black,  // Cor preta
+                            fontSize: 14,  // Tamanho da fonte 11
+                          ),
                         ),
                       ],
                     ),
@@ -547,6 +562,11 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                           decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),
                           controller: TextEditingController(text: textSnapshot.data ?? ''),
                           textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,  // Negrito
+                            color: Colors.black,  // Cor preta
+                            fontSize: 14,  // Tamanho da fonte 11
+                          ),
                         ),
                       ],
                     ),

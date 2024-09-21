@@ -404,7 +404,7 @@ class _PoliticaPrivacidadeScreenState extends State<PoliticaPrivacidadeScreen> {
                       FontWeight.normal,
                     ),
                     _buildTextSpan(
-                      ' \u2022 Extrair o código-fonte do ',
+                      ' \n\u2022 Extrair o código-fonte do ',
                       FontWeight.normal,
                     ),
                     _buildTextSpan(

@@ -375,7 +375,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     ],
                   ),
                   const Espacamento(),
-                  Column(
+                //String textAjudaCapacidadeAtendimento ="Quantidade de clientes que o Negócio está estruturado para atender, com qualidade, durante um mês de atividade.";
+
+              Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       buildTituloInput(context,'Capacidade de atendimento'),
@@ -384,10 +386,12 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                         // mainAxisSize: MainAxisSize.max,
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.14,
-                            child: Container(),
-                          ),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.14,
+                          //   child: Container(),
+                          // ),
+                          buildIconeMsg(context,
+                              'Quantidade de clientes que o Negócio está estruturado para atender, com qualidade, durante um mês de atividade.'),
                           capacidadeAtendimento(),
                         ],
                       ),
@@ -402,7 +406,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.13,
                         child:   buildIconeMsg(context,
-                            'Botão salvar adiciona um novo registro\nBotão altualizar atualizar os dados atuais da tela no banco de dados.\nBotão histórico abre a tela com a lista de dados basicos.'),
+                            '''O botão "SALVAR" deve ser utilizado todas as vezes que forem preenchidos os dados básicos, para que eles sejam considerados pelo aplicativo.\nO botão "ATUALIZAR" deve ser utilizado quando algum dado já salvo em dados básicos for alterado.\nO botão "HISTÓRICO" exibe todos os dados salvos anteriormente. Observação: No HISTÓRICO você pode pesquisar por mês, "REMOVER" ou pressionar "REUTILIZAR" para que eles apareçam na tela DADOS BÁSICOS. Neste caso, pressionando "ATUALIZAR", você poderá rever o Diagnóstico e realizar experimentos em GESTÃO DE PRIORIDADES.
+                            '''),
                       ),
                       // SizedBox(
                       //   width: MediaQuery.of(context).size.width * 0.4,

@@ -61,17 +61,7 @@ Analisar a viabilidade de ofertas promocionais.
 Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histórico para montar tabelas e acompanhar a evolução de seus preços. 
 """;
   String textAjudaGestaoPrioridades ="""
-Esta calculadora, com base na estrutura de custos do seu Negócio e em suas metas de lucro, será útil para você:
-Analisar os preços que está praticando;
-Definir os preços para produtos novos; 
-Atualizar preços quando de alterações nos custos; 
-Definir preços para produtos novos;
-Analisar a viabilidade de ofertas promocionais;
-Complementar as considerações do “diagnóstico”, com observações relativas à lucratividade e competitividade;
-Obter índices de variação para utilizar em suas análises em “Gestão de prioridades”.
-Decidir providências em relação a produtos com baixa lucratividade.
-Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histórico para montar tabelas e rever a evolução de seus preços. Sem precisar de Internet, na palma de sua mão, em qualquer lugar do planeta. 
-
+ Na realidade trata-se de um “simulador”. Nele você vai indicando o item que quer alterar. Define um percentual de aumento (+) ou      diminuição (-) em relação ao respectivo valor informado em “Dados Básicos”, e verifica o que acontece com a "Margem". Em uma mesma simulação você pode aplicar variações para todos os itens que desejar (ex.: aplicar uma redução nos preços e um aumento nas vendas).Desta forma, você poderá antever a lucratividade do Negócio, em consequência de alterações em seus gastos e custos. Lembrando a possibilidade de transcrever os resultados das simulações em “Dados Básicos” e verificar qual o “Diagnóstico”
   """;
 
   String textAjudaInportanciaMeses = "Inportância dos meses";
@@ -122,8 +112,8 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,NovaTelaDiagnostico()),
            // buildRowBtn(context, '',textBtnDiganostico,NovaTelaDiagnostico()),
            // buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,telaDiagnostico()),
-            buildRowBtn(context,textAjudaCalculadoraPrecos,textBtnGestaoPrioridades,GestaoPrioridade()),
-            buildRowBtn(context, textAjudaGestaoPrioridades ,textBtnCalculadoraPrecos,Calculadora()),
+            buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,GestaoPrioridade()),
+            buildRowBtn(context, textAjudaCalculadoraPrecos  ,textBtnCalculadoraPrecos,Calculadora()),
 
 
         /*

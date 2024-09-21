@@ -72,7 +72,7 @@ class DadosBasicosSqlite {
   }
   Future<List<dynamic>> lista() async {
     final dbClient = await db;
-    final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos where 1=1 order by dados_basicos_atual desc  ");
+    final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos where dados_basicos_atual = 'S' order by dados_basicos_atual desc  ");
     print(list);
     return list;
   }
