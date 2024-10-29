@@ -386,6 +386,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
               return StreamBuilder<Color>(
                 stream:  null,
                 builder: (context, colorSnapshot) {
+                  var textoLabel = "teste" ;
                   if("lucro_prejuiso" == strean_color){
                     var valor = (textSnapshot.data
                         .toString()
@@ -405,6 +406,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                       cor_fundo = Colors.yellow;
                     }else if( corSelecionada == 'VERDE'){
                       cor_fundo = Colors.red;
+                      textoLabel ="Prejuiso";
                     }
                   }
                   return Container(
@@ -412,7 +414,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titulo =='lucro'? Text(lucro,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),):Text(titulo,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),),
+                        titulo =='Lucro'? Text(textoLabel,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),):Text(titulo,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),),
                         TextField(
                           enabled: false,
                           decoration: buildInputDecoration(context, textSnapshot.data, label,cor_fundo),

@@ -52,10 +52,12 @@ class ImportanciaMesesBLoc extends BlocBase {
   }
   _msgMesSelecionado(mesAtual, mesSelecionado){
     if(mesAtual == mesSelecionado){
-      _msgInfoMesSelecionado.add("A exatidão das informações determinará a qualidade/utilidade desta ferramenta.");
+      _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do atual, mais as suas análises retratarão a realidade.Todos os dados devem se referir ao mesmo mês. Caso você esteja estudando a viabilidade de um novo Negócio, preencha com suas estimativas e metas.Fechar");
     }else{
-      _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do mês atual, mais útil será para suas análises.");
+     // _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do mês atual, mais útil será para suas análises.");
+      _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do atual, mais as suas análises retratarão a realidade.Todos os dados devem se referir ao mesmo mês. Caso você esteja estudando a viabilidade de um novo Negócio, preencha com suas estimativas e metas.Fechar");
     }
+
   }
   msgInfoMesSelecionado(value){
     final mes = DateTime.now().month;

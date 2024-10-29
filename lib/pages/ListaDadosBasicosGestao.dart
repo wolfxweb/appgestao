@@ -24,7 +24,7 @@ class _ListaDadosBasicosGestaoStateState extends State<ListaDadosBasicosGestao> 
   var alerta = AlertModal();
   late Future<List<dynamic>> dadosDoBancoDeDados;
   void _consultar() async {
-    dadosDoBancoDeDados = bd.lista();
+    dadosDoBancoDeDados = bd.listaTodos();
     // //  var lista = extrairDadosBasicos(dados);
     print('dadosDoBancoDeDados');
     print(dadosDoBancoDeDados);
@@ -224,8 +224,12 @@ class _ListaDadosBasicosGestaoStateState extends State<ListaDadosBasicosGestao> 
                   onPressed: () {
                     _delete(dado['id']);
                   },
-                  style: colorButtonStyle(),
-                  child: const Text('Remover'),
+                  //style: colorButtonStyle(),
+                  child: const Text('X',style: TextStyle(
+                    color: Colors.red,
+                   // fontSize: 13,
+                    // backgroundColor: Colors.white,
+                  ),),
                 ),
                 ElevatedButton(
                   onPressed: () {

@@ -263,13 +263,26 @@ class CalculadoraBloc extends BlocBase {
     if (precoVendaAtual > 0 && precoMedioConcorrencia > 0) {
       double percentual90 = precoMedioConcorrencia * 0.9;
       double percentual110 = precoMedioConcorrencia * 1.1;
-      if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
+      // Nova condição que você quer adicionada 29/11
+      // mantido no codido pois esta sendo alterado constaimente ficar mais facil deixar aqui que procurar no git
+      // if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
+      //   mensagem = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
+      // } else if (precoVendaAtual >= percentual110) {
+      //   mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
+      // } else if (precoVendaAtual <= percentual90) {
+      //   mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
+      //
+      // }
+
+      double formula = (precoMedioConcorrencia - (((percentual_gasto_vendas + percentual_custo_fixo) * precoMedioConcorrencia) + _custoInsumo)) / precoMedioConcorrencia;
+      if(precoVendaAtual <=0 && precoVendaAtual < preco_concorrente && formula <= 0){
+        mensagem = "Mesmo praticando o preço médio concorrente você não conseguirá ter lucro. Reveja seus custos!";
+      }else if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
         mensagem = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
       } else if (precoVendaAtual >= percentual110) {
         mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
       } else if (precoVendaAtual <= percentual90) {
         mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
-
       }
     }
 

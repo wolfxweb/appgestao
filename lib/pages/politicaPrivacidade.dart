@@ -160,7 +160,7 @@ class _PoliticaPrivacidadeScreenState extends State<PoliticaPrivacidadeScreen> {
                       FontWeight.bold,
                     ),
                     _buildTextSpan(
-                      '\n2.1 O Para baixar o ',
+                      '\n2.1 Para baixar o ',
                       FontWeight.normal,
                     ),
                     _buildTextSpan(
@@ -428,7 +428,7 @@ class _PoliticaPrivacidadeScreenState extends State<PoliticaPrivacidadeScreen> {
                       FontWeight.normal,
                     ),
                     _buildTextSpan(
-                      ' Administradora.',
+                      ' Administradora ',
                       FontWeight.bold,
                     ),
                     _buildTextSpan(
@@ -620,11 +620,11 @@ class _PoliticaPrivacidadeScreenState extends State<PoliticaPrivacidadeScreen> {
                       FontWeight.bold,
                     ),
                     _buildTextSpan(
-                      'Em hipótese alguma a Objetivando garantir que o ',
+                      'Objetivando garantir que o ',
                       FontWeight.normal,
                     ),
                     _buildTextSpan(
-                      'Get Up.',
+                      'Get Up ',
                       FontWeight.bold,
                     ),
                     _buildTextSpan(

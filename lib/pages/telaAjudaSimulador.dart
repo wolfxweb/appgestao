@@ -16,15 +16,7 @@ class TelaAjudaSimulador extends StatelessWidget {
         "\nCaso queira rever o % atribuido em um determinado item, é só selecioná-lo novamente.";
 
     var text4 ='''
-Quando o resultado das simulações não corresponder à sua expectativa, lance os valores em Dados Básicos e depois veja o Diagnóstico.
-Quando você concluir que precisa alcançar determinados resultados:
-1. Relacione todas as providências necessárias;
-2. Anote quais dependem da conclusão de outras. E quais são independentes;
-3. Assim você saberá por onde começar;
-4. Estime quanto tempo será preciso para executar cada uma;
-5. Agora defina três datas para cada tema: início, controle e conclusão;
-6. Ao lado, quem executará;
-7. Anote na agenda do seu celular. 
+Quando:                                                                                                              1) o resultado das simulações não corresponder à sua expectativa,                                                                                                        2) ou quando concluir uma simulação para o mês corrente ou futuros (planejamento)                                                                             transcreva os valores simulados em DADOS BÁSICOS. Feito isso pressione "SALVAR". Automaticamente serão incorporados ao "HISTÓRICO".                                                                          Você poderá poderá  consultar o "DIAGNÓSTICO" e realizar novas análises em "GESTÃO DE PRIORIDADES". Para recuperar os DADOS BÁSICOS originais, é só localizar no HISTÓRICO, pressionar REUTILIZAR e na tela principal pressionar ATUALIZAR.                                                                                                                                                                                                                                                                                  Sugestão:                                                                                                                                                                                                                                                                                                                                              Sempre que você considerar que um determinado aumento ou diminuição é de fato uma meta, anote na agenda do celular, na data em que iniciará as providências e na data em que deverão estar concluidas, com o nome do responsável por fazer. Quando entender conveniente, escola data(s) intermediárias para verificar o andamento. Nas lâmpadas do DIAGNÓSTICO você encontrará "dicas" úteis.
 
 
 

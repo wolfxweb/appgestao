@@ -406,8 +406,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.13,
                         child:   buildIconeMsg(context,
-                            '''O botão "SALVAR" deve ser utilizado todas as vezes que forem preenchidos os dados básicos, para que eles sejam considerados pelo aplicativo.\nO botão "ATUALIZAR" deve ser utilizado quando algum dado já salvo em dados básicos for alterado.\nO botão "HISTÓRICO" exibe todos os dados salvos anteriormente. Observação: No HISTÓRICO você pode pesquisar por mês, "REMOVER" ou pressionar "REUTILIZAR" para que eles apareçam na tela DADOS BÁSICOS. Neste caso, pressionando "ATUALIZAR", você poderá rever o Diagnóstico e realizar experimentos em GESTÃO DE PRIORIDADES.
-                            '''),
+                            '''O botão "SALVAR"  deve ser pressionado todas as vezes que forem preenchidos os Dados básicos, ou algum dado for posteriormente alterado.\nO botão "ATUALIZAR" deve ser pressionado sempre que "reutilizar" dados Básicos armazenados no Histórico.\nO botão "HISTÓRICO" abre a tela de todos os Dados básicos salvos.  '''),
                       ),
                       // SizedBox(
                       //   width: MediaQuery.of(context).size.width * 0.4,
@@ -701,10 +700,10 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
             if (snapshot.hasData) {
               data = snapshot.data.toString();
               return TextFormField(
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.justify,
                 enabled: false,
                 keyboardType: TextInputType.none,
-                maxLines: 3,
+                maxLines: 6,
                 controller: TextEditingController(text: data.toString()),
                 decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -715,10 +714,11 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(
                         color: Color.fromRGBO(159, 105, 56, 1),
-                        width: 1.0,
+                       // width: 1.0,
                         style: BorderStyle.none),
                   ),
                   border: InputBorder.none,
+
                   //  labelText: 'Desconto máximo para vender sem prejuizo',
                   labelStyle: const TextStyle(
                     color: Colors.black54,
@@ -799,6 +799,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     percentualOutrosCustos.text = "";
                     percentualCustoFixo.text = "";
                     _custoInsumosController.text="";
+                    _capacidadeAtendimento.text ="";
 
                     mesSelect.value = onChanged.toString();
                   }),
