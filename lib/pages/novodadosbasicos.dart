@@ -126,7 +126,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   void initState() {
     super.initState();
     _consultar();
-
+    var users = VerificaStatusFairebase();
+    users.verificaTrial(context);
     subscription =
         _simpleConnectionChecker.onConnectionChange.listen((connected) {
       setState(() {

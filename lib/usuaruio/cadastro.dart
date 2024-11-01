@@ -22,6 +22,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:appgestao/classes/util/ibge.dart';
 
 import 'package:appgestao/classes/model/estado.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({Key? key}) : super(key: key);
@@ -776,8 +778,19 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.01,
-                          child: Container()),
+                        width: MediaQuery.of(context).size.width * 0.08,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.help,
+                            color: Color.fromRGBO(1, 57, 44, 1),
+                          ),
+                          color: Colors.black54,
+                          onPressed: () {
+                            alerta.openModal(context,
+                                " Se você possui uma chave de ativação, insira-a para desbloquear o acesso completo e contínuo ao app.\nSe não inserir a chave, você terá acesso livre por 7 dias.\nApós esse período, o uso será bloqueado até que a chave de ativação seja fornecida. ");
+                          },
+                        ),
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.82,
                         decoration: buildBoxDecoration(),
@@ -786,11 +799,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           children: [
                             buildTextoInput('Chave de  ativação'),
                             TextFormField(
-                                validator: ValidationBuilder()
-                                    .minLength(6)
-                                    .maxLength(50)
-                                    .required()
-                                    .build(),
+                                // validator: ValidationBuilder()
+                                //     .minLength(6)
+                                //     .maxLength(50)
+                                //     .required()
+                                //     .build(),
                                 keyboardType: TextInputType.text,
                                // obscureText: true,
                                 controller: _tokenAtivacaoController,
@@ -1213,6 +1226,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   }
 
   _buildOnPressed() async {
+    await initializeDateFormatting('pt_BR', null);
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
@@ -1227,15 +1241,16 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       'admin': false,
       'cidade': _cidadesValue,
       'estado': _selectedItem,
-      'chave_ativacao': _tokenAtivacaoController.text
+      'chave_ativacao': _tokenAtivacaoController.text,
+      'data_criacao': DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())
     };
     var token_ativacao = _tokenAtivacaoController.text;
 
-    if(token_ativacao == ""){
-      alerta.openModal(context,
-          'Chave de ativação é obrigatoria.');
-      return;
-    }
+    // if(token_ativacao == ""){
+    //   alerta.openModal(context,
+    //       'Chave de ativação é obrigatoria.');
+    //   return;
+    // }
     if (_valueCheck == false) {
       alerta.openModal(context,
           'Aceite da policita de privacidade  e termo de uso para dar continuidade.');
@@ -1252,6 +1267,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
 
     try {
       // Consultar a coleção 'licenses' para verificar o status do token de ativação
+      if(token_ativacao.isNotEmpty){
       final querySnapshot = await FirebaseFirestore.instance
           .collection('licenses')
           .where('code', isEqualTo: token_ativacao)
@@ -1263,7 +1279,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
         alerta.openModal(context, 'Token de ativação inválido ou não disponível.');
         return;
       }
+      }
 
+      print(data);
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,

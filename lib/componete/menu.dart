@@ -210,18 +210,18 @@ class _MenuState extends State<Menu> {
                       return const SizedBox(height: 0.0);
                     }
                   }),
-                // ListTile(
-                //   leading: const Icon(Icons.add_chart),
-                //   title:   buildText("Licenças"),
-                //   trailing: const Icon(
-                //     Icons.arrow_forward,
-                //   ),
-                //   onTap: () {
-                //  //   _ususarioBloc.openURL();
-                //       route.pushPage(context,  LicenseScreen());
-                //     //  Navigator.pop(context);
-                //   },
-                // ),
+                ListTile(
+                  leading: const Icon(Icons.chat),
+                  title:   buildText("WhatsApp"),
+                  trailing: const Icon(
+                    Icons.arrow_forward,
+                  ),
+                  onTap: () {
+                    _ususarioBloc.openURL();
+                     // route.pushPage(context,  LicenseScreen());
+                     // Navigator.pop(context);
+                  },
+                ),
             // ListTile(
             //   leading: const Icon(Icons.lock_reset),
             //   title: buildText("Reset banco de dados"),
@@ -268,9 +268,10 @@ class _MenuState extends State<Menu> {
             ),
             ListTile(
              // leading: const Icon(Icons.contact_mail),
-              title: buildText("Contatos:\nWhatsApp (19) 989599889\nE-mail: contato@getup.app.br"),
+              title: buildText("E-mail: contato@getup.app.br"),
              // trailing: const Icon(Icons.arrow_forward),
               onTap: () {
+               // https://w.app/dRlq7F
               //  route.pushPage(context,  PoliticaPrivacidadeScreen());
                 //  Navigator.pop(context);
               },

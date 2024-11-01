@@ -20,6 +20,9 @@ import 'package:appgestao/pages/simulador.dart';
 import 'package:flutter/material.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
 
+import 'package:appgestao/classes/firebase/verificastatus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class novaHome extends StatefulWidget {
   const novaHome({Key? key}) : super(key: key);
@@ -80,6 +83,13 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
   String textBtnCalculadoraViabilidade = "Calculadora Viabilidade e P&P";
   String textBtnCalculadoraCapitalGiro = "Calculadora Capital Giro";
   String textBtnAnalizeVibilidade ="Analíse de viabilidade";
+  @override
+  void initState() {
+    super.initState();
+    var users = VerificaStatusFairebase();
+    users.verificaTrial(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

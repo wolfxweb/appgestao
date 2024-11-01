@@ -77,7 +77,7 @@ class UsuarioBloc extends BlocBase {
     });
   }
   Future<void> openURL()async{
-    final Uri _url = Uri.parse('https://wolfx.com.br/');
+    final Uri _url = Uri.parse('https://w.app/dRlq7F');
     if( await canLaunchUrl(_url)){
       if (await launchUrl(_url,mode: LaunchMode.externalApplication)) {
         throw 'Could not launch $_url';
@@ -85,7 +85,7 @@ class UsuarioBloc extends BlocBase {
     }
   }
   Future<void> openUrlFaleConosco()async{
-    final Uri _url = Uri.parse('https://wolfx.com.br/');
+    final Uri _url = Uri.parse('https://w.app/dRlq7F');
     if( await canLaunchUrl(_url)){
       if (await launchUrl(_url,mode: LaunchMode.externalApplication)) {
         throw 'Could not launch $_url';

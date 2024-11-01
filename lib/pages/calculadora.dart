@@ -1,4 +1,5 @@
 import 'package:appgestao/blocs/calculadora_bloc.dart';
+import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
@@ -39,6 +40,8 @@ class _CalculadoraState extends State<Calculadora> {
   void initState() {
     calBloc = CalculadoraBloc();
     historico = calBloc.selectHistorico();
+    var users = VerificaStatusFairebase();
+    users.verificaTrial(context);
   }
 
   final _formKey = GlobalKey<FormState>();

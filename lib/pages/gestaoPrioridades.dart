@@ -1,5 +1,6 @@
 import 'package:appgestao/blocs/gestao_prioridade_bloc.dart';
 import 'package:appgestao/blocs/simulador_bloc.dart';
+import 'package:appgestao/classes/firebase/verificastatus.dart';
 import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:appgestao/componete/alertamodal.dart';
@@ -91,7 +92,8 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
 
     addController.text = '';
     removeController.text = '';
-
+    var users = VerificaStatusFairebase();
+    users.verificaTrial(context);
     super.initState();
     setState(() {
       clientesAtendidosVariacao.text = "";
