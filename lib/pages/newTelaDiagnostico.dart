@@ -18,6 +18,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
 
   var bd = DadosBasicosSqlite();
   var dignosticoBloc = DignosticoBloc();
+  var corFundoPercentual =  const Color.fromRGBO(245, 245, 245, 1);
   String mensagem1 ="Existem 4 maneiras de aumentar a margem: 1. Aumentando os preços (se não prejudicar a competitividade); 2. Vendendo mais (se houver demanda, capacidade de atendimento, se a margem de contribuição for positiva e se houver disponibilidade  de capital de giro); 3. Faturando mais com cada cliente; 4. reduzindo custos (sem prejudicar a qualidade da oferta e do atendimento).";
   String mensagem2 ="Para faturar mais com cada cliente é preciso ofertar itens complementares ao que estiver sendo vendido, e/ou estabelecer quantidades mínimas, e/ou criar 'combos promocionais', e/ou 'vantagens' para compras acima de..., etc. É importante saber oferecer e divulgar.";
   String mensagem3 ="Este é o valor que cada venda deixa para cobrir os custos fixos e gerar margem. Para que seja maior, é preciso aumentar o faturamento e/ou reduzindo os gastos com as vendas e, principalmente, com insumos e produtos de 3os. ";
@@ -224,7 +225,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                           // SizedBox(height: 5.0),
                           //  _buildRowWithHelpIcon('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual",""),
                           //  SizedBox(height: 5.0),
-                            _buildRowWithHelpIcon('Ticket Médio','',dignosticoBloc.ticketMedioController,mensagem2,"","Ticket Médio"),
+                            _buildRowWithHelpIconTicket('Ticket Médio','',dignosticoBloc.ticketMedioController,mensagem2,"","Ticket Médio"),
                         //    SizedBox(height: 5.0),
                             _buildRowMargemContibuicao('Margem de Contribuição','',"",mensagem3,"margem","Margem de Contribuição"),
                           //  _buildRowWithHelpIcon('Margem de Contribuição','',dignosticoBloc.margemContriController,mensagem3,"margem","Margem de Contribuição"),
@@ -333,7 +334,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                       cor_fundo = Colors.green;
                     }else if( corSelecionada == 'AMARELO'){
                       cor_fundo = Colors.yellow;
-                    }else if( corSelecionada == 'VERDE'){
+                    }else if( corSelecionada == 'VERMELHO'){
                       cor_fundo = Colors.red;
                     }
                   }
@@ -444,7 +445,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
     );
   }
 
-  Widget _buildRowSemIcon(String label,text , strean_text, textAlert,strean_color, titulo) {
+  Widget _buildRowWithHelpIconTicket(String label,text , strean_text, textAlert,strean_color, titulo) {
     var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
     return Row(
       children: [
@@ -453,6 +454,79 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
             stream: strean_text,
             builder: (context, textSnapshot) {
               var lucro = "Lucro";
+              if(strean_color ==''){
+                strean_color = 'lucro_prejuiso';
+              }
+              return StreamBuilder<Color>(
+                stream:  null,
+                builder: (context, colorSnapshot) {
+                  var textoLabel = "teste" ;
+                  if("lucro_prejuiso" == strean_color){
+                    var valor = (textSnapshot.data
+                        .toString()
+                        .replaceAll("R\$", "")
+                        .replaceAll('.', '')
+                        .replaceAll(',', '.'));
+                    if (textSnapshot.data != null) {
+                      cor_fundo = calcularCor(double.parse(valor));
+                    }
+                    // lucro ="Prejuíso";
+                  }
+                  // if("margem" == strean_color){
+                  //   var corSelecionada =  dignosticoBloc.getColorBasedOnConditions();
+                  //   if( corSelecionada == 'VERDE'){
+                  //     cor_fundo = Colors.green;
+                  //   }else if( corSelecionada == 'AMARELO'){
+                  //     cor_fundo = Colors.yellow;
+                  //   }else if( corSelecionada == 'VERDE'){
+                  //     cor_fundo = Colors.red;
+                  //     textoLabel ="Prejuiso";
+                  //   }
+                  // }
+                  return Container(
+                    color: colorSnapshot.data ?? Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        titulo =='Lucro'? Text(textoLabel,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),):Text(titulo,style: const TextStyle(fontSize: 13.0,fontWeight: FontWeight.bold),),
+                        TextField(
+                          enabled: false,
+                          decoration: buildInputDecoration(context, textSnapshot.data, label,const Color.fromRGBO(245, 245, 245, 1)),
+                          controller: TextEditingController(text: textSnapshot.data ?? ''),
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,  // Negrito
+                            color: Colors.black,  // Cor preta
+                            fontSize: 14,  // Tamanho da fonte 11
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.lightbulb, size: 30, color: Colors.amberAccent),
+          onPressed: () {
+            _showHelpModal(context, textAlert);
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRowSemIcon(String label,text , strean_text, textAlert,strean_color, titulo) {
+    var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
+    return Row(
+      children: [
+        Expanded(
+          child: StreamBuilder<String>(
+            stream: strean_text,
+            builder: (context, textSnapshot) {
+              var lucro = "Margem";
               if(strean_color ==''){
                 strean_color = 'lucro_prejuiso';
               }
@@ -471,6 +545,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                     }
                     // lucro ="Prejuíso";
                   }
+
                   if("margem" == strean_color){
                     var corSelecionada =  dignosticoBloc.getColorBasedOnConditions();
                     if( corSelecionada == 'VERDE'){
@@ -481,6 +556,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                       cor_fundo = Colors.red;
                     }
                   }
+
                   return Container(
                     color: colorSnapshot.data ?? Colors.white,
                     child: Column(
@@ -518,6 +594,8 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
 
   Widget _buildRowSemIconTitulo(String label,text , strean_text, textAlert,strean_color, titulo) {
     var cor_fundo = const Color.fromRGBO(245, 245, 245, 1);
+    print('strean_color');
+    print(strean_color);
     return Row(
       children: [
         Expanded(
@@ -533,11 +611,12 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                 builder: (context, colorSnapshot) {
 
                   if("lucro_prejuiso" == strean_color){
-                    var valor = (textSnapshot.data
+                    var valor = textSnapshot.data
                         .toString()
                         .replaceAll("R\$", "")
-                        .replaceAll('.', '')
-                        .replaceAll(',', '.'));
+                        .replaceAll(".", "")
+                        .replaceAll(",", ".")
+                        .replaceAll("%", "");
                     if (textSnapshot.data != null) {
                       cor_fundo = calcularCor(double.parse(valor));
                     }
@@ -549,7 +628,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                       cor_fundo = Colors.green;
                     }else if( corSelecionada == 'AMARELO'){
                       cor_fundo = Colors.yellow;
-                    }else if( corSelecionada == 'VERDE'){
+                    }else if( corSelecionada == 'VERMELHO'){
                       cor_fundo = Colors.red;
                     }
                   }
@@ -600,7 +679,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                 children: [
                   _buildRowSemIcon(tituloCampo,'',dignosticoBloc.lucroController,'Verificar o texto para este campo',"lucro_prejuiso","lucro"),
                   const SizedBox(height: 5.0),
-                  _buildRowSemIconTitulo('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual",""),
+                  _buildRowSemIconTitulo('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"",""),
                 ],
               ),
             ),

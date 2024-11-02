@@ -483,7 +483,10 @@ calculoTicketMedio(){
  }
  corMargemCalculada(){
     var mAtual =  margemAtual*100;
-    if(margemInicalCalculada > mAtual){
+    print(mAtual);
+    if(margemInicalCalculada < 0){
+      _corMargem.add('vermelho');
+    }else if(margemInicalCalculada > mAtual){
      _corMargem.add('vermelho');
    }else if(margemInicalCalculada < mAtual ){
      _corMargem.add('verde');

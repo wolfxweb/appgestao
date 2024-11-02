@@ -188,10 +188,12 @@ class DignosticoBloc extends BlocBase {
     var proporcaoMargemContribuicao = margemContribuicao/ticketMedio;
     var proporcaoTicketMedio = ticketMedio/ticketMedio;
     if (proporcaoMargemContribuicao < 0.0) {
+
       return "VERMELHO";
     } else if (proporcaoMargemContribuicao > 0 && proporcaoTicketMedio < 0.20) {
       return "AMARELO";
     } else if (proporcaoMargemContribuicao > 0.20) {
+      print("verde");
       return  "VERDE";
     } else {
       return "Defualt";
@@ -636,7 +638,7 @@ class DignosticoBloc extends BlocBase {
       String texto = '''
                   Você tem motivo para estar bem preocupado! 
                   É preciso agir rápido! Seja racional, objetivo e frio! Faça o que for preciso! Agora!
-                  Com esta margem de contribuição, quanto mais vender, maior será o prejuízo!
+                  Com está margem de contribuição, vender mais não irá tirar o Negócio do prejuízo!
                   Faça simulações na “Gestão de Prioridades”, tratando de reduzir prioritariamente os gastos com vendas (consulte seu Contador para verificar seu enquadramento fiscal).
                   Também será preciso reduzir, os custos dos insumos e/ou mercadorias de terceiros: a) comprando bem (preços, prazos e quantidades); b) eliminando desperdícios, retrabalhos, perdas e desvios.
                   Utilize a “Calculadora de preços” para analisar: 1) a margem de cada item; 2) a comparação com os preços dos concorrentes. 

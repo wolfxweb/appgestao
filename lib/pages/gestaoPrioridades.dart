@@ -84,7 +84,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
   //**//
   final _formKey = GlobalKey<FormState>();
   var color = const Color.fromRGBO(1, 57, 44, 1);
-
+  var mostraTextoCampoCaculado = 'N';
   @override
   void initState() {
     simuladorBloc = SimuladorBloc();
@@ -124,7 +124,8 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                       buildNewRemoveAdd(context),
                     ],
                   ),
-                  const Espacamento(),
+
+
                   builtItulo("Margem"),
                   buildInputsMargem(
                       context,
@@ -410,7 +411,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                               stream: stream3,
                               builder: (context, snapshot) {
                                 var data = snapshot.data;
-                                if(!snapshot.hasData){
+                                if(!snapshot.hasData || mostraTextoCampoCaculado == "N"){
                                   data ="";
                                 }
 
@@ -528,7 +529,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                                   stream: stream3,
                                   builder: (context, snapshot) {
                                     var data = snapshot.data;
-                                    if(!snapshot.hasData){
+                                    if(!snapshot.hasData || mostraTextoCampoCaculado == "N"){
                                       data ="";
                                     }
 
@@ -639,7 +640,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                           builder: (context, snapshot) {
                             var data = snapshot.data;
                           //  print(data);
-                            if (snapshot.data == null) {
+                            if (snapshot.data == null ) {
                               data = "";
                             }
                             return TextFormField(
@@ -677,6 +678,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                         stream: stream2,
                         builder: (context, snapshot) {
                           var dataCor = snapshot.data;
+                          print(dataCor);
                           corCampo = dataCor.toString();
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -688,9 +690,11 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                                   stream: stream3,
                                   builder: (context, snapshot) {
                                     var data = snapshot.data;
-                                    if(!snapshot.hasData){
+                                    if(!snapshot.hasData || mostraTextoCampoCaculado == "N"){
                                       data ="";
                                     }
+
+
                                     return TextFormField(
                                         enabled: false,
                                         style: const TextStyle(color: Colors.black),
@@ -795,7 +799,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                       stream: stream1,
                       builder: (context, snapshot) {
                         var data = snapshot.data;
-                        if (snapshot.data == null) {
+                        if (snapshot.data == null || mostraTextoCampoCaculado == "N") {
                           data = "";
                         }
                         return TextFormField(
@@ -904,7 +908,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
             var data = snapshot.data;
           //  print(data);
           //  print('data');
-            if (snapshot.data == null) {
+            if (snapshot.data == null || mostraTextoCampoCaculado == "N") {
               data = "";
             }
             return TextFormField(
@@ -1003,6 +1007,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                             ),
                             IconButton(
                               onPressed: () {
+                                mostraTextoCampoCaculado = "S";
                                 if (addController.text.isEmpty) {
                                   alerta.openModal(
                                       context, "Adicione o percentual.");
@@ -1017,6 +1022,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                                   FocusScope.of(context)
                                       .requestFocus(new FocusNode());
                                 }
+
                               },
                               icon: const Icon(
                                 Icons.add_circle,
@@ -1031,7 +1037,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                         padding: const EdgeInsets.all(3.0),
                         child: Column(
                           children: [
-                            Text(
+                            const Text(
                               'Diminuir',
                               style: TextStyle(
                                 fontSize: 12,
@@ -1039,6 +1045,7 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                             ),
                             IconButton(
                               onPressed: () {
+                                mostraTextoCampoCaculado = "S";
                                 if (addController.text.isEmpty) {
                                   alerta.openModal(
                                       context, "Adicione o percentual.");
