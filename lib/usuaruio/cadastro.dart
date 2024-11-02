@@ -787,7 +787,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           color: Colors.black54,
                           onPressed: () {
                             alerta.openModal(context,
-                                " Se você possui uma chave de ativação, insira-a para desbloquear o acesso completo e contínuo ao app.\nSe não inserir a chave, você terá acesso livre por 7 dias.\nApós esse período, o uso será bloqueado até que a chave de ativação seja fornecida. ");
+                                " Se você possui uma chave de ativação, insira-a para desbloquear o acesso completo e contínuo ao app.\nSe não inserir a chave, você terá acesso livre por 7 dias.\ Após esse período, o uso será bloqueado até que a chave de ativação seja fornecida. ");
                           },
                         ),
                       ),
