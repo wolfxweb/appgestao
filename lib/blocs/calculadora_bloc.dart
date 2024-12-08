@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:appgestao/classes/calculadorahistorico.dart';
 import 'package:appgestao/classes/sqlite/calculadora_sqlite.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
@@ -235,45 +237,31 @@ class CalculadoraBloc extends BlocBase {
     margemDesejada =_margemDesejada;
 
     String mensagem = "";
-    //calcula alterado no email do dia 17/08
-  //  RC = formatter.format(preco_venda_atual - (preco_venda_atual *(percentual_gasto_vendas + percentual_custo_fixo) + (preco_venda_atual * margeEmpresa)));
     double G9 = preco_venda_atual;
     double C10 = percentual_gasto_vendas;
     double C14 = percentual_custo_fixo;
     double G11 = _custoInsumo;
     RC = formatter.format(((G9-((C10*G9)+(C14*G9)+G11))/G9)*100);
-
-
     var a_calculado;
     if (preco_concorrente != null && preco_venda_atual != null && preco_venda_atual != 0) {
         a_calculado = (1 -  (preco_concorrente / (preco_venda_atual / _custoInsumo) / _custoInsumo));
         A = formatter.format(a_calculado*100);
     }
-    if(margemPrecoAtual >0.0 && precoMedioConcorrencia > 0.0 && margemPrecoAtual >0  && a_calculado != null){
+    if( a_calculado != null){
       RB = formatter.format(_custoInsumo- (_custoInsumo * (a_calculado)));
     }
+
     RF = formatter.format(precoVendaAtual -(precoVendaAtual*( percentual_gasto_vendas + percentual_custo_fixo +margemEmpresa )));
     // CALCULO ALTERADO EMAIL DIA 17/08/2024
     // RD = formatter.format( precoMedioConcorrencia -(precoMedioConcorrencia *(percentual_gasto_vendas + percentual_custo_fixo + margemEmpresa)));
     double H26 = precoMedioConcorrencia; // Valor de exemplo para H26
     RD = formatter.format(((H26 - ((H26 * (C10 + C14)) + G11)) / H26)*100);
-
-
     RE = RF;
+    double precoMedioConcorrente = 60;
     if (precoVendaAtual > 0 && precoMedioConcorrencia > 0) {
       double percentual90 = precoMedioConcorrencia * 0.9;
-      double percentual110 = precoMedioConcorrencia * 1.1;
-      // Nova condição que você quer adicionada 29/11
-      // mantido no codido pois esta sendo alterado constaimente ficar mais facil deixar aqui que procurar no git
-      // if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
-      //   mensagem = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
-      // } else if (precoVendaAtual >= percentual110) {
-      //   mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
-      // } else if (precoVendaAtual <= percentual90) {
-      //   mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
-      //
-      // }
-
+      double percentual110 = precoMedioConcorrencia * 1.05;
+      // Nova condição que você quer adicionada 05/12
       double formula = (precoMedioConcorrencia - (((percentual_gasto_vendas + percentual_custo_fixo) * precoMedioConcorrencia) + _custoInsumo)) / precoMedioConcorrencia;
       if(precoVendaAtual <=0 && precoVendaAtual < preco_concorrente && formula <= 0){
         mensagem = "Mesmo praticando o preço médio concorrente você não conseguirá ter lucro. Reveja seus custos!";
@@ -283,6 +271,12 @@ class CalculadoraBloc extends BlocBase {
         mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
       } else if (precoVendaAtual <= percentual90) {
         mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
+      }else if (precoVendaAtual > 0 && margemPrecoAtual <= 0 && precoMedioConcorrente > 0) {
+        if (precoMedioConcorrente < precoVendaAtual) {
+          return "Com o preço e custos atuais este produto dá prejuízo. Assim não dá para competir! Cuidado: é possível que o concorrente esteja vendendo com prejuízo maior que o seu!";
+        } else if (precoMedioConcorrente > precoVendaAtual) {
+          return "Digite o Preço médio concorrente em seu Preço de venda atual. Se a Margem preço atual continuar negativa é evidente que você precisará rever seus custos!";
+        }
       }
     }
 
@@ -309,6 +303,16 @@ class CalculadoraBloc extends BlocBase {
     //   mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
     // }
    // mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
+    // Nova condição que você quer adicionada 29/11
+    // mantido no codido pois esta sendo alterado constaimente ficar mais facil deixar aqui que procurar no git
+    // if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
+    //   mensagem = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
+    // } else if (precoVendaAtual >= percentual110) {
+    //   mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
+    // } else if (precoVendaAtual <= percentual90) {
+    //   mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
+    //
+    // }
     _precoConcorrenteController.add(mensagem);
 
   }

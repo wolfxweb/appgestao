@@ -1246,11 +1246,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     };
     var token_ativacao = _tokenAtivacaoController.text;
 
-    // if(token_ativacao == ""){
-    //   alerta.openModal(context,
-    //       'Chave de ativação é obrigatoria.');
-    //   return;
-    // }
+    if(token_ativacao == ""){
+      alerta.openModal(context,
+          'Chave de ativação é obrigatoria.');
+      return;
+    }
     if (_valueCheck == false) {
       alerta.openModal(context,
           'Aceite da policita de privacidade  e termo de uso para dar continuidade.');
