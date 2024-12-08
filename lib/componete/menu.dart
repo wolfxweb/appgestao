@@ -25,6 +25,8 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:appgestao/classes/sqlite/dbhelper.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class Menu extends StatefulWidget {
   Menu({Key? key}) : super(key: key);
@@ -210,18 +212,18 @@ class _MenuState extends State<Menu> {
                       return const SizedBox(height: 0.0);
                     }
                   }),
-                ListTile(
-                  leading: const Icon(Icons.chat),
-                  title:   buildText("WhatsApp"),
-                  trailing: const Icon(
-                    Icons.arrow_forward,
-                  ),
-                  onTap: () {
-                    _ususarioBloc.openURL();
-                     // route.pushPage(context,  LicenseScreen());
-                     // Navigator.pop(context);
-                  },
-                ),
+                // ListTile(
+                //   leading: const Icon(Icons.chat),
+                //   title:   buildText("WhatsApp"),
+                //   trailing: const Icon(
+                //     Icons.arrow_forward,
+                //   ),
+                //   onTap: () {
+                //     _ususarioBloc.openURL();
+                //      // route.pushPage(context,  LicenseScreen());
+                //      // Navigator.pop(context);
+                //   },
+                // ),
             // ListTile(
             //   leading: const Icon(Icons.lock_reset),
             //   title: buildText("Reset banco de dados"),
@@ -266,9 +268,48 @@ class _MenuState extends State<Menu> {
                 Navigator.pop(context);
               },
             ),
+            // ListTile(
+            //   leading: const Icon(Icons.chat),
+            //   title:   buildText("Fale conosco"),
+            //   trailing: const Icon(
+            //     Icons.arrow_forward,
+            //   ),
+            //   onTap: () {
+            //     _ususarioBloc.openUrlFaleConosco();
+            //    //  route.pushPage(context,  LicenseScreen());
+            //     // Navigator.pop(context);
+            //   },
+            // ),
+            ListTile(
+              leading: const Icon(Icons.chat),
+              title:   buildText("Fale conosco no Whatsapp"),
+              trailing: const Icon(
+                Icons.arrow_forward,
+              ),
+              onTap: () {
+                _ususarioBloc.openUrlFaleConosco();
+                //  route.pushPage(context,  LicenseScreen());
+                // Navigator.pop(context);
+              },
+            ),
+            // ElevatedButton(
+            //   onPressed: openWhatsApp,
+            //   child: Text('Fale Conosco pelo WhatsApp'),
+            // ),
+
+            // ListTile(
+            //   // leading: const Icon(Icons.contact_mail),
+            //   title: buildText("Whatsapp (19) 992940757"),
+            //   // trailing: const Icon(Icons.arrow_forward),
+            //   onTap: () {
+            //     // https://w.app/dRlq7F
+            //     //  route.pushPage(context,  PoliticaPrivacidadeScreen());
+            //     //  Navigator.pop(context);
+            //   },
+            // ),
             ListTile(
              // leading: const Icon(Icons.contact_mail),
-              title: buildText("E-mail: contato@getup.app.br"),
+              title: buildText("Whatsapp (19) 992940757\nE-mail: contato@getup.app.br"),
              // trailing: const Icon(Icons.arrow_forward),
               onTap: () {
                // https://w.app/dRlq7F
@@ -282,6 +323,14 @@ class _MenuState extends State<Menu> {
         ),
       ),
     );
+  }
+  Future<void> openWhatsApp() async {
+
+    final Uri whatsApp = Uri.parse('https://wa.me/5519992940757');
+
+    launchUrl(whatsApp);
+
+
   }
 
   buildText(text) {

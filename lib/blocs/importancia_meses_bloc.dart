@@ -51,13 +51,15 @@ class ImportanciaMesesBLoc extends BlocBase {
     _consultarMeses();
   }
   _msgMesSelecionado(mesAtual, mesSelecionado){
-    if(mesAtual == mesSelecionado){
-      _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do atual, mais as suas análises retratarão a realidade.Todos os dados devem se referir ao mesmo mês. Caso você esteja estudando a viabilidade de um novo Negócio, preencha com suas estimativas e metas.Fechar");
-    }else{
-     // _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do mês atual, mais útil será para suas análises.");
-      _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do atual, mais as suas análises retratarão a realidade.Todos os dados devem se referir ao mesmo mês. Caso você esteja estudando a viabilidade de um novo Negócio, preencha com suas estimativas e metas.Fechar");
-    }
-
+    // if(mesAtual == mesSelecionado){
+    //   _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do atual, mais as suas análises retratarão a realidade.Todos os dados devem se referir ao mesmo mês. Caso você esteja estudando a viabilidade de um novo Negócio, preencha com suas estimativas e metas.Fechar");
+    // }else{
+    //  // _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do mês atual, mais útil será para suas análises.");
+    //   _msgInfoMesSelecionado.add("Quanto mais próximo o mês selecionado for do atual, mais as suas análises retratarão a realidade.Todos os dados devem se referir ao mesmo mês. Caso você esteja estudando a viabilidade de um novo Negócio, preencha com suas estimativas e metas.Fechar");
+    // }
+    var texto = """Quanto mais próximo o mês selecionado for do atual, mais as suas análises retratarão a realidade.\nTodos os dados devem se referir ao mesmo mês.\nCaso você esteja estudando a viabilidade de um novo Negócio, preencha os Dados básicos com suas estimativas e metas.
+    """;
+    _msgInfoMesSelecionado.add(texto);
   }
   msgInfoMesSelecionado(value){
     final mes = DateTime.now().month;

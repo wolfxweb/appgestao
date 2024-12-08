@@ -77,20 +77,16 @@ class UsuarioBloc extends BlocBase {
     });
   }
   Future<void> openURL()async{
-    final Uri _url = Uri.parse('https://w.app/dRlq7F');
+    final Uri _url = Uri.parse('https://wa.me/5519992940757');
     if( await canLaunchUrl(_url)){
       if (await launchUrl(_url,mode: LaunchMode.externalApplication)) {
         throw 'Could not launch $_url';
       }
     }
   }
-  Future<void> openUrlFaleConosco()async{
-    final Uri _url = Uri.parse('https://w.app/dRlq7F');
-    if( await canLaunchUrl(_url)){
-      if (await launchUrl(_url,mode: LaunchMode.externalApplication)) {
-        throw 'Could not launch $_url';
-      }
-    }
+  Future<void> openUrlFaleConosco() async {
+    final Uri whatsApp = Uri.parse('https://wa.me/5519992940757');
+    launchUrl(whatsApp);
   }
 
   @override

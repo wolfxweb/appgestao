@@ -1155,8 +1155,8 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: "Simulações x Margem",
             prefixIcon: Icon(
-              Icons.help,
-              color: Color.fromRGBO(1, 57, 44, 1),
+              Icons.lightbulb,
+              color: Colors.amberAccent,//Color.fromRGBO(1, 57, 44, 1),
               size: 25,
             ),
             hintStyle: TextStyle(

@@ -82,16 +82,21 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // const Padding(
-                //   padding: EdgeInsets.all(12.0), // Adiciona padding de 8.0 em todas as direções
-                //   child: Text(
-                //     'Para filtrar clique na lupa e digite a hora que deseja filtrar.',
-                //     style: TextStyle(
-                //       fontSize: 14.0,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
+                 Padding(
+                  padding: EdgeInsets.all(12.0), // Adiciona padding de 8.0 em todas as direções
+                  child: IconButton(
+                    iconSize: 35,
+                    icon:  Icon(
+                      Icons.lightbulb,
+                      //color: Color.fromRGBO(1, 57, 44, 1),
+                      color: Colors.amberAccent,
+                    ), onPressed: () {
+                      var textoAjudaHistorico ="Ao pressionar a seta (alto à esquerda) você retorna para a tela de Dados básicos.\nPressionando a lupa (alto à direita) e digitar o mês desejado, será exibido o que foi registrado naquele mês.\nPressionando 'REMOVER' você deleta (apaga) os Dados básicos que tiver selecionado.\nPressionando 'REUTILIZAR' você envia para a tela principal os dados. Importante: para que o aplicativo considere estes dados, é importante que na tela principal você pressione 'ATUALIZAR'. ";
+                     alerta.openModal(context, textoAjudaHistorico);
+                  },
+
+                  ),
+                ),
                const SizedBox(height: 8.0), // Adiciona um espaço entre os textos
                 Expanded(
                   child: ListView.builder(
