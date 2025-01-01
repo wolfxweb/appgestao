@@ -258,64 +258,88 @@ class CalculadoraBloc extends BlocBase {
     RD = formatter.format(((H26 - ((H26 * (C10 + C14)) + G11)) / H26)*100);
     RE = RF;
     double precoMedioConcorrente = 60;
-    if (precoVendaAtual > 0 && precoMedioConcorrencia > 0) {
-      double percentual90 = precoMedioConcorrencia * 0.9;
-      double percentual110 = precoMedioConcorrencia * 1.05;
-      // Nova condição que você quer adicionada 05/12
-      double formula = (precoMedioConcorrencia - (((percentual_gasto_vendas + percentual_custo_fixo) * precoMedioConcorrencia) + _custoInsumo)) / precoMedioConcorrencia;
-      if(precoVendaAtual <=0 && precoVendaAtual < preco_concorrente && formula <= 0){
-        mensagem = "Mesmo praticando o preço médio concorrente você não conseguirá ter lucro. Reveja seus custos!";
-      }else if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
-        mensagem = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
-      } else if (precoVendaAtual >= percentual110) {
-        mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
-      } else if (precoVendaAtual <= percentual90) {
-        mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
-      }else if (precoVendaAtual > 0 && margemPrecoAtual <= 0 && precoMedioConcorrente > 0) {
-        if (precoMedioConcorrente < precoVendaAtual) {
-          return "Com o preço e custos atuais este produto dá prejuízo. Assim não dá para competir! Cuidado: é possível que o concorrente esteja vendendo com prejuízo maior que o seu!";
-        } else if (precoMedioConcorrente > precoVendaAtual) {
-          return "Digite o Preço médio concorrente em seu Preço de venda atual. Se a Margem preço atual continuar negativa é evidente que você precisará rever seus custos!";
-        }
-      }
-    }
-
-    // Cliente alterou os textos de saida no email dia 02/05/2024
-    // if (margemPrecoAtual >= margemEmpresa * 0.99 && precoMedioConcorrencia == 0.0 && margemDesejada == 0.0) {
-    //   mensagem = "";
-    // } else if (margemPrecoAtual < margemEmpresa * 0.99 && precoMedioConcorrencia == 0.0 && margemDesejada == 0.0) {
-    //   mensagem = "Insira o percentual da Margem da Empresa no campo Margem Desejada para ver o preço necessário. Ou reduza o Custo dos insumos para R\$ ${RF}";
-    // } else if (precoMedioConcorrencia > 0 && precoVendaAtual > 0 && precoVendaAtual > precoMedioConcorrencia) {
-    //   mensagem = "Para igualar o preço da concorrência o custo dos insumos e/ou mercadoria 3o. deveria ser ${A}%  menor. Substitua o custo atual por R\$ ${RB} e veja a margem resultante.";
-    // } else if (precoVendaAtual > 0 && precoVendaAtual < precoMedioConcorrencia) {
-    //   mensagem = "Se a concorrência vende bem, substitua acima seu preço pelo dela. Se a margem resultante não for satisfatória, digite a margem desejada. Em seguida digite o preço sugerido no campo preço de venda atual. E veja as recomendações.";
-    // } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual == margemEmpresa) {
-    //   mensagem = "";
-    // } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual < margemEmpresa) {
-    //   mensagem = "Se você acha que não deve mexer no preço atual, então veja se consegue diminuir o custo dos insumos e/ou mercadoria 3o. para R\$ ${RC}. Você consegue?";
-    // } else if (precoVendaAtual > 0 && precoVendaAtual == precoMedioConcorrencia && margemPrecoAtual > margemEmpresa) {
-    //   mensagem = "Este produto, se for o caso, pode ter sua venda associada ao de outro cujo preço prejudica o resultado da empresa.";
-    // } else if (margemPrecoAtual < 0 && precoVendaAtual > precoMedioConcorrencia) {
-    //   mensagem = "Para equiparar seu preço com o da concorrência e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de R\$  ${RD}. Você consegue?";
-    // } else if (margemPrecoAtual < 0 && precoVendaAtual == precoMedioConcorrencia) {
-    //   mensagem = "Para manter seu preço e alcançar a média de lucratividade da empresa, o custo dos insumos e/ou mercadoria 3o. deveria ser de R\$ ${RE}. Você consegue?";
-    // } else if (margemPrecoAtual < 0 && margemPrecoAtual < margemEmpresa && precoVendaAtual < precoMedioConcorrencia) {
-    //   mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
+    // if (precoVendaAtual > 0 && precoMedioConcorrencia > 0) {
+    //   double percentual90 = precoMedioConcorrencia * 0.9;
+    //   double percentual110 = precoMedioConcorrencia * 1.05;
+    //   // Nova condição que você quer adicionada 05/12
+    //   double formula = (precoMedioConcorrencia - (((percentual_gasto_vendas + percentual_custo_fixo) * precoMedioConcorrencia) + _custoInsumo)) / precoMedioConcorrencia;
+    //   if(precoVendaAtual <=0 && precoVendaAtual < preco_concorrente && formula <= 0){
+    //     mensagem = "Mesmo praticando o preço médio concorrente você não conseguirá ter lucro. Reveja seus custos!";
+    //   }else if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
+    //     mensagem = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
+    //   } else if (precoVendaAtual >= percentual110) {
+    //     mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
+    //   } else if (precoVendaAtual <= percentual90) {
+    //     mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
+    //   }else if (precoVendaAtual > 0 && margemPrecoAtual <= 0 && precoMedioConcorrente > 0) {
+    //     if (precoMedioConcorrente < precoVendaAtual) {
+    //       return "Com o preço e custos atuais este produto dá prejuízo. Assim não dá para competir! Cuidado: é possível que o concorrente esteja vendendo com prejuízo maior que o seu!";
+    //     } else if (precoMedioConcorrente > precoVendaAtual) {
+    //       return "Digite o Preço médio concorrente em seu Preço de venda atual. Se a Margem preço atual continuar negativa é evidente que você precisará rever seus custos!";
+    //     }
+    //   }
     // }
-   // mensagem = "Experimente digitar o preço da concorrência no campo preço de vendas atual e veja o resultado.";
-    // Nova condição que você quer adicionada 29/11
-    // mantido no codido pois esta sendo alterado constaimente ficar mais facil deixar aqui que procurar no git
-    // if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
-    //   mensagem = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
-    // } else if (precoVendaAtual >= percentual110) {
-    //   mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
-    // } else if (precoVendaAtual <= percentual90) {
-    //   mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
-    //
-    // }
-    _precoConcorrenteController.add(mensagem);
+    double precoVendaAtual_ = preco_venda_atual;
+    double margemPrecoAtual_ = margemPrecoAtual;
+    double precoMedioConcorrente_ = precoMedioConcorrencia;
 
+    double a = (RB != null) ? double.tryParse(RB.toString()) ?? 0.0 : 0.0;
+    double b = (A != null)  ? double.tryParse(A.toString())  ?? 0.0 : 0.0;
+    double c = (RC != null) ? double.tryParse(RC.toString()) ?? 0.0 : 0.0;
+    double d = (RD != null) ? double.tryParse(RD.toString()) ?? 0.0 : 0.0;
+
+    String resultado = analisarPreco(
+      precoVendaAtual: precoVendaAtual_,
+      margemPrecoAtual: margemPrecoAtual_,
+      precoMedioConcorrente: precoMedioConcorrente_,
+      a: a,
+      b: b,
+      c: c,
+      d: d,
+    );
+
+    _precoConcorrenteController.add(resultado);
   }
+  String analisarPreco({
+    required double precoVendaAtual,
+    required double margemPrecoAtual,
+    required double precoMedioConcorrente,
+    required double a, // Valor de insumos para margem
+    required double b, // Percentual menor para insumos
+    required double c, // Nova margem percentual
+    required double d, // Margem ajustada
+  }) {
+    if (precoVendaAtual > 0 &&
+        margemPrecoAtual > 0 &&
+        precoMedioConcorrente > 0 &&
+        precoVendaAtual > precoMedioConcorrente * 0.95 &&
+        precoVendaAtual < precoMedioConcorrente * 1.05) {
+      return "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
+    } else if (precoVendaAtual > 0 &&
+        margemPrecoAtual > 0 &&
+        precoMedioConcorrente > 0 &&
+        precoVendaAtual >= precoMedioConcorrente * 1.05) {
+      return "Para praticar o mesmo preço do concorrente e manter sua margem atual, seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$${a}, isto é: ${b}% menor.";
+    } else if (precoVendaAtual > 0 &&
+        margemPrecoAtual > 0 &&
+        precoMedioConcorrente > 0 &&
+        precoVendaAtual <= precoMedioConcorrente * 0.95) {
+      return "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${c}% para ${d}%.";
+    } else if (precoVendaAtual > 0 &&
+        margemPrecoAtual <= 0 &&
+        precoMedioConcorrente > 0 &&
+        precoMedioConcorrente < precoVendaAtual) {
+      return "Com o preço e custos atuais este produto dá prejuízo. Assim não dá para competir! Cuidado: é possível que o concorrente esteja vendendo com prejuízo maior que o seu!";
+    } else if (precoVendaAtual > 0 &&
+        margemPrecoAtual <= 0 &&
+        precoMedioConcorrente > 0 &&
+        precoMedioConcorrente > precoVendaAtual) {
+      return "Digite o Preço médio concorrente em seu Preço de venda atual. Se a Margem preço atual continuar negativa é evidente que você precisará rever seus custos!";
+    } else {
+      return "";
+    }
+  }
+
   _calculoMargemAtual() {
     // print(_precoVendaAtual);
     /***------------------------calculadora ------------------------ * ---------------------------Dados básicos------------------------- * ----------------Calculardora----------------****/
