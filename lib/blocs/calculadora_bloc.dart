@@ -224,6 +224,8 @@ class CalculadoraBloc extends BlocBase {
     var gasto_insumos_terceiros = cf;
     var percentual_gasto_insumos_terceiros = cf/fat;
 
+    print(_custoInsumo);
+    print(_custoInsumo);
 
     double margemPrecoAtual = 0.0;
     double margemEmpresa = 0.0 ;
@@ -257,87 +259,57 @@ class CalculadoraBloc extends BlocBase {
     double H26 = precoMedioConcorrencia; // Valor de exemplo para H26
     RD = formatter.format(((H26 - ((H26 * (C10 + C14)) + G11)) / H26)*100);
     RE = RF;
-    double precoMedioConcorrente = 60;
-    // if (precoVendaAtual > 0 && precoMedioConcorrencia > 0) {
-    //   double percentual90 = precoMedioConcorrencia * 0.9;
-    //   double percentual110 = precoMedioConcorrencia * 1.05;
-    //   // Nova condição que você quer adicionada 05/12
-    //   double formula = (precoMedioConcorrencia - (((percentual_gasto_vendas + percentual_custo_fixo) * precoMedioConcorrencia) + _custoInsumo)) / precoMedioConcorrencia;
-    //   if(precoVendaAtual <=0 && precoVendaAtual < preco_concorrente && formula <= 0){
-    //     mensagem = "Mesmo praticando o preço médio concorrente você não conseguirá ter lucro. Reveja seus custos!";
-    //   }else if (precoVendaAtual > percentual90 && precoVendaAtual < percentual110) {
-    //     mensagem = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
-    //   } else if (precoVendaAtual >= percentual110) {
-    //     mensagem =   "Para praticar o mesmo preço do concorrente seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$ ${RB}, isto é: ${A}% menor.";
-    //   } else if (precoVendaAtual <= percentual90) {
-    //     mensagem = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
-    //   }else if (precoVendaAtual > 0 && margemPrecoAtual <= 0 && precoMedioConcorrente > 0) {
-    //     if (precoMedioConcorrente < precoVendaAtual) {
-    //       return "Com o preço e custos atuais este produto dá prejuízo. Assim não dá para competir! Cuidado: é possível que o concorrente esteja vendendo com prejuízo maior que o seu!";
-    //     } else if (precoMedioConcorrente > precoVendaAtual) {
-    //       return "Digite o Preço médio concorrente em seu Preço de venda atual. Se a Margem preço atual continuar negativa é evidente que você precisará rever seus custos!";
-    //     }
-    //   }
-    // }
-    double precoVendaAtual_ = preco_venda_atual;
-    double margemPrecoAtual_ = margemPrecoAtual;
-    double precoMedioConcorrente_ = precoMedioConcorrencia;
 
-    double a = (RB != null) ? double.tryParse(RB.toString()) ?? 0.0 : 0.0;
-    double b = (A != null)  ? double.tryParse(A.toString())  ?? 0.0 : 0.0;
-    double c = (RC != null) ? double.tryParse(RC.toString()) ?? 0.0 : 0.0;
-    double d = (RD != null) ? double.tryParse(RD.toString()) ?? 0.0 : 0.0;
+    double precoMedioConcorrente = precoMedioConcorrencia;
 
-    String resultado = analisarPreco(
-      precoVendaAtual: precoVendaAtual_,
-      margemPrecoAtual: margemPrecoAtual_,
-      precoMedioConcorrente: precoMedioConcorrente_,
-      a: a,
-      b: b,
-      c: c,
-      d: d,
-    );
-
-    _precoConcorrenteController.add(resultado);
-  }
-  String analisarPreco({
-    required double precoVendaAtual,
-    required double margemPrecoAtual,
-    required double precoMedioConcorrente,
-    required double a, // Valor de insumos para margem
-    required double b, // Percentual menor para insumos
-    required double c, // Nova margem percentual
-    required double d, // Margem ajustada
-  }) {
+    String resultado = " ";
+    double custoInsumos = G11;
+    double E = 0;
+    var e = formatterPercentual.format(E);
+    if (precoVendaAtual > 0 &&
+        margemPrecoAtual < 0 &&
+        precoMedioConcorrente > 0 &&
+        precoVendaAtual == precoMedioConcorrente) {
+        //G11 custo de insumos
+        E = G11 - (margemPrecoAtual * -1 * precoVendaAtual);
+        print(G11);
+        print(E);
+      //return "O custo ajustado dos insumos seria: R\$${novoCusto.toStringAsFixed(2)}.";
+    }
     if (precoVendaAtual > 0 &&
         margemPrecoAtual > 0 &&
         precoMedioConcorrente > 0 &&
         precoVendaAtual > precoMedioConcorrente * 0.95 &&
         precoVendaAtual < precoMedioConcorrente * 1.05) {
-      return "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
+      resultado = "Com preço equivalente ao do concorrente, pense em criar um diferencial competitivo.";
     } else if (precoVendaAtual > 0 &&
         margemPrecoAtual > 0 &&
         precoMedioConcorrente > 0 &&
         precoVendaAtual >= precoMedioConcorrente * 1.05) {
-      return "Para praticar o mesmo preço do concorrente e manter sua margem atual, seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$${a}, isto é: ${b}% menor.";
+      resultado = "Para praticar o mesmo preço do concorrente e manter sua margem atual, seu gasto com insumos e/ou mercadorias de 3os deveria ser de R\$${RB}, isto é: ${A}% menor.";
     } else if (precoVendaAtual > 0 &&
         margemPrecoAtual > 0 &&
         precoMedioConcorrente > 0 &&
         precoVendaAtual <= precoMedioConcorrente * 0.95) {
-      return "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${c}% para ${d}%.";
+      resultado = "Se o concorrente vende bem este mesmo item, pense em praticar o mesmo preço. Sua margem passaria de ${RC}% para ${RD}%.";
     } else if (precoVendaAtual > 0 &&
         margemPrecoAtual <= 0 &&
         precoMedioConcorrente > 0 &&
         precoMedioConcorrente < precoVendaAtual) {
-      return "Com o preço e custos atuais este produto dá prejuízo. Assim não dá para competir! Cuidado: é possível que o concorrente esteja vendendo com prejuízo maior que o seu!";
+      resultado = "Com o preço e custos atuais este produto dá prejuízo. Assim não dá para competir! Cuidado: é possível que o concorrente esteja vendendo com prejuízo maior que o seu!";
     } else if (precoVendaAtual > 0 &&
         margemPrecoAtual <= 0 &&
         precoMedioConcorrente > 0 &&
         precoMedioConcorrente > precoVendaAtual) {
-      return "Digite o Preço médio concorrente em seu Preço de venda atual. Se a Margem preço atual continuar negativa é evidente que você precisará rever seus custos!";
-    } else {
-      return "";
+      resultado = "Digite o Preço médio concorrente em seu Preço de venda atual. Se a Margem preço atual continuar negativa é evidente que você precisará rever seus custos!";
+    } else if (precoVendaAtual > 0 &&
+        margemPrecoAtual < 0 &&
+        precoMedioConcorrente > 0 &&
+        precoMedioConcorrente == precoVendaAtual) {
+      resultado = "Praticar o mesmo preço do concorrente não é solução. Aliás, quem garante que ele também não está com prejuízo? Para margem zero, o custo dos insumos ou mercadoria de terceiro deveria ser de R\$${E.toStringAsFixed(2)}. Ou, você pode digitar a margem desejada para saber por quanto vender com o custo atual!";
     }
+
+    _precoConcorrenteController.add(resultado);
   }
 
   _calculoMargemAtual() {
