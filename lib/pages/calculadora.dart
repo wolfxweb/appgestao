@@ -655,16 +655,16 @@ class _CalculadoraState extends State<Calculadora> {
             padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
             child: buildIconeMsg(
               context,
-              """Ao analisar seu preço com o do concorrente, considere:
-A diferença pode ser consequência dele:
-Estar oferecendo menos ou mais qualidade: ambiente, atendimento, insumos que utiliza, origem do que revende, garantias;
-Eficiência dos processos: compras, gestão dos estoques, produção, controle (dos desperdícios, retrabalhos, desvios), entregas;
-Volume de vendas; 
-Estratégia comercial: para conquistar novos clientes, estimular a venda de outros produtos, enfraquecer ou superar concorrentes por estar localizado em ponto de concentração deles;
-Estar atendendo público diferente do seu;
-Trabalhar com expectativa de lucro diferente da sua. Será que está lucrando?
-Não estar calculando corretamente o preço.
-Tenha em conta que a percepção pelo seu cliente do que é caro ou barato, passa pela satisfação que ele sinta em relação às suas expectativas e ao que valoriza.
+              """Ao comparar preços com concorrentes, considere:
+Qualidade Oferecida: ambiente, atendimento, insumos e garantias.
+Eficiência Operacional: controles, compras, estoques, produção, entregas.
+Volume de Vendas.
+Estratégia Comercial: atração de clientes e posicionamento.
+Público-Alvo com expectativas diferentes.
+Margem: será que está lucrando?
+Cálculo impreciso do preço.
+A percepção do cliente sobre o que é caro ou barato baseia-se na satisfação de suas expectativas. Para justificar preços mais altos, ofereça diferenciais que ele valoriza. Capriche no atendimento, cumpra o que prometer, sempre fale a verdade e respeite o tempo dele.
+
               """
             ),
           ),

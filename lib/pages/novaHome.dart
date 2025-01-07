@@ -189,7 +189,7 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
                   ),
                 ),
                 const SizedBox(height: 3.0),
-                Center(
+                const Center(
                   child:  Text(
                     'Bem vindo!',
                     style: TextStyle(
@@ -200,9 +200,9 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
                   ),
                 ),
                 const SizedBox(height: 3.0),
-                Center(
-                  child: const Text(
-                    'Para orientações, acesse www.getup.app.br',
+                const Center(
+                  child: Text(
+                    'Para orientações sobre o uso deste aplicativo, acesse www.getup.app.br',
                     style: TextStyle(
                       fontSize: 14.0,
                       color: Colors.white, // Texto em branco
