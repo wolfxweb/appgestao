@@ -51,9 +51,22 @@ A partir do momento em que você “salvar”, todas as funcionalidades do Aplic
 Vale observar que este Aplicativo não utiliza Internet, funcionando apenas em seu telefone celular, sendo você quem define a senha de acesso.
 """;
   String textAjudaDiganostico ="""
-Aqui, os “Dados Básicos” passam por processo de análise, gerando indicadores, comentários, sugestões e orientações focadas em otimizar seus resultados, assim como faria um consultor! 
+Aqui, os “Dados Básicos” passam por processo de análise, gerando indicadores, comentários, sugestões e orientações focadas em otimizar seus resultados, assim como faria um consultor!
 Sejam as estimativas de um negócio novo, ou a realidade atual do Negócio, ou simulações para antecipar eventos futuros, você sempre terá orientações úteis, na palma da mão, em qualquer lugar do planeta, quando quiser.
 """;
+
+//   String textAjudaDiganostico ="""
+// Este simulador permite que você compare os valores atuais anotados em "Dados Básicos" com os resultados obtidos a partir das simulações que você realizar. Siga os passos abaixo para otimizar sua utilização:
+// Para tanto:
+// 1. Selecione Itens: Inicie escolhendo um ou mais itens que deseja simular, um por vez;
+// 2. Em seguida, indique o percentual correspondente a alteração desejada;\n
+// 3. É um percentual de aumento? Toque no sinal de mais (+). Diminuição/redução? Toque no sinal de menos (-).\n
+// Obs.: Após cada ajuste, observe atentamente o impacto na Margem!
+// Se encontrar dificuldades em alcançar a Margem desejada, copie os valores resultantes da simulação para "Dados Básicos", salve-os e consulte as análises e sugestões disponíveis em "Diagnóstico".
+// Recuperação de Dados: Para voltar aos dados originais em "Dados Básicos", acesse o "Histórico da Função", use as opções "Reutilizar" e "Atualizar".
+// Pense na utilidade, de antecipar tendências e resultados que espera para os próximos meses! Aproveite ao máximo suas funcionalidades!
+//
+// """;
   String textAjudaCalculadoraPrecos ="""
 Esta calculadora, com base na estrutura de custos do seu Negócio e em suas metas de lucro, será útil para você:
 Analisar os preços que está praticando;
@@ -118,6 +131,7 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
             //   width: 300,
             //   child:  Image.asset("assets/img/Logo.jpg"),
             // ),
+            buildContainerBemVindo(),
             buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,NovaTelaDiagnostico()),
            // buildRowBtn(context, '',textBtnDiganostico,NovaTelaDiagnostico()),
@@ -126,7 +140,9 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
             buildRowBtn(context, textAjudaCalculadoraPrecos  ,textBtnCalculadoraPrecos,Calculadora()),
 
 
-        /*
+
+
+            /*
           Tela removidas ou alteradas por solicitação  do cliente alguns dos arquivos foram removidos por solicitação do mesmo
              buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,DadosBasicos()),
              buildRowBtn(context,textAjudaInportanciaMeses,textBtnInportanciaMeses,InportanciaMeses()),
@@ -145,6 +161,58 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
       ),
 
     );
+  }
+
+  Container buildContainerBemVindo() {
+    return Container(
+           // width: double.infinity, // Ocupa toda a largura da tela
+           // color: Color.fromRGBO(1, 57, 44, 1), // Fundo com a cor especificada
+            padding: const EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(1, 57, 44, 1),
+              borderRadius: BorderRadius.circular(12.0), // Cantos arredondados
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  DateTime.now().hour < 12
+                      ? 'Bom dia!'
+                      : DateTime.now().hour < 18
+                      ? 'Boa tarde!'
+                      : 'Boa noite!',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Texto em branco
+                  ),
+                ),
+                const SizedBox(height: 3.0),
+                Center(
+                  child:  Text(
+                    'Bem vindo!',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // Texto em branco
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 3.0),
+                Center(
+                  child: const Text(
+                    'Para orientações, acesse www.getup.app.br',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.white, // Texto em branco
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 
   Row buildRowBtn(BuildContext context, textAjuda, textBtn, funcao) {

@@ -16,8 +16,15 @@ class TelaAjudaSimulador extends StatelessWidget {
         "\nCaso queira rever o % atribuido em um determinado item, é só selecioná-lo novamente.";
 
     var text4 ='''
-Quando:                                                                                                              1) o resultado das simulações não corresponder à sua expectativa,                                                                                                        2) ou quando concluir uma simulação para o mês corrente ou futuros (planejamento)                                                                             transcreva os valores simulados em DADOS BÁSICOS. Feito isso pressione "SALVAR". Automaticamente serão incorporados ao "HISTÓRICO".                                                                          Você poderá poderá  consultar o "DIAGNÓSTICO" e realizar novas análises em "GESTÃO DE PRIORIDADES". Para recuperar os DADOS BÁSICOS originais, é só localizar no HISTÓRICO, pressionar REUTILIZAR e na tela principal pressionar ATUALIZAR.                                                                                                                                                                                                                                                                                  Sugestão:                                                                                                                                                                                                                                                                                                                                              Sempre que você considerar que um determinado aumento ou diminuição é de fato uma meta, anote na agenda do celular, na data em que iniciará as providências e na data em que deverão estar concluidas, com o nome do responsável por fazer. Quando entender conveniente, escolha data(s) intermediárias para verificar o andamento. Nas lâmpadas do DIAGNÓSTICO você encontrará "dicas" úteis.
-
+Este simulador permite que você compare os valores atuais anotados em "Dados Básicos" com os resultados obtidos a partir das simulações que você realizar. Siga os passos abaixo para otimizar sua utilização:
+Para tanto:
+Selecione Itens: Inicie escolhendo um ou mais itens que deseja simular, um por vez;
+Em seguida, indique o percentual correspondente a alteração desejada;
+É um percentual de aumento? Toque no sinal de mais (+). Diminuição/redução? Toque no sinal de menos (-).
+Obs.: Após cada ajuste, observe atentamente o impacto na Margem!
+Se encontrar dificuldades em alcançar a Margem desejada, copie os valores resultantes da simulação para "Dados Básicos", salve-os e consulte as análises e sugestões disponíveis em "Diagnóstico".
+Recuperação de Dados: Para voltar aos dados originais em "Dados Básicos", acesse o "Histórico da Função", use as opções "Reutilizar" e "Atualizar".
+Pense na utilidade, de antecipar tendências e resultados que espera para os próximos meses! Aproveite ao máximo suas funcionalidades!
 
 
     ''';

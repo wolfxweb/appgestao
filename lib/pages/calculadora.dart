@@ -655,8 +655,17 @@ class _CalculadoraState extends State<Calculadora> {
             padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
             child: buildIconeMsg(
               context,
-              'Considere que o concorrente pode estar praticando preços menores que os seus em consequência: a) da operação da empresa com custos menores; b) de melhor negociação nas compras; c) de maiores volumes de vendas; d) qualidade dos processos de produção. Mas também, de: e) preços mal calculados; f) produtos de qualidade inferior; g) campanha promocional.'
-              'Ao decidir se é conveniente acompanhar o concorrente, tenha tudo isso em conta. Mas, sobretudo, considere as necessidades, benefícios e expectativas dos seus públicos-alvo:  conveniência, confiabilidade, experiência anterior e status. O equilíbrio entre custo e valor percebido, ao antecipar satisfação, é que definirá a decisão de compra.',
+              """Ao analisar seu preço com o do concorrente, considere:
+A diferença pode ser consequência dele:
+Estar oferecendo menos ou mais qualidade: ambiente, atendimento, insumos que utiliza, origem do que revende, garantias;
+Eficiência dos processos: compras, gestão dos estoques, produção, controle (dos desperdícios, retrabalhos, desvios), entregas;
+Volume de vendas; 
+Estratégia comercial: para conquistar novos clientes, estimular a venda de outros produtos, enfraquecer ou superar concorrentes por estar localizado em ponto de concentração deles;
+Estar atendendo público diferente do seu;
+Trabalhar com expectativa de lucro diferente da sua. Será que está lucrando?
+Não estar calculando corretamente o preço.
+Tenha em conta que a percepção pelo seu cliente do que é caro ou barato, passa pela satisfação que ele sinta em relação às suas expectativas e ao que valoriza.
+              """
             ),
           ),
         ),
