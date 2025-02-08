@@ -163,33 +163,33 @@ class _CalculadoraState extends State<Calculadora> {
                 const Espacamento(),
 
                 btnVerVoltar(context),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.42,
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: ElevatedButton(
-                        child: _verHistorico
-                            ? Text('Voltar Calculadora')
-                            : Text('Ver o histórico antigo'),
-                        onPressed: () {
-                          setState(() {
-                            _verHistorico = !_verHistorico;
-                            _margemDesejadaController.text = "";
-                            _precoInsumosController.text = "";
-                            _precoAtualController.text = "";
-                            _precoAtual.text = "";
-                            _precoInsumos.text = "";
-                            _margemDesejada.text = "";
-                            _produto.text = "";
-                            //  _mostrarComponentes = false;
-                            _btnStatus = false;
-                            _pesquisaController.text = "";
-                          });
-                        },
-                        style:colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
-                      )),
-                ),
+                // Container(
+                //   width: MediaQuery.of(context).size.width * 0.42,
+                //   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                //   child: SizedBox(
+                //       width: MediaQuery.of(context).size.width * 0.5,
+                //       child: ElevatedButton(
+                //         child: _verHistorico
+                //             ? Text('Voltar Calculadora')
+                //             : Text('Ver o histórico antigo'),
+                //         onPressed: () {
+                //           setState(() {
+                //             _verHistorico = !_verHistorico;
+                //             _margemDesejadaController.text = "";
+                //             _precoInsumosController.text = "";
+                //             _precoAtualController.text = "";
+                //             _precoAtual.text = "";
+                //             _precoInsumos.text = "";
+                //             _margemDesejada.text = "";
+                //             _produto.text = "";
+                //             //  _mostrarComponentes = false;
+                //             _btnStatus = false;
+                //             _pesquisaController.text = "";
+                //           });
+                //         },
+                //         style:colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
+                //       )),
+                // ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.42,
                   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
@@ -201,7 +201,7 @@ class _CalculadoraState extends State<Calculadora> {
                       );
                     },
                     style: colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
-                    child: Text('Ver Histórico'),
+                    child: const Text('Histórico'),
                   ),
                 ),
               ],

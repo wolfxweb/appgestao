@@ -4,6 +4,7 @@ import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/pages/calculadora.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class HistoricoCalculadora extends StatefulWidget {
   @override
@@ -12,24 +13,48 @@ class HistoricoCalculadora extends StatefulWidget {
 
 class _HistoricoCalculadoraState extends State<HistoricoCalculadora> {
   List historico = [];
+  List historicoFiltrado = [];
   var calBloc;
+  TextEditingController _pesquisaController = TextEditingController();
+  bool isSearching = false; // Controla se está em modo de pesquisa
+
+  @override
   void initState() {
+    super.initState();
     calBloc = CalculadoraBloc();
     _loadHistorico();
-    var users = VerificaStatusFairebase();
-    users.verificaTrial(context);
+    _pesquisaController.addListener(_filtrarHistorico);
   }
+
   Future<void> _loadHistorico() async {
     var dados = await calBloc.selectHistorico();
     setState(() {
       historico = dados;
+      historicoFiltrado = dados;
     });
   }
+
+  void _filtrarHistorico() {
+    String query = _pesquisaController.text.toLowerCase();
+
+    setState(() {
+      historicoFiltrado = historico.where((item) {
+        var nomeProduto = item['produto'].toString().toLowerCase();
+        return nomeProduto.contains(query);
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
+        backgroundColor: isSearching ? Colors.white : const Color.fromRGBO(1, 57, 44, 1),
+        iconTheme: IconThemeData(
+          color: isSearching ? Colors.black : Colors.white,
+        ),
+        leading: !isSearching
+            ? IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
@@ -38,43 +63,64 @@ class _HistoricoCalculadoraState extends State<HistoricoCalculadora> {
               MaterialPageRoute(builder: (BuildContext context) => Calculadora()),
             );
           },
-        ),
-        title: const Center(
+        )
+            : null,
+        title: !isSearching
+            ? const Center(
           child: Text(
             'Histórico Calculadora',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-        ),
+        )
+            : null,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // Ação ao clicar na lupa
-            },
+
+          if (!isSearching)
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  isSearching = !isSearching;
+                });
+              },
+            ),
+          if (isSearching)
+            Container(
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: TextField(
+                controller: _pesquisaController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Digite o nome do produto',
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: listProdutos(context),
           ),
         ],
       ),
-      body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.75,
-          child: listProdutos(context),
-        ),
-      ),
     );
+  }
 
-  }
   listProdutos(BuildContext context) {
-    return SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.9,
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: historico.length,
-            itemBuilder: (BuildContext context, int index) {
-              return  buildContainer(index, historico);
-            }));
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: historicoFiltrado.length,
+      itemBuilder: (BuildContext context, int index) {
+        return buildContainer(index, historicoFiltrado);
+      },
+    );
   }
+
   Container buildContainer(int index, historico) {
     var produto = historico[index]['produto'].toString();
     var data = historico[index]['data'].toString();
@@ -86,9 +132,6 @@ class _HistoricoCalculadoraState extends State<HistoricoCalculadora> {
     var id = historico[index]['id'];
 
     return Container(
-      // height: 250,
-      // color: Colors.amber,
-      // child: Center(child: Text(historico[index]['produto'].toString())),
       child: Card(
         elevation: 2,
         color: Theme.of(context).colorScheme.surfaceVariant,
@@ -96,18 +139,18 @@ class _HistoricoCalculadoraState extends State<HistoricoCalculadora> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
-                title: Text("Produto: $produto"),
-                subtitle: Text("Data: $data"),
-                trailing: const Icon(
-                  Icons.close,
-                  color: Colors.red,
-                ),
-                onTap: () {
-                  confrimModal(context, id, index);
-                }),
+              title: Text("Produto: $produto"),
+              subtitle: Text("Data: $data"),
+              trailing: const Icon(
+                Icons.close,
+                color: Colors.red,
+              ),
+              onTap: () {
+                confrimModal(context, id, index);
+              },
+            ),
             Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -133,6 +176,7 @@ class _HistoricoCalculadoraState extends State<HistoricoCalculadora> {
       height: 4.0,
     );
   }
+
   confrimModal(context, id, index) {
     showDialog(
         context: context,
@@ -162,24 +206,14 @@ class _HistoricoCalculadoraState extends State<HistoricoCalculadora> {
                 onPressed: () {
                   calBloc.excluirHistorico(id).then((value) {
                     var alert = AlertSnackBar();
-                    // historico.clear();
-                    alert.alertSnackBar(context, Colors.green,
-                        'Exclusão realizada com sucesso');
-                    //  calBloc.selectHistorico();
-                    setState(() {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (BuildContext context) => HistoricoCalculadora()),
-                      );
-                      //  _verHistorico = !_verHistorico;
-                    // _pesquisaController.text = "";
-                    //   historico.clear();
-                      _loadHistorico();
-                       historico = calBloc.selectHistorico();
-                    });
+                    alert.alertSnackBar(context, Colors.green, 'Exclusão realizada com sucesso');
+                    historico.clear();
+                    _loadHistorico();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (BuildContext context) =>  HistoricoCalculadora()),
+                    );
                   });
-
-                  Navigator.pop(context);
                 },
               )
             ],
@@ -187,3 +221,5 @@ class _HistoricoCalculadoraState extends State<HistoricoCalculadora> {
         });
   }
 }
+
+
