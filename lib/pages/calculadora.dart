@@ -4,6 +4,7 @@ import 'package:appgestao/componete/alertasnackbar.dart';
 import 'package:appgestao/componete/espasamento.dart';
 import 'package:appgestao/componete/headerAppBar.dart';
 import 'package:appgestao/componete/menu.dart';
+import 'package:appgestao/pages/historico_calculadora.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -160,6 +161,7 @@ class _CalculadoraState extends State<Calculadora> {
                       )
                     : Container(),
                 const Espacamento(),
+
                 btnVerVoltar(context),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.42,
@@ -169,7 +171,7 @@ class _CalculadoraState extends State<Calculadora> {
                       child: ElevatedButton(
                         child: _verHistorico
                             ? Text('Voltar Calculadora')
-                            : Text('Ver o histórico'),
+                            : Text('Ver o histórico antigo'),
                         onPressed: () {
                           setState(() {
                             _verHistorico = !_verHistorico;
@@ -187,7 +189,21 @@ class _CalculadoraState extends State<Calculadora> {
                         },
                         style:colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
                       )),
-                )
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.42,
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HistoricoCalculadora()),
+                      );
+                    },
+                    style: colorButtonStyle(const Color.fromRGBO(1, 57, 44, 1)),
+                    child: Text('Ver Histórico'),
+                  ),
+                ),
               ],
             ),
           ),
