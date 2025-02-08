@@ -113,7 +113,8 @@ class _CalculadoraState extends State<Calculadora> {
                                                ' Para conferir, digite o valor sugerido em "Preço de venda atual".',
 
                                           */
-                                           '''Para calcular o preço de venda de um produto novo:\n1) Digite o “Custo dos insumos e/ou mercadoria 3º.”;\n2) a “Margem desejada”.\n3) A resposta estará em “Preço sugerido”.\nPara analisar seus preços como um todo:\n1) Em “Preço de venda atual”, digite o valor do “Ticket médio”, disponível no “Diagnóstico”;\n2) Em “Custo dos insumos e/ou mercadoria 3º.”, digite o resultado da divisão do “Custo dos insumos e/ou mercadoria 3º.” pela “Quantidade de clientes atendidos “, (disponíveis em “Dados básicos”).\nPara analisar a oferta de preço promocional, basta colocar em “Preço de venda atual” o valor resultante do desconto que estará sendo oferecido. Ou, digitar em “Margem desejada” o % mínimo admissível.
+                                           //*OS TEXTO FORAM ATERADOS NOVAMENETE DIA 08/02/2025*/
+                                           '''1) Para calcular o preço de venda de um produto novo:  Digite o "Custo dos insumos e/ou mercadoria de 3o. e a "Margem desejada". Resposta em "Preço sugerido".\n2) Para decidir oferta de desconto: digite o "Preço de venda atual", o "Custo dos insumos e/ou mercadoria de 3o" e a menor  "Margem desejada" admíssível. Em "Relaçao com preço atual" você terá o desconto correspondente.
                                             ''',
                                          ),
                                        ),
@@ -138,11 +139,7 @@ class _CalculadoraState extends State<Calculadora> {
                                     padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
                                     child: buildIconeMsg(
                                       context,
-                                          'Você precisa ter a “Fixa técnica gerencial”. Se não tem, recomendamos fortemente que providencie. Não conhece?  '
-                                          'Ela descreve todos os insumos utilizados na produção de cada item: quantidades e respectivos valores.'
-                                          'Pesquise no Google! Sem saber o custo dos insumos não tem como calcular corretamente o preço de venda.'
-                                          'E tem mais: com a Ficha Técnica Gerencial você saberá exatamente qual a quantidade necessária de cada insumo. '
-                                          'Desta forma: 1) qual a real necessidade de compras; 2) qual a demanda de recursos financeiros; 3) melhor gestão dos estoques; 4) uso racional do capital de giro; 5) evita interrupções na produção); 6) realiza boas negociações de compras (preços e prazos); 7) alimenta antecipadamente o Fluxo de Caixa (melhores datas para pagamentos). ',
+                                      """Se o seu negócio for revenda de produtos prontos e acabados de terceiros, então anote o valor pago. Se o seu ramo for o da alimentação fora do lar, ou da indústria, anote o gasto com insumos necessários para produzir o produto (recomendamos o uso da "Ficha técnica gerencial"), e,  se for o caso, o custo de equipamentos de terceiros que integrem o mesmo. """,
                                     ),
                                   ),
                                 ),
@@ -426,7 +423,7 @@ class _CalculadoraState extends State<Calculadora> {
               validator: ValidationBuilder().maxLength(50).required().build(),
               keyboardType: TextInputType.none,
               enabled: false,
-              maxLines: 6,
+              maxLines: 8,
             //  style: const TextStyle(color: Colors.black),
               style: const TextStyle(fontSize: 16,color: Colors.black),
               controller: TextEditingController(text: snapshot.data.toString()),
@@ -655,17 +652,15 @@ class _CalculadoraState extends State<Calculadora> {
             padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
             child: buildIconeMsg(
               context,
-              """Ao comparar preços com concorrentes, considere:
-Qualidade Oferecida: ambiente, atendimento, insumos e garantias.
-Eficiência Operacional: controles, compras, estoques, produção, entregas.
-Volume de Vendas.
-Estratégia Comercial: atração de clientes e posicionamento.
-Público-Alvo com expectativas diferentes.
-Margem: será que está lucrando?
-Cálculo impreciso do preço.
-A percepção do cliente sobre o que é caro ou barato baseia-se na satisfação de suas expectativas. Para justificar preços mais altos, ofereça diferenciais que ele valoriza. Capriche no atendimento, cumpra o que prometer, sempre fale a verdade e respeite o tempo dele.
-
-              """
+              """A percepção de preços caros ou baratos pelos clientes depende da satisfação de suas expectativas. Para justificar preços mais altos, ofereça diferenciais que realmente tenham valor para eles, focando no excelente atendimento, cumprimento de promessas, honestidade e respeito ao tempo deles.
+Ao comparar seus preços com os dos concorrentes, considere:
+• Será que estão precificando corretamente?
+• Será que estão lucrando? 
+• Qualidade Oferecida: ambiente, atendimento, insumos utilizados e garantias oferecidas.
+• Eficiência Operacional: controles, compras, estoques, produção, entregas.
+• Volume de Vendas.
+• Estratégia Comercial, preços promocionais.
+• Público-Alvo com expectativas e poder aquisitivo diferentes dos que você atende."""
             ),
           ),
         ),

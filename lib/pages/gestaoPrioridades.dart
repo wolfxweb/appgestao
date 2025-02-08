@@ -278,13 +278,13 @@ class _GestaoPrioridadeState extends State<GestaoPrioridade> {
                          },
                          child: const Text("Salvar"),
                        ),
-                       ElevatedButton(
-                         style: colorButtonStyle(),
-                         onPressed: () {
-                           route.pushPage(context, ListaDadosBasicosGestao());
-                         },
-                         child: const Text("Histórico"),
-                       ),
+                       // ElevatedButton(
+                       //   style: colorButtonStyle(),
+                       //   onPressed: () {
+                       //     route.pushPage(context, ListaDadosBasicosGestao());
+                       //   },
+                       //   child: const Text("Histórico"),
+                       // ),
                     ],
                   ),
 

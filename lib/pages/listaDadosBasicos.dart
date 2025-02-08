@@ -46,7 +46,7 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
       appBar: AppBar(
       //  title: Text('Histórico de Dados Básicos',),
         title: const Text(
-          'Histórico de Dados Básicos',
+          'Dados Básicos Histórico',
           style: TextStyle(color: Colors.white), // Altera a cor do texto para branco
         ),
         actions: [
