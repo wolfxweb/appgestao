@@ -123,107 +123,71 @@ class CalculadoraBloc extends BlocBase {
   _primeiroComentario() {
 
     /*
-     ALTERADO DIA 08/12/2024
-      O cliente altera as fórmulas desta tela com frequência e parece que ainda não definiu o cálculo.
-      Para facilitar a vida do desenvolvedor, vamos usar uma função separada com os nomes das
-      colunas do Excel que ele envia.
-
-    ALTERADO DIA 08/02/2025
-      As funções antigas foram deletadas nesta data, e o commit foi realizado no mesmo dia.
-      Caso seja necessário alterar a fórmula, verifique a versão anterior, pois às vezes o
-      cliente solicita a reversão do cálculo, mas envia como se fosse uma nova alteração.
-
+        =(fat-(cv+cf+gi+gas))/fat
+        =(B7-(B8+B9+B10+B11))/B7
+        fat = double.parse(faturamento).truncateToDouble();
+        cf = double.parse(custo_fixo).truncateToDouble();
+        cv = double.parse(custo_varivel).truncateToDouble();
+        gi = double.parse(gastos_insumos).truncateToDouble();
+        gas = double.parse(gastos).truncateToDouble();
+        SE(E(F13>B18;F13<=F15);"Fulano, este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!";
+        SE(E(F13>B18;F13>F15);"Fulano, este produto contribui muito positivamente para o resultado da empresa!";
+        SE(E(F13>0;F13>B18);"Fulano, este produto, com o preço atual, prejudica o resultado da empresa!";
+        SE(E(F13>0;F13<B18);"Fulano, este produto, mantendo-se o preço atual, impede que o resultado da empresa seja melhor!";
+        SE(F13<0;"Fulano, este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!";"")))))
      */
-    var margeEsteProduto = ((fat - (cv + cf + gi + gas)) / fat);// Tudo informação dos dados basico
-    var b11 = _precoVendaAtual;
-    var b13 =_custoInsumo;
-    var b15 = (_margemComPrecoAtual / 100);
-    var e15 = margeEsteProduto;
-    var textResponse  = analisarProduto(b11, b13, b15, e15);
-    _msgMargemController.add(textResponse);
+    var margeEsteProduto = ((fat - (cv + cf + gi + gas)) / fat);
+    if ((_margemComPrecoAtual / 100) > margeEsteProduto &&
+        (_margemComPrecoAtual / 100) <= _margemDesejada) {
+      _msgMargemController.add('Este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!');
+    //  _msgMargemController.add('$_nomeUsuario, este produto, com o preço atual, contribui para que o resultado da empresa não seja menor!');
+    } else if ((_margemComPrecoAtual / 100) > margeEsteProduto &&
+        (_margemComPrecoAtual / 100) > _margemDesejada) {
+     // _msgMargemController.add('$_nomeUsuario, este produto contribui muito positivamente para o resultado da empresa!');
+      _msgMargemController.add('Este produto contribui muito positivamente para o resultado da empresa!');
+    } else if ((_margemComPrecoAtual / 100) > 0 &&
+        (_margemComPrecoAtual / 100) <= margeEsteProduto) {
+     // _msgMargemController.add(          '$_nomeUsuario, este produto, com o preço atual, prejudica o resultado da empresa!');
+      _msgMargemController.add('Este produto, com o preço atual, prejudica o resultado da empresa!');
+    } else if ((_margemComPrecoAtual / 100) > 0 &&
+        (_margemComPrecoAtual / 100) < margeEsteProduto) {
+      _msgMargemController.add(
+          'Este produto, mantendo-se o preço atual, impede que o resultado da empresa seja melhor!');
+    } else if ((_margemComPrecoAtual / 100) < 0) {
+      _msgMargemController.add('Este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!');
+    }else{
+      _msgMargemController.add('Este produto, mantendo-se o preço atual, é nocivo para o resultado da empresa!');
+    }
   }
-  String analisarProduto(double? b11, double? b13, double? b15, double? e15) {
-    if (b11 == null || b13 == null) {
-      return "";
-    }
-    if (b15 == null || e15 == null) {
-     return "";
-    }
-    if (b15 < 0) {
-      return "Não venda para perder dinheiro!";
-    }
-    if (b15 > 0 && e15 < 0) {
-      return "Este produto evita que o prejuízo da empresa seja maior. Ele vende bem?";
-    }
-    if (b15 > 0 && e15 > 0) {
-      if (b15 >= e15 * 0.95 && b15 <= e15) {
-        return "Este produto contribui mais do que outros para melhorar a margem da empresa! Vende bem?";
-      }
-      if (b15 < e15 * 0.95) {
-        return "Sugestão: digite o % da Margem da empresa em Margem desejada!";
-      }
-    }
-    return "";
-  }
-
 
   _ultimoComentario() {
+    // if (_relacaoPreco > 5) {
+    //   /* CERTIFIQUE-SE DE QUE: 1.O MOMENTO ATUAL É OPORTUNO;2.ESTE PREÇO SUGERIDO SERÁ SUPORTADO POR SEU PÚBLICO-ALVO;3.QUE ELE SERÁ COMPETITIVO! */
+    //   _msgPrecoSugeridoController.add("CERTIFIQUE-SE DE QUE:\n"
+    //       "1. O MOMENTO ATUAL É OPORTUNO;\n"
+    //       "2. ESTE PREÇO SUGERIDO SERÁ SUPORTADO POR SEU PÚBLICO-ALVO;\n"
+    //       "3. QUE ELE SERÁ COMPETITIVO!");
+    // } else {
+    //   _msgPrecoSugeridoController.add("");
+    // }
+   // APARTIR DA VESÃO DE AGOSTO DE 2024 ESTAMOS USANDO AS VARIAVEIS COM NOME DAS DO EXECEL DO CLIENTE POIS O MESMO
+    // ANDA ALTERANDO AS FORMULAS ENTÃO INICIAMOS O RATREIO MANTENDO IGUAL A DELE PARA VALIDAÇÕES FUTURA.
 
-   /*
-   A partir da versão de agosto de 2024, passamos a utilizar as variáveis com os mesmos nomes do
-   Excel do cliente, pois ele tem alterado as fórmulas com frequência.
-   Dessa forma, iniciamos o rastreamento mantendo a nomenclatura dele para futuras validações.
+    var j21 = _relacaoPreco; // Substitua com o valor real
+    var resultado = "";
+    if (j21 == null ) {
+      resultado = "";
+    } else if (j21 > 5) {
+      _msgPrecoSugeridoController.add('Certifique-se de que:\n1) O momento atual é oportuno;\n2) Este preço sugerido será suportado por seu público-alvo.');
+    } else if (j21 < 0) {
+      _msgPrecoSugeridoController.add('Redução só se justifica se for para promover mais vendas!');
+    } else {
+    //  print("else");
+      resultado = "";
+    }
 
-    Alterado em 08/02/2025
-      As funções antigas foram removidas nesta data, e o commit foi realizado no mesmo dia.
-      Caso seja necessário modificar a fórmula, verifique a versão anterior,
-      pois o cliente às vezes solicita a reversão do cálculo, mas envia como se
-      fosse uma nova alteração.
-
-    /
-   */
-
-    var margeEsteProduto = ((fat - (cv + cf + gi + gas)) / fat);// Tudo informação dos dados basico
-    var b13 =_custoInsumo;
-    var b17 = _margemDesejada;
-    var b19 = _calculoPrecoSuregirdo;
-    var b15 = (_margemComPrecoAtual / 100);
-    var e15 = margeEsteProduto;
-    var e19 = _relacaoPreco;
-    var textMarge = analisarMargem(b13,b17,b19,b15,e15,e19);
-    _msgPrecoSugeridoController.add(textMarge);
     _primeiroComentario();
   }
-  String analisarMargem(double? b13, double? b17, double? b19, double? b15, double? e15, double? e19) {
-    if (b13 == null || b17 == null) {
-      return "";
-    }
-    if (b13 > 0 && b17 > 0 && b17 >= 1.0) {
-      return "Esta margem é impossível, devido à necessária inclusão dos seus custos no cálculo do preço!";
-    }
-    if (b13 > 0 && b17 > 0 && b17 < 1.0 && b19 == null) {
-      return "Com os custos atuais não é possível alcançar esta margem desejada.";
-    }
-    if (e19 != null && e15 != null) {
-      if (e19 < 0 && b17 > 0 && e19 >= e15 * 0.70 && e19 < e15 * 0.98) {
-        return "Com essa margem o % de lucro da empresa diminuirá. Mas dependendo do quanto vender a mais, o valor do lucro poderá aumentar!";
-      }
-      if (e19 < 0 && b17 > 0 && e19 < e15 * 0.70) {
-        return "Com esta Margem desejada, este produto prejudicará o lucro da empresa!";
-      }
-      if (e19 < 0 && e19 > e15 * 0.98 && e19 <= e15 * 1.02) {
-        return "Com este preço sugerido, se vender bem, contribuirá para aumentar o lucro da empresa!";
-      }
-    }
-    if (b15 != null && e19 != null && b15 > 0 && e19 > 0 && e19 >= 0.05) {
-      return "Não quer alterar preço? Digite este preço sugerido em preço de venda atual. Em seguida, o preço de venda atual em Preço médio concorrente!";
-    }
-    if (b17 != null && e15 != null && b17 > e15 && b17 < e15 * 1.05) {
-      return "Com esta Margem desejada a venda deste produto contribuirá para aumentar o lucro da empresa!";
-    }
-    return "";
-  }
-
   _comentarioPrecoConcorrete(){
     var margeEmpresa = ((fat-(cf+cv+gi+gas))/fat);
    // var margeEmpresaS = ((fat-(cf+cv+gi+gas))/fat);
@@ -260,8 +224,8 @@ class CalculadoraBloc extends BlocBase {
     var gasto_insumos_terceiros = cf;
     var percentual_gasto_insumos_terceiros = cf/fat;
 
-    // print(_custoInsumo);
-    // print(_custoInsumo);
+    print(_custoInsumo);
+    print(_custoInsumo);
 
     double margemPrecoAtual = 0.0;
     double margemEmpresa = 0.0 ;
@@ -308,8 +272,8 @@ class CalculadoraBloc extends BlocBase {
         precoVendaAtual == precoMedioConcorrente) {
         //G11 custo de insumos
         E = G11 - (margemPrecoAtual * -1 * precoVendaAtual);
-        // print(G11);
-        // print(E);
+        print(G11);
+        print(E);
       //return "O custo ajustado dos insumos seria: R\$${novoCusto.toStringAsFixed(2)}.";
     }
     if (precoVendaAtual > 0 &&

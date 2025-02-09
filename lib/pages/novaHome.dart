@@ -110,7 +110,6 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
       drawer: Menu(),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Espacamento(),
             const Espacamento(),
@@ -132,52 +131,15 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
             //   width: 300,
             //   child:  Image.asset("assets/img/Logo.jpg"),
             // ),
-           // buildContainerBemVindo(),
-             Padding(
-              padding:  EdgeInsets.all(16.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                    DateTime.now().hour < 12
-                        ? 'Bom dia!'
-                        : DateTime.now().hour < 18
-                        ? 'Boa tarde!'
-                        : 'Boa noite!',
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-            ),
-            const SizedBox(height: 3.0),
-            const Center(
-              child:  Text(
-                'Bem vindo!',
-                style: TextStyle(
-                  fontSize: 20.0,
-                 // fontWeight: FontWeight.bold,
-                 // color: Colors.white, // Texto em branco
-                ),
-              ),
-            ),
-            const Espacamento(),
+            buildContainerBemVindo(),
             buildRowBtn(context,textAjudaDadosBasicos,textBtnDadosBasicos,NovoDadosBasicos()),
             buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,NovaTelaDiagnostico()),
            // buildRowBtn(context, '',textBtnDiganostico,NovaTelaDiagnostico()),
            // buildRowBtn(context,textAjudaDiganostico,textBtnDiganostico,telaDiagnostico()),
             buildRowBtn(context,textAjudaGestaoPrioridades,textBtnGestaoPrioridades,GestaoPrioridade()),
             buildRowBtn(context, textAjudaCalculadoraPrecos  ,textBtnCalculadoraPrecos,Calculadora()),
-            const SizedBox(
-              height: 150.0,
-            ),
-            const Center(
-              child: Text(
-                'Para orientações sobre o uso deste aplicativo, acesse www.getup.app.br',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  //color: Colors.white, // Texto em branco
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
+
+
 
 
             /*
@@ -200,7 +162,6 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
 
     );
   }
-
 
   Container buildContainerBemVindo() {
     return Container(
@@ -228,7 +189,7 @@ Tudo isso rapidamente, sem precisar fazer contas! E você pode salvar no Histór
                   ),
                 ),
                 const SizedBox(height: 3.0),
-                                const Center(
+                const Center(
                   child:  Text(
                     'Bem vindo!',
                     style: TextStyle(
