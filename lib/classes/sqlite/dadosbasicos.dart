@@ -67,7 +67,15 @@ class DadosBasicosSqlite {
     final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos where dados_basicos_atual = 'S' ");
    // final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos  ");
 
-    print(list);
+   // print(list);
+    return list;
+  }
+  Future<List<dynamic>> getDadosBasicoMesesCadastrado() async {
+    final dbClient = await db;
+    final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos where 1=1 ");
+    // final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos  ");
+
+  //  print(list);
     return list;
   }
   Future<List<dynamic>> lista() async {

@@ -69,11 +69,36 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   StreamSubscription? subscription;
   String msgAlertaMes ="Todos os dados devem se referir ao mês selecionado. Caso você esteja estudando a viabilidade de um negócio novo, anote suas estimativas e metas.";
   final SimpleConnectionChecker _simpleConnectionChecker =   SimpleConnectionChecker()..setLookUpAddress('pub.dev');
+
+  String retorno = "S";
+  String operacaoBancoDados = '';
   @override
+  List<Map<String, String>> listaMeses = [];
+  void _consultarMeses(mesSelecionado) async {
+    int anoAtual = DateTime.now().year;
+   // var retorno = "S";
+    await bd.getDadosBasicoMesesCadastrado().then((data) {
+      data.forEach((element) {
+        String mes = element['mes'];
+        String ano = element['data_cadastro'].substring(0, 4); // Extrai apenas o ano
+        if( mes == mesSelecionado  &&  ano == anoAtual.toString()){
+          setState(() {
+            retorno = 'N';
+          //  operacaoBancoDados = 'A';
+          });
+        }
+        listaMeses.add({'mes': mes, 'ano': ano});
+      });
+
+    });
+    _confirmarOperacao();
+    // return retorno;
+
+  }
   void _consultar() async {
     await bd.getDadosBasicoAtual().then((data) {
       data.forEach((element) {
-        print('element');
+       // print('element');
     //    print(element['capacidade_atendimento']);
         id = element['id'];
         _quantidadeController.text = element['qtd'];
@@ -115,12 +140,12 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         custoFixo =
             (double.parse(custo_fixoTemp).truncateToDouble() / fatVendas) * 100;
       });
+    //  _consultarMeses('Fevereiro');
+
     });
-    percentualVendas.text = "100,00";
-    percentualGastosInsumos.text =  formatterPercentual.format(gastosInsumos);
-    percentualOutrosCustos.text = formatterPercentual.format(outrosCustos);
-    percentualCustoFixo.text = formatterPercentual.format(custoFixo);
+
   }
+
 
   @override
   void initState() {
@@ -363,7 +388,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     children: [
                       buildTituloInput(context,'Margen que você considera ideal'),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -382,9 +407,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     children: [
                       buildTituloInput(context,'Capacidade de atendimento'),
                       Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        // mainAxisSize: MainAxisSize.max,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           // SizedBox(
                           //   width: MediaQuery.of(context).size.width * 0.14,
@@ -439,6 +464,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                       //     child: const Text("Limpar"),
                       //   ),
                       // ),
+
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: ElevatedButton(
@@ -451,10 +477,17 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: ElevatedButton(
                           style: colorButtonStyle(),
-                          onPressed: _buildBuildOnPressed,
-                          child: const Text("Atualizar"),
+                          onPressed: _listaDadosBasicos,
+                          child: const Text("Histórico"),
                         ),
-                      ),
+                      // SizedBox(
+                      //   width: MediaQuery.of(context).size.width * 0.4,
+                      //   child: ElevatedButton(
+                      //     style: colorButtonStyle(),
+                      //     onPressed: _buildBuildOnPressed,
+                      //     child: const Text("Atualizar"),
+                      //   ),
+                       ),
                     ],
                   ),
                    // Row(
@@ -485,14 +518,14 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                    //   ],
                    //   //_listaDadosBasicos
                    // ),
-                   SizedBox(
-                     width: MediaQuery.of(context).size.width * 0.4,
-                     child: ElevatedButton(
-                       style: colorButtonStyle(),
-                       onPressed: _listaDadosBasicos,
-                       child: const Text("Histórico"),
-                     ),
-                   ),
+                   // SizedBox(
+                   //   width: MediaQuery.of(context).size.width * 0.4,
+                   //   child: ElevatedButton(
+                   //     style: colorButtonStyle(),
+                   //     onPressed: _listaDadosBasicos,
+                   //     child: const Text("Histórico"),
+                   //   ),
+                   // ),
 
                   const Espacamento(),
                   const Espacamento(),
@@ -989,31 +1022,43 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
           "É NECESSÁRIO QUE TODOS OS CAMPOS SEJAM PREENCHIDOS! Exceção: no caso de 'gastos com insumos' e 'gastos com produto para revenda' será admimivel apenas um deles seja preenchido");
       return;
     }
-
+    setState(() {
+      retorno = 'A';
+      //  operacaoBancoDados = 'A';
+    });
     data_cadastro ??= DateTime.now().toIso8601String();
-    var dados = {
-      'quantidade_clientes_atendido': _quantidadeController.text,
-      'faturamento_vendas': _faturamentoController.text,
-      'gastos_insumos': _gastoinsumosController.text,
-      'custo_fixo': _custoFixoController.text,
-      'custo_insumos_terceiros': _custoVariavelController.text,
-      'mes_selecionado': mesSelect.value,
-      'custo insumos': _custoInsumosController.text,
-      'magem_desejada': _margenController.text,
-      'gasto_com_vendas': _custoInsumosController.text,
-      'capacidade_atendimento':_capacidadeAtendimento.text ,
-      'data_cadastro': data_cadastro
-    };
-    // print(dados);
+     _consultarMeses(mesSelect.value);
+
+
+
     // desabilitado o salvamento no firebase
-    // var users = VerificaStatusFairebase();
-    // users.addDadosBasicos(context, dados);
+    // var dados = {
+    //   'quantidade_clientes_atendido': _quantidadeController.text,
+    //   'faturamento_vendas': _faturamentoController.text,
+    //   'gastos_insumos': _gastoinsumosController.text,
+    //   'custo_fixo': _custoFixoController.text,
+    //   'custo_insumos_terceiros': _custoVariavelController.text,
+    //   'mes_selecionado': mesSelect.value,
+    //   'custo insumos': _custoInsumosController.text,
+    //   'magem_desejada': _margenController.text,
+    //   'gasto_com_vendas': _custoInsumosController.text,
+    //   'capacidade_atendimento':_capacidadeAtendimento.text ,
+    //   'data_cadastro': data_cadastro
+    // };
 
+    // if (id == 0 || operacao =='i') {
+    // gravação sql migrada para função execucao
+    //   _saveUpdate(_getDados(null, mesSave),"Dados básicos cadastrado com sucesso");
+    // } else {
+    //   _saveUpdate(_getDados(id, mesSave), "Dados básicos atulizado com sucesso");
+    // }
+  }
+
+  _execucao(operacao){
     if (id == 0 || operacao =='i') {
-      _saveUpdate(_getDados(null, mesSave),"Dados básicos cadastrado com sucesso");
+      _saveUpdate(_getDados(null, mesSelect.value),"Dados básicos cadastrado com sucesso");
     } else {
-
-      _saveUpdate(_getDados(id, mesSave), "Dados básicos atulizado com sucesso");
+      _saveUpdate(_getDados(id, mesSelect.value), "Dados básicos atulizado com sucesso");
     }
   }
   _inserir()async{
@@ -1039,7 +1084,6 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   }
 
   _getDados(idinfo, mesRef) {
-
 
     data_cadastro ??= DateTime.now().toIso8601String();
     return dadosbasicossqlite(
@@ -1070,4 +1114,43 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
       alert.alertSnackBar(context, Colors.green, msg);
     });
   }
+  void _confirmarOperacao() async {
+    // print("_confirmarOperacao");
+     print(operacaoBancoDados);
+     print(retorno);
+    if ('N' == retorno) {
+      bool? confirmar = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            //title: Text("Confirmação"),
+            content: Text("Para o mes seleceionado já tem dados basíco cadastrado ao salvar o mesmo será atualizado com estas inforamções.\nDeseja continuar?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false); // Fecha a modal sem alterar a variável
+                },
+                child: Text("Cancelar"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true); // Confirma a ação
+                },
+                child: Text("Atualizar"),
+              ),
+            ],
+          );
+        },
+      );
+      if (confirmar == true) {
+        setState(() {
+          operacaoBancoDados = 'a';
+          _execucao('a');
+        });
+      }
+    }else{
+      _execucao('i');
+    }
+  }
+
 }
