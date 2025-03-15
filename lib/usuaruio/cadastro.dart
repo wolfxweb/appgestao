@@ -70,7 +70,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   final _senhaController = TextEditingController();
   final _tokenAtivacaoController = TextEditingController();
 
-
+  String? tipoAtiviadadeEmpresa;
+  String  tipoAtiviadadeEmpresaSelecionada = '';
   var color = const Color.fromRGBO(1, 57, 44, 1);
   List<String> restricoesLimpezaLista = ['Outra',];
  final dropOpcoesEspecialidade =[];
@@ -607,6 +608,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ],
                   ),
                   const Espacamento(),
+                  buildTipoEmpresa(context),
                   // GestureDetector(
                   //     onTap: (){
                   //       dropOpcoesEspecialidade.clear();
@@ -932,7 +934,58 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   ),
                 );
   }
+  Row buildTipoEmpresa(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.08,
 
+          // child: IconButton(
+          //   icon: const Icon(
+          //     Icons.help,
+          //     color: Color.fromRGBO(1, 57, 44, 1),
+          //   ),
+          //   color: Colors.black54,
+          //   onPressed: () {
+          //     alerta.openModal(context,
+          //         "Pedimos que informe a atividade, cidade e Estado para que, ao somar os Dados Básicos de todos os participantes, possamos lhe enviar indicadores (que hoje você não tem), muito úteis para suas análises e providências.");
+          //   },
+        //  ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.82,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildTextoInput('Tipo de Atividade'),
+              DropdownButtonFormField<String>(
+                value: tipoAtiviadadeEmpresa,
+                decoration: buildInputDecoration(""),
+                isExpanded: true,
+                items: ["Comércio", "Serviços","Indústria"].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    tipoAtiviadadeEmpresa = newValue;
+                    tipoAtiviadadeEmpresaSelecionada =newValue!;
+                  });
+                },
+              )
+
+
+            ],
+          ),
+        ),
+      ],
+    );
+  }
   Row buildAtividadeEmpresa(BuildContext context) {
     return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1242,15 +1295,21 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       'cidade': _cidadesValue,
       'estado': _selectedItem,
       'chave_ativacao': _tokenAtivacaoController.text,
+      'tipo_empresa': tipoAtiviadadeEmpresa,
       'data_criacao': DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())
     };
     var token_ativacao = _tokenAtivacaoController.text;
-
-    if(token_ativacao == ""){
-      alerta.openModal(context,
-          'Chave de ativação é obrigatoria.');
+    print('tipoAtiviadadeEmpresaSelecionada');
+    print(tipoAtiviadadeEmpresaSelecionada);
+    if(tipoAtiviadadeEmpresaSelecionada == ""){
+      alerta.openModal(context,'Selecionte o tipo de atividade');
       return;
     }
+    // if(token_ativacao == ""){
+    //   alerta.openModal(context,
+    //       'Chave de ativação é obrigatoria.');
+    //   return;
+    // }
     if (_valueCheck == false) {
       alerta.openModal(context,
           'Aceite da policita de privacidade  e termo de uso para dar continuidade.');
