@@ -106,30 +106,19 @@ class _CalculadoraState extends State<Calculadora> {
                                  child:
                                        Padding(
                                          padding: const EdgeInsets.only(top: 16.0),
-                                         child:IconButton(
-                                           iconSize: 35,
-                                           icon:const Icon(
-                                             Icons.lightbulb,
-                                             color:  Colors.amberAccent,
-                                           ),
-                                           onPressed: () {
-                                             alerta.openModal(context, 'msgAlertaMes');
-                                           },
-                                         )
-                                       ),// Adiciona um preenchimento de 16.0 pixels na parte superior
-                                       //   child: buildIconeMsg(
-                                       //     context,
-                                       //   /*  ALATERAÇÃO DAS SOLICITIDADA DIA 15/08
-                                       //   'Para calcular o preço de venda de um produto novo, digite o "Custo dos insumos '
-                                       //         'e/ou mercadoria 3o.", e a "Margem desejada". A resposta estará em "Preço sugerido".'
-                                       //         ' Para conferir, digite o valor sugerido em "Preço de venda atual".',
-                                       //
-                                       //    */
-                                       //     //*OS TEXTO FORAM ATERADOS NOVAMENETE DIA 08/02/2025*/
-                                       //     '''1) Para calcular o preço de venda de um produto novo:  Digite o "Custo dos insumos e/ou mercadoria de 3o. e a "Margem desejada". Resposta em "Preço sugerido".\n2) Para decidir oferta de desconto: digite o "Preço de venda atual", o "Custo dos insumos e/ou mercadoria de 3o" e a menor  "Margem desejada" admíssível. Em "Relaçao com preço atual" você terá o desconto correspondente.
-                                       //      ''',
-                                       //   ),
-                                       // ),
+                                         child: buildIconeMsg(
+                                           context,
+                                         /*  ALATERAÇÃO DAS SOLICITIDADA DIA 15/08
+                                         'Para calcular o preço de venda de um produto novo, digite o "Custo dos insumos '
+                                               'e/ou mercadoria 3o.", e a "Margem desejada". A resposta estará em "Preço sugerido".'
+                                               ' Para conferir, digite o valor sugerido em "Preço de venda atual".',
+
+                                          */
+                                           //*OS TEXTO FORAM ATERADOS NOVAMENETE DIA 08/02/2025*/
+                                           '''1) Para calcular o preço de venda de um produto novo:  Digite o "Custo dos insumos e/ou mercadoria de 3o. e a "Margem desejada". Resposta em "Preço sugerido".\n2) Para decidir oferta de desconto: digite o "Preço de venda atual", o "Custo dos insumos e/ou mercadoria de 3o" e a menor  "Margem desejada" admíssível. Em "Relaçao com preço atual" você terá o desconto correspondente.
+                                            ''',
+                                         ),
+                                       ),
 
                                    ),
                              ]
