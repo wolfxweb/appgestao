@@ -98,27 +98,38 @@ class _CalculadoraState extends State<Calculadora> {
                           //   crossAxisAlignment: CrossAxisAlignment.center,
                              children: [
                                SizedBox(
-                                 width: MediaQuery.of(context).size.width * 0.84,
+                                 width: MediaQuery.of(context).size.width * 0.80,
                                  child:  precoVendaAtual(),
                                ),
                                SizedBox(
-                                 width: MediaQuery.of(context).size.width * 0.05,
+                                 //width: MediaQuery.of(context).size.width * 0.05,
                                  child:
                                        Padding(
-                                         padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
-                                         child: buildIconeMsg(
-                                           context,
-                                         /*  ALATERAÇÃO DAS SOLICITIDADA DIA 15/08
-                                         'Para calcular o preço de venda de um produto novo, digite o "Custo dos insumos '
-                                               'e/ou mercadoria 3o.", e a "Margem desejada". A resposta estará em "Preço sugerido".'
-                                               ' Para conferir, digite o valor sugerido em "Preço de venda atual".',
-
-                                          */
-                                           //*OS TEXTO FORAM ATERADOS NOVAMENETE DIA 08/02/2025*/
-                                           '''1) Para calcular o preço de venda de um produto novo:  Digite o "Custo dos insumos e/ou mercadoria de 3o. e a "Margem desejada". Resposta em "Preço sugerido".\n2) Para decidir oferta de desconto: digite o "Preço de venda atual", o "Custo dos insumos e/ou mercadoria de 3o" e a menor  "Margem desejada" admíssível. Em "Relaçao com preço atual" você terá o desconto correspondente.
-                                            ''',
-                                         ),
-                                       ),
+                                         padding: const EdgeInsets.only(top: 16.0),
+                                         child:IconButton(
+                                           iconSize: 35,
+                                           icon:const Icon(
+                                             Icons.lightbulb,
+                                             color:  Colors.amberAccent,
+                                           ),
+                                           onPressed: () {
+                                             alerta.openModal(context, 'msgAlertaMes');
+                                           },
+                                         )
+                                       ),// Adiciona um preenchimento de 16.0 pixels na parte superior
+                                       //   child: buildIconeMsg(
+                                       //     context,
+                                       //   /*  ALATERAÇÃO DAS SOLICITIDADA DIA 15/08
+                                       //   'Para calcular o preço de venda de um produto novo, digite o "Custo dos insumos '
+                                       //         'e/ou mercadoria 3o.", e a "Margem desejada". A resposta estará em "Preço sugerido".'
+                                       //         ' Para conferir, digite o valor sugerido em "Preço de venda atual".',
+                                       //
+                                       //    */
+                                       //     //*OS TEXTO FORAM ATERADOS NOVAMENETE DIA 08/02/2025*/
+                                       //     '''1) Para calcular o preço de venda de um produto novo:  Digite o "Custo dos insumos e/ou mercadoria de 3o. e a "Margem desejada". Resposta em "Preço sugerido".\n2) Para decidir oferta de desconto: digite o "Preço de venda atual", o "Custo dos insumos e/ou mercadoria de 3o" e a menor  "Margem desejada" admíssível. Em "Relaçao com preço atual" você terá o desconto correspondente.
+                                       //      ''',
+                                       //   ),
+                                       // ),
 
                                    ),
                              ]
@@ -130,11 +141,11 @@ class _CalculadoraState extends State<Calculadora> {
                             //   crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.84,
+                                  width: MediaQuery.of(context).size.width * 0.80,
                                   child:  custoInsumos(),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.05,
+                                 // width: MediaQuery.of(context).size.width * 0.05,
                                   child:
                                   Padding(
                                     padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
@@ -626,7 +637,7 @@ class _CalculadoraState extends State<Calculadora> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.84,
+                width: MediaQuery.of(context).size.width * 0.80,
                 child:   Container(
                   // width: 180,
                  // width: MediaQuery.of(context).size.width * 0.50,
@@ -662,10 +673,10 @@ class _CalculadoraState extends State<Calculadora> {
           ],
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.05,
+         // width: MediaQuery.of(context).size.width * 0.05,
           child:
           Padding(
-            padding: const EdgeInsets.only(top: 16.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
+            padding: const EdgeInsets.only(top: 1.0), // Adiciona um preenchimento de 16.0 pixels na parte superior
             child: buildIconeMsg(
               context,
               """A percepção de preços caros ou baratos pelos clientes depende da satisfação de suas expectativas. Para justificar preços mais altos, ofereça diferenciais que realmente tenham valor para eles, focando no excelente atendimento, cumprimento de promessas, honestidade e respeito ao tempo deles.
