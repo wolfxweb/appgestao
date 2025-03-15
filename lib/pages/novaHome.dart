@@ -8,7 +8,7 @@ import 'package:appgestao/componete/logo.dart';
 import 'package:appgestao/componete/menu.dart';
 import 'package:appgestao/pages/analiseviabilidade.dart';
 import 'package:appgestao/pages/calculadora.dart';
-import 'package:appgestao/pages/dadosbasicos.dart';
+//import 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/diagnostico.dart';
 import 'package:appgestao/pages/gestaoPrioridades.dart';
 import 'package:appgestao/pages/importanciameses.dart';

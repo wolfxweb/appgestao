@@ -2,7 +2,7 @@ import 'package:appgestao/classes/pushpage.dart';
 import 'package:appgestao/classes/sqlite/dadosbasicos.dart';
 import 'package:appgestao/componete/alertamodal.dart';
 import 'package:appgestao/componete/alertasnackbar.dart';
-import 'package:appgestao/pages/dadosbasicos.dart';
+//import 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/gestaoPrioridades.dart';
 import 'package:appgestao/pages/novodadosbasicos.dart';
 import 'package:flutter/material.dart';

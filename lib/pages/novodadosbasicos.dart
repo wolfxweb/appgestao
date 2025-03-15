@@ -145,19 +145,28 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     });
 
   }
+  var users = VerificaStatusFairebase();
 
-
+  var _tipoEmpresa = '';
   @override
   void initState() {
     super.initState();
     _consultar();
-    var users = VerificaStatusFairebase();
+    users.getTipoEmpresa().then((tipoEmpresa) {
+     // print('tipoEmpresa: $tipoEmpresa');
+      _tipoEmpresa = tipoEmpresa!;
+      print(_tipoEmpresa);
+    });
+
     users.verificaTrial(context);
+
     subscription =
         _simpleConnectionChecker.onConnectionChange.listen((connected) {
       setState(() {
         _getConection();
         _message = connected ? 'Connected' : 'Not connected';
+
+
       });
     });
   }
@@ -1055,11 +1064,14 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   }
 
   _execucao(operacao){
-    if (id == 0 || operacao =='i') {
-      _saveUpdate(_getDados(null, mesSelect.value),"Dados básicos cadastrado com sucesso");
-    } else {
-      _saveUpdate(_getDados(id, mesSelect.value), "Dados básicos atulizado com sucesso");
-    }
+    print('_tipoEmpresaws');
+    print(_tipoEmpresa);
+    print(_getDados(id, mesSelect.value,_tipoEmpresa));
+    // if (id == 0 || operacao =='i') {
+    //   _saveUpdate(_getDados(null, mesSelect.value),"Dados básicos cadastrado com sucesso");
+    // } else {
+    //   _saveUpdate(_getDados(id, mesSelect.value), "Dados básicos atulizado com sucesso");
+    // }
   }
   _inserir()async{
     data_cadastro = DateTime.now().toIso8601String();
@@ -1083,7 +1095,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     _insertUpdate('a');
   }
 
-  _getDados(idinfo, mesRef) {
+  _getDados(idinfo, mesRef, empresaTipo) {
 
     data_cadastro ??= DateTime.now().toIso8601String();
     return dadosbasicossqlite(
@@ -1097,7 +1109,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         mesSelect.value,
         _custoInsumosController.text,
         _capacidadeAtendimento.text,
-        data_cadastro
+        data_cadastro,
+        'Serviços'
     );
   }
   ButtonStyle colorButtonStyle() {

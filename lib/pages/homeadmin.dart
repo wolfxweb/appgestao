@@ -7,7 +7,7 @@ import 'package:appgestao/componete/logo.dart';
 import 'package:appgestao/componete/menu.dart';
 import 'package:appgestao/pages/analiseviabilidade.dart';
 import 'package:appgestao/pages/calculadora.dart';
-import 'package:appgestao/pages/dadosbasicos.dart';
+//tipo_empresaimport 'package:appgestao/pages/dadosbasicos.dart';
 import 'package:appgestao/pages/diagnostico.dart';
 import 'package:appgestao/pages/importanciameses.dart';
 import 'package:appgestao/pages/simulador.dart';
@@ -88,18 +88,18 @@ class _HomeAdminState extends State<HomeAdmin> {
                   1.0,
                   100.0,
                 ),
-                buildGestureDetector(
-                  context,
-                  "Dados Básicos",
-                  DadosBasicos(),
-                  const Icon(
-                    Icons.description,
-                    color: Colors.white,
-                    size: 50.0,
-                  ),
-                  1.0,
-                  100.0,
-                ),
+                // buildGestureDetector(
+                //   context,
+                //   "Dados Básicos",
+                // //  DadosBasicos(),
+                //   const Icon(
+                //     Icons.description,
+                //     color: Colors.white,
+                //     size: 50.0,
+                //   ),
+                //   1.0,
+                //   100.0,
+                // ),
                 buildGestureDetector(
                   context,
                   "Diagnóstico",

@@ -50,6 +50,24 @@ class VerificaStatusFairebase {
     });
 
   }
+  Future<String?> getTipoEmpresa() async {
+    await initializeDateFormatting('pt_BR', null);
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('usuario')
+          .doc(user.email)
+          .get();
+
+      if (snapshot.exists) {
+        var data = snapshot.data();
+        return data?['tipo_empresa'];
+      }
+    }
+    return null;  // Caso o usuário não esteja logado ou não encontrar o tipo de empresa
+  }
+
+
 
   logoutUsuario(context) {
     FirebaseAuth.instance.signOut().then((value) {

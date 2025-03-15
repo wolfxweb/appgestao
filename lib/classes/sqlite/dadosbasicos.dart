@@ -12,6 +12,7 @@ class DadosBasicosSqlite {
       bool columnExists1 = await _isColumnExists(dbClient!, 'dados_basiscos', 'data_cadastro');
       bool columnExists2 = await _isColumnExists(dbClient!, 'dados_basiscos', 'dados_basicos_atual');
       bool columnExists3 = await _isColumnExists(dbClient!, 'dados_basiscos', 'capacidade_atendimento');
+      bool columnExists4 = await _isColumnExists(dbClient!, 'dados_basiscos', 'tipo_empresa');
 
       if (!columnExists1) {
         // Adiciona a coluna com um valor padrão constante
@@ -26,6 +27,10 @@ class DadosBasicosSqlite {
       if (!columnExists3) {
         await dbClient!.execute("ALTER TABLE dados_basiscos ADD COLUMN capacidade_atendimento TEXT DEFAULT '0'");
       }
+      if (!columnExists4) {
+        await dbClient!.execute("ALTER TABLE dados_basiscos ADD COLUMN tipo_empresa TEXT DEFAULT 'Comércio'");
+      }
+
       List<Map<String, dynamic>> resultados = await dbClient.rawQuery(
           "SELECT COUNT(*) as qtd FROM dados_basiscos"
       );
@@ -113,10 +118,10 @@ class DadosBasicosSqlite {
     await dbClient!.execute("UPDATE dados_basiscos SET dados_basicos_atual = 'N' WHERE dados_basicos_atual ='S'");
     await dbClient!.execute("UPDATE dados_basiscos SET dados_basicos_atual = 'S' WHERE id = ' ${id}' ");
     final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos  ");
-    print('reutilizar');
-    print(id);
-    print('list');
-    print(list);
+    // print('reutilizar');
+    // print(id);
+    // print('list');
+    // print(list);
     return list;
   }
 }

@@ -134,7 +134,7 @@ class gestao_prioridade_bloc extends BlocBase{
   var custoTercerirosReferencia;
   var capacidadeAtendimento;
   var mesSelecionado;
-
+  var tipoEmpresa;
 
 
   gestao_prioridade_bloc(){
@@ -143,6 +143,8 @@ class gestao_prioridade_bloc extends BlocBase{
   NumberFormat formatterFornecedor = NumberFormat("0");
   NumberFormat formatterPercentual = NumberFormat("0.00");
   NumberFormat formatterMoeda = NumberFormat("#,##0.00", "pt_BR");
+
+
   getDadosBasicos() async {
     await bd.lista().then((data) {
       data.forEach((element) {
@@ -160,6 +162,7 @@ class gestao_prioridade_bloc extends BlocBase{
         quantidadeDeClientesAtendido =element["qtd"];
         capacidadeAtendimento = element["capacidade_atendimento"];
         mesSelecionado =  element["mes"];
+        tipoEmpresa =  element["tipo_empresa"];
         valoresIniciais();
       });
     });
@@ -174,7 +177,7 @@ class gestao_prioridade_bloc extends BlocBase{
    String data_cadastro = DateTime.now().toIso8601String();
    var margemIdeal = arredondarParaInteiro(margenDadosBasicos);
    var qtdClientes = arredondarParaInteiro(qtdClienteAtual);
-    var data =  dadosbasicossqlite(
+   var data =  dadosbasicossqlite(
                   null,
                   qtdClientes.toString(),
                   valorFormatadoReal(faturamentoAtual).toString(),
@@ -185,7 +188,9 @@ class gestao_prioridade_bloc extends BlocBase{
                   mesSelecionado.toString(),
                   valorFormatadoReal(custoVendasAtual).toString(),
                   capacidadeAtendimento.toString(),
-                  data_cadastro.toString()
+                  data_cadastro.toString(),
+                  tipoEmpresa.toString()
+
               );
     return data.toJson();
    // print('salvarDadosBasicos');

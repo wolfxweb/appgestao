@@ -12,11 +12,12 @@ class dadosbasicossqlite {
   String? gastos_insumos;
   String? capacidade_atendimento;
   String? data_cadastro;
+  String? tipo_empresa;
 
 
 
 
-  dadosbasicossqlite(this.id,this.qtd,this.faturamento,this.gastos,this.custo_fixo,this.custo_varivel,this.margen,this.mes,this.gastos_insumos, this.capacidade_atendimento , this.data_cadastro);
+  dadosbasicossqlite(this.id,this.qtd,this.faturamento,this.gastos,this.custo_fixo,this.custo_varivel,this.margen,this.mes,this.gastos_insumos, this.capacidade_atendimento , this.data_cadastro,this.tipo_empresa);
 
   dadosbasicossqlite.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -30,6 +31,7 @@ class dadosbasicossqlite {
     gastos_insumos = json['gastos_insumos'];
     capacidade_atendimento = json['capacidade_atendimento'];
     data_cadastro = json['data_cadastro'];
+    tipo_empresa = json['tipo_empresa'];
   }
 
   Map<String, dynamic> toJson() {
@@ -45,6 +47,7 @@ class dadosbasicossqlite {
     data['gastos_insumos'] = this.gastos_insumos;
     data['capacidade_atendimento'] = this.capacidade_atendimento;
     data['data_cadastro']= this.data_cadastro;
+    data['tipo_empresa']= this.tipo_empresa;
     return data;
   }
 }
