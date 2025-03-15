@@ -70,7 +70,8 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   final _senhaController = TextEditingController();
   final _tokenAtivacaoController = TextEditingController();
 
-
+  String? selectedValue;
+  String? tipoAtividade = "";
   var color = const Color.fromRGBO(1, 57, 44, 1);
   List<String> restricoesLimpezaLista = ['Outra',];
  final dropOpcoesEspecialidade =[];
@@ -606,7 +607,45 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           )),
                     ],
                   ),
-                  const Espacamento(),
+                  const Espacamento(), Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.08,
+                      ),
+                      //
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.82,
+
+                          child:      Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              buildTextoInput('Tipo de Atividade'),
+                              DropdownButtonFormField<String>(
+                                value: selectedValue,
+                                decoration: buildInputDecoration(""),
+                                isExpanded: true,
+                                items: ["Serviços", "Comércio","Indústria"].map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedValue = newValue;
+                                    tipoAtividade = newValue;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),),
+                    ],
+                  ),
+
+
                   // GestureDetector(
                   //     onTap: (){
                   //       dropOpcoesEspecialidade.clear();
@@ -1242,10 +1281,15 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
       'cidade': _cidadesValue,
       'estado': _selectedItem,
       'chave_ativacao': _tokenAtivacaoController.text,
+      'tipo_empresa': tipoAtividade,
       'data_criacao': DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())
     };
     var token_ativacao = _tokenAtivacaoController.text;
 
+    if(tipoAtividade == ""){
+      alerta.openModal(context,'Selecione um tipo de atividade');
+      return;
+    }
     if(token_ativacao == ""){
       alerta.openModal(context,
           'Chave de ativação é obrigatoria.');
