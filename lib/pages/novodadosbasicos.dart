@@ -60,7 +60,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   final percentualOutrosCustos = TextEditingController();
   final percentualCustoFixo = TextEditingController();
   final _capacidadeAtendimento =  TextEditingController();
-
+  final _horas_trabalho =  TextEditingController();
+  final _pro_labore =  TextEditingController();
+  final _demais_custos_fixos =  TextEditingController();
   var mesSelect = ValueNotifier('');
 
   NumberFormat formatterPercentual = NumberFormat("0.00");
@@ -71,7 +73,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   final SimpleConnectionChecker _simpleConnectionChecker =   SimpleConnectionChecker()..setLookUpAddress('pub.dev');
 
   String retorno = "S";
-  String operacaoBancoDados = '';
+  String operacaoBancoDados = 'i';
   @override
   List<Map<String, String>> listaMeses = [];
   void _consultarMeses(mesSelecionado) async {
@@ -98,7 +100,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   void _consultar() async {
     await bd.getDadosBasicoAtual().then((data) {
       data.forEach((element) {
-       // print('element');
+    //    print('element');
     //    print(element['capacidade_atendimento']);
         id = element['id'];
         _quantidadeController.text = element['qtd'];
@@ -111,6 +113,10 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         mesSelect.value = element['mes'];
        _capacidadeAtendimento.text = element['capacidade_atendimento'];
         data_cadastro     = element['data_cadastro'];
+        _horas_trabalho.text = element['horas_trabalho'];
+        _pro_labore.text = element['pro_labore'];
+        _demais_custos_fixos.text = element['demais_custos'];
+
         var faturamentoTemp = (element['faturamento']
             .toString()
             .replaceAll("R\$", "")
@@ -148,6 +154,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   var users = VerificaStatusFairebase();
 
   var _tipoEmpresa = '';
+  var tipoEmpresaSemEspacos = "";
   @override
   void initState() {
     super.initState();
@@ -155,7 +162,12 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     users.getTipoEmpresa().then((tipoEmpresa) {
      // print('tipoEmpresa: $tipoEmpresa');
       _tipoEmpresa = tipoEmpresa!;
-      print(_tipoEmpresa);
+      tipoEmpresaSemEspacos = _tipoEmpresa.replaceAll(' ', '');
+   //   print(_tipoEmpresa);
+      setState(() {
+        _tipoEmpresa = tipoEmpresa!;
+        tipoEmpresaSemEspacos = _tipoEmpresa.replaceAll(' ', '');
+      });
     });
 
     users.verificaTrial(context);
@@ -366,31 +378,91 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     ],
                   ),
 
-                  const Espacamento(),
+
+                    const Espacamento(),
                   Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        tipoEmpresaSemEspacos == 'Serviços'?buildTituloInput(context,'Demais custos fixos'): buildTituloInput(context,'Custos fixos'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            buildIconeMsg(context,
+                                'Custos e despesas que ocorrem independentemente das vendas.\nPor exemplo:\nSalários, encargos, provisões, benefícios e pró-labore;\nContratos de serviços: contador, Internet, TV à cabo, leitoras de cartões e estacionamento (quando for um valor mensal fechado);\nAluguéis, IPTU e taxas;\nÁgua, eletricidade, gás, materiais de limpeza e higiene.'),
+                            buildContainerInput(
+                                context,
+                                'Custos e despesas que ocorrem independentemente das vendas.\nPor exemplo:\nSalários, encargos, provisões, benefícios e pró-labore;\nContratos de serviços: contador, Internet, TV à cabo, leitoras de cartões e estacionamento (quando for um valor mensal fechado);\nAluguéis, IPTU e taxas;\nÁgua, eletricidade, gás, materiais de limpeza e higiene.',
+                                '',
+                                _custoVariavelController,
+                                'Custos fixos'
+                                //_custoFixoController
+                                ),
+                            inputPercentual(context, percentualCustoFixo)
+                          ],
+                        ),
+                      ],
+                    ),
+                  // const Espacamento(),
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     buildTituloInput(context,'Demais custos fixos'),
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //       mainAxisSize: MainAxisSize.max,
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       children: [
+                  //         buildIconeMsg(context,
+                  //             'Custos e despesas que ocorrem independentimente da prestação dos serviços: salários, encargos,provisões, benefícios, aluguéis, IPTU,  leitoras de cartões, contabilidade, Internet, TV a cabo, água, eletricidade, gás, materiais de limpeza e higiene.'),
+                  //         buildContainerInput(
+                  //             context,
+                  //             '',
+                  //             '',
+                  //             _demais_custos_fixos,
+                  //             'Demais custos fixos'
+                  //           //_custoFixoController
+                  //         ),
+                  //         inputPercentual(context, percentualCustoFixo)
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
+                  const Espacamento(),
+                  tipoEmpresaSemEspacos == 'Serviços'?Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildTituloInput(context,'Custos fixos'),
+                      buildTituloInput(context,'Pró-labore'),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           buildIconeMsg(context,
-                              'Custos e despesas que ocorrem independentemente das vendas.\nPor exemplo:\nSalários, encargos, provisões, benefícios e pró-labore;\nContratos de serviços: contador, Internet, TV à cabo, leitoras de cartões e estacionamento (quando for um valor mensal fechado);\nAluguéis, IPTU e taxas;\nÁgua, eletricidade, gás, materiais de limpeza e higiene.'),
-                          buildContainerInput(
-                              context,
-                              'Custos e despesas que ocorrem independentemente das vendas.\nPor exemplo:\nSalários, encargos, provisões, benefícios e pró-labore;\nContratos de serviços: contador, Internet, TV à cabo, leitoras de cartões e estacionamento (quando for um valor mensal fechado);\nAluguéis, IPTU e taxas;\nÁgua, eletricidade, gás, materiais de limpeza e higiene.',
-                              '',
-                              _custoVariavelController,
-                              'Custos fixos'
-                              //_custoFixoController
-                              ),
-                          inputPercentual(context, percentualCustoFixo)
+                              'Informe o valor da retirada mensal que você desejada (o quanto precisa mensalmente), inclusive dos demais quotistas, sócios, etc., se for o caso.'),
+                          proLabore(context),
                         ],
                       ),
                     ],
-                  ),
+                  ):Container(),
+                  // const Espacamento(),
+                  // tipoEmpresaSemEspacos == 'Serviços'?Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     buildTituloInput(context,'Hora de trabalho em uma semana'),
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //       mainAxisSize: MainAxisSize.max,
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       children: [
+                  //         buildIconeMsg(context,
+                  //             'A soma das horas de expediente em uma semana'),
+                  //         horasTrabalho(context),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ):Container(),
                   const Espacamento(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,7 +486,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
               Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildTituloInput(context,'Capacidade de atendimento'),
+                      tipoEmpresaSemEspacos == 'Serviços'?buildTituloInput(context,'Hora de trabalho em uma semana'):buildTituloInput(context,'Capacidade de atendimento'),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisSize: MainAxisSize.max,
@@ -424,8 +496,9 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                           //   width: MediaQuery.of(context).size.width * 0.14,
                           //   child: Container(),
                           // ),
-                          buildIconeMsg(context,
-                              'Quantidade de clientes que o Negócio está estruturado para atender, com qualidade, durante um mês de atividade.'),
+                          tipoEmpresaSemEspacos == 'Serviços'? buildIconeMsg(context,
+                              'Hora de trabalho em uma semana.'):buildIconeMsg(context,
+                'Quantidade de clientes que o Negócio está estruturado para atender, com qualidade, durante um mês de atividade.'),
                           capacidadeAtendimento(),
                         ],
                       ),
@@ -439,8 +512,11 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.13,
-                        child:   buildIconeMsg(context,
-                            '''O botão "SALVAR"  deve ser pressionado todas as vezes que forem preenchidos os Dados básicos, ou algum dado for posteriormente alterado.\nO botão "ATUALIZAR" deve ser pressionado sempre que "reutilizar" dados Básicos armazenados no Histórico.\nO botão "HISTÓRICO" abre a tela de todos os Dados básicos salvos.  '''),
+                        child: tipoEmpresaSemEspacos == 'Serviços'?  buildIconeMsg(context,
+                            '''A soma das horas de expediente em uma semana'''):buildIconeMsg(context,
+                            '''O botão "SALVAR"  deve ser pressionado todas as vezes que forem preenchidos os Dados básicos, ou algum dado for
+                             posteriormente alterado.\nO botão "ATUALIZAR" deve ser pressionado sempre que "reutilizar" dados Básicos armazenados no 
+                             Histórico.\nO botão "HISTÓRICO" abre a tela de todos os Dados básicos salvos.  '''),
                       ),
                       // SizedBox(
                       //   width: MediaQuery.of(context).size.width * 0.4,
@@ -599,6 +675,92 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
               ),
             );
           }),
+    );
+  }
+  Container proLabore(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.80,
+      decoration: buildBuildBoxDecoration(),
+      child: TextFormField(
+        validator: ValidationBuilder().maxLength(50).required().build(),
+        keyboardType: TextInputType.number,
+        controller: _pro_labore,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          CentavosInputFormatter(moeda: true, casasDecimais: 2)
+        ],
+        // decoration: buildInputDecoration(context,'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).'),
+        decoration:const InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+          fillColor:  Color.fromRGBO(245, 245, 245, 1),
+          filled: true,
+          border:  OutlineInputBorder(
+            // borderSide: BorderSide(color: Color(0xFFffd600)),
+            borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+          ),
+          labelText: "",
+          labelStyle:  TextStyle(
+            color: Colors.black,
+            fontSize: 13,
+            //  backgroundColor: Colors.white,
+          ),
+          // hintText: 'Quantidade de clientes atendidos',
+        ),
+      ),
+    );
+  }
+
+  Container horasTrabalho(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.80,
+      decoration: buildBuildBoxDecoration(),
+      child: TextFormField(
+        validator: ValidationBuilder().maxLength(50).required().build(),
+        keyboardType: TextInputType.number,
+        controller: _horas_trabalho,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          //  CentavosInputFormatter(moeda: true, casasDecimais: 2)
+        ],
+        // decoration: buildInputDecoration(context,'Valor bruto apurado com as vendas realizadas (valor pago pelo cliente).'),
+        decoration:const InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+          /*    prefixIcon: IconButton(
+                        icon: const Icon(Icons.help, color: Colors.black54,),
+                        color: Colors.black54,
+                        onPressed: () {
+                          buildIconeMsg.openModal(context, 'Em relação ao faturamento, quanto % você gostaria que o seu empreendimento desse de lucro.');
+                        },
+                      ),*/
+          // suffixIcon: Icon(
+          //
+          //   Icons.percent,
+          //   color: Colors.black54,
+          //   size: 20,
+          // ),
+          fillColor:  Color.fromRGBO(245, 245, 245, 1),
+          filled: true,
+          // disabledBorder: true,
+          /*  focusedBorder: const OutlineInputBorder(
+        // borderSide: BorderSide(color: Color(0xFFffd600)),
+        borderSide:    BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+      ),*/
+          border:  OutlineInputBorder(
+            // borderSide: BorderSide(color: Color(0xFFffd600)),
+            borderSide:  BorderSide(color: Color.fromRGBO(105, 105, 105, 1), width: 1.0),
+          ),
+
+          labelText: "",
+          labelStyle:  TextStyle(
+            color: Colors.black,
+            fontSize: 13,
+            //  backgroundColor: Colors.white,
+          ),
+          // hintText: 'Quantidade de clientes atendidos',
+        ),
+      ),
     );
   }
 
@@ -842,7 +1004,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
                     percentualCustoFixo.text = "";
                     _custoInsumosController.text="";
                     _capacidadeAtendimento.text ="";
-
+                    _pro_labore.text ="";
                     mesSelect.value = onChanged.toString();
                   }),
             );
@@ -860,8 +1022,10 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
           //  FocusScope.of(context).unfocus(); // Fecha o teclado ao tocar fora do campo de text
         },
         onChanged: (value) {
-        //  print(nomeCampo);
-         // print(value);
+          // print('nomeCampo');
+          // print('value');
+          // print(nomeCampo);
+          // print(value);
           if ('Faturamento' == nomeCampo) {
             calculoPercentual(value, _custoFixoController.text,_custoVariavelController.text, _custoInsumosController.text,nomeCampo);
           }
@@ -903,6 +1067,10 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
               percentualCustoFixo.text =         '${formatterPercentual.format(custoFixo)} ';
             }
 
+            if ('Demais custos fixos' == nomeCampo) {
+              calculoPercentual(_faturamentoController.text, _custoFixoController.text, value, _custoInsumosController.text,nomeCampo);
+              percentualCustoFixo.text =         '${formatterPercentual.format(custoFixo)} ';
+            }
 
 
           });
@@ -1064,14 +1232,14 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
   }
 
   _execucao(operacao){
-    print('_tipoEmpresaws');
-    print(_tipoEmpresa);
+ //   print('_tipoEmpresaws');
+  //  print(_tipoEmpresa);
     print(_getDados(id, mesSelect.value,_tipoEmpresa));
-    // if (id == 0 || operacao =='i') {
-    //   _saveUpdate(_getDados(null, mesSelect.value),"Dados básicos cadastrado com sucesso");
-    // } else {
-    //   _saveUpdate(_getDados(id, mesSelect.value), "Dados básicos atulizado com sucesso");
-    // }
+      if (id == 0 || operacao =='i') {
+        _saveUpdate(_getDados(null, mesSelect.value,_tipoEmpresa),"Dados básicos cadastrado com sucesso");
+      } else {
+        _saveUpdate(_getDados(id, mesSelect.value,_tipoEmpresa), "Dados básicos atulizado com sucesso");
+      }
   }
   _inserir()async{
     data_cadastro = DateTime.now().toIso8601String();
@@ -1110,7 +1278,10 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         _custoInsumosController.text,
         _capacidadeAtendimento.text,
         data_cadastro,
-        'Serviços'
+        _tipoEmpresa,
+        _horas_trabalho.text,
+        _pro_labore.text,
+        _demais_custos_fixos.text,
     );
   }
   ButtonStyle colorButtonStyle() {
@@ -1128,8 +1299,8 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
     });
   }
   void _confirmarOperacao() async {
-    // print("_confirmarOperacao");
-     print(operacaoBancoDados);
+    print("_confirmarOperacao");
+    print(operacaoBancoDados);
      print(retorno);
     if ('N' == retorno) {
       bool? confirmar = await showDialog(
@@ -1162,6 +1333,7 @@ class _NovoDadosBasicosState extends State<NovoDadosBasicos> {
         });
       }
     }else{
+      print("swasd");
       _execucao('i');
     }
   }

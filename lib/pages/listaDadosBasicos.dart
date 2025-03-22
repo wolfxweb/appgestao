@@ -78,6 +78,7 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('Nenhum dado encontrado.'));
           } else {
+            print(snapshot.data!);
             List<dynamic> dadosDoBancoDeDados = snapshot.data!;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,6 +174,7 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
     String quantidade_clientes_atendido = dado['qtd'];
     String dados_basicos_atual = dado['dados_basicos_atual'] == 'S' ? "Sim" : "Não";
     String mes = dado['mes'];
+    String tipo_empresa = dado['tipo_empresa'];
     return Card(
       child: Padding(
         padding: EdgeInsets.all(10.0),
@@ -199,11 +201,11 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
             const SizedBox(height: 8.0),
             buildRow("Gastos com insumos e produtos de 3º:", custo_fixo),
             const SizedBox(height: 8.0),
-            buildRow("Custo fixo:", custo_varivel),
+            tipo_empresa == 'Serviços'?buildRow("Demais custos fixos:", custo_varivel):buildRow("Custo fixo:", custo_varivel),
             const SizedBox(height: 8.0),
             buildRow("Margem ideal:", "$margen%"),
             const SizedBox(height: 8.0),
-            buildRow("Capacidade de atendimento:", capacidade_atendimento),
+            tipo_empresa ==  'Serviços'? buildRow("Horas de trabalho em uma semana:", capacidade_atendimento): buildRow("Capacidade de atendimento:", capacidade_atendimento),
             const SizedBox(height: 8.0),
             buildRow("Dados basico atual:", dados_basicos_atual),
             const SizedBox(height: 8.0),

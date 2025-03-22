@@ -13,11 +13,15 @@ class dadosbasicossqlite {
   String? capacidade_atendimento;
   String? data_cadastro;
   String? tipo_empresa;
+  String? horas_trabalho;
+  String? pro_labore;
+  String? demais_custos;
 
 
 
 
-  dadosbasicossqlite(this.id,this.qtd,this.faturamento,this.gastos,this.custo_fixo,this.custo_varivel,this.margen,this.mes,this.gastos_insumos, this.capacidade_atendimento , this.data_cadastro,this.tipo_empresa);
+  dadosbasicossqlite(this.id,this.qtd,this.faturamento,this.gastos,this.custo_fixo,this.custo_varivel,this.margen,this.mes,this.gastos_insumos, this.capacidade_atendimento
+                  , this.data_cadastro,this.tipo_empresa,this.horas_trabalho,this.pro_labore, this.demais_custos);
 
   dadosbasicossqlite.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -32,6 +36,9 @@ class dadosbasicossqlite {
     capacidade_atendimento = json['capacidade_atendimento'];
     data_cadastro = json['data_cadastro'];
     tipo_empresa = json['tipo_empresa'];
+    horas_trabalho =json['horas_trabalho'];
+    pro_labore =json['pro_labore'];
+    demais_custos = json['demais_custos'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +55,9 @@ class dadosbasicossqlite {
     data['capacidade_atendimento'] = this.capacidade_atendimento;
     data['data_cadastro']= this.data_cadastro;
     data['tipo_empresa']= this.tipo_empresa;
+    data['horas_trabalho']= this.horas_trabalho;
+    data['pro_labore']= this.pro_labore;
+    data['demais_custos']= this.demais_custos;
     return data;
   }
 }

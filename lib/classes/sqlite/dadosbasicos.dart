@@ -5,14 +5,17 @@ class DadosBasicosSqlite {
   Future<Database?> get db => DatabaseHelper.getInstance().db;
 
   Future<int> save(dados) async {
-   //  print('dados save');
-   //  print(dados);
+     print('dados save');
+     print(dados);
     var dbClient = await db;
     try {
       bool columnExists1 = await _isColumnExists(dbClient!, 'dados_basiscos', 'data_cadastro');
       bool columnExists2 = await _isColumnExists(dbClient!, 'dados_basiscos', 'dados_basicos_atual');
       bool columnExists3 = await _isColumnExists(dbClient!, 'dados_basiscos', 'capacidade_atendimento');
       bool columnExists4 = await _isColumnExists(dbClient!, 'dados_basiscos', 'tipo_empresa');
+      bool columnExists5 = await _isColumnExists(dbClient!, 'dados_basiscos', 'horas_trabalho');
+      bool columnExists6 = await _isColumnExists(dbClient!, 'dados_basiscos', 'pro_labore');
+      bool columnExists7 = await _isColumnExists(dbClient!, 'dados_basiscos', 'demais_custos');
 
       if (!columnExists1) {
         // Adiciona a coluna com um valor padrão constante
@@ -29,6 +32,15 @@ class DadosBasicosSqlite {
       }
       if (!columnExists4) {
         await dbClient!.execute("ALTER TABLE dados_basiscos ADD COLUMN tipo_empresa TEXT DEFAULT 'Comércio'");
+      }
+      if (!columnExists5) {
+        await dbClient!.execute("ALTER TABLE dados_basiscos ADD COLUMN horas_trabalho TEXT");
+      }
+      if (!columnExists6) {
+        await dbClient!.execute("ALTER TABLE dados_basiscos ADD COLUMN pro_labore TEXT");
+      }
+      if (!columnExists7) {
+        await dbClient!.execute("ALTER TABLE dados_basiscos ADD COLUMN demais_custos TEXT");
       }
 
       List<Map<String, dynamic>> resultados = await dbClient.rawQuery(
@@ -80,7 +92,8 @@ class DadosBasicosSqlite {
     final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos where 1=1 ");
     // final list = await dbClient!.rawQuery("SELECT  * FROM dados_basiscos  ");
 
-  //  print(list);
+    print('list');
+    print(list);
     return list;
   }
   Future<List<dynamic>> lista() async {

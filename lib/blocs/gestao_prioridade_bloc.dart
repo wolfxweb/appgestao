@@ -135,6 +135,9 @@ class gestao_prioridade_bloc extends BlocBase{
   var capacidadeAtendimento;
   var mesSelecionado;
   var tipoEmpresa;
+  var horas_trabalho;
+  var pro_labore;
+
 
 
   gestao_prioridade_bloc(){
@@ -163,6 +166,8 @@ class gestao_prioridade_bloc extends BlocBase{
         capacidadeAtendimento = element["capacidade_atendimento"];
         mesSelecionado =  element["mes"];
         tipoEmpresa =  element["tipo_empresa"];
+        horas_trabalho =  element["horas_trabalho"];
+        pro_labore =  element["pro_labore"];
         valoresIniciais();
       });
     });
@@ -189,7 +194,10 @@ class gestao_prioridade_bloc extends BlocBase{
                   valorFormatadoReal(custoVendasAtual).toString(),
                   capacidadeAtendimento.toString(),
                   data_cadastro.toString(),
-                  tipoEmpresa.toString()
+                  tipoEmpresa.toString(),
+                   null,
+                   null,
+     null
 
               );
     return data.toJson();
