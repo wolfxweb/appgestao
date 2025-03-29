@@ -175,6 +175,7 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
     String dados_basicos_atual = dado['dados_basicos_atual'] == 'S' ? "Sim" : "Não";
     String mes = dado['mes'];
     String tipo_empresa = dado['tipo_empresa'];
+    String pro_labore = dado['pro_labore'];
     return Card(
       child: Padding(
         padding: EdgeInsets.all(10.0),
@@ -202,6 +203,9 @@ class _ListaDadosBasicosState extends State<ListaDadosBasicos> {
             buildRow("Gastos com insumos e produtos de 3º:", custo_fixo),
             const SizedBox(height: 8.0),
             tipo_empresa == 'Serviços'?buildRow("Demais custos fixos:", custo_varivel):buildRow("Custo fixo:", custo_varivel),
+            tipo_empresa == 'Serviços'?const SizedBox(height: 8.0):Container(),
+            tipo_empresa == 'Serviços'?buildRow("Pró-labore:", "$pro_labore"):Container(),
+
             const SizedBox(height: 8.0),
             buildRow("Margem ideal:", "$margen%"),
             const SizedBox(height: 8.0),
