@@ -101,15 +101,26 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
             .replaceAll("R\$", "")
             .replaceAll('.', '')
             .replaceAll(',', '.'));
+        var pro_labore = (element['pro_labore']
+            .toString()
+            .replaceAll("R\$", "")
+            .replaceAll('.', '')
+            .replaceAll(',', '.'));
+        var tipo_empresa = element['tipo_empresa'];
         // var qtd = (element['qtd']
         //     .toString()
         //     .replaceAll("R\$", "")
         //     .replaceAll('.', '')
         //     .replaceAll(',', '.'));
         var totalCusto = double.parse(gastos)+double.parse(gastos_insumos)+double.parse(custo_varivel)+double.parse(custo_fixo);
+        if(tipo_empresa == 'Serviços'){
+          totalCusto = totalCusto +double.parse(pro_labore);
+        }
         adicionarFaturamento(double.parse(faturamento));
         adicionarCusto(totalCusto);
         var margem  =  dignosticoBloc.getMargem();
+        print('margem');
+        print(margem);
         _margemContribuicao.add("R\$ $margem");
         String situacaoFinanceira = calcularSituacaoFinanceira(double.parse(faturamento), totalCusto);
         Future.delayed(const Duration(seconds: 1), () {
@@ -222,6 +233,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
 
                             _buildRowWithHelpIconDuplo(tituloCampo,'',dignosticoBloc.lucroController,mensagem1,"lucro_prejuiso","lucro",'Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual","Percentual"),
                           //  _buildRowWithHelpIcon(tituloCampo,'',dignosticoBloc.lucroController,mensagem1,"lucro_prejuiso","lucro"),
+                          //  _buildRowWithHelpIcon(tituloCampo,'',dignosticoBloc.lucroController,mensagem1,"lucro_prejuiso","lucro"),
                           // SizedBox(height: 5.0),
                           //  _buildRowWithHelpIcon('Percentual','',dignosticoBloc.percentualLucroController,'Verificar o texto para este campo',"Percentual",""),
                           //  SizedBox(height: 5.0),
@@ -258,7 +270,7 @@ class _NovaTelaDiagnosticoState extends State<NovaTelaDiagnostico> {
                 builder: (context, snapshot) {
                   String texto = snapshot.data ?? ''; // Valor padrão se o snapshot estiver vazio
                   return Text(
-                    texto.isEmpty ? 'Texto que ocupa toda a largura da tela' : texto,
+                    texto.isEmpty ? 'Carlos, se você está vendo isso, é porque sua condicional que exibe as mensagens não contempla os valores informados. Nesse caso, será necessário criar um Excel para validar a apresentação dos textos.' : texto,
                     textAlign: TextAlign.justify,
                     style: const TextStyle(
                       fontSize: 14.0,

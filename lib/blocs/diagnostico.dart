@@ -136,7 +136,8 @@ class DignosticoBloc extends BlocBase {
   var _nov;
   var _dez;
   var _totalMeses = 0;
-
+  var pro_labore ="";
+  var tipo_empresa = "";
   DignosticoBloc() {
     // _textPrejuisoController.add('');
     //  _textDiagnosticoController.add('');
@@ -435,9 +436,16 @@ class DignosticoBloc extends BlocBase {
     var margemCalculada = _b;
     var margemDadosBasicos = _h;
     var qtdAtendimento =formatterPercentual.format(custoFixoDadosBasicos/double.parse(margemcontribucao));
+
     var faturamento =(custoFixoDadosBasicos/double.parse(margemcontribucao))*double.parse(ticket);
+
     var variacaoPercentualFaturamento =formatterPercentual.format( (faturamento/faturamentoDadosBasicos)*100);
-    var produtividade =formatterMoeda.format( faturamentoDadosBasicos/custoFixoDadosBasicos);
+    var produtividade = formatterMoeda.format( faturamentoDadosBasicos/custoFixoDadosBasicos);
+    if(tipo_empresa =="Serviços"){
+      var custoServicos  = custoFixoDadosBasicos + double.parse(pro_labore);
+      produtividade =formatterMoeda.format( faturamentoDadosBasicos/custoServicos);
+    }
+
     var textoPositivoP1 = 'O lucro de ';
     if(calculo_b < 0.0){
        textoPositivoP1 = 'prejuízo de ';
@@ -562,18 +570,28 @@ class DignosticoBloc extends BlocBase {
     }
     //var _b = double.parse(_B).truncateToDouble();
     var faturamentoTelaGrafico = faturamentoDadosBasicos - soma_custos;
-
-    _lucroController.add("R\$ ${formatterMoeda.format(faturamentoTelaGrafico)}");
+    var MargemSERVICOS = soma_custos + double.parse(pro_labore);
+    if(tipo_empresa == 'Serviços'){
+      _lucroController.add("R\$ ${formatterMoeda.format(MargemSERVICOS)}");
+    }else {
+      //_lucroController.add("R\$ ${formatterMoeda.format(faturamentoTelaGrafico)}");
+      _lucroController.add("R\$ ${formatterMoeda.format(faturamentoTelaGrafico)}");
+    }
 
     _percentualLucroController.add("${_Bnovo.toString()} %");
     _produtividadeController.add(produtividade);
     _pontoEquilibrioController.add(formatterQuantidade.format(custoFixoDadosBasicos/double.parse(margemcontribucao)));
-    _percentualPontoEquilibrioController.add("R\$ ${formatterMoeda.format(faturamento)}");
+
+    var pontEquilibrio =faturamento;
+    var  margemContribuicao_parse = double.parse((_D.toString().replaceAll("R\$", "").replaceAll('.', '').replaceAll(',', '.')),);
+    if(tipo_empresa =="Serviços"){
+      pontEquilibrio = MargemSERVICOS/margemContribuicao_parse;
+    }
+    _percentualPontoEquilibrioController.add("R\$ ${formatterMoeda.format(pontEquilibrio)}");
     _ticketMedioController.add("R\$ $_C");
 
     // DAQUI PARA BAIXO E O TEXTO DA TELA NOVA,
 
-    var  margemContribuicao_parse = double.parse((_D.toString().replaceAll("R\$", "").replaceAll('.', '').replaceAll(',', '.')),);
     var ticketMedio_parse = double.parse((_C.toString().replaceAll("R\$", "").replaceAll('.', '').replaceAll(',', '.')), );
     double margem_1 = margem;
     double margemIdeal = margem;
@@ -629,7 +647,15 @@ class DignosticoBloc extends BlocBase {
 
   }
 
-  //Formulas do dias 1/08/2024
+  /*
+  Formulas do dias 1/08/2024
+  Alteração de texto 29/03/2025
+    Como o cliente faz muitas alterações, deixei comentada no código a
+    versão antiga para evitar a necessidade de recuperar pelo Git :).
+    Já é a milionésima vez que altero esses textos! :(
+
+  */
+
   String novaForlumaFrasesDiagnostico(double L14, double L19, double F15, double F10, double F16) {
     String texto_fixo = ''' 
         Uma vez que estas considerações se referem a mês anterior, recomendamos que em “Definição de Prioridades” você estime as variações para o corrente mês, antecipando-se assim a eventuais providências relevantes.
@@ -808,6 +834,12 @@ class DignosticoBloc extends BlocBase {
               .replaceAll('.', '')
               .replaceAll(',', '.')),
         );
+        pro_labore = (element['pro_labore']
+            .toString()
+            .replaceAll("R\$", "")
+            .replaceAll('.', '')
+            .replaceAll(',', '.'));
+        tipo_empresa = element['tipo_empresa'];
       });
     });
 
